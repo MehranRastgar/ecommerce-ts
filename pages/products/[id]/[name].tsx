@@ -1,5 +1,5 @@
 import Layout from "../../../components/Layout";
-import { Product } from "../../../types/types";
+import { Product } from "../../../src/types/types";
 import imageLoader from "../../../src/imageLoader";
 import Image from 'next/future/image'
 import { imageAddress } from "../..";
@@ -127,16 +127,21 @@ export default ProductPage;
 
 
 
-import ProductModel from "../../../models/ProProduct";
+import ProductModel from "../../../src/models/ProProduct";
 
 
 async function getProductAndRealtive(id: string): Promise<Product | null> {
     if (id) {
+        try {
         const ProductData: object | null = await ProductModel.findById(id);
+        
         const proData: Product | null = await JSON.parse(JSON.stringify(ProductData));
         return proData
+        }catch(err){
+            return null
+        }
     } else {
-        return null
+            return null
     }
 }
  // var category = "";

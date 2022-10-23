@@ -22,9 +22,7 @@ function Layout({ children }: { children: any }) {
             // console.log(width)
             // console.log(ismob)
             setUpdateSize((pervValue) => !pervValue)
-
         });
-
     }, [])
 
     useEffect(() => {
@@ -40,24 +38,20 @@ function Layout({ children }: { children: any }) {
         } else if (width > eventScreemSize && ismobact == 'true') {
             setIsmob('false')
         }
-
-
-
     }, [updateSize])
 
     return <div>
         {ismob === 'true' ?
             <>
                 <div
-
                     className="flex bg-white border-b-2 mx-3" >
                     <NavbarMobile ></NavbarMobile>
                     <HeaderMobile ></HeaderMobile>
-                    <button className="flex flex-wrap justify-center h-[55px] items-center m-2 w-1/4 text-2xl rounded-xl border bg-gray-100">
+                    <button className="flex h-fit m-2 p-2 border rounded-xl bg-gray-100">
                         <FaTelegram
                             color="#f99e23"
-                            size={30} />
-                        <div className="text-xs font-Vazir-Bold w-full">پشنیبانی</div>
+                            size={20} />
+                        {/* <div className="text-xs font-Vazir-Bold w-full">پشنیبانی</div> */}
                     </button>
                 </div>
                 <MobileSearchComponent></MobileSearchComponent>

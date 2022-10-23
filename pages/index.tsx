@@ -5,7 +5,7 @@ import type { AxiosResponse } from 'axios'
 import Image from 'next/future/image'
 
 // import styles from '../styles/Home.module.css'
-import { GetProductsArray, MinifyProduct } from '../types/types'
+import { GetProductsArray, MinifyProduct } from '../src/types/types'
 import imageLoader from '../src/imageLoader'
 import Link from 'next/link'
 import Layout from '../components/Layout'
@@ -17,7 +17,7 @@ export function imageAddress(
   format: "webp"|"jpeg"|"jpg"|"png"|"svg"
   ): string {
   if (src)
-    return `https://api.bugtech.ir/api/image?x=${w}&y=${h}&q=${quality}&t=${format}&path=${src}`
+    return `${process.env.NEXT_PUBLIC_IMAGE_BASE}?x=${w}&y=${h}&q=${quality}&t=${format}&path=${src}`
   else
     return `/shopsoo.png`
 }
@@ -88,7 +88,8 @@ export const getStaticProps: GetStaticProps = async () => {
 
   try {
     const response: AxiosResponse = await axios.post(
-      `http://localhost:5000/api/pro/psearch`, getBody
+
+      `${process.env.BASE_API_URL}/pro/psearch`, getBody
     );
 
     const dataProduct: GetProductsArray = {
