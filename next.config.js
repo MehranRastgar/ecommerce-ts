@@ -1,0 +1,25 @@
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
+  images:{
+    domains: [
+      "images.unsplash.com",
+      "profile.bugtech.ir",
+      "bugtech.ir",
+      "shopsoo.ir",
+      "str.shopsoo.ir",
+      "str.bugtech.ir",
+      "unsplash.com",
+      "socialistmodernism.com",
+      "via.placeholder.com",
+      "api.bugtech.ir",
+      "api.bugtech.ir",
+      "localhost",
+    ],
+    loader:"custom",
+    path:"/src/"
+  }
+}
+
+module.exports = nextConfig
