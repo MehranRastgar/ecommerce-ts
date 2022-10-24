@@ -19,7 +19,7 @@ export function imageAddress(
   if (src)
     return `${process.env.NEXT_PUBLIC_IMAGE_BASE}?x=${w}&y=${h}&q=${quality}&t=${format}&path=${src}`
   else
-    return `/shopsoo.png`
+    return `/Asset12.png`
 }
 
 function Home({minifyProducts}: { minifyProducts: MinifyProduct[] | undefined }) {
@@ -60,9 +60,7 @@ function Home({minifyProducts}: { minifyProducts: MinifyProduct[] | undefined })
               </a>
             </Link>
           </>
-        )
-        }
-        {/* base url: {process.env.NEXT_PUBLIC_BASE_URL}s */}
+        )}
         <hr />
       </div>
     </>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { FaSearchengin, FaUserCheck, FaShoppingBag, FaUserAltSlash } from 'react-icons/fa'
 import { BsForwardFill } from 'react-icons/bs'
+import { useDispatch } from 'react-redux'
 
 
 export default function MobileSearchComponent() {
@@ -12,6 +13,7 @@ export default function MobileSearchComponent() {
 
 export function MobileSearchBar() {
     const [searchModal, setSearchModal] = useState<boolean>(false)
+    // const dispatch = useDispatch();
 
     return (
         <>
@@ -49,14 +51,14 @@ function MobileUserProfile() {
     const [userCheck, setUserCheck] = useState<string | undefined>(undefined)
     useEffect(() => {
         setUserCheck("mehran")
-    })
+    },[])
     return (
         <div className='w-1/2'>
             {userCheck === undefined ?
-                <button className='p-2'><FaUserAltSlash color='#002223' size={40} /></button>
+                <button className='p-2'><FaUserAltSlash color='#002223' size={30} /></button>
                 :
                 <div className='flex flex-wrap w-full'>
-                    <button className='p-2'><FaUserCheck color='#f99e23' size={40} /></button>
+                    <button className='p-2'><FaUserCheck color='#f99e23' size={30} /></button>
                     {/* <h4 className='flex w-full -mt-4'>mehran</h4> */}
                 </div>
             }
@@ -67,8 +69,6 @@ function MobileUserProfile() {
 function MobileUserBag() {
 
     return <div className='w-1/2'>
-       <button className='p-2'> <FaShoppingBag color='#f99e23'  size={40} /></button>
+       <button className='p-2'> <FaShoppingBag color='#f99e23'  size={30} /></button>
     </div>
-
-
 }
