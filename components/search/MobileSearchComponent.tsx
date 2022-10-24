@@ -19,7 +19,7 @@ export function MobileSearchBar() {
         <>
             <div
                 onClick={() => setSearchModal(true)}
-                className="flex items-center w-2/3 p-2 rounded-xl m-2  bg-gray-200 h-[60px]">
+                className="flex items-center w-2/3 p-2 rounded-xl m-2  bg-gray-200 h-[50px]">
                 <FaSearchengin color={`${searchModal === true ? '' : '#e61f37'}`} size={30} />
                 {/* <input  className='flex w-5/6 p-1 bg-transparent m-1 h-full border-none focus:'></input> */}
             </div>
@@ -50,7 +50,7 @@ export function MobileUserTwinComponent() {
 function MobileUserProfile() {
     const [userCheck, setUserCheck] = useState<string | undefined>(undefined)
     useEffect(() => {
-        setUserCheck("mehran")
+        setUserCheck(undefined)
     },[])
     return (
         <div className='w-1/2'>
