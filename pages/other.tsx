@@ -9,7 +9,7 @@ import {
   incrementByAmount,
   selectCount,
 } from "../src/store/counterSlice";
-import { setMobile, setUserInfo } from "../src/slices/clientSlice";
+import { setMobile, setUserInfo } from "../src/store/slices/clientSlice";
 import { Client } from "../src/types/types";
 
 export default function Other(props: any) {

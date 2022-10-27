@@ -6,15 +6,36 @@ import { isMobile } from "react-device-detect";
 import HeaderMobile from "./headers/headerMobile";
 import MobileSearchComponent from "./search/MobileSearchComponent";
 import { FaTelegram } from "react-icons/fa";
-import { useDispatch } from "react-redux";
-import { setDeviceType } from "../src/slices/themeSlice";
+import { setDeviceType } from "../src/store/slices/themeSlice";
 const eventScreemSize: number = 720;
+import useSWR from "swr";
+import type { SWRConfiguration } from "swr";
+import axios from "axios";
+import { Settings } from "../src/types/types";
+import {
+  fetchSettingsAsync,
+  selectSettingsStatus,
+  selectSettings,
+} from "../src/store/slices/settingsSlice";
+import { useAppDispatch, useAppSelector } from "../src/store/hooks";
 
+const fetcher = (URL: string) => axios.get(URL).then((res) => res.data);
+const config: SWRConfiguration = {
+  fallbackData: "fallback",
+  revalidateOnMount: false,
+  // ...
+};
 function Layout({ children }: { children: any }) {
-  const dispatch = useDispatch();
+  const { data, error } = useSWR<Settings[]>(
+    process.env.NEXT_PUBLIC_BASE_API_URL + "/settings/name/categories",
+    fetcher,
+    config
+  );
+  const dispatch = useAppDispatch();
   const [ismob, setIsmob] = useState<string>("true");
   const [updateSize, setUpdateSize] = useState<boolean>(false);
   useEffect(() => {
+    dispatch(fetchSettingsAsync());
     window.addEventListener("resize", (event) => {
       var width = document.body.clientWidth;
       if (width < eventScreemSize && ismob == "false") {
@@ -22,10 +43,13 @@ function Layout({ children }: { children: any }) {
       } else if (width > eventScreemSize && ismob == "true") {
         setIsmob("false");
       }
+
       // console.log(width)
       // console.log(ismob)
       setUpdateSize((pervValue) => !pervValue);
     });
+    console.log("this is data of settings", data);
+    console.log(error);
   }, []);
 
   useEffect(() => {

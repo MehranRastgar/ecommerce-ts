@@ -90,11 +90,11 @@ function Home({
   minifyProducts: MinifyProduct[] | undefined;
 }) {
   // const name = use(getData());
-  const { data, err } = useSWR<string[]>("/api/hello", fetcher, config);
+  // const { data, err } = useSWR<string[]>("/api/hello", fetcher, config);
 
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    // console.log(data);
+  }, []);
 
   return (
     <>
@@ -107,7 +107,6 @@ function Home({
         <Link href={"/other"}>
           <div>other page</div>
         </Link>
-        {JSON.stringify(data)}
         {minifyProducts?.map((minifyProduct: MinifyProduct) => (
           <>
             <ProductCardOne minifyProduct={minifyProduct} />
@@ -128,9 +127,9 @@ type Search = {
 
 export const getStaticProps: GetStaticProps = async () => {
   const getBody: Search = {
-    perPage: "20",
+    perPage: "25",
     page: "1",
-    category: { "category.L1": "laptop", "category.L2": "Gaming" },
+    category: { "category.L1": "laptop" },
     sort: "price",
   };
 
@@ -150,7 +149,9 @@ export const getStaticProps: GetStaticProps = async () => {
     const minifyProducts: MinifyProducts = [];
 
     dataProduct.results?.map((product) => {
+      // console.log(product.attributes[3]);
       const minifyProduct: MinifyProduct = {
+        primaryAttribute: product.attributes[3],
         Price: product.variants[product.primary_variant].price,
         _id: product._id,
         image: product.main.images[0],

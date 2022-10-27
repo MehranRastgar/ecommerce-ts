@@ -1,8 +1,9 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 
 import counterReducer from "./counterSlice";
-import clientReducer from "../slices/clientSlice";
-import themeReducer from "../slices/themeSlice";
+import clientReducer from "./slices/clientSlice";
+import themeReducer from "./slices/themeSlice";
+import settingsReducer from "./slices/settingsSlice";
 
 export function makeStore() {
   return configureStore({
@@ -10,6 +11,7 @@ export function makeStore() {
       counter: counterReducer,
       client: clientReducer,
       theme: themeReducer,
+      settings: settingsReducer,
     },
   });
 }

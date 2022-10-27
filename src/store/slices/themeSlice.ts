@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import type { AppState } from "../store/store";
+import type { AppState } from "../store";
 // import { fetchCount } from './../counterAPI'
-import type { Theme } from "../types/types";
+import type { Theme } from "../../types/types";
 
 export interface ThemeState {
   value: Theme;

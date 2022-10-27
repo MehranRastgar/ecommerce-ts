@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import MobileUserBag from "../cart/MobileUserBag";
 import { Client } from "../../src/types/types";
 import { useAppSelector } from "../../src/store/hooks";
-import { selectUserInfo } from "../../src/slices/clientSlice";
+import { selectUserInfo } from "../../src/store/slices/clientSlice";
 
 export default function MobileSearchComponent() {
   return (

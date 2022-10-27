@@ -5,6 +5,7 @@ export interface GetProductsArray {
 
 export interface MinifyProduct {
   _id: string;
+  primaryAttribute: Attribute;
   imid: number;
   Price: Price;
   color?: Color[];
@@ -250,29 +251,30 @@ export interface ShipmentMethods {
 
 //--------------------------------------------------------------
 export interface Settings {
-  _id: string;
-  name: string;
-  __v: number;
-  properties: SettingsProperty[];
+  _id?: string;
+  name?: string;
+  __v?: number;
+  properties?: SettingsProperty[];
 }
 
 export interface SettingsProperty {
-  _id: string;
-  name: string;
-  __v: number;
-  properties: PropertyProperty[];
+  _id?: string;
+  name?: string;
+  __v?: number;
+  properties?: PropertyProperty[];
 }
 
 export interface PropertyProperty {
-  L1: L1[];
-  L2: L1[];
-  L3: L1[];
+  L1?: L1[];
+  L2?: L1[];
+  L3?: L1[];
+  L4?: L1[];
 }
 
 export interface L1 {
-  title: string;
-  title_fa: string;
-  url: string;
+  title?: string;
+  title_fa?: string;
+  url?: string;
 }
 //--------------------------------------------------------------------
 export interface Client {
@@ -331,8 +333,8 @@ export interface AtedAt {
 }
 //--------------------------------------------------
 //theme
-
 export interface Theme {
   themeName?: string;
   DeviceType?: "android" | "ios" | "mobile" | "tablet" | "pc" | "laptop";
 }
+//--------------------------------------------------

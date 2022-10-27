@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { HiChevronDown, HiChevronLeft } from "react-icons/hi";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -8,7 +9,7 @@ import {
   selectMobileNumber,
   setMobile,
   selectUserInfo,
-} from "../../src/slices/clientSlice";
+} from "../../src/store/slices/clientSlice";
 
 export default function NavbarMobile() {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
@@ -41,8 +42,8 @@ export default function NavbarMobile() {
 
 function OpenMenuModal({ setOpenMenu }: { setOpenMenu: any }) {
   return (
-    <div className="justify-start flex fixed top-0 right-0 w-full h-full bg-black/30">
-      <div className="flex flex-wrap w-2/3   border-cyan-400 p-2 h-full bg-white justify-start items-start">
+    <div className="justify-start flex fixed top-0 right-0 w-full h-full bg-black/30 ">
+      <div className="flex flex-wrap w-4/5   border-cyan-400 p-2 h-full bg-white justify-start items-start overflow-y-auto">
         {/* <input placeholder='جستجو گزینه ها' className='p-2 m-2 cursor-pointer h-fit'></input> */}
         <div className="p-1 py-0 border-b-2 border-blackout-red h-fit w-full">
           <Link href={"/"}>
@@ -61,7 +62,7 @@ function OpenMenuModal({ setOpenMenu }: { setOpenMenu: any }) {
         <div className="w-full h-fit border-b-2 ">
           <MobileImportantMenuComponent />
         </div>
-        <div className="w-full h-fit">
+        <div className="w-full h-fit ">
           <MobileCategoriesMenuComponent />
         </div>
         <div className="h-full"></div>
@@ -69,7 +70,7 @@ function OpenMenuModal({ setOpenMenu }: { setOpenMenu: any }) {
 
       <div
         onClick={() => setOpenMenu(false)}
-        className="flex w-1/3  h-full"
+        className="flex w-1/5  h-full"
       ></div>
     </div>
   );
@@ -78,16 +79,21 @@ function OpenMenuModal({ setOpenMenu }: { setOpenMenu: any }) {
 import { GoHome, GoGift } from "react-icons/go";
 import { BsHeadset } from "react-icons/bs";
 import { BiBarChartAlt } from "react-icons/bi";
-import { Client } from "../../src/types/types";
 import imageLoader from "../../src/imageLoader";
+import {
+  selectSettings,
+  selectSettingsStatus,
+} from "../../src/store/slices/settingsSlice";
+import { Settings } from "../../src/types/types";
 
 function MobileImportantMenuComponent() {
   const liClass: string = "w-full";
+
   return (
     <div>
       <ul
         key={"menu-high"}
-        className="flex flex-wrap w-full font-Vazir-Bold text-gray-400"
+        className="flex flex-wrap w-full text-[14px] font-Vazir-Bold text-gray-400"
       >
         <li key={"1"} className={liClass}>
           <Link href="/">
@@ -127,14 +133,87 @@ function MobileImportantMenuComponent() {
 }
 
 function MobileCategoriesMenuComponent() {
-  return <div>from backend</div>;
-}
+  const settings = useAppSelector(selectSettings);
+  const settingsStatus = useAppSelector(selectSettingsStatus);
+  const [categories, setCategories] = useState<Settings>();
+  const [preview, setPreview] = useState<number>(100);
 
-{
-  /* <ul className="flex flex-wrap w-1/2 bg-red-300">
-<li className={liClass}><a href="">Home</a></li>
-<li className={liClass}><a href="">News</a></li>
-<li className={liClass}><a href="">Contact</a></li>
-<li className={liClass}><a href="">About</a></li>
-</ul> */
+  useEffect(() => {
+    if (settingsStatus === "idle") {
+      console.table(settings);
+      settings.map((setting) => {
+        if (setting.name === "categories") setCategories(setting);
+      });
+    }
+  }, [settingsStatus, settings]);
+
+  useEffect(() => {
+    console.table(categories?.properties?.[0]?.properties);
+  }, [categories]);
+
+  return (
+    <>
+      {settingsStatus === "idle" ? (
+        <div className="text-gray-800 text-[13px] ">
+          {categories?.properties?.[0]?.properties?.map((highCat, index1) => (
+            <ul
+              className="flex flex-wrap w-full justify-start"
+              key={index1 + "-ul1"}
+            >
+              <li
+                onClick={() => {
+                  if (index1 !== preview) setPreview(index1);
+                  else setPreview(100);
+                }}
+                key={index1 + "-l1"}
+                className={`w-full inline-flex my-2 justify-start ${
+                  preview === index1 ? "text-blackout-red2" : ""
+                }`}
+              >
+                <div className="flex w-5/6">{highCat?.L1?.[0].title_fa}</div>
+                <div className="flex mr-2 mt-1 w-1/6 justify-end">
+                  {preview === index1 ? (
+                    <HiChevronLeft size={15} />
+                  ) : (
+                    <HiChevronDown size={15} />
+                  )}
+                </div>
+              </li>
+              {preview === index1 ? (
+                <Link
+                  className="flex w-full mr-4 font-Vazir-Thin py-2 "
+                  key={index1 + "-l2"}
+                  href={`/search/${highCat?.L1?.[0]?.url}`}
+                >
+                  <li>مشاهده تمام موارد این دسته</li>
+                </Link>
+              ) : (
+                <></>
+              )}
+              {preview === index1 ? (
+                highCat?.L2?.map((subcat, index2) => (
+                  <Link
+                    className="flex w-full -mx-2 font-Vazir-Thin bg-gray-100 py-2 "
+                    key={index2 + "-l2"}
+                    href={`/search/${subcat?.url}`}
+                  >
+                    <li
+
+                    // key={index2 + "-l2"}
+                    >
+                      <div className="flex mr-4 w-full">{subcat.title_fa}</div>
+                    </li>
+                  </Link>
+                ))
+              ) : (
+                <></>
+              )}
+            </ul>
+          ))}
+        </div>
+      ) : (
+        <div>loading...</div>
+      )}
+    </>
+  );
 }
