@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // experimental: { appDir: true },
   reactStrictMode: true,
   swcMinify: true,
-  images:{
+  images: {
     domains: [
       "images.unsplash.com",
       "profile.bugtech.ir",
@@ -17,9 +18,9 @@ const nextConfig = {
       "api.bugtech.ir",
       "localhost",
     ],
-    loader:"custom",
-    path:"/src/"
-  }
-}
+    loader: "custom",
+    path: "/src/",
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "PORT=3005 next dev",
-    "build": "NODE_ENV='production' next build ",
+    "build": "NODE_ENV='production' next build",
     "start": "PORT=3005 next start",
     "lint": "next lint"
   },
@@ -12,23 +12,27 @@
     "@reduxjs/toolkit": "^1.8.6",
     "@types/react-redux": "^7.1.24",
     "axios": "^1.1.3",
-    "mongoose": "^6.6.6",
-    "next": "12.3.1",
-    "react": "18.2.0",
-    "react-device-detect": "^2.2.2",
-    "react-dom": "18.2.0",
+    "jwt-decode": "^3.1.2",
+    "mini-css-extract-plugin": "latest",
+    "mongoose": "latest",
+    "next": "^13.0.0",
+    "next-redux-wrapper": "^8.0.0",
+    "react": "^18.2.0",
+    "react-device-detect": "latest",
+    "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",
-    "react-redux": "^8.0.4"
+    "react-redux": "^8.0.4",
+    "swr": "latest"
   },
   "devDependencies": {
-    "@fullhuman/postcss-purgecss": "^5.0.0",
+    "@fullhuman/postcss-purgecss": "latest",
     "@types/node": "18.11.2",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
     "eslint": "8.25.0",
-    "eslint-config-next": "12.3.1",
-    "postcss-preset-env": "^7.8.2",
-    "tailwindcss": "^3.2.1",
+    "eslint-config-next": "^13.0.0",
+    "postcss-preset-env": "latest",
+    "tailwindcss": "latest",
     "typescript": "4.8.4"
   }
 }

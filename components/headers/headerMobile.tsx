@@ -1,18 +1,23 @@
-import Image from "next/future/image";
+import Image from "next/image";
 import Link from "next/link";
+import imager from "../../public/Asset12.png";
+import imageLoader from "../../src/imageLoader";
 
 export default function HeaderMobile() {
-    return <div className="flex w-full justify-center  text-2xl text-blackout-red text-center items-center" >
-        <Link href={'/'}>
-            <a>
-                <Image
-                    alt="InoMal Logo"
-                    src={'/Asset12.png'}
-                    unoptimized
-                    width={130}
-                    height={50}
-                />
-            </a>
-        </Link>
+  return (
+    <div className="flex w-full justify-center  text-2xl text-blackout-red text-center items-center">
+      <Link href={"/"}>
+        <div>
+          <Image
+            loader={imageLoader}
+            alt="InoMal Logo"
+            src={imager}
+            unoptimized
+            width={80}
+            height={50}
+          />
+        </div>
+      </Link>
     </div>
+  );
 }
