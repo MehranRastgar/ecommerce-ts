@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import Header from "./headers/header";
 import NavbarMobile from "./headers/navbarMobile";
 import NavbarOne from "./headers/navbarOne";
@@ -18,6 +20,7 @@ import {
   selectSettings,
 } from "../src/store/slices/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../src/store/hooks";
+import imageLoader from "../src/imageLoader";
 
 const fetcher = (URL: string) => axios.get(URL).then((res) => res.data);
 const config: SWRConfiguration = {
@@ -87,8 +90,12 @@ function Layout({ children }: { children: any }) {
         </>
       ) : (
         <>
-          <Header></Header>
-          <NavbarOne></NavbarOne>
+          <div className="flex flex-wrap w-full fixed h-[180px]">
+            <AdsBanner />
+            <Header></Header>
+            <NavbarOne></NavbarOne>
+          </div>
+          <div className="flex w-screen bg-red-500 h-[200px]"></div>
         </>
       )}
       {children}
@@ -97,3 +104,23 @@ function Layout({ children }: { children: any }) {
 }
 
 export default Layout;
+
+function AdsBanner() {
+  return (
+    <div className="max-h-[80px] h-[80px] overflow-hidden flex w-full bg-blackout-saffron">
+      <Link href={"/"}>
+        <div>
+          <Image
+            className="max-h-[80px]"
+            loader={imageLoader}
+            alt="InoMal Logo"
+            src={"/adsbanner.png"}
+            unoptimized
+            fill
+            object-fit={"contain"}
+          />
+        </div>
+      </Link>
+    </div>
+  );
+}

@@ -107,6 +107,8 @@ function Home({
         <Link href={"/other"}>
           <div>other page</div>
         </Link>
+        {/* <Slider></Slider> */}
+
         {minifyProducts?.map((minifyProduct: MinifyProduct) => (
           <>
             <ProductCardOne minifyProduct={minifyProduct} />

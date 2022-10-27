@@ -61,9 +61,12 @@ function SearchModal({ setSearchModal }: { setSearchModal: any }) {
 
 export function MobileUserTwinComponent() {
   return (
-    <div className="flex items-center w-1/3 mx-2">
-      <MobileUserProfile />
-      <MobileUserBag />
+    <div className="flex justify-center xl:max-w-[400px] lg:max-w-[300px] md:max-w-[200px] max-w-[100px] w-full items-center  mx-2">
+      <div className="flex max-w-[150px] items-center  mx-2">
+        <MobileUserProfile />
+        <div className="mx-2 border border-r-1 h-[50px]"></div>
+        <MobileUserBag />
+      </div>
     </div>
   );
 }
@@ -79,13 +82,17 @@ function MobileUserProfile() {
     <div className="w-1/2">
       {userCheck === undefined ? (
         <button className="p-2">
-          <FaUserAltSlash color="#002223" size={30} />
+          <FaUserAltSlash
+            color="#48424966"
+            // className="bg-[#48424966]"
+            size={30}
+          />
         </button>
       ) : (
         <div className="inline-flex  w-full">
           <button className="inline-flex p-2">
             <div className="flex ">
-              <FaUserCheck color="#f99e23" size={30} />
+              <FaUserCheck color="#48424966" size={30} />
             </div>
             <span className="-mr-8 mt-6 inline-flex items-center justify-center px-2 py-1 text-[8px] font-bold leading-none text-gray-600 bg-transparent rounded-full">
               {uerInfo?.firstname}
