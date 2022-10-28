@@ -3,3 +3,46 @@
 @tailwind utilities;
 
 @import "../src/fonts/fonts.css";
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+  touch-action: manipulation;
+  font-feature-settings: "case" 1, "rlig" 1, "calt" 0;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+
+  /* -webkit-text-size-adjust: none; */
+  /* text-size-adjust: none; */
+}
+
+html,
+body {
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--theme-0);
+  color: var(--text-accents-0);
+  overscroll-behavior-x: contain;
+}
+
+a:link {
+  scroll-behavior: auto !important;
+}
+
+.fade-in-image {
+  animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

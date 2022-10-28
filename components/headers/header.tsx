@@ -12,7 +12,7 @@ export default function Header() {
         w-full
         filter  bg-white
         border-b-2
-        z-50
+        z-40
         h-120
         "
     >

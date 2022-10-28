@@ -35,14 +35,30 @@ export default function NavbarMobile() {
       >
         <GiHamburgerMenu color="#E71D37" size={20} />
       </button>
+
       {openMenu === true ? <OpenMenuModal setOpenMenu={setOpenMenu} /> : <></>}
     </nav>
   );
 }
 
 function OpenMenuModal({ setOpenMenu }: { setOpenMenu: any }) {
+  const [drop, setDrop] = useState<boolean>(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setDrop(true);
+    }, 50);
+  }, []);
+
   return (
-    <div className="justify-start flex fixed top-0 right-0 w-full h-full bg-black/30 ">
+    <div
+      style={{
+        transition: "all   300ms ease-in-out",
+        width: `${drop === true ? "100%" : "0%"}`,
+        height: `${drop === true ? "100%" : "0%"}`,
+        zIndex: "50",
+      }}
+      className={`justify-start flex fixed top-0 right-0  h-full bg-black/30 `}
+    >
       <div className="flex flex-wrap w-4/5   border-cyan-400 p-2 h-full bg-white justify-start items-start overflow-y-auto">
         {/* <input placeholder='جستجو گزینه ها' className='p-2 m-2 cursor-pointer h-fit'></input> */}
         <div className="p-1 py-0 border-b-2 border-blackout-red h-fit w-full">
@@ -68,7 +84,10 @@ function OpenMenuModal({ setOpenMenu }: { setOpenMenu: any }) {
         <div className="h-full"></div>
       </div>
       <div
-        onClick={() => setOpenMenu(false)}
+        onClick={() => {
+          setDrop(false);
+          setTimeout(() => setOpenMenu(false), 200);
+        }}
         className="flex w-1/5  h-full"
       ></div>
     </div>
@@ -136,6 +155,7 @@ function MobileCategoriesMenuComponent() {
   const settingsStatus = useAppSelector(selectSettingsStatus);
   const [categories, setCategories] = useState<Settings>();
   const [preview, setPreview] = useState<number>(100);
+  const [transition, setTransition] = useState<boolean>(false);
 
   useEffect(() => {
     if (settingsStatus === "idle") {
@@ -156,13 +176,23 @@ function MobileCategoriesMenuComponent() {
         <div className="text-gray-800 text-[13px] ">
           {categories?.properties?.[0]?.properties?.map((highCat, index1) => (
             <ul
-              className="flex flex-wrap w-full justify-start"
+              className="flex flex-wrap w-full justify-start cursor-pointer"
               key={index1 + "-ul1"}
             >
               <li
                 onClick={() => {
-                  if (index1 !== preview) setPreview(index1);
-                  else setPreview(100);
+                  if (index1 !== preview) {
+                    setTransition(false);
+                    setTimeout(() => {
+                      setTransition(true);
+                    }, 150);
+                    setPreview(index1);
+                  } else {
+                    setTransition(false);
+                    setTimeout(() => {
+                      setPreview(100);
+                    }, 150);
+                  }
                 }}
                 key={index1 + "-l1"}
                 className={`w-full inline-flex my-2 justify-start ${
@@ -192,12 +222,15 @@ function MobileCategoriesMenuComponent() {
               {preview === index1 ? (
                 highCat?.L2?.map((subcat, index2) => (
                   <Link
+                    style={{
+                      transition: "width   500ms ease-in-out",
+                      width: `${transition === true ? "100%" : "0%"}`,
+                    }}
                     className="flex w-full -mx-2 font-Vazir-Thin bg-gray-100 py-2 "
                     key={index2 + "-l2"}
                     href={`/search/${subcat?.url}`}
                   >
                     <li
-
                     // key={index2 + "-l2"}
                     >
                       <div className="flex mr-4 w-full">{subcat.title_fa}</div>
