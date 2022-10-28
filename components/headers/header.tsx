@@ -7,15 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { MobileUserTwinComponent } from "../search/MobileSearchComponent";
 export default function Header() {
   return (
-    <header
-      className="relative  items-center flex flex-nowrap lg:flex-nowrap xl:flex-nowrap 2xl:flex-nowrap md:flex-nowrap sm:flex-wrap justify-start font-Vazir 
-        w-full
-        filter  bg-white
-        border-b-2
-        z-40
-        h-120
-        "
-    >
+    <>
       <div className="mx-[80px]">
         <Link href={"/"}>
           <Image
@@ -30,7 +22,7 @@ export default function Header() {
       </div>
       <SearchComponent />
       <MobileUserTwinComponent />
-    </header>
+    </>
   );
 }
 
@@ -43,7 +35,7 @@ function SearchComponent() {
   );
 
   useEffect(() => {
-    console.log("numbnumbnumbnumb", numb);
+    // console.log("numbnumbnumbnumb", numb);
     if (numb) setDivSize(numb);
   }, [numb]);
 
@@ -105,7 +97,7 @@ function SearchModal({
   // const [styler, setStyler] = useState<string>();
   const style: string = `fixed flex    flex-wrap rounded-t-none items-start   p-2 rounded-xl -mt-2 m-2 bg-gray-100  ${
     searchModal === true
-      ? `h-[110px] -z-[1]`
+      ? `h-[110px] z-[3]`
       : `h-[10px] overflow-hidden -translate-y-4  bg-gray-200  -z-[1]`
   }`;
 
@@ -119,8 +111,8 @@ function SearchModal({
     >
       {searchModal === true ? (
         <>
-          <div className="border-t-2 px-2  border-blackout-black w-full"></div>
-          <div>
+          <div className="border-t-2 px-2 z-[3] border-blackout-black w-full"></div>
+          <div className="  z-[3]">
             <button
               onClick={() => {
                 setSearchModal(false);

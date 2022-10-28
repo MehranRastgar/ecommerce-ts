@@ -6,6 +6,8 @@ import { Color, MinifyProduct } from "../../src/types/types";
 import { useSelector } from "react-redux";
 import { selectDeviceType } from "../../src/store/slices/themeSlice";
 import { useEffect, useState } from "react";
+const tooman = "تومان";
+const tamas = "جهت اطلاع از قیمت تماس بگیرید";
 
 export default function ProductCardOne({
   minifyProduct,
@@ -14,6 +16,14 @@ export default function ProductCardOne({
 }) {
   const devType = useSelector(selectDeviceType);
   const [colorState, setColorState] = useState<string[]>();
+  let price = (
+    minifyProduct?.Price?.selling_price
+      ? minifyProduct?.Price?.selling_price / 10
+      : 0
+  ).toLocaleString();
+  let delPrice = (
+    minifyProduct?.Price?.rrp_price ? minifyProduct?.Price?.rrp_price / 10 : 0
+  ).toLocaleString();
 
   function setColor(colors: Color[]): string[] {
     var colorsStyle: string[] = [];
@@ -110,35 +120,63 @@ export default function ProductCardOne({
     </Link>
   ) : (
     <Link
-      className="flex w-full border border-blackout-saffron rounded-xl p-2 m-4 font-Vazir-Medium"
+      key={"click-on-product"}
       href={`products/${minifyProduct?._id}/${(
         minifyProduct?.title_fa ?? minifyProduct?.sku
       )?.replaceAll(" ", "-")}`}
+      className=" flex  flex-wrap justify-center items-start 	w-1/2  md:w-1/3 lg:w-1/5 xl:w-1/5 2xl:w-1/5 3xl:w-1/6"
     >
-      <div key={minifyProduct?._id + "-a"} className="w-full">
-        <div key={minifyProduct?._id}>
+      <div
+        className={` flex flex-wrap justify-center w-full p-2 border hover:border-gray-300 `}
+      >
+        <div className="flex flex-wrap  justify-center m-2">
           <Image
-            className="border rounded-xl"
+            className=" rounded-xl"
             loader={imageLoader}
-            quality="80"
-            // unoptimized
+            unoptimized
             loading="eager"
             placeholder="empty"
-            src={imageAddress(minifyProduct?.image, 150, 150, 80, "webp")}
+            src={imageAddress(minifyProduct?.image, 300, 300, 80, "webp")}
             alt={minifyProduct?.title_en ?? "not-present"}
-            width={150}
-            height={150}
+            width={300}
+            height={300}
           />
         </div>
-        <div key={minifyProduct?._id + "-num2"}>
-          {minifyProduct?.Price.rrp_price.toLocaleString()} - تومان
-        </div>
-        <div key={minifyProduct?._id + "-num3"}>{minifyProduct?.title_fa}</div>
-        <div key={minifyProduct?._id + "-num3"}>
-          {minifyProduct?.primaryAttribute.title}
-        </div>
-        <div key={minifyProduct?._id + "-num3"}>
-          {minifyProduct?.primaryAttribute.values}
+
+        <h2 className="flex font-Vazir-Medium font-bold justify-center overflow-hidden  text-black text-sm   text-rtl mx-2 my-1 items-top text-center tracking-normal  h-10 p-1     ">
+          {minifyProduct?.title_fa ?? ""}
+        </h2>
+
+        {!(price == "0" || delPrice == "0") ? (
+          <>
+            <div className="text-red-500 flex w-full line-through font-Vazir-Medium text-lg font-thin   flex-wrap justify-center ">
+              {delPrice}
+            </div>
+            <div className="text-green-500 flex w-full font-Vazir-Medium font-bold text-lg flex-wrap justify-center ">
+              {price}
+            </div>
+            <div className="text-blackout-black text-lg flex w-full flex-wrap font-Vazir-Medium font-bold justify-center">
+              {price ? tooman : "--"}
+            </div>
+          </>
+        ) : (
+          <>
+            {" "}
+            <div className="text-blackout-red text-lg flex w-full font-bold font-Vazir-Medium  flex-wrap justify-center ">
+              ناموجود
+            </div>
+          </>
+        )}
+
+        <div className="p-2">
+          <div className="flex w-full flex-wrap justify-center text-center my-1 border-b font-Vazir-Medium ">
+            {minifyProduct?.primaryAttribute?.title
+              ?.replace("-", " ")
+              ?.replace("-", " ")
+              ?.replace("-", " ") +
+              "   :   " +
+              minifyProduct?.primaryAttribute?.values}
+          </div>
         </div>
       </div>
     </Link>

@@ -26,6 +26,7 @@ export default function NavbarOne() {
         w-1/4
         filter 
         font-semibold
+        bg-green-400
         "
     >
       <button
@@ -55,9 +56,9 @@ function OpenMenuModal({ setOpenMenu }: { setOpenMenu: any }) {
         transition: "all   300ms ease-in-out",
         width: `${drop === true ? "100%" : "0%"}`,
         height: `${drop === true ? "100%" : "0%"}`,
-        zIndex: "50",
+        zIndex: "2",
       }}
-      className="justify-start flex fixed top-0 right-0 w-full h-full bg-black/30  z-40"
+      className="justify-start flex fixed top-0 right-0 w-full h-full bg-black/30  z-[2]"
     >
       <div className="flex flex-wrap w-4/5 border-cyan-400 p-2 h-full bg-white justify-start items-start overflow-y-auto">
         {/* <input placeholder='جستجو گزینه ها' className='p-2 m-2 cursor-pointer h-fit'></input> */}

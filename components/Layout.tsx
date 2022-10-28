@@ -9,7 +9,7 @@ import HeaderMobile from "./headers/headerMobile";
 import MobileSearchComponent from "./search/MobileSearchComponent";
 import { FaTelegram } from "react-icons/fa";
 import { setDeviceType } from "../src/store/slices/themeSlice";
-const eventScreemSize: number = 720;
+const eventScreenSize: number = 800;
 import useSWR from "swr";
 import type { SWRConfiguration } from "swr";
 import axios from "axios";
@@ -28,51 +28,92 @@ const config: SWRConfiguration = {
   revalidateOnMount: false,
   // ...
 };
+
+var scrollBefore = 0;
+
 function Layout({ children }: { children: any }) {
-  const { data, error } = useSWR<Settings[]>(
-    process.env.NEXT_PUBLIC_BASE_API_URL + "/settings/name/categories",
-    fetcher,
-    config
-  );
+  // const { data, error } = useSWR<Settings[]>(
+  //   process.env.NEXT_PUBLIC_BASE_API_URL + "/settings/name/categories",
+  //   fetcher,
+  //   config
+  // );
   const dispatch = useAppDispatch();
   const [ismob, setIsmob] = useState<string>("true");
   const [updateSize, setUpdateSize] = useState<boolean>(false);
-  useEffect(() => {
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [navHidden, setNavHidden] = useState<boolean>(false);
+  const [lastNumber, setLastNumber] = useState<number>(500);
+  const [config, setConfig] = useState<boolean>(false);
+
+  function configPage() {
     dispatch(fetchSettingsAsync());
-    window.addEventListener("resize", (event) => {
-      var width = document.body.clientWidth;
-      if (width < eventScreemSize && ismob == "false") {
-        setIsmob("true");
-      } else if (width > eventScreemSize && ismob == "true") {
-        setIsmob("false");
-      }
-
-      // console.log(width)
-      // console.log(ismob)
-      setUpdateSize((pervValue) => !pervValue);
-    });
-    console.log("this is data of settings", data);
-    console.log(error);
+    console.log("justOne time");
+  }
+  useEffect(() => {
+    if (!config) {
+      setConfig(true);
+      configPage();
+    }
   }, []);
+  //================================================
+  function scrollFunction() {
+    var offsetY: number = window.pageYOffset;
+    setLastNumber(window.pageYOffset);
+    if (offsetY > 1) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
 
+    if (scrollBefore - offsetY < 0) {
+      setNavHidden(true);
+    } else {
+      setNavHidden(false);
+    }
+    scrollBefore = window.pageYOffset;
+  }
+
+  function sizeComponent() {
+    var width = document.body.clientWidth;
+    if (width < eventScreenSize && ismob == "false") {
+      setIsmob("true");
+    } else if (width > eventScreenSize && ismob == "true") {
+      setIsmob("false");
+    }
+    setUpdateSize((pervValue) => !pervValue);
+  }
+
+  useEffect(() => {
+    window.addEventListener("scroll", scrollFunction);
+    window.addEventListener("resize", sizeComponent);
+
+    return () => {
+      window.removeEventListener("scroll", scrollFunction);
+      window.removeEventListener("resize", sizeComponent);
+    };
+
+    // configPage();
+  }, []);
+  //================================================
   useEffect(() => {
     const ismobact = isMobile === true ? "true" : "false";
     var width = document.body.clientWidth;
 
-    if (width > eventScreemSize && ismobact == "false") {
+    if (width > eventScreenSize && ismobact == "false") {
       dispatch(setDeviceType("pc"));
       setIsmob("false");
-    } else if (width < eventScreemSize && ismobact == "false") {
+    } else if (width < eventScreenSize && ismobact == "false") {
       dispatch(setDeviceType("mobile"));
       setIsmob("true");
-    } else if (width < eventScreemSize && ismobact == "true") {
+    } else if (width < eventScreenSize && ismobact == "true") {
       dispatch(setDeviceType("mobile"));
       setIsmob("true");
-    } else if (width > eventScreemSize && ismobact == "true") {
+    } else if (width > eventScreenSize && ismobact == "true") {
       dispatch(setDeviceType("pc"));
       setIsmob("false");
     }
   }, [updateSize]);
+  //================================================
 
   return (
     <div>
@@ -90,12 +131,26 @@ function Layout({ children }: { children: any }) {
         </>
       ) : (
         <>
-          <div className="flex flex-wrap w-full fixed h-[180px]">
-            <AdsBanner />
-            <Header></Header>
-            <NavbarOne></NavbarOne>
+          <AdsBanner />
+          <div className="flex flex-wrap w-full fixed h-[180px] items-start ">
+            <header
+              className={`relative  items-center flex flex-nowrap lg:flex-nowrap xl:flex-nowrap 2xl:flex-nowrap md:flex-nowrap sm:flex-wrap justify-start font-Vazir w-full filter  bg-white border-b-2 z-[1] transition-all duration-500
+              ${isScrolled === true ? "-mt-[55px] h-[90px] " : "h-[100px] "}
+              `}
+            >
+              <Header></Header>
+            </header>
+            <div
+              className={`transition-all duration-500 w-screen ${
+                navHidden === true
+                  ? "-mt-[130px] h-[50px] overflow-hidden -z-[2]"
+                  : "h-[70px] bg-green-500 "
+              }`}
+            >
+              <NavbarOne></NavbarOne>
+            </div>
           </div>
-          <div className="flex w-screen bg-red-500 h-[200px]"></div>
+          <div className="flex w-full bg-white h-[200px]"></div>
         </>
       )}
       {children}
@@ -106,11 +161,27 @@ function Layout({ children }: { children: any }) {
 export default Layout;
 
 function AdsBanner() {
+  const liClass: string = "p-2 m-2 inline-flex justify-center w-auto ";
+
   return (
-    <div className="max-h-[80px] h-[80px] overflow-hidden flex w-full bg-blackout-saffron">
+    <div className=" max-h-[80px] h-auto  overflow-hidden flex w-full bg-white">
       <Link href={"/"}>
-        <div>
-          <Image
+        <div className="mr-[80px]">
+          <ul
+            key={"menu-high"}
+            className="flex  w-full text-[14px] font-Vazir-Bold text-gray-400"
+          >
+            <li key={"2"} className={liClass}>
+              درباره ما
+            </li>
+            <li key={"3"} className={liClass}>
+              تماس با ما
+            </li>
+            <li key={"4"} className={liClass}>
+              شرایط گارانتی محصولات
+            </li>
+          </ul>
+          {/* <Image
             className="max-h-[80px]"
             loader={imageLoader}
             alt="InoMal Logo"
@@ -118,7 +189,7 @@ function AdsBanner() {
             unoptimized
             fill
             object-fit={"contain"}
-          />
+          /> */}
         </div>
       </Link>
     </div>
