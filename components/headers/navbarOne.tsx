@@ -46,7 +46,7 @@ function OpenMenuModal({ setOpenMenu }: { setOpenMenu: any }) {
 
   return (
     <div className="justify-start flex fixed top-0 right-0 w-full h-full bg-black/30 ">
-      <div className="flex flex-wrap w-4/5   border-cyan-400 p-2 h-full bg-white justify-start items-start overflow-y-auto">
+      <div className="flex flex-wrap w-4/5 border-cyan-400 p-2 h-full bg-white justify-start items-start overflow-y-auto">
         {/* <input placeholder='جستجو گزینه ها' className='p-2 m-2 cursor-pointer h-fit'></input> */}
         <div className="p-1 py-0 border-b-2 border-blackout-red h-fit w-full">
           <Link href={"/"}>
@@ -70,7 +70,6 @@ function OpenMenuModal({ setOpenMenu }: { setOpenMenu: any }) {
         </div>
         <div className="h-full"></div>
       </div>
-
       <div
         onClick={() => setOpenMenu(false)}
         className="flex w-1/5  h-full"

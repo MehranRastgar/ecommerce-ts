@@ -62,7 +62,7 @@ function SearchModal({ setSearchModal }: { setSearchModal: any }) {
 export function MobileUserTwinComponent() {
   return (
     <div className="flex justify-center xl:max-w-[400px] lg:max-w-[300px] md:max-w-[200px] max-w-[100px] w-full items-center  mx-2">
-      <div className="flex max-w-[150px] items-center  mx-2">
+      <div className="flex max-w-[150px] items-center  mx-2 font-thin">
         <MobileUserProfile />
         <div className="mx-2 border border-r-1 h-[50px]"></div>
         <MobileUserBag />

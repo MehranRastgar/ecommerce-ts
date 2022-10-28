@@ -67,7 +67,6 @@ function OpenMenuModal({ setOpenMenu }: { setOpenMenu: any }) {
         </div>
         <div className="h-full"></div>
       </div>
-
       <div
         onClick={() => setOpenMenu(false)}
         className="flex w-1/5  h-full"

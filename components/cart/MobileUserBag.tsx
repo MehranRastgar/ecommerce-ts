@@ -13,7 +13,7 @@ export default function MobileUserBag() {
     <div className="w-1/2">
       <button className="inline-flex p-2">
         <FaShoppingBag color="#48424966" size={30} />
-        <span className="-mr-8 mt-4  inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-gray-100 bg-blackout-red2 rounded-full ">
+        <span className="font-thin -mr-8 mt-4 font-serif inline-flex items-center justify-center px-[8px] py-[3px] text-xs  leading-none text-gray-100 bg-blackout-red2 rounded-full ">
           {count}
         </span>
       </button>

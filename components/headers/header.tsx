@@ -3,7 +3,7 @@ import imageLoader from "../../src/imageLoader";
 import Image from "next/image";
 import { FaSearchengin } from "react-icons/fa";
 import { BsForwardFill } from "react-icons/bs";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MobileUserTwinComponent } from "../search/MobileSearchComponent";
 export default function Header() {
   return (
@@ -36,6 +36,17 @@ export default function Header() {
 
 function SearchComponent() {
   const [searchModal, setSearchModal] = useState(false);
+  const [divSize, setDivSize] = useState<string>("0");
+
+  const numb: string | undefined = String(
+    document?.getElementById("mydiv")?.offsetWidth
+  );
+
+  useEffect(() => {
+    console.log("numbnumbnumbnumb", numb);
+    if (numb) setDivSize(numb);
+  }, [numb]);
+
   return (
     <>
       {searchModal === true ? (
@@ -50,14 +61,16 @@ function SearchComponent() {
       )}
       <div className="w-2/3 z-[2]">
         <div
+          id={"mydiv"}
           onClick={() => setSearchModal(true)}
-          className={`flex items-center max-w-[720px]  p-2 rounded-xl m-2   h-[40px] ${
+          className={`flex items-center max-w-[720px]  p-2 rounded-xl m-2  h-[40px] ${
             searchModal === true
               ? "rounded-b-none z-[2] h-[42px] bg-gray-100"
               : "bg-gray-200"
           }`}
         >
           <FaSearchengin color={`#010101`} size={25} />
+          <div className="mx-2 py-4 border-r border-gray-600 h-[40] "></div>
           <input
             type={"search"}
             placeholder={"جستجو"}
@@ -65,16 +78,16 @@ function SearchComponent() {
               transition: "height 1.2s ease-in-out",
               outlineStyle: "none",
             }}
-            className={`flex w-1/3 focus:w-full mx-4 h-[40px] bg-transparent p-2 text-slate-600  ${
+            className={`flex w-1/3 focus:w-full  h-[40px] bg-transparent p-2 text-slate-600  ${
               searchModal === true ? "rounded-b-none z-[2]" : ""
             }`}
           ></input>
           {/* <input  className='flex w-5/6 p-1 bg-transparent m-1 h-full border-none focus:'></input> */}
         </div>
-
         <SearchModal
           searchModal={searchModal}
           setSearchModal={setSearchModal}
+          divSize={divSize}
         />
       </div>
     </>
@@ -83,17 +96,26 @@ function SearchComponent() {
 function SearchModal({
   setSearchModal,
   searchModal,
+  divSize,
 }: {
   setSearchModal: any;
   searchModal: any;
+  divSize: string;
 }) {
+  // const [styler, setStyler] = useState<string>();
+  const style: string = `fixed flex    flex-wrap rounded-t-none items-start   p-2 rounded-xl -mt-2 m-2 bg-gray-100  ${
+    searchModal === true
+      ? `h-[110px] -z-[1]`
+      : `h-[10px] overflow-hidden -translate-y-4  bg-gray-200  -z-[1]`
+  }`;
+
   return (
     <div
-      className={`transition-all duration-700 flex fixed flex-wrap w-full rounded-t-none items-start max-w-[720px]  p-2 rounded-xl -mt-2 m-2 bg-gray-100 ${
-        searchModal === true
-          ? "h-[110px] z-[2] "
-          : "h-[0px] overflow-hidden -translate-y-4 -z-[2] "
-      }`}
+      style={{
+        transition: "height 0.5s ease-in-out",
+        width: `${divSize}px`,
+      }}
+      className={style}
     >
       {searchModal === true ? (
         <>
