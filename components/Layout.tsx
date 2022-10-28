@@ -144,7 +144,9 @@ function Layout({ children }: { children: any }) {
               className={`transition-all duration-500 w-screen ${
                 navHidden === true
                   ? "-mt-[130px] h-[50px] overflow-hidden -z-[2]"
-                  : "h-[70px] bg-green-500 "
+                  : `h-[70px] bg-green-500 ${
+                      isScrolled === true ? "-mt-[80px]" : "-mt-[20px]"
+                    }`
               }`}
             >
               <NavbarOne></NavbarOne>
