@@ -47,8 +47,26 @@ body {
   background-color: var(--theme-0);
   color: var(--text-accents-0);
   overscroll-behavior-x: contain;
+  /* width */
+}
+::-webkit-scrollbar {
+  width: 8px;
 }
 
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(97, 96, 96);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(78, 40, 40);
+}
 a:link {
   scroll-behavior: auto !important;
 }
