@@ -124,10 +124,10 @@ export default function ProductCardOne({
       href={`products/${minifyProduct?._id}/${(
         minifyProduct?.title_fa ?? minifyProduct?.sku
       )?.replaceAll(" ", "-")}`}
-      className=" flex  flex-wrap justify-center items-start 	w-1/2  md:w-1/3 lg:w-1/5 xl:w-1/5 2xl:w-1/5 3xl:w-1/6"
+      className=" flex  flex-wrap justify-center items-start 	w-1/2  md:w-1/3 lg:w-1/5 xl:w-1/5 2xl:w-1/5 3xl:w-1/6 m-2"
     >
       <div
-        className={` flex flex-wrap justify-center w-full p-2 border hover:border-gray-300 `}
+        className={` flex flex-wrap justify-center w-full p-2 border hover:border-gray-300 card `}
       >
         <div className="flex flex-wrap  justify-center m-2">
           <Image

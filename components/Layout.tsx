@@ -44,7 +44,7 @@ function Layout({ children }: { children: any }) {
   const [navHidden, setNavHidden] = useState<boolean>(false);
   const [lastNumber, setLastNumber] = useState<number>(500);
   const [config, setConfig] = useState<boolean>(false);
-
+  //================================================
   function configPage() {
     dispatch(fetchSettingsAsync());
     console.log("justOne time");
@@ -72,12 +72,12 @@ function Layout({ children }: { children: any }) {
     }
     scrollBefore = window.pageYOffset;
   }
-
+  //================================================
   function sizeComponent() {
     var width = document.body.clientWidth;
-    if (width < eventScreenSize && ismob == "false") {
+    if (width < eventScreenSize && ismob === "false") {
       setIsmob("true");
-    } else if (width > eventScreenSize && ismob == "true") {
+    } else if (width > eventScreenSize && ismob === "true") {
       setIsmob("false");
     }
     setUpdateSize((pervValue) => !pervValue);
@@ -99,16 +99,16 @@ function Layout({ children }: { children: any }) {
     const ismobact = isMobile === true ? "true" : "false";
     var width = document.body.clientWidth;
 
-    if (width > eventScreenSize && ismobact == "false") {
+    if (width > eventScreenSize && ismobact === "false") {
       dispatch(setDeviceType("pc"));
       setIsmob("false");
-    } else if (width < eventScreenSize && ismobact == "false") {
+    } else if (width < eventScreenSize && ismobact === "false") {
       dispatch(setDeviceType("mobile"));
       setIsmob("true");
-    } else if (width < eventScreenSize && ismobact == "true") {
+    } else if (width < eventScreenSize && ismobact === "true") {
       dispatch(setDeviceType("mobile"));
       setIsmob("true");
-    } else if (width > eventScreenSize && ismobact == "true") {
+    } else if (width > eventScreenSize && ismobact === "true") {
       dispatch(setDeviceType("pc"));
       setIsmob("false");
     }
@@ -132,30 +132,25 @@ function Layout({ children }: { children: any }) {
       ) : (
         <>
           <AdsBanner />
-          <div className="flex flex-wrap w-full fixed h-[180px] items-start ">
+          <div className="flex flex-wrap w-full fixed h-[180px] items-start">
             <header
-              className={`relative  items-center flex flex-nowrap lg:flex-nowrap xl:flex-nowrap 2xl:flex-nowrap md:flex-nowrap sm:flex-wrap justify-start font-Vazir w-full filter  bg-white border-b-2 z-[1] transition-all duration-500
+              className={`relative  items-center flex flex-nowrap lg:flex-nowrap xl:flex-nowrap 2xl:flex-nowrap md:flex-nowrap sm:flex-wrap justify-start font-Vazir w-full filter  bg-white z-[1] transition-all duration-500
               ${isScrolled === true ? "-mt-[55px] h-[90px] " : "h-[100px] "}
+             
               `}
             >
               <Header></Header>
             </header>
-            <div
-              className={`transition-all duration-500 w-screen ${
-                navHidden === true
-                  ? "-mt-[130px] h-[50px] overflow-hidden -z-[2]"
-                  : `h-[70px] bg-green-500 ${
-                      isScrolled === true ? "-mt-[80px]" : "-mt-[20px]"
-                    }`
-              }`}
-            >
-              <NavbarOne></NavbarOne>
-            </div>
+
+            <NavbarOne
+              navHidden={navHidden}
+              isScrolled={isScrolled}
+            ></NavbarOne>
           </div>
           <div className="flex w-full bg-white h-[200px]"></div>
         </>
       )}
-      {children}
+      <div className="flex w-full justify-center">{children}</div>
     </div>
   );
 }
