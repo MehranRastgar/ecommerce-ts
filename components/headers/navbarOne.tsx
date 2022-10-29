@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { HiChevronDown, HiChevronLeft } from "react-icons/hi";
+import {
+  HiChevronDoubleLeft,
+  HiChevronDown,
+  HiChevronLeft,
+} from "react-icons/hi";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -12,6 +16,11 @@ import {
 } from "../../src/store/slices/clientSlice";
 import imageLoader from "../../src/imageLoader";
 import { GoGift } from "react-icons/go";
+import {
+  selectSettings,
+  selectSettingsStatus,
+} from "../../src/store/slices/settingsSlice";
+import { Settings } from "../../src/types/types";
 
 export default function NavbarOne({
   isScrolled,
@@ -149,6 +158,22 @@ export default function NavbarOne({
 // }
 
 export function CategoriesMenuWindow() {
+  const settings = useAppSelector(selectSettings);
+  const settingsStatus = useAppSelector(selectSettingsStatus);
+  const [categories, setCategories] = useState<Settings>();
+  const [preview, setPreview] = useState<number>(100);
+  const [transition, setTransition] = useState<boolean>(false);
+  const [menuSelector, setMenuSelector] = useState<number>(0);
+
+  useEffect(() => {
+    if (settingsStatus === "idle") {
+      // console.table(settings);
+      settings.map((setting) => {
+        if (setting.name === "categories") setCategories(setting);
+      });
+    }
+  }, [settingsStatus, settings]);
+
   const [drop, setDrop] = useState<boolean>(false);
   useEffect(() => {
     setTimeout(() => {
@@ -164,6 +189,73 @@ export function CategoriesMenuWindow() {
         zIndex: "2",
       }}
       className="fixed mr-[90px] flex w-2/3 bg-white h-2/3 rounded-b-xl   mt-[39px]  right-0  z-50"
-    ></div>
+    >
+      {settingsStatus === "idle" ? (
+        <>
+          <div className="border-l-2">
+            {categories?.properties?.[0]?.properties?.map((highCat, index1) => (
+              <ul
+                className="flex flex-wrap w-auto justify-start cursor-pointer"
+                key={index1 + "-ul1"}
+              >
+                <li
+                  onMouseEnter={() => {
+                    setMenuSelector(index1);
+                  }}
+                  className={`flex w-[200px] h-12 items-center px-6 py-6 ${
+                    menuSelector === index1
+                      ? "bg-gray-200 text-blackout-red"
+                      : ""
+                  }`}
+                >
+                  {highCat.L1?.[0]?.title_fa}
+                </li>
+              </ul>
+            ))}{" "}
+          </div>
+          <div className="">
+            <Link
+              className="flex w-full mr-4 font-Vazir-Thin py-2 justify-start m-3"
+              key={menuSelector + "-l2"}
+              href={`/search${categories?.properties?.[0]?.properties?.[menuSelector].L1?.[0]?.url}`}
+            >
+              <li className="flex px-2">
+                مشاهده تمام محصولات{" "}
+                {
+                  categories?.properties?.[0]?.properties?.[menuSelector]
+                    .L1?.[0]?.title_fa
+                }
+              </li>
+              <HiChevronDoubleLeft size={15} />
+            </Link>
+            {categories?.properties?.[0]?.properties?.[menuSelector]?.L2?.map(
+              (subcat, index1) => (
+                <ul
+                  className="flex flex-wrap w-auto justify-start cursor-pointer mx-2 px-6"
+                  key={index1 + "-ul1"}
+                >
+                  <Link
+                    className="flex w-auto mr-4 font-Vazir-Light py-2 justify-start text-[14px] hover:text-red-500 "
+                    key={menuSelector + "-l2"}
+                    href={`/search${subcat?.url}`}
+                  >
+                    <li
+                      // onMouseEnter={() => {
+                      //   setMenuSelector(index1);
+                      // }}
+                      className={`flex items-center `}
+                    >
+                      {subcat.title_fa}
+                    </li>
+                  </Link>
+                </ul>
+              )
+            )}{" "}
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
+    </div>
   );
 }

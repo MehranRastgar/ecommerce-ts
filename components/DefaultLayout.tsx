@@ -16,7 +16,8 @@ function DefaultLayout({ children }: { children: any }) {
       {ismob === "true" ? (
         <NavbarMobile></NavbarMobile>
       ) : (
-        <NavbarOne></NavbarOne>
+        // <NavbarOne></NavbarOne>
+        <></>
       )}
       {children}
     </div>

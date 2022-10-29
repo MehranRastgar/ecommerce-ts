@@ -68,7 +68,7 @@ function OpenMenuModal({ setOpenMenu }: { setOpenMenu: any }) {
                 loader={imageLoader}
                 alt="InoMal Logo"
                 src={"/Asset12.png"}
-                unoptimized
+                priority
                 width={80}
                 height={50}
               />
@@ -166,9 +166,9 @@ function MobileCategoriesMenuComponent() {
     }
   }, [settingsStatus, settings]);
 
-  useEffect(() => {
-    console.table(categories?.properties?.[0]?.properties);
-  }, [categories]);
+  // useEffect(() => {
+  //   // console.table(categories?.properties?.[0]?.properties);
+  // }, [categories]);
 
   return (
     <>
@@ -212,7 +212,7 @@ function MobileCategoriesMenuComponent() {
                 <Link
                   className="flex w-full mr-4 font-Vazir-Thin py-2 "
                   key={index1 + "-l2"}
-                  href={`/search/${highCat?.L1?.[0]?.url}`}
+                  href={`/search${highCat?.L1?.[0]?.url}`}
                 >
                   <li>مشاهده تمام موارد این دسته</li>
                 </Link>
@@ -228,7 +228,7 @@ function MobileCategoriesMenuComponent() {
                     }}
                     className="flex w-full -mx-2 font-Vazir-Thin bg-gray-100 py-2 "
                     key={index2 + "-l2"}
-                    href={`/search/${subcat?.url}`}
+                    href={`/search${subcat?.url}`}
                   >
                     <li
                     // key={index2 + "-l2"}

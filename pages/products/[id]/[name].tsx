@@ -17,7 +17,7 @@ function ProductPage({ product }: { product: Product | null }) {
       console.log("one time");
     }
     console.log("pro product in use effect", pro);
-  }, [pro]);
+  }, [pro, product]);
 
   return product !== null ? (
     <>

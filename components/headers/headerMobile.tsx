@@ -12,7 +12,7 @@ export default function HeaderMobile() {
             loader={imageLoader}
             alt="InoMal Logo"
             src={imager}
-            unoptimized
+            priority
             width={80}
             height={50}
           />

@@ -53,7 +53,7 @@ export default function ProductCardOne({
             className=" rounded-xl"
             loader={imageLoader}
             quality="80"
-            // unoptimized
+            unoptimized
             loading="eager"
             placeholder="empty"
             src={imageAddress(minifyProduct?.image, 150, 150, 80, "webp")}
@@ -71,7 +71,7 @@ export default function ProductCardOne({
           </div>
           {
             <div
-              key={minifyProduct?._id + "-num3"}
+              key={minifyProduct?._id + "-num4"}
               className="text-xs mt-2  items-center text-justify text-blackout-black"
             >
               {minifyProduct?.primaryAttribute.title}
@@ -135,11 +135,12 @@ export default function ProductCardOne({
             loader={imageLoader}
             unoptimized
             loading="eager"
-            placeholder="empty"
             src={imageAddress(minifyProduct?.image, 300, 300, 80, "webp")}
             alt={minifyProduct?.title_en ?? "not-present"}
             width={300}
             height={300}
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,[IMAGE_CODE_FROM_PNG_PIXEL]"
           />
         </div>
 
