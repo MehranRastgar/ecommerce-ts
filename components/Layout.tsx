@@ -132,10 +132,10 @@ function Layout({ children }: { children: any }) {
       ) : (
         <>
           <AdsBanner />
-          <div className="flex flex-wrap w-full fixed h-[180px] items-start">
+          <div className="flex flex-wrap w-full fixed h-[100px] items-start">
             <header
               className={`relative  items-center flex flex-nowrap lg:flex-nowrap xl:flex-nowrap 2xl:flex-nowrap md:flex-nowrap sm:flex-wrap justify-start font-Vazir w-full filter  bg-white z-[1] transition-all duration-500
-              ${isScrolled === true ? "-mt-[55px] h-[90px] " : "h-[100px] "}
+              ${isScrolled === true ? "-mt-[55px] h-[60px] " : "h-[60px] "}
              
               `}
             >
@@ -161,7 +161,7 @@ function AdsBanner() {
   const liClass: string = "p-2 m-2 inline-flex justify-center w-auto ";
 
   return (
-    <div className=" max-h-[80px] h-auto  overflow-hidden flex w-full bg-white">
+    <div className="max-h-[80px] h-auto  overflow-hidden flex w-full bg-white">
       <Link href={"/"}>
         <div className="mr-[80px]">
           <ul

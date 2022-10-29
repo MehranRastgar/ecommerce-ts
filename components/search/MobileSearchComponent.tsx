@@ -81,7 +81,7 @@ function MobileUserProfile() {
   return (
     <div className="w-1/2">
       {userCheck === undefined ? (
-        <button className="flex flex-wrap border rounded-xl p-2 text-xs md:text-sm font-Vazir-Medium ">
+        <button className="flex flex-wrap border rounded-xl p-1 text-xs md:text-sm font-Vazir-Medium ">
           <div className="flex border-b">ورود</div>{" "}
           <span className="flex">ثبت نام</span>
         </button>

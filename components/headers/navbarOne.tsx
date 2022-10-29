@@ -24,7 +24,7 @@ export default function NavbarOne({
   const [openCategorieMenu, setOpenCategorieMenu] = useState<boolean>(false);
   const router = useRouter();
   const styleClassLi = `flex border-l  `;
-  const styleClassLink = `flex px-6 py-4 hover:border-b-2 hover:border-b-red-500 border-b-2 border-b-transparent `;
+  const styleClassLink = `flex px-6 py-2 hover:border-b-2 hover:border-b-red-500 border-b-2 border-b-transparent `;
 
   useEffect(() => {
     setOpenMenu(false);
@@ -34,8 +34,8 @@ export default function NavbarOne({
     <div
       className={`transition-all duration-500 w-screen border-b-2 bg-white ${
         navHidden === true && openCategorieMenu !== true
-          ? "-mt-[120px] h-[50px] overflow-hidden -z-[2] border-b-2"
-          : `h-[60px] bg-white ${isScrolled === true ? "-mt-[80px]" : ""}`
+          ? "-mt-[90px] h-[50px] overflow-hidden -z-[2] border-b-2"
+          : `h-[40px] bg-white ${isScrolled === true ? "-mt-[50px]" : ""}`
       }`}
     >
       <nav className="inline-flex mr-[80px] items-center justify-start filter font-semibold bg-white w-full">
@@ -50,7 +50,7 @@ export default function NavbarOne({
             className={`flex border-l  `}
           >
             <Link
-              className={`flex mr-6 pr-0 px-6 py-4 hover:shadow-xl ${
+              className={` flex mr-6 pr-0 px-6 py-2 hover:shadow-xl ${
                 openCategorieMenu === true ? "border-b-red-500" : ""
               } border-b-2 border-b-transparent `}
               href="/"
@@ -65,7 +65,7 @@ export default function NavbarOne({
                 onMouseEnter={() => {
                   setOpenCategorieMenu(false);
                 }}
-                className="fixed  mt-[60px] flex justify-start   h-full w-full right-0 bg-black/30 z-49"
+                className="fixed  mt-[40px] flex justify-start   h-full w-full right-0 bg-black/30 z-49"
               ></div>
             ) : (
               <></>
@@ -158,12 +158,12 @@ export function CategoriesMenuWindow() {
   return (
     <div
       style={{
-        transition: "all   300ms ease-in-out",
+        transition: "all 300ms ease-in-out",
         width: `${drop === true ? "66%" : "0%"}`,
         height: `${drop === true ? "66%" : "0%"}`,
         zIndex: "2",
       }}
-      className="fixed mr-[80px] flex w-2/3 bg-white h-2/3 rounded-b-xl   mt-[55px]  right-0  z-50"
+      className="fixed mr-[90px] flex w-2/3 bg-white h-2/3 rounded-b-xl   mt-[39px]  right-0  z-50"
     ></div>
   );
 }
