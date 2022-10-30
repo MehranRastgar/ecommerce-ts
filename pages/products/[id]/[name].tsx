@@ -125,7 +125,6 @@ async function getProductAndRealtive(id: string): Promise<Product | null> {
       const proData: Product | null = await JSON.parse(
         JSON.stringify(ProductData)
       );
-
       return proData;
     } catch (err) {
       return null;

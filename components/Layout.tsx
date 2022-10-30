@@ -4,7 +4,7 @@ import Image from "next/image";
 import Header from "./headers/header";
 import NavbarMobile from "./headers/navbarMobile";
 import NavbarOne from "./headers/navbarOne";
-import { isMobile } from "react-device-detect";
+import { isMobile, deviceDetect } from "react-device-detect";
 import HeaderMobile from "./headers/headerMobile";
 import MobileSearchComponent from "./search/MobileSearchComponent";
 import { FaTelegram } from "react-icons/fa";
@@ -38,7 +38,7 @@ function Layout({ children }: { children: any }) {
   //   config
   // );
   const dispatch = useAppDispatch();
-  const [ismob, setIsmob] = useState<string>("true");
+  const [ismob, setIsmob] = useState<string>("undefined");
   const [updateSize, setUpdateSize] = useState<boolean>(false);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [navHidden, setNavHidden] = useState<boolean>(false);
@@ -131,26 +131,36 @@ function Layout({ children }: { children: any }) {
         </>
       ) : (
         <>
-          <AdsBanner />
-          <div className="flex flex-wrap w-full fixed h-[100px] items-start">
-            <header
-              className={`relative  items-center flex flex-nowrap lg:flex-nowrap xl:flex-nowrap 2xl:flex-nowrap md:flex-nowrap sm:flex-wrap justify-start font-Vazir w-full filter  bg-white z-[1] transition-all duration-500
+          {deviceDetect !== undefined && ismob !== "undefined" ? (
+            <>
+              <AdsBanner />
+              <div className="topHeader flex flex-wrap w-full fixed h-[100px] items-start">
+                <header
+                  className={` relative  items-center flex flex-nowrap lg:flex-nowrap xl:flex-nowrap 2xl:flex-nowrap md:flex-nowrap sm:flex-wrap justify-start font-Vazir w-full filter  bg-white z-[1] transition-all duration-500
               ${isScrolled === true ? "-mt-[55px] h-[60px] " : "h-[60px] "}
              
               `}
-            >
-              <Header></Header>
-            </header>
+                >
+                  <Header></Header>
+                </header>
 
-            <NavbarOne
-              navHidden={navHidden}
-              isScrolled={isScrolled}
-            ></NavbarOne>
-          </div>
-          <div className="flex w-full bg-white h-[200px]"></div>
+                <NavbarOne
+                  navHidden={navHidden}
+                  isScrolled={isScrolled}
+                ></NavbarOne>
+              </div>
+              <div className="flex w-full bg-white h-[100px]"></div>{" "}
+            </>
+          ) : (
+            <></>
+          )}
         </>
       )}
-      <div className="flex w-full justify-center">{children}</div>
+      {deviceDetect !== undefined && ismob !== "undefined" ? (
+        <div className="flex w-full justify-center">{children}</div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

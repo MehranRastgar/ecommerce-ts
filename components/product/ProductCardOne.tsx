@@ -53,10 +53,9 @@ export default function ProductCardOne({
             className=" rounded-xl"
             loader={imageLoader}
             quality="80"
-            unoptimized
             loading="eager"
             placeholder="empty"
-            src={imageAddress(minifyProduct?.image, 150, 150, 80, "webp")}
+            src={imageAddress(minifyProduct?.image, 100, 100, 100, "webp")}
             alt={minifyProduct?.title_en ?? "not-present"}
             width={100}
             height={100}
@@ -139,8 +138,6 @@ export default function ProductCardOne({
             alt={minifyProduct?.title_en ?? "not-present"}
             width={300}
             height={300}
-            placeholder="blur"
-            blurDataURL="data:image/png;base64,[IMAGE_CODE_FROM_PNG_PIXEL]"
           />
         </div>
 
