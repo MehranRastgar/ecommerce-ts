@@ -119,7 +119,7 @@ function Layout({ children }: { children: any }) {
     <div>
       {ismob === "true" ? (
         <>
-          <div className="flex bg-white border-b-2 mx-3">
+          <div className="flex bg-white border-b-2 mx-3 z-[1]">
             <NavbarMobile></NavbarMobile>
             <HeaderMobile></HeaderMobile>
             <button className="flex h-fit m-2 p-2 border rounded-xl bg-gray-100">

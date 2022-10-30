@@ -37,7 +37,7 @@ function SwiperItem({ imageSrc, imageAlt }: Props) {
         src={imageSrc}
         alt={imageAlt ?? "not-present"}
         width={1400}
-        height={200}
+        height={400}
       />
     </div>
   );

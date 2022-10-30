@@ -89,11 +89,11 @@ const items = [
   },
 ];
 
-const config: SWRConfiguration = {
-  fallbackData: "fallback",
-  revalidateOnMount: false,
-  // ...
-};
+// const config: SWRConfiguration = {
+//   fallbackData: "fallback",
+//   revalidateOnMount: false,
+//   // ...
+// };
 export function imageAddress(
   src: string | undefined | null,
   w: number,
@@ -118,20 +118,19 @@ function Home({
   // const name = use(getData());
   // const { data, err } = useSWR<string[]>("/api/hello", fetcher, config);
 
-  useEffect(() => {
-    if (minifyProducts?.length !== undefined) {
-      var array: any = [];
-      minifyProducts?.map((product) => {
-        array.push({
-          imageSrc: product.image,
-          imageAlt: product.title_en,
-        });
-      });
-      setimages(array);
-    }
-
-    // console.log(data);
-  }, []);
+  // useEffect(() => {
+  // if (minifyProducts?.length !== undefined) {
+  //   var array: any = [];
+  //   minifyProducts?.map((product) => {
+  //     array.push({
+  //       imageSrc: product.image,
+  //       imageAlt: product.title_en,
+  //     });
+  //   });
+  //   setimages(array);
+  // }
+  // console.log(data);
+  // }, []);
 
   return (
     <>
@@ -145,14 +144,15 @@ function Home({
         <div className="MainHomeTopSlider overflow-hidden justify-center">
           <Swiper items={items} />
         </div>
+        <div className="py-6 md:py-8 flex w-full justify-center text-xl md:text-2xl font-Vazir-Medium">
+          خرید بر اساس دسته‌بندی
+        </div>
         <div className="flex flex-wrap w-9/12 bg-white overflow-hidden justify-center">
-          {/* <Slider></Slider> */}
-
-          {minifyProducts?.map((minifyProduct: MinifyProduct) => (
+          {/* {minifyProducts?.map((minifyProduct: MinifyProduct) => (
             <>
               <ProductCardOne minifyProduct={minifyProduct} />
             </>
-          ))}
+          ))} */}
         </div>
       </div>
     </>

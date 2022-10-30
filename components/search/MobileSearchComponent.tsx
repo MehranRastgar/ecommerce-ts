@@ -24,7 +24,7 @@ export function MobileSearchBar() {
     <>
       <div
         onClick={() => setSearchModal(true)}
-        className="flex items-center w-2/3 p-2 rounded-xl m-2  bg-gray-200 h-[50px]"
+        className="flex items-center w-2/3 p-2 rounded-xl m-2  bg-gray-200 h-[50px] "
       >
         <FaSearchengin
           color={`${searchModal === true ? "" : "#e61f37"}`}
@@ -43,7 +43,7 @@ export function MobileSearchBar() {
 
 function SearchModal({ setSearchModal }: { setSearchModal: any }) {
   return (
-    <div className="justify-start flex absolute top-0 right-0 w-full h-full bg-white">
+    <div className="justify-start flex absolute top-0 right-0 w-full h-full bg-white z-[3]">
       <div className="flex w-full mx-3 border-b-2 border-[#f99e23] p-2 h-fit">
         <BsForwardFill
           onClick={() => setSearchModal(false)}
