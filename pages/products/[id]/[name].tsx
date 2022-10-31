@@ -33,7 +33,8 @@ function ProductPage({ product }: { product: Product | null }) {
               500,
               500,
               100,
-              "webp"
+              "webp",
+              undefined
             )}
             alt={product?.main?.title_en ?? "noname"}
             width={400}

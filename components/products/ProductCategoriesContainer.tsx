@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
+import { imageAddress } from "../../pages";
 import imageLoader from "../../src/imageLoader";
 import { useAppSelector } from "../../src/store/hooks";
 import {
@@ -57,13 +58,22 @@ function CategoryItem({ itemCat }: { itemCat: L1 | undefined }) {
         <Image
           loader={imageLoader}
           alt={itemCat?.title ?? "-"}
-          src={`/catImage/${itemCat?.title}${
-            deviceType === "mobile" ? "" : "-4x"
-          }.png`}
           priority
-          width={deviceType === "mobile" ? 120 : 250}
-          height={50}
+          width={deviceType === "mobile" ? 150 : 250}
+          height={deviceType === "mobile" ? 120 : 250}
           className="m-3"
+          unselectable="on"
+          draggable={false}
+          src={imageAddress(
+            `/catImage/${itemCat?.title}${
+              deviceType === "mobile" ? "" : "-4x"
+            }.png`,
+            deviceType === "mobile" ? 150 : 250,
+            undefined,
+            80,
+            "webp",
+            "public"
+          )}
         />
       </Link>
       {/* <div className="flex p-2 m-4">{itemCat}</div> */}

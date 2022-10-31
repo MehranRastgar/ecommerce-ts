@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import imageLoader from "../../src/imageLoader";
 import { imageAddress } from "../../pages";
-// import { SwiperItemType } from "../types";
+import image from "../../public/slider-a/1.jpg";
+import { useAppSelector } from "../../src/store/hooks";
+import { selectDeviceType } from "../../src/store/slices/themeSlice";
 
 export type SwiperItemType = {
   imageSrc: string;
@@ -13,6 +15,12 @@ export type SwiperItemType = {
 export type Props = SwiperItemType;
 
 function SwiperItem({ imageSrc, imageAlt }: Props) {
+  const deviceType = useAppSelector<
+    "android" | "ios" | "mobile" | "tablet" | "pc" | "laptop" | undefined
+  >(selectDeviceType);
+
+  useEffect(() => {}, [deviceType]);
+
   return (
     <div className="swiper-item">
       {/* <Image
@@ -28,15 +36,24 @@ function SwiperItem({ imageSrc, imageAlt }: Props) {
         layout="contain"
       /> */}
       <Image
+        // src={image}
         draggable={false}
         className="swiper-img"
+        // quality={90}
         loader={imageLoader}
-        unoptimized
-        loading="eager"
-        // src={imageAddress(imageSrc, 1400, 200, 80, "webp")}
-        src={imageSrc}
+        unselectable="on"
+        priority
+        src={imageAddress(
+          imageSrc,
+          deviceType === "mobile" ? 700 : 1400,
+          undefined,
+          80,
+          "webp",
+          "public"
+        )}
+        // src={"/public/slider-a/1.jpg"}
         alt={imageAlt ?? "not-present"}
-        width={1400}
+        width={deviceType === "mobile" ? 700 : 1400}
         height={400}
       />
     </div>

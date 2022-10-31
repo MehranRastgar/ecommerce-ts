@@ -4,6 +4,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
+    formats: ["image/webp"],
     domains: [
       "images.unsplash.com",
       "profile.bugtech.ir",
@@ -19,7 +20,7 @@ const nextConfig = {
       "localhost",
     ],
     loader: "custom",
-    path: "/src/",
+    // path: "/public/",
   },
 };
 

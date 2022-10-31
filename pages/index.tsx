@@ -97,13 +97,18 @@ const items = [
 // };
 export function imageAddress(
   src: string | undefined | null,
-  w: number,
-  h: number,
+  w: number | undefined,
+  h: number | undefined,
   quality: 50 | 80 | 90 | 100,
-  format: "webp" | "jpeg" | "jpg" | "png" | "svg"
+  format: "webp" | "jpeg" | "jpg" | "png" | "svg",
+  prefix: "public" | undefined
 ): string {
   if (src)
-    return `${process.env.NEXT_PUBLIC_IMAGE_BASE}?x=${w}&y=${h}&q=${quality}&t=${format}&path=${src}`;
+    // return `${process.env.NEXT_PUBLIC_IMAGE_BASE}?x=${w}&y=${h}&q=${quality}&t=${format}&path=${src}`;
+    return (
+      `/api/image?x=${w}&y=${h}&q=${quality}&t=${format}&path=${src}` +
+      `${prefix === "public" ? "&prefix=public" : ""}`
+    );
   else return `/Asset12.png`;
 }
 
