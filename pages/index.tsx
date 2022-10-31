@@ -14,6 +14,7 @@ import type { SWRConfiguration } from "swr";
 import ProductCardOne from "../components/product/ProductCardOne";
 import { SwiperItemType } from "../components/swiper/SwiperItem";
 import Swiper from "../components/swiper/Swiper";
+import ProductCategoriesContainer from "../components/products/ProductCategoriesContainer";
 // import { use } from 'react';
 
 // async function getData() {
@@ -144,8 +145,11 @@ function Home({
         <div className="MainHomeTopSlider overflow-hidden justify-center">
           <Swiper items={items} />
         </div>
-        <div className="py-6 md:py-8 flex w-full justify-center text-xl md:text-2xl font-Vazir-Medium">
-          خرید بر اساس دسته‌بندی
+        <div className="MainCategoryCard overflow-hidden flex flex-wrap py-6 md:py-8 w-full justify-center">
+          <h2 className="2xl lg:text-2xl md:text-xl font-Vazir-Medium">
+            خرید بر اساس دسته‌ بندی
+          </h2>
+          <ProductCategoriesContainer />
         </div>
         <div className="flex flex-wrap w-9/12 bg-white overflow-hidden justify-center">
           {/* {minifyProducts?.map((minifyProduct: MinifyProduct) => (

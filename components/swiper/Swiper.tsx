@@ -103,7 +103,7 @@ function Swiper({ items }: Props) {
 
   function intevalForward() {
     // setTimeOutCheck(true);
-    if (currentIdx < items?.length) indicatorOnClick(currentIdx + 1);
+    if (currentIdx < items?.length - 1) indicatorOnClick(currentIdx + 1);
     else indicatorOnClick(0);
     console.log("intervall ", currentIdx, items.length - 1);
   }

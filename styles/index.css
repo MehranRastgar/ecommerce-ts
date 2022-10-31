@@ -23,6 +23,13 @@
   }
 }
 
+@layer base {
+  .h2-tag {
+    font-size: 16px;
+    font-size: 1.5rem;
+  }
+}
+
 html {
   height: 100%;
   box-sizing: border-box;
@@ -240,11 +247,8 @@ a:link {
 }
 
 .swiper-img {
-  /* display: flex; */
   object-fit: cover;
-
   width: 100%;
-  /* z-index: -20; */
   height: 100%;
   user-select: none;
 }
@@ -254,9 +258,14 @@ a:link {
 }
 
 .MainHomeTopSlider {
+  width: 100%;
   z-index: 1;
   min-height: 150px;
   max-height: 400px;
+}
+
+.MainCategoryCard {
+  width: 100%;
 }
 
 .pos-relative {
