@@ -15,8 +15,29 @@ import ProductCardOne from "../components/product/ProductCardOne";
 import { SwiperItemType } from "../components/swiper/SwiperItem";
 import Swiper from "../components/swiper/Swiper";
 import ProductCategoriesContainer from "../components/products/ProductCategoriesContainer";
+import ProductSliderOne from "../components/products/ProductSliderOne";
 // import { use } from 'react';
-
+const getLaptop: Search = {
+  perPage: "12",
+  page: "1",
+  category: { "category.L1": "laptop" },
+  sort: "price",
+  sortType: "desc",
+};
+const getLaptop2: Search = {
+  perPage: "12",
+  page: "2",
+  category: { "category.L1": "laptop", "category.L2": "Gaming" },
+  sort: "price",
+  sortType: undefined,
+};
+const getMobile: Search = {
+  perPage: "12",
+  page: "2",
+  category: { "category.L1": "mobile" },
+  sort: "price",
+  sortType: undefined,
+};
 // async function getData() {
 //   // const res = await fetch('...');
 //   // const name: string = await res.json();
@@ -156,23 +177,50 @@ function Home({
           </h2>
           <ProductCategoriesContainer />
         </div>
-        <div className="flex flex-wrap w-9/12 bg-white overflow-hidden justify-center">
+        <div className="flex flex-wrap w-full mx-4 my-6 bg-white overflow-hidden justify-center">
           {/* {minifyProducts?.map((minifyProduct: MinifyProduct) => (
             <>
               <ProductCardOne minifyProduct={minifyProduct} />
             </>
           ))} */}
+          <ProductSliderOne
+            setting={{
+              url: "/category/laptop",
+              name: "فروش ویژه لپتاپ",
+              span: "مشاهده موارد مشابه",
+              getOption: getLaptop,
+            }}
+          />
+          <div className="h-10 w-full p-2"></div>
+          <ProductSliderOne
+            setting={{
+              url: "/category/laptop",
+              name: " ویژه موبایل",
+              span: "مشاهده موارد مشابه",
+              getOption: getMobile,
+            }}
+          />
+          <div className="h-10 w-full p-2"></div>
+          <ProductSliderOne
+            setting={{
+              url: "/category/laptop",
+              name: "لپتاپ گیمینگ",
+              span: "مشاهده موارد مشابه",
+              getOption: getLaptop2,
+            }}
+          />
         </div>
       </div>
     </>
   );
 }
 
-type Search = {
+export type Search = {
   perPage: string;
   page: string;
   category: object;
   sort: string;
+  sortType: string | undefined;
 };
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -181,6 +229,7 @@ export const getStaticProps: GetStaticProps = async () => {
     page: "1",
     category: { "category.L1": "laptop" },
     sort: "price",
+    sortType: undefined,
   };
 
   try {

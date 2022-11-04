@@ -6,6 +6,7 @@ import { Color, MinifyProduct } from "../../src/types/types";
 import { useSelector } from "react-redux";
 import { selectDeviceType } from "../../src/store/slices/themeSlice";
 import { useEffect, useState } from "react";
+// import reactQuer
 const tooman = "تومان";
 const tamas = "جهت اطلاع از قیمت تماس بگیرید";
 

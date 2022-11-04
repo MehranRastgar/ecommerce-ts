@@ -83,7 +83,7 @@ function Swiper({ items }: Props) {
     startXRef.current = getTouchEventData(e).clientX;
 
     const containerEl = getRefValue(containerRef);
-    const containerWidth = containerEl.offsetWidth;
+    const containerWidth = containerEl?.offsetWidth;
 
     containerWidthRef.current = containerWidth;
     minOffsetXRef.current = containerWidth - containerEl.scrollWidth;
@@ -95,7 +95,7 @@ function Swiper({ items }: Props) {
   };
   const indicatorOnClick = (idx: number) => {
     const containerEl = getRefValue(containerRef);
-    const containerWidth = containerEl.offsetWidth;
+    const containerWidth = containerEl?.offsetWidth;
 
     setCurrentIdx(idx);
     setOffsetX(containerWidth * idx);
@@ -105,11 +105,11 @@ function Swiper({ items }: Props) {
     // setTimeOutCheck(true);
     if (currentIdx < items?.length - 1) indicatorOnClick(currentIdx + 1);
     else indicatorOnClick(0);
-    console.log("intervall ", currentIdx, items.length - 1);
+    // console.log("intervall ", currentIdx, items.length - 1);
   }
 
   function stopIntevalForward() {
-    console.log(refInterval.current);
+    // console.log(refInterval.current);
     clearInterval(refInterval.current);
     // release our intervalID from the variable
     refInterval.current = null;
