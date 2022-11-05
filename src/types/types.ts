@@ -3,6 +3,30 @@ export interface GetProductsArray {
   results: Product[];
 }
 
+export interface ProductsSearch {
+  Products: ProductInterface[];
+  Total: number;
+  filterItems: any;
+}
+
+export interface ProductInterface {
+  category: Category;
+  expert_reviews: ExpertReviews;
+  main: Main;
+  review: Review;
+  seo: SEO;
+  _id: string;
+  imid: number;
+  status: string;
+  attributes: Attribute[];
+  primary_variant: number;
+  variants: Variant[];
+  __v: number;
+  tags: any[];
+  updatedAt: Date;
+  attributext: Attributext;
+}
+
 export interface MinifyProduct {
   _id: string;
   primaryAttribute: Attribute;

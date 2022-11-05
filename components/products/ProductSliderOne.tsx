@@ -85,19 +85,19 @@ export default function ProductSliderOne({ setting }: { setting: any }) {
     <div className="product-slider-one-container">
       {/* <div className="product-slider-one-items flex"> */}
       <ScrollContainer className="scroll-container product-slider-one-items overflow-y-hidden">
-        <div className="bg-white font-Vazir-Bold w-full min-w-[140px] m-4 rounded-lg flex flex-wrap items-center justify-center p-2">
-          <div className="text-[20px] text-red-600 text-center">
+        <div className="bg-transparent font-Vazir-Bold w-full min-w-[140px] m-4 rounded-lg flex flex-wrap items-center justify-center p-2">
+          <div className="text-[20px] text-gray-300 text-center">
             {setting?.name}
           </div>
           <Link
-            className="flex flex-wrap items-center p-6 bg-white rounded-lg"
+            className="flex flex-wrap items-center p-6  rounded-lg"
             href={setting?.url ?? "/"}
           >
-            <div className="w-full text-[16px] text-red-600 text-center">
+            <div className="w-full text-[16px] text-white text-center">
               {setting?.span}
             </div>
             <div className="flex w-full justify-center items-center text-[16px] text-red-600 ">
-              <BsArrowLeft size={20} color={"rgb(220 38 38)"} />
+              <BsArrowLeft size={20} color={"rgb(255 255 255)"} />
             </div>
           </Link>
         </div>

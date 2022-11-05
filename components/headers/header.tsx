@@ -43,8 +43,11 @@ function SearchComponent() {
   );
 
   function enterChecker(key: string) {
-    if (key === "Enter") {
+    setSearchModal(true);
+
+    if (key === "Enter" || key === "Escape") {
       GoSearch(searchString);
+      setSearchModal(false);
     }
   }
 
@@ -91,7 +94,7 @@ function SearchComponent() {
             }}
             onKeyDown={(e) => enterChecker(e?.key ?? "nothing")}
             onChange={(e) => setSearchString(e.target.value)}
-            className={`flex w-1/3 focus:w-full  h-[40px] bg-transparent p-2 text-slate-600  ${
+            className={`flex w-full focus:w-full  h-[40px] bg-transparent p-2 text-slate-600  ${
               searchModal === true ? "rounded-b-none z-[2]" : ""
             }`}
           ></input>

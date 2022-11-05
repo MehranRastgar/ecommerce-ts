@@ -43,7 +43,7 @@ export default function ProductCardOne({
   }, []);
   return devType === "mobile" ? (
     <Link
-      className="flex flex-wrap w-full items-center border-b border-b-slate-300 p-2 mt-0 m-4 font-Vazir-Medium"
+      className="flex flex-wrap w-full items-center border-b border-b-slate-300 p-2 mt-0 m-4 font-Vazir-Medium h-fit select-none"
       href={`products/${minifyProduct?._id}/${(
         minifyProduct?.title_fa ?? minifyProduct?.sku
       )?.replaceAll(" ", "-")}`}
@@ -55,6 +55,8 @@ export default function ProductCardOne({
             loader={imageLoader}
             quality="80"
             loading="eager"
+            unselectable="on"
+            draggable="false"
             placeholder="empty"
             src={imageAddress(
               minifyProduct?.image,
@@ -131,7 +133,7 @@ export default function ProductCardOne({
       href={`products/${minifyProduct?._id}/${(
         minifyProduct?.title_fa ?? minifyProduct?.sku
       )?.replaceAll(" ", "-")}`}
-      className=" flex  flex-wrap justify-center items-start 	w-1/2  md:w-1/3 lg:w-1/5 xl:w-1/5 2xl:w-1/5 3xl:w-1/6 m-2"
+      className=" flex  flex-wrap justify-center items-start max-w-[px] 	w-1/3  md:w-1/2 lg:w-1/4 xl:w-1/5 2xl:w-1/5 3xl:w-1/5 select-none"
     >
       <div
         className={` flex flex-wrap justify-center w-full p-2 border hover:border-gray-300 card `}
@@ -142,6 +144,8 @@ export default function ProductCardOne({
             loader={imageLoader}
             unoptimized
             loading="eager"
+            unselectable="on"
+            draggable="false"
             src={imageAddress(
               minifyProduct?.image,
               300,
@@ -176,6 +180,7 @@ export default function ProductCardOne({
           <>
             {" "}
             <div className="text-blackout-red text-lg flex w-full font-bold font-Vazir-Medium  flex-wrap justify-center ">
+              <br></br>
               ناموجود
             </div>
           </>
