@@ -21,6 +21,7 @@ import {
 } from "../src/store/slices/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../src/store/hooks";
 import imageLoader from "../src/imageLoader";
+import FooterMain from "./footers/footer";
 
 const fetcher = (URL: string) => axios.get(URL).then((res) => res.data);
 const config: SWRConfiguration = {
@@ -119,7 +120,7 @@ function Layout({ children }: { children: any }) {
     <div>
       {ismob === "true" ? (
         <>
-          <div className="flex bg-white border-b-2 mx-3 z-[1]">
+          <div className="flex bg-white border-b-2 mx-3 z-[1] ">
             <NavbarMobile></NavbarMobile>
             <HeaderMobile></HeaderMobile>
             <button className="flex h-fit m-2 p-2 border rounded-xl bg-gray-100">
@@ -157,9 +158,17 @@ function Layout({ children }: { children: any }) {
         </>
       )}
       {deviceDetect !== undefined && ismob !== "undefined" ? (
-        <div className="flex w-full justify-center">{children}</div>
+        <div className="flex w-full justify-center min-h-screen">
+          {children}
+        </div>
       ) : (
         <></>
+      )}
+
+      {ismob === "true" ? (
+        <footer className="footer-mobile"></footer>
+      ) : (
+        <FooterMain></FooterMain>
       )}
     </div>
   );

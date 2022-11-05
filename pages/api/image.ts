@@ -1,4 +1,5 @@
 import type { NextApiHandler } from "next";
+import { env } from "process";
 import sharp from "sharp";
 
 const imageHandler: NextApiHandler = async (request, response) => {
@@ -26,8 +27,8 @@ const imageHandler: NextApiHandler = async (request, response) => {
   try {
     const data = await sharp(
       (addressPrefix === "public"
-        ? "G:/gh/ecomerce-ts/ecommerce-ts/public/"
-        : "G:/gh/backend/") + request?.query?.path,
+        ? `${process?.env?.PUBLIC_IMAGE_LOCATION}`
+        : `${process?.env?.PRODUCT_IMAGE_LOCATION}`) + request?.query?.path,
       {
         failOnError: false,
       }

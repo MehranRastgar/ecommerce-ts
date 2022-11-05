@@ -16,6 +16,7 @@ import { SwiperItemType } from "../components/swiper/SwiperItem";
 import Swiper from "../components/swiper/Swiper";
 import ProductCategoriesContainer from "../components/products/ProductCategoriesContainer";
 import ProductSliderOne from "../components/products/ProductSliderOne";
+import CardPromotionOne from "../components/Cards/CardPromotionOne";
 // import { use } from 'react';
 const getLaptop: Search = {
   perPage: "12",
@@ -187,16 +188,37 @@ function Home({
             setting={{
               url: "/category/laptop",
               name: "فروش ویژه لپتاپ",
-              span: "مشاهده موارد مشابه",
+              span: "مشاهده این دسته",
               getOption: getLaptop,
             }}
+          />
+          <div className="h-10 w-full p-2"></div>
+          <CardPromotionOne
+            ImageSrc="/cardOne/logitech"
+            cardName="Logitech promotion"
+            Url="/brand/logitech"
+          />
+          <CardPromotionOne
+            ImageSrc="/cardOne/logitech"
+            cardName="Logitech promotion"
+            Url="/brand/logitech"
+          />
+          <CardPromotionOne
+            ImageSrc="/cardOne/logitech"
+            cardName="Logitech promotion"
+            Url="/brand/logitech"
+          />
+          <CardPromotionOne
+            ImageSrc="/cardOne/logitech"
+            cardName="Logitech promotion"
+            Url="/brand/logitech"
           />
           <div className="h-10 w-full p-2"></div>
           <ProductSliderOne
             setting={{
               url: "/category/laptop",
               name: " ویژه موبایل",
-              span: "مشاهده موارد مشابه",
+              span: "مشاهده این دسته",
               getOption: getMobile,
             }}
           />
@@ -205,7 +227,7 @@ function Home({
             setting={{
               url: "/category/laptop",
               name: "لپتاپ گیمینگ",
-              span: "مشاهده موارد مشابه",
+              span: "مشاهده این دسته",
               getOption: getLaptop2,
             }}
           />

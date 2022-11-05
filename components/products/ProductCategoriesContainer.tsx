@@ -30,7 +30,7 @@ export default function ProductCategoriesContainer() {
   }, [settingsStatus, settings]);
 
   return (
-    <div className="flex flex-wrap justify-center w-full font-Vazir-Medium">
+    <div className="flex flex-wrap justify-center w-full font-Vazir-Medium select-none">
       {settingsStatus === "idle" ? (
         <>
           {categories?.properties?.[0]?.properties?.map((catItem) => (

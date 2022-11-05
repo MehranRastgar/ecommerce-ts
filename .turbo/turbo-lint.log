@@ -5,9 +5,9 @@ info  - Loaded env from G:\gh\ecomerce-ts\ecommerce-ts\.env.local
 29:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./components/Layout.tsx
-57:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
-96:6  Warning: React Hook useEffect has a missing dependency: 'sizeComponent'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-115:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+58:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+97:6  Warning: React Hook useEffect has a missing dependency: 'sizeComponent'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+116:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./components/product/ProductCardOne.tsx
 43:6  Warning: React Hook useEffect has a missing dependency: 'minifyProduct?.color'. Either include it or remove the dependency array. If 'setColorState' needs the current value of 'minifyProduct.color', you can also switch to useReducer instead of useState and read 'minifyProduct.color' in the reducer.  react-hooks/exhaustive-deps

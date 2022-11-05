@@ -3,7 +3,7 @@ import imageLoader from "../../src/imageLoader";
 import Image from "next/image";
 import { FaSearchengin } from "react-icons/fa";
 import { BsForwardFill } from "react-icons/bs";
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { MobileUserTwinComponent } from "../search/MobileSearchComponent";
 export default function Header() {
   return (
@@ -26,18 +26,33 @@ export default function Header() {
   );
 }
 
+import Router, { useRouter } from "next/router";
+
+export async function GoSearch(searchString: string) {
+  if (searchString.length > 3) Router.push(`/search/?q=${searchString}`);
+  else console.log("لطفا حد اقل 4 حرف وارد کنید");
+}
+
 function SearchComponent() {
   const [searchModal, setSearchModal] = useState(false);
   const [divSize, setDivSize] = useState<string>("0");
+  const [searchString, setSearchString] = useState<string>("");
 
   const numb: string | undefined = String(
     document?.getElementById("mydiv")?.offsetWidth
   );
 
+  function enterChecker(key: string) {
+    if (key === "Enter") {
+      GoSearch(searchString);
+    }
+  }
+
   useEffect(() => {
     // console.log("numbnumbnumbnumb", numb);
+    console.log(searchString);
     if (numb) setDivSize(numb);
-  }, [numb]);
+  }, [numb, searchString]);
 
   return (
     <>
@@ -61,7 +76,11 @@ function SearchComponent() {
               : "bg-gray-200"
           }`}
         >
-          <FaSearchengin color={`#010101`} size={25} />
+          <FaSearchengin
+            onClick={() => GoSearch(searchString)}
+            color={`#010101`}
+            size={25}
+          />
           <div className="mx-2 py-4 border-r border-gray-600 h-[40] "></div>
           <input
             type={"search"}
@@ -70,6 +89,8 @@ function SearchComponent() {
               transition: "height 1.2s ease-in-out",
               outlineStyle: "none",
             }}
+            onKeyDown={(e) => enterChecker(e?.key ?? "nothing")}
+            onChange={(e) => setSearchString(e.target.value)}
             className={`flex w-1/3 focus:w-full  h-[40px] bg-transparent p-2 text-slate-600  ${
               searchModal === true ? "rounded-b-none z-[2]" : ""
             }`}
