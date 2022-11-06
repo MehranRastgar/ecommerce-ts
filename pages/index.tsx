@@ -199,12 +199,12 @@ function Home({
             Url="/brand/logitech"
           />
           <CardPromotionOne
-            ImageSrc="/cardOne/logitech"
+            ImageSrc="/cardOne/logitech2"
             cardName="Logitech promotion"
             Url="/brand/logitech"
           />
           <CardPromotionOne
-            ImageSrc="/cardOne/logitech"
+            ImageSrc="/cardOne/logitech2"
             cardName="Logitech promotion"
             Url="/brand/logitech"
           />

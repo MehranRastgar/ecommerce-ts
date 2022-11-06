@@ -29,7 +29,7 @@ export default function Header() {
 import Router, { useRouter } from "next/router";
 
 export async function GoSearch(searchString: string) {
-  if (searchString.length > 3) Router.push(`/search/?q=${searchString}`);
+  if (searchString.length > 3) Router.push(`/search/?q=${searchString}&page=1`);
   else console.log("لطفا حد اقل 4 حرف وارد کنید");
 }
 

@@ -93,7 +93,8 @@ export function Pagination({
     } else {
       setNextState("idle");
     }
-    setLastPage((total % 20 > 1 ? 1 : 0) + Math.round(total / 20) - 1);
+    setLastPage((total % 20 > 0 ? 1 : 0) + Math.trunc(total / 20));
+    console.log("lastpage", lastPage, total - page * 20);
   }
 
   useEffect(() => {
@@ -116,7 +117,7 @@ export function Pagination({
     // setPage(newPage);
     if (
       newPage < 1 ||
-      newPage > (total % 20 > 1 ? 1 : 0) + Math.round(total / 20) - 1
+      newPage > (total % 20 > 0 ? 1 : 0) + Math.trunc(total / 20)
     )
       return;
 
@@ -128,6 +129,9 @@ export function Pagination({
     router.push(`${router.pathname}${queryString}`);
     // router.push(router.asPath + encodeURI(router.query));
   }
+
+  const paginationNumberStyle =
+    "h-fit rounded-full p-2 px-3 text-black bg-white border mx-2";
 
   return (
     <div className="flex items-center my-4 font-Vazir-Medium">
@@ -142,67 +146,71 @@ export function Pagination({
       >
         <MdSkipNext size={30} />
       </button>
-      {page === lastPage ? (
-        <>
+      <div className="flex justify-center w-[200px] overflow-hidden">
+        {page === lastPage && page > 2 ? (
+          <>
+            <div
+              onClick={(e) => {
+                changeRouteAndPage(1);
+              }}
+              className={paginationNumberStyle + " cursor-pointer"}
+            >
+              1
+            </div>
+            <div className="h-fit rounded-full p-2 px-3 text-black bg-white  mx-2 ">
+              ...
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
+        {prevState === "idle" ? (
           <div
             onClick={(e) => {
-              changeRouteAndPage(1);
+              changeRouteAndPage(page - 1);
             }}
-            className="h-fit rounded-full p-2 px-3 text-black bg-white border mx-2 cursor-pointer"
+            className={paginationNumberStyle + " cursor-pointer"}
           >
-            1
+            {page - 1}
           </div>
-          <div className="h-fit rounded-full p-2 px-3 text-black bg-white  mx-2 ">
-            ...
-          </div>
-        </>
-      ) : (
-        <></>
-      )}
-      {prevState === "idle" ? (
+        ) : (
+          <></>
+        )}
         <div
-          onClick={(e) => {
-            changeRouteAndPage(page - 1);
-          }}
-          className="h-fit rounded-full p-2 px-3 text-black bg-white border mx-2 cursor-pointer"
+          className={
+            "h-fit rounded-full p-2 px-3 text-white bg-slate-600 border mx-2 cursor-pointer"
+          }
         >
-          {page - 1}
+          {page}
         </div>
-      ) : (
-        <></>
-      )}
-      <div className="h-fit rounded-full p-2 px-3 text-white bg-slate-500 border mx-2 cursor-pointer">
-        {page}
+        {nextState === "idle" && lastPage !== page + 1 ? (
+          <div
+            onClick={(e) => {
+              changeRouteAndPage(page + 1);
+            }}
+            className={paginationNumberStyle + " cursor-pointer"}
+          >
+            {page + 1}
+          </div>
+        ) : (
+          <></>
+        )}
+        {nextState === "idle" ? (
+          <>
+            <div className={paginationNumberStyle}>...</div>
+            <div
+              onClick={(e) => {
+                if (lastPage !== undefined) changeRouteAndPage(lastPage);
+              }}
+              className={paginationNumberStyle + " cursor-pointer"}
+            >
+              {lastPage === undefined ? "" : lastPage}
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
-      {nextState === "idle" && lastPage !== page + 1 ? (
-        <div
-          onClick={(e) => {
-            changeRouteAndPage(page + 1);
-          }}
-          className="h-fit rounded-full p-2 px-3 text-black bg-white border mx-2 cursor-pointer"
-        >
-          {page + 1}
-        </div>
-      ) : (
-        <></>
-      )}
-      {nextState === "idle" ? (
-        <>
-          <div className="h-fit rounded-full p-2 px-3 text-black bg-white mx-2 ">
-            ...
-          </div>
-          <div
-            onClick={(e) => {
-              if (lastPage !== undefined) changeRouteAndPage(lastPage);
-            }}
-            className="h-fit rounded-full p-2 px-3 text-black bg-white border mx-2 cursor-pointer"
-          >
-            {lastPage === undefined ? "" : lastPage}
-          </div>
-        </>
-      ) : (
-        <></>
-      )}
       <button
         onClick={(e) => {
           changeRouteAndPage(page + 1);
