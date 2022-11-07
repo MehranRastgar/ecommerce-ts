@@ -82,10 +82,14 @@ export default function ProductSliderOne({ setting }: { setting: any }) {
     // getProductData({ setMinifyProducts, data });
   }, [data]);
   return (
-    <div className="product-slider-one-container">
+    <div className="product-slider-one-container ">
       {/* <div className="product-slider-one-items flex"> */}
-      <ScrollContainer className="scroll-container product-slider-one-items overflow-y-hidden">
-        <div className="bg-transparent font-Vazir-Bold w-full min-w-[140px] m-4 rounded-lg flex flex-wrap items-center justify-center p-2">
+      <ScrollContainer
+        vertical={false}
+        hideScrollbars={false}
+        className="scroll-container h-fit product-slider-one-items overflow-y-hidden "
+      >
+        <div className="bg-transparent h-fit font-Vazir-Bold w-full min-w-[140px] m-4 rounded-lg flex flex-wrap items-center justify-center p-2">
           <div className="text-[20px] text-gray-300 text-center">
             {setting?.name}
           </div>
