@@ -379,3 +379,32 @@ a:link {
   margin: 0;
   transition: transform 0.5s ease-out;
 } */
+.fade-anim-image img {
+  animation: fadeAnim2 0.8s ease-in-out;
+}
+@keyframes fadeAnim2 {
+  from {
+    filter: blur(50px) grayscale(100%);
+  }
+  to {
+    filter: blur(0px) grayscale(0%);
+  }
+}
+
+.fade-anim {
+  animation: fadeAnim 0.5s ease-in;
+}
+@keyframes fadeAnim {
+  from {
+    filter: blur(18px);
+    opacity: 50%;
+  }
+  to {
+    filter: blur(0px);
+    opacity: 100%;
+  }
+}
+
+.ltr-support {
+  direction: ltr;
+}

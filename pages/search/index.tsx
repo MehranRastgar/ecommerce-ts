@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { FaSearchengin } from "react-icons/fa";
 import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useSWR, { SWRConfiguration } from "swr";
 import {
   GetProductsArray,
@@ -24,15 +24,24 @@ export default function SearchPage({
   products: MinifyProduct[] | null;
   total: number;
 }) {
+  const slideRef = useRef<HTMLInputElement>(null);
+
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [totalProducts, setTotalProducts] = useState<number>(total);
-
   const router = useRouter();
 
+  function fadeAnimation() {
+    slideRef?.current?.classList?.add("fade-anim");
+    setTimeout(() => {
+      slideRef?.current?.classList?.remove("fade-anim");
+    }, 300);
+  }
   useEffect(() => {
+    fadeAnimation();
     setTotalProducts(total);
-    if (router?.query?.page !== undefined)
+    if (router?.query?.page !== undefined) {
       setPageNumber(Number(router.query.page));
+    }
   }, [products, total]);
 
   return (
@@ -51,7 +60,7 @@ export default function SearchPage({
             setPage={setPageNumber}
           />
         </div>
-        <div className="flex justify-center w-full">
+        <div ref={slideRef} className="flex justify-center w-full">
           <div className="flex flex-wrap justify-center w-9/12">
             {products?.map((product) => (
               <>
@@ -74,14 +83,23 @@ export function Pagination({
   page: number;
   setPage: any;
 }) {
+  const slideRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const [lastPage, setLastPage] = useState<number>();
+  // const [mounted, setMounted] = useState<boolean>(false);
   const [prevState, setPrevState] = useState<"idle" | "off" | "loading">(
     "loading"
   );
   const [nextState, setNextState] = useState<"idle" | "off" | "loading">(
     "loading"
   );
+
+  function fadeAnimation() {
+    slideRef?.current?.classList?.add("fade-anim");
+    setTimeout(() => {
+      slideRef?.current?.classList?.remove("fade-anim");
+    }, 300);
+  }
   function changeState() {
     if (page === 1) {
       setPrevState("off");
@@ -120,18 +138,21 @@ export function Pagination({
       newPage > (total % 20 > 0 ? 1 : 0) + Math.trunc(total / 20)
     )
       return;
-
     router.query["page"] = newPage.toString();
-    console.log(router.query);
+    // console.log(router.query);
     const queryString: string = await convertObjectToParam(router.query);
-    console.log(router);
+    // console.log(router);
 
     router.push(`${router.pathname}${queryString}`);
+    fadeAnimation();
+
+    // setTimeout(() => setMounted(true), 500);
+
     // router.push(router.asPath + encodeURI(router.query));
   }
 
   const paginationNumberStyle =
-    "h-fit rounded-full p-2 px-3 text-black bg-white border mx-2";
+    "h-fit rounded-full p-2 px-3 text-black bg-white border mx-2 ";
 
   return (
     <div className="flex items-center my-4 font-Vazir-Medium">
@@ -146,7 +167,12 @@ export function Pagination({
       >
         <MdSkipNext size={30} />
       </button>
-      <div className="flex justify-center w-[200px] overflow-hidden">
+      <div
+        ref={slideRef}
+        className={
+          "flex justify-center w-[200px] overflow-hidden transition-all duration-500 ease-out"
+        }
+      >
         {page === lastPage && page > 2 ? (
           <>
             <div
@@ -178,7 +204,7 @@ export function Pagination({
         )}
         <div
           className={
-            "h-fit rounded-full p-2 px-3 text-white bg-slate-600 border mx-2 cursor-pointer"
+            "h-fit rounded-full p-2 px-3 text-white bg-slate-600 border mx-2 cursor-pointer fade-anim"
           }
         >
           {page}
@@ -200,7 +226,9 @@ export function Pagination({
             <div className={paginationNumberStyle}>...</div>
             <div
               onClick={(e) => {
-                if (lastPage !== undefined) changeRouteAndPage(lastPage);
+                if (lastPage !== undefined) {
+                  changeRouteAndPage(lastPage);
+                }
               }}
               className={paginationNumberStyle + " cursor-pointer"}
             >

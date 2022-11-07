@@ -5,7 +5,7 @@ import imageLoader from "../../src/imageLoader";
 import { Color, MinifyProduct } from "../../src/types/types";
 import { useSelector } from "react-redux";
 import { selectDeviceType } from "../../src/store/slices/themeSlice";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 // import reactQuer
 const tooman = "تومان";
 const tamas = "جهت اطلاع از قیمت تماس بگیرید";
@@ -143,6 +143,15 @@ export default function ProductCardOne({
             className=" rounded-xl"
             loader={imageLoader}
             unoptimized
+            blurDataURL={imageAddress(
+              minifyProduct?.image,
+              10,
+              10,
+              50,
+              "webp",
+              undefined
+            )}
+            placeholder="blur"
             loading="eager"
             unselectable="on"
             draggable="false"
