@@ -310,6 +310,27 @@ export interface SignUpRequest {
 export interface OtpRequest {
   usernamebyphone: number;
 }
+
+export interface SignInResponse {
+  _id?: ID;
+  usernamebyphone?: number;
+  firstname?: string;
+  lastname?: string;
+  createdAt?: AtedAt;
+  updatedAt?: AtedAt;
+  __v?: number;
+  nationalId?: string;
+  viewCounter?: number;
+  addresses?: Address[];
+  cart?: Cart[];
+  PrimaryAddressNumber?: number;
+  accessToken: string;
+}
+export interface SignInRequest {
+  usernamebyphone: number;
+  code: number;
+}
+
 export interface ClientType {
   info: Client;
   status: "loading" | "success" | "403" | "401" | "unknownError";
@@ -328,6 +349,7 @@ export interface Client {
   addresses?: Address[];
   cart?: Cart[];
   PrimaryAddressNumber?: number;
+  accessToken?: string;
 }
 
 export interface ID {

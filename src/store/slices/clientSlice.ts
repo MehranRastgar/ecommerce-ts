@@ -1,10 +1,17 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchClient, requestSms } from "../api/clientApi";
+import { fetchClient, requestSms, signIn } from "../api/clientApi";
 
 import type { AppState, AppThunk } from "../store";
 // import { fetchCount } from './../counterAPI'
-import type { Client, OtpRequest, SignUpRequest } from "../../types/types";
+import type {
+  Client,
+  OtpRequest,
+  SignInRequest,
+  SignInResponse,
+  SignUpRequest,
+} from "../../types/types";
 import axios, { AxiosResponse } from "axios";
+import { ActionsFromAsyncThunk } from "@reduxjs/toolkit/dist/matchers";
 
 export interface ClientState {
   value: Client;
@@ -34,16 +41,17 @@ const initialState: ClientState = {
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched. Thunks are
 // typically used to make async requests.
-export const getclientAsync = createAsyncThunk(
-  "client/fetchClient",
-  async (clientId: string) => {
+export const signInAction = createAsyncThunk(
+  "client/signIn",
+  async (signInReq: SignInRequest) => {
     const response:
       | Client
       | {
           error: {
             errorCode: any;
           };
-        } = await fetchClient(clientId);
+        } = await signIn(signInReq.usernamebyphone, signInReq.code);
+
     // The value we return becomes the `fulfilled` action payload
     return response;
   }
@@ -93,13 +101,13 @@ export const clientSlice = createSlice({
     // signIn: (state) => {},
     refreshToken: (state) => {},
 
-    // setMobile: (state, action: PayloadAction<number>) => {
-    //   // Redux Toolkit allows us to write "mutating" logic in reducers. It
-    //   // doesn't actually mutate the state because it uses the Immer library,
-    //   // which detects changes to a "draft state" and produces a brand new
-    //   // immutable state based off those changes
-    //   state.value.usernamebyphone = action.payload;
-    // },
+    setMobileNumber: (state, action: PayloadAction<number>) => {
+      // Redux Toolkit allows us to write "mutating" logic in reducers. It
+      // doesn't actually mutate the state because it uses the Immer library,
+      // which detects changes to a "draft state" and produces a brand new
+      // immutable state based off those changes
+      state.value.usernamebyphone = action.payload;
+    },
     // setUserInfo: (state, action: PayloadAction<Client>) => {
     //   state.value = action.payload;
     // },
@@ -123,15 +131,28 @@ export const clientSlice = createSlice({
         state.signInFlag = "loading";
       })
       .addCase(signInRequestAsync.fulfilled, (state, action) => {
-        state.signInFlag = "success";
+        state.signInFlag = "request";
       })
       .addCase(signInRequestAsync.rejected, (state, action) => {
+        state.signInFlag = "smsProviderError";
+      })
+      .addCase(signInAction.pending, (state) => {
+        state.signInFlag = "smsWaiting";
+      })
+      .addCase(
+        signInAction.fulfilled,
+        (state, action: PayloadAction<Client | any>) => {
+          state.value = action.payload;
+          state.signInFlag = "success";
+        }
+      )
+      .addCase(signInAction.rejected, (state, action) => {
         state.signInFlag = "smsCodeError";
       });
   },
 });
 
-export const { signInRequest } = clientSlice.actions;
+export const { signInRequest, setMobileNumber } = clientSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

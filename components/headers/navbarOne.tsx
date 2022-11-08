@@ -67,8 +67,17 @@ export default function NavbarOne({
               <GiHamburgerMenu size={20} />
               <span className="mr-2">دسته بندی ها</span>
             </Link>
-            {openCategorieMenu === true ? <CategoriesMenuWindow /> : <></>}
-
+            <div
+              style={{
+                transition: "all 300ms ease-in-out",
+                width: `${openCategorieMenu === true ? "66%" : "0%"}`,
+                height: `${openCategorieMenu === true ? "66%" : "0%"}`,
+                zIndex: "2",
+              }}
+              className="fixed mr-[90px] flex w-2/3 bg-white h-2/3 rounded-b-xl   mt-[39px]  right-0  z-50"
+            >
+              {openCategorieMenu === true ? <CategoriesMenuWindow /> : <></>}
+            </div>
             {openCategorieMenu === true ? (
               <div
                 onMouseEnter={() => {
@@ -174,22 +183,10 @@ export function CategoriesMenuWindow() {
     }
   }, [settingsStatus, settings]);
 
-  const [drop, setDrop] = useState<boolean>(false);
-  useEffect(() => {
-    setTimeout(() => {
-      setDrop(true);
-    }, 50);
-  }, []);
+  const [drop, setDrop] = useState<boolean>(true);
+  useEffect(() => {}, []);
   return (
-    <div
-      style={{
-        transition: "all 300ms ease-in-out",
-        width: `${drop === true ? "66%" : "0%"}`,
-        height: `${drop === true ? "66%" : "0%"}`,
-        zIndex: "2",
-      }}
-      className="fixed mr-[90px] flex w-2/3 bg-white h-2/3 rounded-b-xl   mt-[39px]  right-0  z-50"
-    >
+    <>
       {settingsStatus === "idle" ? (
         <>
           <div className="border-l-2">
@@ -256,6 +253,6 @@ export function CategoriesMenuWindow() {
       ) : (
         <></>
       )}
-    </div>
+    </>
   );
 }

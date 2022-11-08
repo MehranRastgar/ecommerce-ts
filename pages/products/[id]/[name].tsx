@@ -29,19 +29,10 @@ export default function ProductPage({ product }: { product: Product | null }) {
     <>
       <ProductHeadComponent product={product} />
       <div className="flex flex-wrap w-full min-w-screen h-auto justify-start ">
-        {/* is ok{product?._id} */}
-        {/* <ClickBar product={product} /> */}
-        <div
-          id="main"
-          className="flex w-full md:w-2/6  items-start justify-center p-2 link"
-          key={product?._id ?? "idone"}
-        >
+        <div className="flex w-full md:w-2/6  items-start justify-center p-2 ">
           <ProductImageComponent productData={product} />
         </div>
-        <div
-          className="flex flex-wrap h-auto items-start justify-center w-full md:w-4/6  p-2"
-          key={product?._id ?? "idone"}
-        >
+        <div className="flex flex-wrap h-auto items-start justify-center w-full md:w-4/6  p-2">
           <Title name={product.main.title_fa} />
           <ProductInfoSection product={product} />
         </div>

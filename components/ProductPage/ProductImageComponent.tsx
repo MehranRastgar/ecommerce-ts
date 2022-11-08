@@ -21,20 +21,20 @@ export default function ProductImageComponent({
     }, 500);
   }
 
-  function Submit(command: "next" | "prev") {
-    if (command == "next") {
-      fadeAnimation();
-      if (tab < productData?.main?.images.length - 1) {
-        setTab(tab + 1);
-      } else setTab(0);
+  // function Submit(command: "next" | "prev") {
+  //   if (command == "next") {
+  //     fadeAnimation();
+  //     if (tab < productData?.main?.images.length - 1) {
+  //       setTab(tab + 1);
+  //     } else setTab(0);
 
-      return;
-    } else if (command == "prev") {
-      fadeAnimation();
-      if (tab > 0) setTab(tab - 1);
-      return;
-    }
-  }
+  //     return;
+  //   } else if (command == "prev") {
+  //     fadeAnimation();
+  //     if (tab > 0) setTab(tab - 1);
+  //     return;
+  //   }
+  // }
 
   return (
     <>
@@ -66,7 +66,7 @@ export default function ProductImageComponent({
               )}
             </>
           ) : (
-            <br></br>
+            <></>
           )}
         </div>
         <div className="flex justify-center border-b items-center mt-2">

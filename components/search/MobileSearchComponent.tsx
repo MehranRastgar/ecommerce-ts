@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaSearchengin, FaUserCheck, FaUserAltSlash } from "react-icons/fa";
 import { BsForwardFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
@@ -6,6 +6,7 @@ import MobileUserBag from "../cart/MobileUserBag";
 import { Client } from "../../src/types/types";
 import { useAppSelector } from "../../src/store/hooks";
 import { selectUserInfo } from "../../src/store/slices/clientSlice";
+import Link from "next/link";
 
 export default function MobileSearchComponent() {
   return (
@@ -73,30 +74,80 @@ export function MobileUserTwinComponent() {
 
 function MobileUserProfile() {
   const [userCheck, setUserCheck] = useState<string | undefined>(undefined);
-  const uerInfo: Client = useAppSelector(selectUserInfo);
+  const userInfo: Client = useAppSelector(selectUserInfo);
+  const [drop, setDrop] = useState<boolean>(false);
+  const profileElement = useRef<HTMLDivElement>(null);
+  const numb: string | undefined = String(
+    document?.getElementById("user-profile")?.offsetLeft
+  );
 
   useEffect(() => {
-    setUserCheck(uerInfo?.firstname);
-  }, [uerInfo?.firstname]);
+    setUserCheck(userInfo?.firstname);
+  }, [userInfo?.firstname, numb]);
   return (
     <div className="w-1/2">
       {userCheck === undefined ? (
-        <button className="flex flex-wrap border rounded-xl p-1 text-xs md:text-sm font-Vazir-Medium ">
-          <div className="flex border-b">ورود</div>{" "}
-          <span className="flex">ثبت نام</span>
-        </button>
-      ) : (
-        <div className="inline-flex  w-full">
-          <button className="inline-flex p-2">
-            <div className="flex ">
-              <FaUserCheck color="#48424966" size={30} />
-            </div>
-            <span className="-mr-8 mt-6 inline-flex items-center justify-center px-2 py-1 text-[8px] font-bold leading-none text-gray-600 bg-transparent rounded-full">
-              {uerInfo?.firstname}
-            </span>
+        <Link href="/client/login">
+          <button className="flex flex-wrap border rounded-xl p-1 text-xs md:text-sm font-Vazir-Medium ">
+            <div className="flex border-b">ورود</div>{" "}
+            <span className="flex">ثبت نام</span>
           </button>
-          {/* <h4 className='flex w-full -mt-4'>mehran</h4> */}
-        </div>
+        </Link>
+      ) : (
+        <Link href={"/client/profile"}>
+          <div
+            id="user-profile"
+            ref={profileElement}
+            onMouseEnter={() => {
+              setDrop(true);
+            }}
+            onMouseLeave={() => {
+              setDrop(false);
+            }}
+            className="inline-flex justify-end w-full"
+          >
+            <button className="inline-flex p-2">
+              <div className="flex">
+                <FaUserCheck color="#48424966" size={30} />
+              </div>
+              <span className="-mr-8 mt-6 inline-flex items-center justify-center px-2 py-1 text-[8px] font-bold leading-none text-gray-600 bg-transparent rounded-full">
+                {userInfo?.firstname}
+              </span>
+            </button>
+            <div
+              style={{
+                transition: "all 300ms ease-in-out",
+                width: `${drop === true ? "300px" : "0%"}`,
+                height: `${drop === true ? "300px" : "0%"}`,
+                zIndex: "2",
+              }}
+              className={`fixed mt-[30px] pt-4  ml-[0px] flex w-[300px] bg-transparent h-[300px] z-50 overflow-hidden`}
+            >
+              <div className="border border-t-0 rounded-xl mx-4 bg-white h-full w-full ">
+                <div className="flex justify-start p-4 w-full h-4 font-Vazir-Medium">
+                  <span className="mx-2">نام :</span>
+                  {userInfo.firstname}
+                </div>
+                <div className="flex justify-start p-4 w-full h-4 font-Vazir-Medium">
+                  <span className="mx-2">نام خانوادگی :</span>
+                  {userInfo.lastname}
+                </div>
+                <div className="flex justify-start p-4 w-full h-4 font-Vazir-Medium">
+                  <span className="mx-2">شماره :</span>
+                  {0}
+                  {userInfo.usernamebyphone}
+                </div>
+                <div className="flex flex-wrap justify-start p-4 w-full h-4 font-Vazir-Medium">
+                  <span className="m-2">آدرس انتخابی :</span>
+                  {
+                    userInfo?.addresses?.[userInfo.PrimaryAddressNumber ?? 0]
+                      .address_compact
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </Link>
       )}
     </div>
   );

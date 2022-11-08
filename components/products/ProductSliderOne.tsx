@@ -170,7 +170,7 @@ export function ProductSliderItem({
     >
       <Link
         key={"click-on-product"}
-        href={`products/${minifyProduct?._id}/${(
+        href={`/products/${minifyProduct?._id}/${(
           minifyProduct?.title_fa ?? minifyProduct?.sku
         )?.replaceAll(" ", "-")}`}
         className=" flex  flex-wrap justify-center items-start 	w-full m-2"

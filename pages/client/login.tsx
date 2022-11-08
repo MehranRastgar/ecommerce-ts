@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 // import ButtonTimer from "src/components/buttonTimer/buttonTimer.js";
 // import { REGISTER_ENDPOINTS } from "/src/utils/constants/endpoints";
 import axios from "axios";
@@ -14,8 +14,12 @@ import {
   selectSignInFlag,
   signInRequest,
   signInRequestAsync,
+  signInAction,
+  setMobileNumber,
+  selectMobileNumber,
 } from "../../src/store/slices/clientSlice";
-import { OtpRequest } from "../../src/types/types";
+import { OtpRequest, SignInRequest } from "../../src/types/types";
+
 // import { useCookies } from "react-cookie";
 
 // const UserM = new UserManagement();
@@ -30,66 +34,55 @@ const aStyle = "mx-5";
 export default function Login() {
   const dipatch = useAppDispatch();
   const signInFlag = useAppSelector(selectSignInFlag);
-  //   const {
-  //     user: [user],
-  //     CART: [CART],
-  //     useAlert: [useAlert, setUseAlert],
-  //   } = useContext(UserContext);
-
+  const SelectMobile = useAppSelector(selectMobileNumber);
   const router = useRouter();
   const [isSuccess, setIsSuccess] = useState(false);
   const [returnUrl, setReturnUrl] = useState<string>();
   const [loadingLogin, setLoadingLogin] = useState(false);
-  // const [cookies, setCookie] = useCookies(["access_token"]);
   const [isLoading, setIsLoading] = useState(false);
+  const [otpCode, setOtpCode] = useState(0);
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const phone = useRef<string>();
 
-  const AlertCreator = async () => {
-    // setUseAlert({
-    //   alert: true,
-    //   color: "green",
-    //   message: "این قسمت به زودی فعال میشود",
-    //   title: " ",
-    // });
-  };
-
+  async function loginUser() {
+    if (otpCode !== 0 && SelectMobile !== undefined) {
+      const signIn: SignInRequest = {
+        code: otpCode,
+        usernamebyphone: SelectMobile,
+      };
+      dipatch(signInAction(signIn)); //signIn api call
+    } else {
+      console.log("please write code");
+    }
+  }
   async function sendOtp() {
-    // alert(`So your name is ${document.getElementById("phoneNumber").value}?`);
-    const getConfig = {
-      headers: {
-        "Cache-Control": "no-cache",
-        "Content-Type": "application/json;charset=UTF-8",
-        Accept: "*/*",
-      },
-    };
-
-    const PhoneNum: HTMLElement | null =
-      document?.getElementById("phoneNumber");
-    if (PhoneNum?.value !== null && PhoneNum?.value !== undefined)
-      setPhoneNumber(PhoneNum?.value);
-
     if (isValid(phoneNumber)) {
-      // let resp = await axios.get(OTPuri, getConfig);
       const signIn: OtpRequest = {
         usernamebyphone: Number(phoneNumber),
       };
       console.log(signIn);
-      dipatch(signInRequestAsync(signIn));
+      setIsLoading(true);
+      setErrorMessage("");
+      dipatch(signInRequestAsync(signIn)); //otp api call
+      dipatch(setMobileNumber(signIn.usernamebyphone));
     } else {
       console.log("invalid number");
       console.log(phoneNumber);
-
+      setErrorMessage("شماره وارد شده صحیح نمیباشد");
       setIsLoading(false);
     }
   }
+
   function isValid(p: string) {
     var phoneRe = /^[0-9]\d{3}[0-9]\d{2}\d{4}$/;
     var digits = p.replace(/\D/g, "");
     return phoneRe.test(digits);
   }
+
   useEffect(() => {
     console.log("signInFlag====>", signInFlag);
-    if (signInFlag === "success") {
+    if (signInFlag === "smsWaiting") {
       setIsLoading(false);
       setIsSuccess(true);
     }
@@ -99,8 +92,23 @@ export default function Login() {
     if (signInFlag !== "loading") {
       setIsLoading(false);
     }
-    // setReturnUrl(router?.query?.returnUrl ?? "/");
-  }, [signInFlag, isLoading]);
+    if (errorMessage.length > 3) {
+      if (isValid(phoneNumber)) {
+        setErrorMessage("فرمت شماره درست مبباشد");
+      } else {
+        setErrorMessage("شماره وارد شده صحیح نمیباشد");
+      }
+    }
+    if (signInFlag === "success") {
+      setTimeout(() => {
+        if (router.query.returnUrl !== undefined) {
+          Router.push(`/${returnUrl}`);
+        } else {
+          Router.push(`/`);
+        }
+      }, 1500);
+    }
+  }, [signInFlag, isLoading, phoneNumber]);
 
   return (
     <>
@@ -109,53 +117,24 @@ export default function Login() {
         <title>ورود / ثبت نام</title>
         <meta name="description" content=""></meta>
       </Head>
-      <section className="flex justify-center min-h-screen h-full gradient-form items-center bg-white w-full md:h-screen">
-        <div className="border m-2 mt-20 w-full md:w-3/4 lg:w-1/2 xl:w-1/3 2xl:w-1/3 3xl:w-1/4 rounded-xl shadow-lg overflow-hidden h-fit -translate-y-36 ">
-          <header className="p-4 flex justify-center w-full bg-cyan-400 border-b font-bold font-Vazirmatn text-3xl text-white text-center">
+      <section className="flex bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 justify-center min-h-screen h-full gradient-form items-center  w-full md:h-screen">
+        <div className="bg-white max-w-[400px] border m-2 mt-20 w-full md:w-3/4 lg:w-1/2 xl:w-1/3 2xl:w-1/3 3xl:w-1/4 rounded-xl shadow-lg overflow-hidden h-fit -translate-y-36 font-Vazir-Medium">
+          <header className="p-4 flex justify-center w-full bg-cyan-400 border-b  text-xl text-white text-center">
             ثبت نام / ورود
           </header>
-          {!isSuccess ? (
+          {signInFlag === "request" || signInFlag === "smsWaiting" ? (
             <>
-              <div className="m-4 p-5 flex font-bold font-Vazirmatn text-xl text-black text-center">
-                جهت ثبت نام یا ورود شماره موبایل خود را وارد کنید
-              </div>
-              <div className="m-4 p-5 flex font-bold font-Vazirmatn text-lg text-gray-400 text-center">
-                و در ادامه کد پیامک شده را وارد نمایید
-              </div>
-              <div className=" flex flex-wrap justify-center w-full ">
-                <div className="m-4 mb-0 pb-0 p-3 flex w-full justify-center center text-center  font-bold font-Vazirmatn ">
-                  فقط شماره موبایل{" "}
-                </div>
-                <input
-                  pattern="[0-9]{4}[0-9]{3}[0-9]{4}"
-                  id="phoneNumber"
-                  type={"tel"}
-                  className="  m-4 p-3 w-1/2 rounded-lg border flex justify-center rtl"
-                  placeholder="*******0912"
-                ></input>
-                <div className="flex justify-center w-full">
-                  <button
-                    onClick={(event) => {
-                      setIsLoading(true);
-                      sendOtp();
-                    }}
-                    className=" mb-4 rounded-lg p-4 font-bold font-Vazirmatn text-white bg-cyan-400 text-xl"
-                  >
-                    {isLoading ? loadingSvg : "دریافت کد"}
-                  </button>
-                </div>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="m-4 p-5 flex font-bold font-Vazirmatn text-xl text-black text-center">
+              <div className="m-4 p-5 flex  text-xl text-black text-center">
                 کد اعتبار سنجی برای شما ارسال شد در صورت دریافت وارد نمایید
               </div>
               <div className=" flex flex-wrap justify-center w-full ">
-                <div className="m-4 mb-0 pb-0 p-3 flex w-full justify-center center text-center  font-bold font-Vazirmatn ">
+                <div className="m-4 mb-0 pb-0 p-3 flex w-full justify-center center text-center   ">
                   {phoneNumber}
                 </div>
                 <input
+                  onChange={(e) => {
+                    setOtpCode(Number(e.target.value));
+                  }}
                   type="string"
                   className="  m-4 p-3 w-1/2 rounded-lg border flex justify-center rtl"
                   placeholder="******"
@@ -167,13 +146,80 @@ export default function Login() {
                       setIsLoading(true);
                       loginUser();
                     }}
-                    className=" mb-4 rounded-lg p-4 font-bold font-Vazirmatn text-white bg-cyan-400 text-xl"
+                    className=" mb-4 rounded-lg p-4  text-white bg-cyan-400 text-xl"
                   >
                     تایید
                   </button>
                 </div>
               </div>
             </>
+          ) : (
+            <></>
+          )}
+          {signInFlag === "idle" ? (
+            <>
+              <div className="m-4 p-5 flex  text-xl text-blackout-black text-center">
+                جهت ثبت نام یا ورود شماره موبایل خود را وارد کنید
+              </div>
+              <div className="m-4 p-5 flex  text-lg text-gray-400 text-center">
+                و در ادامه کد پیامک شده را وارد نمایید
+              </div>
+              <div className=" flex flex-wrap justify-center w-full ">
+                <div className="m-4 mb-0 pb-0 p-3 flex w-full justify-center center text-center   ">
+                  فقط شماره موبایل{" "}
+                </div>
+                <input
+                  // ref={phone}
+                  pattern="[0-9]{4}[0-9]{3}[0-9]{4}"
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  id="phoneNumber"
+                  type={"tel"}
+                  className="  m-4 p-3 w-1/2 rounded-lg border flex justify-center rtl"
+                  placeholder="*******0912"
+                ></input>
+                <div className="flex justify-center w-full">
+                  <button
+                    onClick={(event) => {
+                      setIsLoading(true);
+                      sendOtp();
+                    }}
+                    className=" mb-4 rounded-lg p-4  text-white bg-cyan-400 text-xl"
+                  >
+                    {isLoading ? loadingSvg : "دریافت کد"}
+                  </button>
+                </div>
+                <div
+                  className={
+                    errorMessage === "فرمت شماره درست مبباشد"
+                      ? "text-wipro-green"
+                      : "text-blackout-red"
+                  }
+                >
+                  {errorMessage}
+                </div>
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
+          {signInFlag === "success" ? (
+            <>
+              <div className="h-48 bg-slate-900 text-brand-green p-5 flex justify-center items-center text-3xl text-center">
+                ورود موفقیت آمیز!
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
+
+          {signInFlag === "loading" ? (
+            <>
+              <div className="h-48 bg-slate-900 text-brand-green p-5 flex justify-center items-center text-3xl text-center">
+                {loadingSvg}
+              </div>
+            </>
+          ) : (
+            <></>
           )}
         </div>
       </section>

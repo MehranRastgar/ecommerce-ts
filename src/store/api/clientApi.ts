@@ -51,3 +51,37 @@ export async function requestSms(
     }
   }
 }
+export async function signIn(
+  phoneNumber: number,
+  code: number
+): Promise<any | { error: { errorCode: any } }> {
+  // let clientid = localStorage.getItem("clientId");
+  // console.log(clientid);
+  // state.signInFlag = "request";
+
+  const getConfig = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Content-Type": "application/json;charset=UTF-8",
+      Accept: "*/*",
+    },
+  };
+  const uri: string =
+    "/api/signin?" + `PhoneNumber=${phoneNumber}&code=${code}`;
+  try {
+    const { data, status } = await axios.get(uri, getConfig);
+    // .then((Response: AxiosResponse) => {
+    //   console.log("sms sended:", Response.data);
+    //   if (Response.status < 300) state.signInFlag = "smsWaiting";
+    // })
+    // .catch((err) => {
+    //   state.signInFlag = "smsProviderError";
+    // });
+    const result: any = data;
+    return result;
+  } catch (err: any | AxiosError) {
+    {
+      return { error: { errorCode: JSON.stringify(err) } };
+    }
+  }
+}
