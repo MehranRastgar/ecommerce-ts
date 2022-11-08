@@ -301,6 +301,20 @@ export interface L1 {
   url?: string;
 }
 //--------------------------------------------------------------------
+export interface SignUpRequest {
+  usernamebyphone: number;
+  firstname: string;
+  lastname: string;
+  nationalId?: string;
+}
+export interface OtpRequest {
+  usernamebyphone: number;
+}
+export interface ClientType {
+  info: Client;
+  status: "loading" | "success" | "403" | "401" | "unknownError";
+}
+
 export interface Client {
   _id?: ID;
   usernamebyphone?: number;
