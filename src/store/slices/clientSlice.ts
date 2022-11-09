@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchClient, requestSms, signIn } from "../api/clientApi";
+import { checkSignIn, fetchClient, requestSms, signIn } from "../api/clientApi";
 
 import type { AppState, AppThunk } from "../store";
 // import { fetchCount } from './../counterAPI'
 import type {
   Client,
   OtpRequest,
+  SignInCheck,
   SignInRequest,
   SignInResponse,
   SignUpRequest,
@@ -73,6 +74,21 @@ export const signInRequestAsync = createAsyncThunk(
   }
 );
 
+export const signInCheck = createAsyncThunk("client/checkSignIn", async () => {
+  const response:
+    | Client
+    | {
+        error: {
+          errorCode: any;
+        };
+      } = await checkSignIn(
+    String(localStorage?.getItem("user-id")),
+    String(localStorage?.getItem("accessToken"))
+  );
+  console.log("response thunk", response);
+  return response;
+});
+
 export const clientSlice = createSlice({
   name: "client",
   initialState,
@@ -108,9 +124,7 @@ export const clientSlice = createSlice({
       // immutable state based off those changes
       state.value.usernamebyphone = action.payload;
     },
-    // setUserInfo: (state, action: PayloadAction<Client>) => {
-    //   state.value = action.payload;
-    // },
+
     // fetchUserInfo: (state, action: PayloadAction<Client>) => {
     //   state.value = action.payload;
     // },
@@ -143,11 +157,33 @@ export const clientSlice = createSlice({
         signInAction.fulfilled,
         (state, action: PayloadAction<Client | any>) => {
           state.value = action.payload;
+          if (state?.value?.accessToken !== undefined)
+            localStorage.setItem("accessToken", state?.value?.accessToken);
+          if (state?.value?.usernamebyphone !== undefined)
+            localStorage.setItem(
+              "usernamebyphone",
+              String(state?.value?.usernamebyphone)
+            );
+          if (state?.value?._id !== undefined)
+            localStorage.setItem("user-id", String(state?.value?._id));
           state.signInFlag = "success";
         }
       )
       .addCase(signInAction.rejected, (state, action) => {
         state.signInFlag = "smsCodeError";
+      })
+      .addCase(
+        signInCheck.fulfilled,
+        (state, action: PayloadAction<Client | any>) => {
+          state.value = action.payload;
+          state.signInFlag = "success";
+        }
+      )
+      .addCase(signInCheck.rejected, (state) => {
+        state.signInFlag = "faild";
+      })
+      .addCase(signInCheck.pending, (state) => {
+        state.signInFlag = "loading";
       });
   },
 });

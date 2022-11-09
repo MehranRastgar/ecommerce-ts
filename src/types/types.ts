@@ -330,6 +330,10 @@ export interface SignInRequest {
   usernamebyphone: number;
   code: number;
 }
+export interface SignInCheck {
+  usernamebyphone: number;
+  token: string;
+}
 
 export interface ClientType {
   info: Client;

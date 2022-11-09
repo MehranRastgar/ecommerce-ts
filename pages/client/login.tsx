@@ -46,11 +46,15 @@ export default function Login() {
   const phone = useRef<string>();
 
   async function loginUser() {
+    console.log("please write code", SelectMobile);
+
     if (otpCode !== 0 && SelectMobile !== undefined) {
       const signIn: SignInRequest = {
         code: otpCode,
         usernamebyphone: SelectMobile,
       };
+      console.log("please write code", signIn.usernamebyphone);
+
       dipatch(signInAction(signIn)); //signIn api call
     } else {
       console.log("please write code");
@@ -118,7 +122,7 @@ export default function Login() {
         <meta name="description" content=""></meta>
       </Head>
       <section className="flex bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 justify-center min-h-screen h-full gradient-form items-center  w-full md:h-screen">
-        <div className="bg-white max-w-[400px] border m-2 mt-20 w-full md:w-3/4 lg:w-1/2 xl:w-1/3 2xl:w-1/3 3xl:w-1/4 rounded-xl shadow-lg overflow-hidden h-fit -translate-y-36 font-Vazir-Medium">
+        <div className="bg-white/30 max-w-[400px] border m-2 mt-20 w-full md:w-3/4 lg:w-1/2 xl:w-1/3 2xl:w-1/3 3xl:w-1/4 rounded-xl shadow-lg overflow-hidden h-fit -translate-y-36 font-Vazir-Medium">
           <header className="p-4 flex justify-center w-full bg-cyan-400 border-b  text-xl text-white text-center">
             ثبت نام / ورود
           </header>
@@ -150,6 +154,8 @@ export default function Login() {
                   >
                     تایید
                   </button>
+
+                  {signInFlag === "smsWaiting" ? loadingSvg : ""}
                 </div>
               </div>
             </>
@@ -158,10 +164,10 @@ export default function Login() {
           )}
           {signInFlag === "idle" ? (
             <>
-              <div className="m-4 p-5 flex  text-xl text-blackout-black text-center">
+              <div className=" m-4 p-5 flex  text-xl text-blackout-black text-center">
                 جهت ثبت نام یا ورود شماره موبایل خود را وارد کنید
               </div>
-              <div className="m-4 p-5 flex  text-lg text-gray-400 text-center">
+              <div className="m-4 p-5 flex  text-lg text-white text-center">
                 و در ادامه کد پیامک شده را وارد نمایید
               </div>
               <div className=" flex flex-wrap justify-center w-full ">

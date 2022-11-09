@@ -22,6 +22,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../src/store/hooks";
 import imageLoader from "../src/imageLoader";
 import FooterMain from "./footers/footer";
+import { signInCheck } from "../src/store/slices/clientSlice";
 
 const fetcher = (URL: string) => axios.get(URL).then((res) => res.data);
 const config: SWRConfiguration = {
@@ -49,6 +50,7 @@ function Layout({ children }: { children: any }) {
   function configPage() {
     dispatch(fetchSettingsAsync());
     console.log("justOne time");
+    dispatch(signInCheck());
   }
   useEffect(() => {
     if (!config) {
