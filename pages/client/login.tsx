@@ -162,7 +162,7 @@ export default function Login() {
           ) : (
             <></>
           )}
-          {signInFlag === "idle" ? (
+          {signInFlag === "idle" || signInFlag === "faild" ? (
             <>
               <div className=" m-4 p-5 flex  text-xl text-blackout-black text-center">
                 جهت ثبت نام یا ورود شماره موبایل خود را وارد کنید

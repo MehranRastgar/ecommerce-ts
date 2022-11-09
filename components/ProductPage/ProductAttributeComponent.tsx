@@ -27,9 +27,9 @@ export default function ProductAttributeComponent({
   return (
     <div
       id="espicification"
-      className="flex flex-col justify-center max-w-[1200px] w-full  md:w-11/12 rounded-xl items-center"
+      className="flex flex-col justify-center mt-20 max-w-[1200px] md:w-[85%] w-11/12 items-center border rounded-xl p-4 shadow-lg"
     >
-      <h2 className="h2 font-Vazir-Medium mt-20">مشخصات فنی</h2>
+      <h2 className="h2 font-Vazir-Medium my-12 text-blue-600">مشخصات فنی</h2>
       <div className={titleContainer}>
         <div className="flex flex-col  justify-center my-1 w-full  text-lg font-bold  text-gray-800">
           <NumberList attributeName={attributeName}></NumberList>

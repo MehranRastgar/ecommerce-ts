@@ -310,6 +310,12 @@ export interface SignUpRequest {
 export interface OtpRequest {
   usernamebyphone: number;
 }
+export interface AddToCartType {
+  userId: ID;
+  productId: string;
+  accessToken: string;
+  variantNumber: number;
+}
 
 export interface SignInResponse {
   _id?: ID;
@@ -383,7 +389,7 @@ export interface Address {
 }
 
 export interface Cart {
-  productId?: string;
+  productId: string;
   quantity?: number;
   DateTime?: number;
   ImageUrl?: string;

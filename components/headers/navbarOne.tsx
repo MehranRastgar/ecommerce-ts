@@ -1,20 +1,9 @@
 import { useState, useEffect } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import {
-  HiChevronDoubleLeft,
-  HiChevronDown,
-  HiChevronLeft,
-} from "react-icons/hi";
-import Image from "next/image";
+import { HiChevronDoubleLeft } from "react-icons/hi";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAppSelector } from "../../src/store/hooks";
-import {
-  selectMobileNumber,
-  setMobile,
-  selectUserInfo,
-} from "../../src/store/slices/clientSlice";
-import imageLoader from "../../src/imageLoader";
 import { GoGift } from "react-icons/go";
 import {
   selectSettings,
@@ -70,7 +59,8 @@ export default function NavbarOne({
             <div
               style={{
                 transition: "all 300ms ease-in-out",
-                width: `${openCategorieMenu === true ? "66%" : "0%"}`,
+                opacity: `${openCategorieMenu === true ? "100%" : "0%"}`,
+                width: `${true === true ? "66%" : "0%"}`,
                 height: `${openCategorieMenu === true ? "66%" : "0%"}`,
                 zIndex: "2",
               }}

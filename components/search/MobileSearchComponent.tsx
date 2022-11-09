@@ -4,8 +4,11 @@ import { BsForwardFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import MobileUserBag from "../cart/MobileUserBag";
 import { Client } from "../../src/types/types";
-import { useAppSelector } from "../../src/store/hooks";
-import { selectUserInfo } from "../../src/store/slices/clientSlice";
+import { useAppDispatch, useAppSelector } from "../../src/store/hooks";
+import {
+  removeProfile,
+  selectUserInfo,
+} from "../../src/store/slices/clientSlice";
 import Link from "next/link";
 
 export default function MobileSearchComponent() {
@@ -75,6 +78,7 @@ export function MobileUserTwinComponent() {
 function MobileUserProfile() {
   const [userCheck, setUserCheck] = useState<string | undefined>(undefined);
   const userInfo: Client = useAppSelector(selectUserInfo);
+  const dispatch = useAppDispatch();
   const [drop, setDrop] = useState<boolean>(false);
   const profileElement = useRef<HTMLDivElement>(null);
   const numb: string | undefined = String(
@@ -94,36 +98,37 @@ function MobileUserProfile() {
           </button>
         </Link>
       ) : (
-        <Link href={"/client/profile"}>
+        <div
+          id="user-profile"
+          ref={profileElement}
+          onMouseEnter={() => {
+            setDrop(true);
+          }}
+          onMouseLeave={() => {
+            setDrop(false);
+          }}
+          className="inline-flex justify-end w-full"
+        >
+          <button className="inline-flex p-2">
+            <div className="flex">
+              <FaUserCheck color="#48424966" size={30} />
+            </div>
+            <span className="-mr-8 mt-6 inline-flex items-center justify-center px-2 py-1 text-[8px] font-bold leading-none text-gray-600 bg-transparent rounded-full">
+              {userInfo?.firstname}
+            </span>
+          </button>
           <div
-            id="user-profile"
-            ref={profileElement}
-            onMouseEnter={() => {
-              setDrop(true);
+            style={{
+              transition: "all 300ms ease-in-out",
+              opacity: `${drop === true ? "100%" : "0%"}`,
+              width: `${true === true ? "300px" : "0%"}`,
+              height: `${drop === true ? "300px" : "0%"}`,
+              zIndex: "2",
             }}
-            onMouseLeave={() => {
-              setDrop(false);
-            }}
-            className="inline-flex justify-end w-full"
+            className={`fixed mt-[30px] pt-4  ml-[0px] flex flex-wrap w-[300px] bg-transparent h-[300px] z-50 overflow-hidden`}
           >
-            <button className="inline-flex p-2">
-              <div className="flex">
-                <FaUserCheck color="#48424966" size={30} />
-              </div>
-              <span className="-mr-8 mt-6 inline-flex items-center justify-center px-2 py-1 text-[8px] font-bold leading-none text-gray-600 bg-transparent rounded-full">
-                {userInfo?.firstname}
-              </span>
-            </button>
-            <div
-              style={{
-                transition: "all 300ms ease-in-out",
-                width: `${drop === true ? "300px" : "0%"}`,
-                height: `${drop === true ? "300px" : "0%"}`,
-                zIndex: "2",
-              }}
-              className={`fixed mt-[30px] pt-4  ml-[0px] flex w-[300px] bg-transparent h-[300px] z-50 overflow-hidden`}
-            >
-              <div className="border border-t-0 rounded-xl mx-4 bg-white h-full w-full ">
+            <div className="flex flex-wrap border border-t-0 rounded-xl mx-4 bg-white h-full w-full ">
+              <div className="flex flex-wrap h-3/4 overflow-y-scroll">
                 <div className="flex justify-start p-4 w-full h-4 font-Vazir-Medium">
                   <span className="mx-2">نام :</span>
                   {userInfo.firstname}
@@ -145,9 +150,27 @@ function MobileUserProfile() {
                   }
                 </div>
               </div>
+              <div className="flex p-2">
+                <div>
+                  <button
+                    onClick={() => {
+                      dispatch(removeProfile());
+                    }}
+                    className=" m-2  p-2 rounded-md bg-blackout-red text-white text-sm font-Vazir-Medium"
+                  >
+                    خروج از حساب
+                  </button>
+                </div>
+
+                <Link href={"/client/profile"}>
+                  <button className="m-2  p-2 rounded-md bg-wipro-blue text-white text-sm font-Vazir-Medium">
+                    مشاهده پروفایل
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
-        </Link>
+        </div>
       )}
     </div>
   );

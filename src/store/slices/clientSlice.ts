@@ -1,9 +1,18 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { checkSignIn, fetchClient, requestSms, signIn } from "../api/clientApi";
+import {
+  addToCartApi,
+  checkSignIn,
+  fetchClient,
+  removeFromCartApi,
+  requestSms,
+  signIn,
+} from "../api/clientApi";
 
 import type { AppState, AppThunk } from "../store";
 // import { fetchCount } from './../counterAPI'
 import type {
+  AddToCartType,
+  Cart,
   Client,
   OtpRequest,
   SignInCheck,
@@ -13,7 +22,9 @@ import type {
 } from "../../types/types";
 import axios, { AxiosResponse } from "axios";
 import { ActionsFromAsyncThunk } from "@reduxjs/toolkit/dist/matchers";
-
+export interface ProductId {
+  value: string;
+}
 export interface ClientState {
   value: Client;
   status: "logedIn" | "loading" | "403" | "401" | "unknownError";
@@ -28,6 +39,8 @@ export interface ClientState {
     | "smsNotSend"
     | "success"
     | "faild";
+
+  cartFlag: "idle" | "loading" | "success" | "error";
 }
 
 const initialState: ClientState = {
@@ -35,6 +48,7 @@ const initialState: ClientState = {
   status: "loading",
   token: "loading",
   signInFlag: "idle",
+  cartFlag: "idle",
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -88,7 +102,35 @@ export const signInCheck = createAsyncThunk("client/checkSignIn", async () => {
   console.log("response thunk", response);
   return response;
 });
+//================================================================
+export const addToCart = createAsyncThunk(
+  "client/addToCart",
+  async (AddToCart: AddToCartType) => {
+    const response:
+      | Client
+      | {
+          error: {
+            errorCode: any;
+          };
+        } = await addToCartApi(AddToCart);
+    return response;
+  }
+);
 
+export const removeFromCart = createAsyncThunk(
+  "client/removeFromCart",
+  async (RemoveItemId: AddToCartType) => {
+    const response:
+      | Client
+      | {
+          error: {
+            errorCode: any;
+          };
+        } = await removeFromCartApi(RemoveItemId);
+    return response;
+  }
+);
+//================================================================
 export const clientSlice = createSlice({
   name: "client",
   initialState,
@@ -114,7 +156,10 @@ export const clientSlice = createSlice({
       //   state.signInFlag = "smsProviderError";
       // });
     },
-    // signIn: (state) => {},
+    removeProfile: (state) => {
+      localStorage.removeItem("accessToken");
+      state.value = {};
+    },
     refreshToken: (state) => {},
 
     setMobileNumber: (state, action: PayloadAction<number>) => {
@@ -125,8 +170,9 @@ export const clientSlice = createSlice({
       state.value.usernamebyphone = action.payload;
     },
 
-    // fetchUserInfo: (state, action: PayloadAction<Client>) => {
-    //   state.value = action.payload;
+    // addToCart: (state, action: PayloadAction<ProductId>) => {
+    //   const data: Cart[] | undefined = state?.value?.cart;
+    //   console.log(action.payload.value);
     // },
     // decrement: (state) => {
     //   state.value -= 1
@@ -175,8 +221,16 @@ export const clientSlice = createSlice({
       .addCase(
         signInCheck.fulfilled,
         (state, action: PayloadAction<Client | any>) => {
-          state.value = action.payload;
-          state.signInFlag = "success";
+          if (action?.payload?.usernamebyphone !== undefined) {
+            console.log(
+              "action.payloadaction.payloadaction.payloadaction.payloadaction.payload",
+              action.payload
+            );
+            state.value = action.payload;
+            state.signInFlag = "success";
+          } else {
+            state.signInFlag = "faild";
+          }
         }
       )
       .addCase(signInCheck.rejected, (state) => {
@@ -184,11 +238,41 @@ export const clientSlice = createSlice({
       })
       .addCase(signInCheck.pending, (state) => {
         state.signInFlag = "loading";
+      })
+      .addCase(addToCart.pending, (state) => {
+        state.cartFlag = "loading";
+      })
+      .addCase(addToCart.rejected, (state) => {
+        state.cartFlag = "error";
+      })
+      .addCase(
+        addToCart.fulfilled,
+        (state, action: PayloadAction<Client | any>) => {
+          if (
+            action?.payload?.error === undefined &&
+            action?.payload?.usernamebyphone !== undefined
+          ) {
+            state.value = action.payload;
+            state.cartFlag = "success";
+          } else {
+            state.cartFlag = "error";
+          }
+        }
+      )
+      .addCase(removeFromCart.pending, (state) => {
+        state.cartFlag = "loading";
+      })
+      .addCase(removeFromCart.rejected, (state) => {
+        state.cartFlag = "error";
+      })
+      .addCase(removeFromCart.fulfilled, (state) => {
+        state.cartFlag = "success";
       });
   },
 });
 
-export const { signInRequest, setMobileNumber } = clientSlice.actions;
+export const { signInRequest, setMobileNumber, removeProfile } =
+  clientSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
@@ -196,8 +280,10 @@ export const { signInRequest, setMobileNumber } = clientSlice.actions;
 export const selectMobileNumber = (state: AppState) =>
   state.client.value.usernamebyphone;
 export const selectUserInfo = (state: AppState) => state.client.value;
+export const selectToken = (state: AppState) => state.client.token;
 export const selectUserInfoStatus = (state: AppState) => state.client.status;
 export const selectSignInFlag = (state: AppState) => state.client.signInFlag;
+export const selectCartFlag = (state: AppState) => state.client.cartFlag;
 
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.

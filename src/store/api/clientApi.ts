@@ -1,5 +1,5 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
-import { Client } from "../../../src/types/types";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import { AddToCartType, Cart, Client } from "../../../src/types/types";
 
 export async function fetchClient(
   clientId: string
@@ -85,7 +85,6 @@ export async function signIn(
     }
   }
 }
-
 export async function checkSignIn(
   id: string,
   accessToken: string
@@ -112,7 +111,73 @@ export async function checkSignIn(
     // .catch((err) => {
     //   state.signInFlag = "smsProviderError";
     // });
-    const result: any = data;
+    console.log("datadatadatadata", { ...data, accessToken: accessToken });
+    const result: any = { ...data, accessToken: accessToken };
+    return result;
+  } catch (err: any | AxiosError) {
+    {
+      return { error: { errorCode: JSON.stringify(err) } };
+    }
+  }
+}
+export async function addToCartApi(
+  AddToCart: AddToCartType
+): Promise<Client | { error: { errorCode: any } }> {
+  // let clientid = localStorage.getItem("clientId");
+  // console.log(clientid);
+  // state.signInFlag = "request";
+  const axiosConf: AxiosRequestConfig = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Content-Type": "application/json;charset=UTF-8",
+      Accept: "*/*",
+      token: AddToCart.accessToken,
+    },
+  };
+  const body: any = {
+    ProductId: AddToCart.productId,
+    variantNumber: AddToCart.variantNumber,
+  };
+  const uri: string =
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/client/cart/add/` +
+    `${AddToCart.userId}`;
+  // console.log(uri);
+  try {
+    const { data, status } = await axios.post(uri, body, axiosConf);
+
+    const result: Client = { ...data, accessToken: AddToCart.accessToken };
+    return result;
+  } catch (err: any | AxiosError) {
+    {
+      return { error: { errorCode: JSON.stringify(err) } };
+    }
+  }
+}
+export async function removeFromCartApi(
+  removeItem: AddToCartType
+): Promise<Client | { error: { errorCode: any } }> {
+  // let clientid = localStorage.getItem("clientId");
+  // console.log(clientid);
+  // state.signInFlag = "request";
+  const axiosConf: AxiosRequestConfig = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Content-Type": "application/json;charset=UTF-8",
+      Accept: "*/*",
+      token: removeItem.accessToken,
+    },
+  };
+  const body: any = {
+    ProductId: removeItem.productId,
+    variantNumber: removeItem.variantNumber,
+  };
+  const uri: string =
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/client/cart/remove/` +
+    `${removeItem.userId}`;
+  // console.log(uri);
+  try {
+    const { data, status } = await axios.post(uri, body, axiosConf);
+    const result: Client = { ...data, accessToken: removeItem.accessToken };
     return result;
   } catch (err: any | AxiosError) {
     {

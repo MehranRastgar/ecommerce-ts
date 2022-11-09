@@ -39,7 +39,7 @@ export default function ProductPage({ product }: { product: Product | null }) {
         <div className="flex w-full  min-w-screen justify-center">
           <ProductDescriptionComponent product={product} />
         </div>
-        <div className="flex w-full   min-w-screen justify-center">
+        <div className="flex w-full min-w-screen justify-center">
           <ProductAttributeComponent product={product} />
         </div>
         <div className="flex w-full justify-start mt-[150px]">
@@ -67,7 +67,7 @@ function ClickBar({ product }: { product: Product }) {
 export function ProductPriceComponent({ product }: { product: Product }) {}
 export function ProductDescriptionComponent({ product }: { product: Product }) {
   return (
-    <div className="flex flex-wrap text-center my-8 w-full justify-center">
+    <div className="flex flex-wrap text-center my-8 md:w-[85%] w-11/12 justify-center border rounded-xl p-4 shadow-lg">
       <h3 className="h2 font-Vazir-Bold w-full my-8">درباره محصول</h3>
       <div
         id="description"

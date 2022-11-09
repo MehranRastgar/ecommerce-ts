@@ -1,22 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FaChevronCircleDown,
   FaCircle,
   FaRegCheckCircle,
 } from "react-icons/fa";
+import { IoMdRemoveCircle, IoIosAddCircle } from "react-icons/io";
+import { GoTrashcan } from "react-icons/go";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+
 import { GoDiffAdded } from "react-icons/go";
 import ScrollContainer from "react-indiana-drag-scroll";
-import { Product } from "../../src/types/types";
+import { AddToCartType, Cart, Product } from "../../src/types/types";
 import Link from "next/link";
+import { useAppDispatch, useAppSelector } from "../../src/store/hooks";
+import {
+  addToCart,
+  ProductId,
+  selectCartFlag,
+  selectToken,
+  selectUserInfo,
+} from "../../src/store/slices/clientSlice";
 
 export default function ProductInfoSection({ product }: { product: Product }) {
   const [variantNumber, setVariantNumber] = useState<number>(
-    product.primary_variant
+    product?.primary_variant ?? 0
   );
 
   return (
-    <div className="flex justify-start w-full h-full mt-4">
-      <div className="flex flex-wrap max-w-3xl overflow-hidden h-fit">
+    <div className="flex flex-auto justify-start w-full h-full mt-4">
+      <div className="flex min-w-[360px] flex-wrap max-w-3xl overflow-hidden h-fit">
         <VariantSection
           variantNumber={variantNumber}
           setVariantNumber={setVariantNumber}
@@ -39,62 +51,201 @@ export function CartSection({
 }) {
   const [mouseOverbutton, setMouseOverbutton] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const userInfo = useAppSelector(selectUserInfo);
+  const token = useAppSelector(selectToken);
+  const CartState = useAppSelector(selectCartFlag);
+  const [cartArray, setCartArray] = useState<Cart[]>(userInfo.cart ?? []);
+  const [findedIndex, setFindedIndex] = useState<number>(-1);
+
+  function handleAddToCart() {
+    if (
+      userInfo._id !== undefined &&
+      product._id !== undefined &&
+      userInfo.accessToken !== undefined
+    ) {
+      const adder: AddToCartType = {
+        accessToken: userInfo.accessToken,
+        userId: userInfo._id,
+        productId: product._id,
+        variantNumber: variantNumber,
+      };
+      dispatch(addToCart(adder));
+    } else {
+      console.log("please sign in first");
+      console.log(userInfo._id, product._id, userInfo.accessToken);
+    }
+  }
+
+  async function handleClickShape() {
+    const index: number | undefined = userInfo?.cart?.findIndex(
+      (item) => item?.productId === product?._id
+    );
+    if (index !== undefined && index >= 0 && cartArray?.length > index) {
+      if (Number(userInfo?.cart?.[index]?.quantity) >= 0) {
+        const num: number = Number(userInfo?.cart?.[index]?.quantity);
+        setFindedIndex(num);
+      }
+    } else {
+      setFindedIndex(-1);
+    }
+  }
+
+  useEffect(() => {
+    handleClickShape();
+  }, [userInfo?.cart, product?._id]);
+
+  useEffect(() => {
+    setCartArray(userInfo.cart ?? []);
+  }, [CartState, userInfo, product]);
 
   return (
-    <div className="flex flex-wrap h-full justify-center p-4 max-h-[400px] w-1/4 border rounded-xl m-2 font-Vazir-Medium text-blackout-black bg-gray-100 justify-self-end overflow-hidden">
-      <ul className="w-full">
-        <li>گارانتی :</li>
-        <li>{product?.variants?.[variantNumber].warranty}</li>
-      </ul>
-      <ul className="flex w-full">
-        <li className="px-2">رنگ :</li>
-        <li className="px-2 flex">
-          {product?.variants?.[variantNumber].color.title}
-          <div className="w-fit h-fit border-black p-1 border rounded-full mx-2">
-            {" "}
-            <FaCircle
-              size={20}
-              color={`${product?.variants?.[variantNumber].color.hex_code}`}
-            />
-          </div>
-        </li>
-      </ul>
+    <div className="flex flex-wrap h-full justify-center p-4 max-w-[320px] min-w-[260px] max-h-[400px] w-1/4 md:w-1/2 sm:w-full border rounded-xl m-2 font-Vazir-Medium text-blackout-black bg-gray-100 justify-self-end overflow-hidden">
+      {product?.variants?.[variantNumber]?.warranty! ? (
+        <ul className="w-full">
+          <li>گارانتی :</li>
+          <li>
+            {product?.variants?.[variantNumber]?.warranty ?? "بدون گارانتی"}
+          </li>
+        </ul>
+      ) : (
+        <></>
+      )}
+      {product?.variants?.[variantNumber]?.color?.hex_code !== undefined ? (
+        <ul className="flex w-full">
+          <li className="px-2">رنگ :</li>
+          <li className="px-2 flex">
+            {product?.variants?.[variantNumber]?.color?.title}
+            <div className="w-fit h-fit border-black p-1 border rounded-full mx-2">
+              {" "}
+              <FaCircle
+                size={20}
+                color={`${product?.variants?.[variantNumber]?.color?.hex_code}`}
+              />
+            </div>
+          </li>
+        </ul>
+      ) : (
+        <></>
+      )}
       <div className="flex w-full "></div>
-      <ul className="flex w-full h-fit min-w-[300px] justify-center text-center font-Vazir-Bold">
-        <li className="px-2">
-          {(
-            product?.variants?.[variantNumber ?? 0].price.rrp_price / 10
-          ).toLocaleString()}{" "}
-        </li>
-        <li className="px-2">تومان</li>
-      </ul>
-      <ul className="h-fit ">
-        <button
-          onMouseLeave={(event) => {
-            setMouseOverbutton(false);
-          }}
-          onMouseOver={(event) => {
-            setMouseOverbutton(true);
-          }}
-          onClick={(event) => {
-            //setActive(true)
-            //AddToCart();
-          }}
-          className={`flex items-center transition-all duration-100 font-bold font-Vazirmatn  hover:bg-cyan-300   bg-cyan-400 focus:ring-4 focus:outline-none shadow-lg shadow-cyan-500/50 rounded-lg text-md px-5 p-2 m-2 text-center ${
-            mouseOverbutton ? " text-red-500 mx-3" : "text-white"
-          }`}
-        >
-          <GoDiffAdded
-            size={20}
-            className={`fle  ${
-              mouseOverbutton
-                ? "rotate-45 text-red-500 mx-3"
-                : "mx-1  text-blackout-white"
-            } transition-all duration-100 `}
-          ></GoDiffAdded>
-          {!isLoading ? "به سبد" : loadingSvg}
-        </button>
-      </ul>
+      {product?.variants?.[variantNumber ?? 0]?.price?.selling_price === 0 ||
+      product?.variants?.[variantNumber ?? 0]?.price?.selling_price ===
+        undefined ? (
+        <></>
+      ) : (
+        <>
+          <ul className="flex w-full h-fit min-w-[300px] justify-center text-center font-Vazir-Bold">
+            <li className="px-2">
+              {(
+                product?.variants?.[variantNumber ?? 0].price.selling_price / 10
+              ).toLocaleString()}{" "}
+            </li>
+            <li className="px-2">تومان</li>
+          </ul>
+        </>
+      )}
+      {product?.variants?.[variantNumber ?? 0]?.price?.selling_price !== 0 &&
+      product?.variants?.[variantNumber ?? 0]?.price?.selling_price !==
+        undefined ? (
+        <ul className="h-fit ">
+          {findedIndex < 1 ? (
+            <button
+              onMouseLeave={(event) => {
+                setMouseOverbutton(false);
+              }}
+              onMouseOver={(event) => {
+                setMouseOverbutton(true);
+              }}
+              onClick={(event) => {
+                //setActive(true)
+                handleAddToCart();
+              }}
+              className={`flex items-center transition-all duration-100 font-bold font-Vazirmatn  hover:bg-cyan-300   bg-cyan-400 focus:ring-4 focus:outline-none shadow-lg shadow-cyan-500/50 rounded-lg text-md px-5 p-2 m-2 text-center ${
+                mouseOverbutton ? " text-red-500 mx-3" : "text-white"
+              }`}
+            >
+              <GoDiffAdded
+                size={20}
+                className={`fle  ${
+                  mouseOverbutton
+                    ? "rotate-45 text-red-500 mx-3"
+                    : "mx-1  text-blackout-white"
+                } transition-all duration-100 `}
+              ></GoDiffAdded>
+              {CartState === "loading" ? loadingSvg : "به سبد"}
+            </button>
+          ) : (
+            <>
+              <div className="flex  rounded-lg justify-around bg-gray-200 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2">
+                <button
+                  disabled={findedIndex > 1 ? true : false}
+                  onClick={(event) => {
+                    // setActive(true);
+                    // AddToCart();
+                    handleAddToCart();
+                  }}
+                >
+                  <IoIosAddCircle
+                    size={20}
+                    className={`flex  rounded-full   ${
+                      findedIndex > 1 ? "text-gray-400" : "text-green-400"
+                    }`}
+                  ></IoIosAddCircle>
+                </button>
+
+                <a className="transition-transform ease-out duration-1000 font-Vazirmatn font-bold flex flex-wrap text-md justify-center  text-red-400 w-8">
+                  {findedIndex}{" "}
+                  {findedIndex > 1 ? (
+                    <span className="flex text-xs justify-center w-full hover:text-red-900 transition-colors ease-out duration-1000">
+                      حداکثر
+                    </span>
+                  ) : (
+                    <span></span>
+                  )}
+                </a>
+                <button
+                  onClick={(event) => {
+                    //setActive(false),
+                    //RemoveFromCart();
+                  }}
+                >
+                  {findedIndex > 0 ? (
+                    <IoMdRemoveCircle
+                      size={20}
+                      className="flex   rounded-full  text-red-400"
+                    ></IoMdRemoveCircle>
+                  ) : (
+                    <GoTrashcan
+                      size={20}
+                      className="flex transition-transform ease-out duration-500 hover:text-red-600 hover:scale-125 text-red-400"
+                    ></GoTrashcan>
+                  )}
+                </button>
+              </div>
+              {true ? (
+                <Link
+                  href="/checkout/cart"
+                  className=" font-Vazirmatn font-bold text-xs flex rounded-lg justify-around bg-gray-200 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2"
+                >
+                  <span className="mx-1 text-center">مشاهده سبد خرید</span>
+                  <AiOutlineShoppingCart
+                    className=" text-red-600"
+                    size={20}
+                  ></AiOutlineShoppingCart>
+                </Link>
+              ) : (
+                <></>
+              )}
+            </>
+          )}
+          <div className="flex justify-center text-center w-full text-blackout-red">
+            {CartState === "error" ? "خطایی رخ داده" : ""}
+          </div>
+        </ul>
+      ) : (
+        <div className="flex text-blackout-red ">ناموجود</div>
+      )}
     </div>
   );
 }
@@ -108,8 +259,13 @@ function VariantSection({
   variantNumber: any;
   setVariantNumber: any;
 }) {
+  if (
+    product?.variants?.[variantNumber].price.selling_price === undefined ||
+    product?.variants?.[variantNumber].price.selling_price === 0
+  )
+    return <></>;
   return (
-    <div className="w-fit">
+    <div className="w-fit min-w-[360px]">
       {/* <ScrollContainer className="scroll-container product-slider-one-items overflow-y-hidden"> */}
       <div className="overflow-y-hidden border rounded-xl">
         <ScrollContainer
@@ -132,10 +288,10 @@ function VariantSection({
                     }`
                   }
                 >
-                  <div className="p-2">{variant.warranty}</div>
+                  <div className="p-2">{variant?.warranty}</div>
 
                   <div className="flex mx-2 items-center justify-end p-2 text-[12px]">
-                    {variant.color.title}
+                    {variant?.color?.title}
                     <div
                       className={
                         "w-fit h-fit border-gray-600 p-1  rounded-full mx-2 bg-gray-200 " +
@@ -145,17 +301,18 @@ function VariantSection({
                       {index === variantNumber ? (
                         <FaCircle
                           size={25}
-                          color={`${variant.color.hex_code}`}
+                          color={`${variant?.color?.hex_code}`}
                         />
                       ) : (
                         <FaCircle
                           size={25}
-                          color={`${variant.color.hex_code}`}
+                          color={`${variant?.color?.hex_code}`}
                         />
                       )}
                     </div>
                     <div className="font-Vazir-Bold w-3/4 text-end">
-                      {(variant.price.rrp_price / 10).toLocaleString()} تومان
+                      {(variant?.price?.selling_price / 10).toLocaleString()}{" "}
+                      تومان
                     </div>
                   </div>
                 </div>
