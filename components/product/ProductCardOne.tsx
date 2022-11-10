@@ -45,7 +45,7 @@ export default function ProductCardOne({
     <Link
       className="flex flex-wrap w-full items-center border-b border-b-slate-300 p-2 mt-0 m-4 font-Vazir-Medium h-fit select-none"
       href={encodeURI(
-        `products/${minifyProduct?._id}/${(
+        `/products/${minifyProduct?._id}/${(
           minifyProduct?.title_fa ?? minifyProduct?.sku
         )
           ?.replaceAll(" ", "-")
@@ -135,7 +135,7 @@ export default function ProductCardOne({
     <Link
       key={"click-on-product"}
       href={encodeURI(
-        `products/${minifyProduct?._id}/${(
+        `/products/${minifyProduct?._id}/${(
           minifyProduct?.title_fa ?? minifyProduct?.sku
         )
           ?.replaceAll(" ", "-")
