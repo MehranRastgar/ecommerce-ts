@@ -314,7 +314,7 @@ export interface AddToCartType {
   userId: ID;
   productId: string;
   accessToken: string;
-  variantNumber: number;
+  variantId: string;
 }
 
 export interface SignInResponse {
@@ -390,12 +390,15 @@ export interface Address {
 
 export interface Cart {
   productId: string;
+  variantId: string;
+  variant: Variant;
   quantity?: number;
   DateTime?: number;
   ImageUrl?: string;
   Price?: number;
   ProductUrl?: string;
   sku?: string;
+  title_fa?: string;
 }
 
 export interface AtedAt {

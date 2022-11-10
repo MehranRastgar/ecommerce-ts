@@ -136,7 +136,7 @@ export async function addToCartApi(
   };
   const body: any = {
     ProductId: AddToCart.productId,
-    variantNumber: AddToCart.variantNumber,
+    variantId: AddToCart.variantId,
   };
   const uri: string =
     `${process.env.NEXT_PUBLIC_BASE_API_URL}/client/cart/add/` +
@@ -153,7 +153,7 @@ export async function addToCartApi(
     }
   }
 }
-export async function removeFromCartApi(
+export async function reduceFromCartApi(
   removeItem: AddToCartType
 ): Promise<Client | { error: { errorCode: any } }> {
   // let clientid = localStorage.getItem("clientId");
@@ -169,10 +169,10 @@ export async function removeFromCartApi(
   };
   const body: any = {
     ProductId: removeItem.productId,
-    variantNumber: removeItem.variantNumber,
+    variantId: removeItem.variantId,
   };
   const uri: string =
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/client/cart/remove/` +
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/client/cart/reduce/` +
     `${removeItem.userId}`;
   // console.log(uri);
   try {

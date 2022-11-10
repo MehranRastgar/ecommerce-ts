@@ -4,6 +4,7 @@ import {
   FaCircle,
   FaRegCheckCircle,
 } from "react-icons/fa";
+import { useRouter } from "next/router";
 import { IoMdRemoveCircle, IoIosAddCircle } from "react-icons/io";
 import { GoTrashcan } from "react-icons/go";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -16,15 +17,30 @@ import { useAppDispatch, useAppSelector } from "../../src/store/hooks";
 import {
   addToCart,
   ProductId,
+  reduecFromCart,
   selectCartFlag,
   selectToken,
   selectUserInfo,
 } from "../../src/store/slices/clientSlice";
 
 export default function ProductInfoSection({ product }: { product: Product }) {
+  const router = useRouter();
+
   const [variantNumber, setVariantNumber] = useState<number>(
     product?.primary_variant ?? 0
   );
+
+  function autoVariantSelection() {
+    if (router?.query?.v !== undefined) {
+      const numb: number = product?.variants.findIndex(
+        (item) => String(item._id) === router?.query?.v
+      );
+      setVariantNumber(numb);
+    }
+  }
+  useEffect(() => {
+    autoVariantSelection();
+  }, [router?.query?.v]);
 
   return (
     <div className="flex flex-auto justify-start w-full h-full mt-4">
@@ -55,8 +71,27 @@ export function CartSection({
   const userInfo = useAppSelector(selectUserInfo);
   const token = useAppSelector(selectToken);
   const CartState = useAppSelector(selectCartFlag);
-  const [cartArray, setCartArray] = useState<Cart[]>(userInfo.cart ?? []);
+  // const [cartArray, setCartArray] = useState<Cart[]>(userInfo.cart ?? []);
   const [findedIndex, setFindedIndex] = useState<number>(-1);
+
+  function handleReduceFromCart() {
+    if (
+      userInfo._id !== undefined &&
+      product._id !== undefined &&
+      userInfo.accessToken !== undefined
+    ) {
+      const reduce: AddToCartType = {
+        accessToken: userInfo.accessToken,
+        userId: userInfo._id,
+        productId: product._id,
+        variantId: product?.variants?.[variantNumber]?._id,
+      };
+      dispatch(reduecFromCart(reduce));
+    } else {
+      console.log("please sign in first");
+      console.log(userInfo._id, product._id, userInfo.accessToken);
+    }
+  }
 
   function handleAddToCart() {
     if (
@@ -68,7 +103,7 @@ export function CartSection({
         accessToken: userInfo.accessToken,
         userId: userInfo._id,
         productId: product._id,
-        variantNumber: variantNumber,
+        variantId: product?.variants?.[variantNumber]?._id,
       };
       dispatch(addToCart(adder));
     } else {
@@ -79,9 +114,14 @@ export function CartSection({
 
   async function handleClickShape() {
     const index: number | undefined = userInfo?.cart?.findIndex(
-      (item) => item?.productId === product?._id
+      (item) => item?.variantId === product?.variants?.[variantNumber]?._id
     );
-    if (index !== undefined && index >= 0 && cartArray?.length > index) {
+    if (
+      index !== undefined &&
+      index >= 0 &&
+      userInfo?.cart?.length &&
+      userInfo?.cart?.length > index
+    ) {
       if (Number(userInfo?.cart?.[index]?.quantity) >= 0) {
         const num: number = Number(userInfo?.cart?.[index]?.quantity);
         setFindedIndex(num);
@@ -92,15 +132,15 @@ export function CartSection({
   }
 
   useEffect(() => {
-    handleClickShape();
-  }, [userInfo?.cart, product?._id]);
+    if (CartState === "idle" || CartState === "success") handleClickShape();
+  }, [userInfo?.cart, product?._id, variantNumber, CartState]);
 
   useEffect(() => {
-    setCartArray(userInfo.cart ?? []);
+    // setCartArray(userInfo.cart ?? []);
   }, [CartState, userInfo, product]);
 
   return (
-    <div className="flex flex-wrap h-full justify-center p-4 max-w-[320px] min-w-[260px] max-h-[400px] w-1/4 md:w-1/2 sm:w-full border rounded-xl m-2 font-Vazir-Medium text-blackout-black bg-gray-100 justify-self-end overflow-hidden">
+    <div className="flex flex-wrap shadow h-full justify-center p-4 max-w-[320px] min-w-[260px] max-h-[400px] w-1/4 md:w-1/2 sm:w-full border rounded-xl m-2 font-Vazir-Medium text-blackout-black bg-gray-100 justify-self-end overflow-hidden">
       {product?.variants?.[variantNumber]?.warranty! ? (
         <ul className="w-full">
           <li>گارانتی :</li>
@@ -207,7 +247,7 @@ export function CartSection({
                 <button
                   onClick={(event) => {
                     //setActive(false),
-                    //RemoveFromCart();
+                    handleReduceFromCart();
                   }}
                 >
                   {findedIndex > 0 ? (
@@ -260,8 +300,8 @@ function VariantSection({
   setVariantNumber: any;
 }) {
   if (
-    product?.variants?.[variantNumber].price.selling_price === undefined ||
-    product?.variants?.[variantNumber].price.selling_price === 0
+    product?.variants?.[variantNumber]?.price?.selling_price === undefined ||
+    product?.variants?.[variantNumber]?.price?.selling_price === 0
   )
     return <></>;
   return (

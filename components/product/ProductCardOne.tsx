@@ -44,9 +44,13 @@ export default function ProductCardOne({
   return devType === "mobile" ? (
     <Link
       className="flex flex-wrap w-full items-center border-b border-b-slate-300 p-2 mt-0 m-4 font-Vazir-Medium h-fit select-none"
-      href={`products/${minifyProduct?._id}/${(
-        minifyProduct?.title_fa ?? minifyProduct?.sku
-      )?.replaceAll(" ", "-")}`}
+      href={encodeURI(
+        `products/${minifyProduct?._id}/${(
+          minifyProduct?.title_fa ?? minifyProduct?.sku
+        )
+          ?.replaceAll(" ", "-")
+          .replaceAll("/", "-")}`
+      )}
     >
       <div className="flex w-full items-center">
         <div key={minifyProduct?._id + "-a"} className="flex flex-wrap w-1/3">
@@ -130,9 +134,13 @@ export default function ProductCardOne({
   ) : (
     <Link
       key={"click-on-product"}
-      href={`products/${minifyProduct?._id}/${(
-        minifyProduct?.title_fa ?? minifyProduct?.sku
-      )?.replaceAll(" ", "-")}`}
+      href={encodeURI(
+        `products/${minifyProduct?._id}/${(
+          minifyProduct?.title_fa ?? minifyProduct?.sku
+        )
+          ?.replaceAll(" ", "-")
+          .replaceAll("/", "-")}`
+      )}
       className=" flex  flex-wrap justify-center items-start max-w-[px] 	w-1/3  md:w-1/2 lg:w-1/4 xl:w-1/5 2xl:w-1/5 3xl:w-1/5 select-none"
     >
       <div

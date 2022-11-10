@@ -38,7 +38,9 @@ export default function ProductHeadComponent({
         property="og:url"
         content={`https://shopsoo.ir/products/${product?._id}/${(
           product?.main.title_fa ?? product?.main?.sku
-        )?.replaceAll(" ", "-")}`}
+        )
+          ?.replaceAll(" ", "-")
+          .replaceAll("/", "-")}`}
       ></meta>
       <meta property="og:availability" content="in stock"></meta>
       <meta property="og:type" content="product"></meta>
@@ -69,7 +71,9 @@ export default function ProductHeadComponent({
         rel="canonical"
         href={`https://shopsoo.ir/products/${product?._id}/${(
           product?.main.title_fa ?? product?.main?.sku
-        )?.replaceAll(" ", "-")}`}
+        )
+          ?.replaceAll(" ", "-")
+          .replaceAll("/", "-")}`}
       ></link>
     </Head>
   );

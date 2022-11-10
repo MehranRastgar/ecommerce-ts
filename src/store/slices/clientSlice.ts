@@ -3,7 +3,7 @@ import {
   addToCartApi,
   checkSignIn,
   fetchClient,
-  removeFromCartApi,
+  reduceFromCartApi,
   requestSms,
   signIn,
 } from "../api/clientApi";
@@ -20,8 +20,10 @@ import type {
   SignInResponse,
   SignUpRequest,
 } from "../../types/types";
-import axios, { AxiosResponse } from "axios";
-import { ActionsFromAsyncThunk } from "@reduxjs/toolkit/dist/matchers";
+
+// import axios, { AxiosResponse } from "axios";
+// import { ActionsFromAsyncThunk } from "@reduxjs/toolkit/dist/matchers";
+
 export interface ProductId {
   value: string;
 }
@@ -117,16 +119,16 @@ export const addToCart = createAsyncThunk(
   }
 );
 
-export const removeFromCart = createAsyncThunk(
-  "client/removeFromCart",
-  async (RemoveItemId: AddToCartType) => {
+export const reduecFromCart = createAsyncThunk(
+  "client/reduceFromCart",
+  async (reduceItem: AddToCartType) => {
     const response:
       | Client
       | {
           error: {
             errorCode: any;
           };
-        } = await removeFromCartApi(RemoveItemId);
+        } = await reduceFromCartApi(reduceItem);
     return response;
   }
 );
@@ -259,15 +261,26 @@ export const clientSlice = createSlice({
           }
         }
       )
-      .addCase(removeFromCart.pending, (state) => {
+      .addCase(reduecFromCart.pending, (state) => {
         state.cartFlag = "loading";
       })
-      .addCase(removeFromCart.rejected, (state) => {
+      .addCase(reduecFromCart.rejected, (state) => {
         state.cartFlag = "error";
       })
-      .addCase(removeFromCart.fulfilled, (state) => {
-        state.cartFlag = "success";
-      });
+      .addCase(
+        reduecFromCart.fulfilled,
+        (state, action: PayloadAction<Client | any>) => {
+          if (
+            action?.payload?.error === undefined &&
+            action?.payload?.usernamebyphone !== undefined
+          ) {
+            state.value = action.payload;
+            state.cartFlag = "success";
+          } else {
+            state.cartFlag = "error";
+          }
+        }
+      );
   },
 });
 

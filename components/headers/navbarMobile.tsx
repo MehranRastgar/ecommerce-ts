@@ -5,11 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAppSelector } from "../../src/store/hooks";
-import {
-  selectMobileNumber,
-  setMobile,
-  selectUserInfo,
-} from "../../src/store/slices/clientSlice";
 
 export default function NavbarMobile() {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
