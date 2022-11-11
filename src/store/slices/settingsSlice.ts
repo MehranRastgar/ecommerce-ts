@@ -72,7 +72,7 @@ export const {} = settingsSlice.actions;
 export const selectSettings = (state: AppState) => state.settings.value;
 export const selectSettingsStatus = (state: AppState) => state.settings.status;
 // export const selectUserInfo = (state: AppState) => state.client.value;
-// We can also write thunks by hand, which may contain both sync and async logic.
+// We can also write thunks by hand, which may contain both sync and async logi c.
 // Here's an example of conditionally dispatching actions based on current state.
 // export const incrementIfOdd =
 //   (amount: number): AppThunk =>

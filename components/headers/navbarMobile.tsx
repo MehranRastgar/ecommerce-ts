@@ -4,7 +4,7 @@ import { HiChevronDown, HiChevronLeft } from "react-icons/hi";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useAppSelector } from "../../src/store/hooks";
+import { useAppDispatch, useAppSelector } from "../../src/store/hooks";
 
 export default function NavbarMobile() {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
@@ -38,12 +38,21 @@ export default function NavbarMobile() {
 
 function OpenMenuModal({ setOpenMenu }: { setOpenMenu: any }) {
   const [drop, setDrop] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const settingState = useAppSelector(selectSettingsStatus);
+
   useEffect(() => {
     setTimeout(() => {
       setDrop(true);
     }, 50);
   }, []);
-
+  useEffect(() => {
+    if (drop) {
+      if (settingState !== "idle") {
+        dispatch(fetchSettingsAsync());
+      }
+    }
+  }, [drop]);
   return (
     <div
       style={{
@@ -94,6 +103,7 @@ import { BsHeadset } from "react-icons/bs";
 import { BiBarChartAlt } from "react-icons/bi";
 import imageLoader from "../../src/imageLoader";
 import {
+  fetchSettingsAsync,
   selectSettings,
   selectSettingsStatus,
 } from "../../src/store/slices/settingsSlice";
@@ -160,10 +170,6 @@ function MobileCategoriesMenuComponent() {
       });
     }
   }, [settingsStatus, settings]);
-
-  // useEffect(() => {
-  //   // console.table(categories?.properties?.[0]?.properties);
-  // }, [categories]);
 
   return (
     <>

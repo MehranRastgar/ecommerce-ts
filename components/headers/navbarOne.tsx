@@ -3,9 +3,10 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { HiChevronDoubleLeft } from "react-icons/hi";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useAppSelector } from "../../src/store/hooks";
+import { useAppDispatch, useAppSelector } from "../../src/store/hooks";
 import { GoGift } from "react-icons/go";
 import {
+  fetchSettingsAsync,
   selectSettings,
   selectSettingsStatus,
 } from "../../src/store/slices/settingsSlice";
@@ -23,11 +24,18 @@ export default function NavbarOne({
   const router = useRouter();
   const styleClassLi = `flex border-l  `;
   const styleClassLink = `flex px-6 py-2 hover:border-b-2 hover:border-b-red-500 border-b-2 border-b-transparent `;
-
+  const dispatch = useAppDispatch();
+  const settingState = useAppSelector(selectSettingsStatus);
   useEffect(() => {
     setOpenMenu(false);
   }, [router.asPath]);
-
+  useEffect(() => {
+    if (openMenu === true || openCategorieMenu == true) {
+      if (settingState !== "idle") {
+        dispatch(fetchSettingsAsync());
+      }
+    }
+  }, [openMenu, openCategorieMenu]);
   return (
     <div
       className={`transition-all duration-500 w-screen border-b-2 bg-white ${
