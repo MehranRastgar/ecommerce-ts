@@ -56,6 +56,10 @@ export const settingsSlice = createSlice({
       .addCase(fetchSettingsAsync.fulfilled, (state, action) => {
         state.status = "idle";
         state.value = action.payload;
+      })
+      .addCase(fetchSettingsAsync.rejected, (state, action) => {
+        state.status = "failed";
+        state.value = [];
       });
   },
 });

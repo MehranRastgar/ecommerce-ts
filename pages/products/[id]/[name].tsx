@@ -100,10 +100,6 @@ export function ProductRelativeComponent({ product }: { product: Product }) {
   );
 }
 
-// ProductPage.getLayout = function getLayout(page: typeof ProductPage) {
-//   return <Layout>{page}</Layout>;
-// };
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     if (process.env.MONGO_URI) await mongoose.connect(process.env.MONGO_URI);
@@ -135,7 +131,6 @@ async function getProductAndRealtive(id: string): Promise<Product | null> {
   if (id) {
     try {
       const ProductData: object | null = await ProductModel.findById(id);
-
       const proData: Product | null = await JSON.parse(
         JSON.stringify(ProductData)
       );

@@ -37,7 +37,7 @@ export default function Login() {
   const SelectMobile = useAppSelector(selectMobileNumber);
   const router = useRouter();
   const [isSuccess, setIsSuccess] = useState(false);
-  const [returnUrl, setReturnUrl] = useState<string>();
+  const [returnUrl, setReturnUrl] = useState<string | undefined>(undefined);
   const [loadingLogin, setLoadingLogin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [otpCode, setOtpCode] = useState(0);
@@ -112,6 +112,8 @@ export default function Login() {
         }
       }, 1500);
     }
+    if (typeof router?.query?.returnUrl === "string")
+      setReturnUrl(router?.query?.returnUrl);
   }, [signInFlag, isLoading, phoneNumber]);
 
   return (

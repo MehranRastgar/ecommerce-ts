@@ -65,6 +65,7 @@ export function CartSection({
   product: Product;
   variantNumber: any;
 }) {
+  const router = useRouter();
   const [mouseOverbutton, setMouseOverbutton] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
@@ -108,7 +109,7 @@ export function CartSection({
       dispatch(addToCart(adder));
     } else {
       console.log("please sign in first");
-      console.log(userInfo._id, product._id, userInfo.accessToken);
+      router.push("/client/login?returnUrl=" + `${router.asPath}`);
     }
   }
 

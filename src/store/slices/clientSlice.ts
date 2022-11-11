@@ -29,7 +29,7 @@ export interface ProductId {
 }
 export interface ClientState {
   value: Client;
-  status: "logedIn" | "loading" | "403" | "401" | "unknownError";
+  status: "logedIn" | "loading" | "403" | "401" | "unknownError" | "logout";
   token: "loading" | string;
   signInFlag:
     | "idle"
@@ -160,7 +160,15 @@ export const clientSlice = createSlice({
     },
     removeProfile: (state) => {
       localStorage.removeItem("accessToken");
-      state.value = {};
+      state.value = {
+        accessToken: undefined,
+        cart: [],
+        firstname: undefined,
+        usernamebyphone: undefined,
+      };
+      state.token = "loading";
+      state.status = "logout";
+      state.signInFlag = "idle";
     },
     refreshToken: (state) => {},
 
