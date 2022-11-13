@@ -152,7 +152,7 @@ export function CartSection({
 
   return (
     <>
-      {"mobile" === "mobile" ? (
+      {deviceType === "mobile" ? (
         <>
           <div className="fixed w-[100%] items-center bottom-0 left-0 h-[60px] flex bg-blackout-saffron z-[50]">
             <div className="h-fit flex">
