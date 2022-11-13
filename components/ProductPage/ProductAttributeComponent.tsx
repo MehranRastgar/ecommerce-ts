@@ -31,7 +31,7 @@ export default function ProductAttributeComponent({
     >
       <h2 className="h2 font-Vazir-Medium my-12 text-blue-600">مشخصات فنی</h2>
       <div className={titleContainer}>
-        <div className="flex flex-col  justify-center my-1 w-full  text-lg font-bold  text-gray-800">
+        <div className="flex md:flex-col  justify-center my-1 w-full  text-lg font-bold  text-gray-800">
           <NumberList attributeName={attributeName}></NumberList>
         </div>
       </div>
@@ -44,12 +44,12 @@ function NumberList({ attributeName }: { attributeName: attributeObj[] }) {
   const listItems = attributeName?.map((number, index) => (
     <>
       <ul
-        className={`flex flex-wrap-row justify-start items-start   ${
+        className={`flex flex-wrap md:flex-wrap-row justify-start items-start   ${
           index % 2 ? "bg-white" : "bg-gray-100"
         } mx-4 font-Vazirmatn border border-white hover:border-black`}
       >
         <li
-          className={`flex  flex-wrap-row items-center w-1/2  p-2  bg-transparent   text-base font-Vazirmatn font-bold px-10`}
+          className={`flex flex-wrap md:flex-wrap-row items-center w-full md:w-1/2  p-2  bg-transparent   text-base font-Vazirmatn font-bold px-10`}
         >
           {number.name == "brand" ||
           number.name == "warranty" ||
@@ -66,7 +66,7 @@ function NumberList({ attributeName }: { attributeName: attributeObj[] }) {
 		"   :   "}
 		</p> */}
         <li
-          className={`flex flex-wrap-row items-center w-1/2  p-2   bg-transparent   text-black text-base font-normal px-10`}
+          className={`flex  flex-wrap md:flex-wrap-row items-center w-full md:w-1/2  p-2   bg-transparent   text-black text-base font-normal px-10`}
         >
           {number.name == "brand" ||
           number.name == "warranty" ||

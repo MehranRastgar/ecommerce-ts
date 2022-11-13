@@ -54,7 +54,7 @@ function CategoryItem({ itemCat }: { itemCat: L1 | undefined }) {
   useEffect(() => {}, [deviceType]);
   return (
     <>
-      <Link href={`${itemCat?.url ?? "/"}`}>
+      <Link href={`/search${itemCat?.url ?? "/"}`}>
         <Image
           loader={imageLoader}
           alt={itemCat?.title ?? "-"}

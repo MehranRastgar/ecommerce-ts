@@ -53,7 +53,8 @@ export default function SearchPage({
         <span className="w-full text-center font-Vazir-Medium text-[16px]">
           {total} محصول
         </span>
-        <div className="flex justify-center bg-white w-9/12">
+        <div className="flex flex-wrap justify-center bg-white w-9/12">
+          <SortComponent />
           <Pagination
             page={pageNumber}
             total={totalProducts}
@@ -250,6 +251,14 @@ export function Pagination({
       >
         <MdSkipPrevious size={30} />
       </button>
+    </div>
+  );
+}
+//==============================================================================================//
+export function SortComponent() {
+  return (
+    <div className="w-full bg-slate-500 h-8">
+      <span className="flex w-fit rounded-xl border p-2 h-fit">مرتب سازی</span>
     </div>
   );
 }

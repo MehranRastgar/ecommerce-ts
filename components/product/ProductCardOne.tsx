@@ -141,25 +141,16 @@ export default function ProductCardOne({
           ?.replaceAll(" ", "-")
           .replaceAll("/", "-")}`
       )}
-      className=" flex  flex-wrap justify-center items-start max-w-[px] 	w-1/3  md:w-1/2 lg:w-1/4 xl:w-1/5 2xl:w-1/5 3xl:w-1/5 select-none"
+      className=" flex min-h-[420px] flex-wrap justify-center items-start max-w-[px] 	w-1/3  md:w-1/2 lg:w-1/4 xl:w-1/5 2xl:w-1/5 3xl:w-1/5 select-none"
     >
       <div
-        className={` flex flex-wrap justify-center w-full p-2 border hover:border-gray-300 card `}
+        className={` flex h-full flex-wrap justify-center w-full p-2 border hover:border-gray-300 card `}
       >
         <div className="flex flex-wrap  justify-center m-2">
           <Image
-            className=" rounded-xl"
+            className="flex h-fit rounded-xl"
             loader={imageLoader}
-            unoptimized
-            blurDataURL={imageAddress(
-              minifyProduct?.image,
-              10,
-              10,
-              50,
-              "webp",
-              undefined
-            )}
-            placeholder="blur"
+            placeholder="empty"
             loading="eager"
             unselectable="on"
             draggable="false"
@@ -197,13 +188,12 @@ export default function ProductCardOne({
           <>
             {" "}
             <div className="text-blackout-red text-lg flex w-full font-bold font-Vazir-Medium  flex-wrap justify-center ">
-              <br></br>
               ناموجود
             </div>
           </>
         )}
 
-        <div className="p-2">
+        {/* <div className="p-2">
           <div className="flex w-full flex-wrap justify-center text-center my-1 border-b font-Vazir-Medium ">
             {minifyProduct?.primaryAttribute?.title
               ?.replace("-", " ")
@@ -212,7 +202,7 @@ export default function ProductCardOne({
               "   :   " +
               minifyProduct?.primaryAttribute?.values}
           </div>
-        </div>
+        </div> */}
       </div>
     </Link>
   );

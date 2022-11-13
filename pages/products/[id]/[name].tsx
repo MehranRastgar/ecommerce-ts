@@ -28,11 +28,11 @@ export default function ProductPage({ product }: { product: Product | null }) {
   return product !== null ? (
     <>
       <ProductHeadComponent product={product} />
-      <div className="flex flex-wrap w-full min-w-screen h-auto justify-start ">
-        <div className="flex w-full md:w-2/6  items-start justify-center p-2 ">
+      <div className="flex flex-wrap w-full min-w-screen h-auto justify-start overflow-hidden">
+        <div className="flex w-full lg:w-1/3 md:w-1/2  items-start justify-center p-2 ">
           <ProductImageComponent productData={product} />
         </div>
-        <div className="flex flex-wrap h-auto items-start justify-center w-full md:w-4/6  p-2">
+        <div className="flex flex-wrap h-auto items-start justify-center w-full md:w-1/2 lg:w-2/3  p-2">
           <Title name={product.main.title_fa} />
           <ProductInfoSection product={product} />
         </div>

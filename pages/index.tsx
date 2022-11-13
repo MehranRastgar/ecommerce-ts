@@ -186,7 +186,7 @@ function Home({
           ))} */}
           <ProductSliderOne
             setting={{
-              url: "/category/laptop",
+              url: "/search/category/laptop",
               name: "فروش ویژه لپتاپ",
               span: "مشاهده این دسته",
               getOption: getLaptop,
@@ -196,27 +196,27 @@ function Home({
           <CardPromotionOne
             ImageSrc="/cardOne/logitech"
             cardName="Logitech promotion"
-            Url="/brand/logitech"
+            Url="/search/brand/logitech"
           />
           <CardPromotionOne
             ImageSrc="/cardOne/logitech2"
             cardName="Logitech promotion"
-            Url="/brand/logitech"
+            Url="/search/brand/logitech"
           />
           <CardPromotionOne
             ImageSrc="/cardOne/logitech2"
             cardName="Logitech promotion"
-            Url="/brand/logitech"
+            Url="/search/brand/logitech"
           />
           <CardPromotionOne
             ImageSrc="/cardOne/logitech"
             cardName="Logitech promotion"
-            Url="/brand/logitech"
+            Url="/search/brand/logitech"
           />
           <div className="h-10 w-full p-2"></div>
           <ProductSliderOne
             setting={{
-              url: "/category/laptop",
+              url: "/search/category/laptop",
               name: " ویژه موبایل",
               span: "مشاهده این دسته",
               getOption: getMobile,
@@ -225,7 +225,7 @@ function Home({
           <div className="h-10 w-full p-2"></div>
           <ProductSliderOne
             setting={{
-              url: "/category/laptop",
+              url: "/search/category/laptop",
               name: "لپتاپ گیمینگ",
               span: "مشاهده این دسته",
               getOption: getLaptop2,
