@@ -14,6 +14,7 @@ import {
   selectDeviceType,
   ThemeState,
 } from "../../src/store/slices/themeSlice";
+import { GoSearch } from "../headers/header";
 
 export default function MobileSearchComponent() {
   return (
@@ -41,7 +42,10 @@ export function MobileSearchBar() {
         {/* <input  className='flex w-5/6 p-1 bg-transparent m-1 h-full border-none focus:'></input> */}
       </div>
       {searchModal === true ? (
-        <SearchModal setSearchModal={setSearchModal} />
+        <SearchModal
+          setSearchModal={setSearchModal}
+          searchModal={searchModal}
+        />
       ) : (
         <></>
       )}
@@ -49,9 +53,25 @@ export function MobileSearchBar() {
   );
 }
 
-function SearchModal({ setSearchModal }: { setSearchModal: any }) {
+function SearchModal({
+  setSearchModal,
+  searchModal,
+}: {
+  setSearchModal: any;
+  searchModal: any;
+}) {
+  const [searchString, setSearchString] = useState<string>("");
+
+  function enterChecker(key: string) {
+    setSearchModal(true);
+
+    if (key === "Enter" || key === "Escape") {
+      GoSearch(searchString);
+      setSearchModal(false);
+    }
+  }
   return (
-    <div className="justify-start flex absolute top-0 right-0 w-full h-full bg-white z-[3]">
+    <div className="fixed justify-start h-[100%] flex  top-0 right-0 w-full bg-white z-[130]">
       <div className="flex w-full mx-3 border-b-2 border-[#f99e23] p-2 h-fit">
         <BsForwardFill
           onClick={() => setSearchModal(false)}
@@ -59,8 +79,17 @@ function SearchModal({ setSearchModal }: { setSearchModal: any }) {
           size={40}
         />
         <input
-          placeholder="جستجو"
-          className="p-2 m-2 cursor-pointer h-fit"
+          type={"search"}
+          placeholder={"جستجو"}
+          style={{
+            transition: "height 1.2s ease-in-out",
+            outlineStyle: "none",
+          }}
+          onKeyDown={(e) => enterChecker(e?.key ?? "nothing")}
+          onChange={(e) => setSearchString(e.target.value)}
+          className={`flex w-full focus:w-full  h-[40px] bg-transparent p-2 text-slate-600  ${
+            searchModal === true ? "rounded-b-none z-[2]" : ""
+          }`}
         ></input>
       </div>
     </div>
@@ -83,7 +112,7 @@ function MobileUserProfile() {
   const [userCheck, setUserCheck] = useState<string | undefined>(undefined);
 
   const userInfo: Client = useAppSelector(selectUserInfo);
-  // const mobileCheck = useAppSelector(selectDeviceType);
+  const mobileCheck = useAppSelector(selectDeviceType);
 
   const dispatch = useAppDispatch();
   const [drop, setDrop] = useState<boolean>(false);
@@ -102,11 +131,17 @@ function MobileUserProfile() {
       <div
         style={{
           transition: `${
-            drop === true ? "opacity 800ms ease-in-out" : "all 300ms ease-in"
+            drop === true
+              ? "opacity 800ms ease-in-out"
+              : "opacity 800ms ease-in-out"
           }`,
           opacity: `${drop === true ? "100%" : "0%"}`,
           width: `${true === true ? "100%" : "0%"}`,
           height: `${drop === true ? "100%" : "0%"}`,
+        }}
+        onClick={() => {
+          setTimeout(() => setDrop(false), timeout);
+          // setDrop(false);
         }}
         onTouchStart={() => {
           setTimeout(() => setDrop(false), timeout);
@@ -128,15 +163,20 @@ function MobileUserProfile() {
             id="user-profile"
             ref={profileElement}
             onMouseEnter={() => {
-              // setDrop(true);
-              setTimeout(() => setDrop(true), timeout);
+              if (mobileCheck === "mobile") {
+              } else {
+                setTimeout(() => setDrop(true), timeout);
+              }
             }}
-            onTouchStart={() => {
+            onClick={() => {
               // setDrop(true);
               setTimeout(() => setDrop(true), timeout);
             }}
             onMouseLeave={() => {
-              setTimeout(() => setDrop(false), timeout);
+              if (mobileCheck === "mobile") {
+              } else {
+                setTimeout(() => setDrop(false), timeout);
+              }
               // setDrop(false);
             }}
             className="inline-flex justify-end w-full z-[2]"
@@ -190,6 +230,7 @@ function MobileUserProfile() {
                     <button
                       onClick={() => {
                         dispatch(removeProfile());
+                        setDrop(false);
                       }}
                       className=" m-2  p-2 rounded-md bg-blackout-red text-white text-sm font-Vazir-Medium"
                     >

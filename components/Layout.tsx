@@ -31,6 +31,31 @@ const config: SWRConfiguration = {
   // ...
 };
 
+import Router, { useRouter } from "next/router";
+import LoadingOne from "./loader/default";
+
+var changeRoute: boolean = false;
+
+// function changeRoute() {
+//   changePro = true;
+// }
+// function changeRoute2() {
+//   changePro = false;
+// }
+
+// Router.events.on("routeChangeStart", changeRoute);
+// Router.events.on("routeChangeError", changeRoute2);
+// Router.events.on("routeChangeComplete", changeRoute2);
+Router.events.on("routeChangeStart", isLoader);
+Router.events.on("hashChangeComplete", isComplete);
+Router.events.on("routeChangeError", isComplete);
+function isLoader() {
+  changeRoute = true;
+}
+function isComplete() {
+  changeRoute = false;
+}
+
 var scrollBefore = 0;
 
 function Layout({ children }: { children: any }) {
@@ -46,6 +71,8 @@ function Layout({ children }: { children: any }) {
   const [navHidden, setNavHidden] = useState<boolean>(false);
   const [lastNumber, setLastNumber] = useState<number>(500);
   const [config, setConfig] = useState<boolean>(false);
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   //================================================
   function configPage() {
     dispatch(fetchSettingsAsync());
@@ -116,10 +143,39 @@ function Layout({ children }: { children: any }) {
       setIsmob("false");
     }
   }, [updateSize]);
+
+  useEffect(() => {
+    const handleStartChange = () => {
+      setIsLoading(true);
+    };
+    const handleEndChange = () => {
+      setIsLoading(false);
+    };
+
+    router.events.on("routeChangeStart", handleStartChange);
+    router.events.on("routeChangeComplete", handleEndChange);
+    router.events.on("routeChangeError", handleEndChange);
+
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method:
+    return () => {
+      router.events.off("routeChangeStart", handleStartChange);
+      router.events.off("routeChangeComplete", handleEndChange);
+      router.events.off("routeChangeError", handleEndChange);
+    };
+  }, []);
+
   //================================================
 
   return (
-    <div>
+    <div style={{}} className="">
+      {isLoading ? (
+        <div className="fixed flex items-center justify-center z-[1000] bg-black/50 top-0 left-0 h-[100%] w-[100%]">
+          <LoadingOne />
+        </div>
+      ) : (
+        <></>
+      )}
       {ismob === "true" ? (
         <>
           <div className="flex bg-white border-b-2 mx-3 z-[1] ">

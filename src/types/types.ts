@@ -411,3 +411,7 @@ export interface Theme {
   DeviceType?: "android" | "ios" | "mobile" | "tablet" | "pc" | "laptop";
 }
 //--------------------------------------------------
+export interface Sort {
+  SortType: "asce" | "desc";
+  SortBy: "date" | "price" | "interest" | "likes" | "ralative" | "sell";
+}

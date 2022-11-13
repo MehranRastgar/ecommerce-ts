@@ -152,10 +152,121 @@ export function CartSection({
 
   return (
     <>
-      {deviceType === "mobile" ? (
+      {"mobile" === "mobile" ? (
         <>
-          <div className="fixed w-[100%] button-0 left-0 h-[100%] flex bg-gray-500 z-[150]">
-            {deviceType}
+          <div className="fixed w-[100%] items-center bottom-0 left-0 h-[60px] flex bg-blackout-saffron z-[50]">
+            <div className="h-fit flex">
+              {findedIndex < 1 ? (
+                <button
+                  onTouchEnd={(event) => {
+                    setMouseOverbutton(false);
+                  }}
+                  onTouchStart={(event) => {
+                    setMouseOverbutton(true);
+                  }}
+                  onClick={(event) => {
+                    //setActive(true)
+                    handleAddToCart();
+                  }}
+                  className={`flex items-center transition-all duration-100 font-bold font-Vazirmatn bg-blackout-black focus:ring-4 focus:outline-none shadow-lg  rounded-lg text-md px-5 p-2 m-2 text-center ${
+                    mouseOverbutton ? " text-white mx-3" : "text-white"
+                  }`}
+                >
+                  <GoDiffAdded
+                    size={20}
+                    className={`flex  ${
+                      mouseOverbutton
+                        ? "rotate-45 text-white mx-3"
+                        : "mx-1  text-blackout-white"
+                    } transition-all duration-100 `}
+                  ></GoDiffAdded>
+                  {CartState === "loading" ? loadingSvg : "به سبد"}
+                </button>
+              ) : (
+                <>
+                  <div className="flex  rounded-lg justify-around bg-gray-200 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2">
+                    <button
+                      disabled={findedIndex > 1 ? true : false}
+                      onClick={(event) => {
+                        // setActive(true);
+                        // AddToCart();
+                        handleAddToCart();
+                      }}
+                    >
+                      <IoIosAddCircle
+                        size={20}
+                        className={`flex  rounded-full   ${
+                          findedIndex > 1 ? "text-gray-400" : "text-green-400"
+                        }`}
+                      ></IoIosAddCircle>
+                    </button>
+
+                    <a className="transition-transform ease-out duration-1000 font-Vazirmatn font-bold flex flex-wrap text-md justify-center  text-red-400 w-8">
+                      {findedIndex}{" "}
+                      {findedIndex > 1 ? (
+                        <span className="flex text-xs justify-center w-full hover:text-red-900 transition-colors ease-out duration-1000">
+                          حداکثر
+                        </span>
+                      ) : (
+                        <span></span>
+                      )}
+                    </a>
+                    <button
+                      onClick={(event) => {
+                        //setActive(false),
+                        handleReduceFromCart();
+                      }}
+                    >
+                      {findedIndex > 0 ? (
+                        <IoMdRemoveCircle
+                          size={20}
+                          className="flex   rounded-full  text-red-400"
+                        ></IoMdRemoveCircle>
+                      ) : (
+                        <GoTrashcan
+                          size={20}
+                          className="flex transition-transform ease-out duration-500 hover:text-red-600 hover:scale-125 text-red-400"
+                        ></GoTrashcan>
+                      )}
+                    </button>
+                  </div>
+                  {true ? (
+                    <Link
+                      href="/checkout/cart"
+                      className=" font-Vazirmatn font-bold text-xs flex rounded-lg justify-around bg-gray-200 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2"
+                    >
+                      <span className="mx-1 text-center">مشاهده سبد خرید</span>
+                      <AiOutlineShoppingCart
+                        className=" text-red-600"
+                        size={20}
+                      ></AiOutlineShoppingCart>
+                    </Link>
+                  ) : (
+                    <></>
+                  )}
+                </>
+              )}
+            </div>
+            <div className="flex w-1/2">
+              {product?.variants?.[variantNumber ?? 0]?.price?.selling_price ===
+                0 ||
+              product?.variants?.[variantNumber ?? 0]?.price?.selling_price ===
+                undefined ? (
+                <></>
+              ) : (
+                <>
+                  <ul className="flex w-full h-fit min-w-[300px] justify-center text-center font-Vazir-Bold">
+                    <li className="px-2">
+                      {(
+                        product?.variants?.[variantNumber ?? 0].price
+                          .selling_price / 10
+                      ).toLocaleString()}{" "}
+                    </li>
+                    <li className="px-2">تومان</li>
+                  </ul>
+                </>
+              )}
+            </div>
           </div>
         </>
       ) : (
@@ -336,7 +447,7 @@ function VariantSection({
       >
         {product?.variants?.map((variant, index) => (
           <>
-            <div className="flex flex-wrap w-1/3 p-2">
+            <div className="flex flex-wrap w-2/3 md:w-1/3 p-2">
               <div
                 onClick={() => {
                   setVariantNumber(index);
@@ -389,28 +500,108 @@ function ProductAttributeComponentReview({ product }: { product: Product }) {
   return (
     <>
       <div className="flex flex-wrap text-justify w-full h-fit font-Vazir-Medium mt-14 select-none">
-        <div className="flex text-justify w-full font-Vazir-Medium">
+        {/* <div className="flex text-justify w-full font-Vazir-Medium">
           <div className="flex text-justify w-fit p-2">
-            {product.attributes[0].title}
+            {
+              product.attributes?.[
+                product.attributes.findIndex(
+                  (item) => item.title === "نوع پردازنده"
+                )
+              ].title
+            }
           </div>
           <div className="flex text-justify w-fit p-2">
-            {product.attributes[0].values}
+            {
+              product.attributes?.[
+                product.attributes.findIndex(
+                  (item) => item.title === "نوع پردازنده"
+                )
+              ].values
+            }
           </div>
         </div>
         <div className="flex text-justify w-full font-Vazir-Medium">
           <div className="flex text-justify w-fit p-2">
-            {product.attributes[1].title}
+            {
+              product.attributes?.[
+                product.attributes.findIndex(
+                  (item) => item.title === "فناوری صفحه‌نمایش"
+                )
+              ]?.title
+            }
           </div>
           <div className="flex text-justify w-fit p-2">
-            {product.attributes[1].values}
+            {
+              product.attributes?.[
+                product.attributes.findIndex(
+                  (item) => item.title === "فناوری صفحه‌نمایش"
+                )
+              ]?.values
+            }
           </div>
         </div>
+        <div className="flex text-justify w-full font-Vazir-Medium">
+          <div className="flex text-justify w-fit p-2">
+            {
+              product.attributes?.[
+                product.attributes.findIndex(
+                  (item) => item.title === "شبکه های ارتباطی"
+                )
+              ]?.title
+            }
+          </div>
+          <div className="flex text-justify w-fit p-2">
+            {
+              product.attributes?.[
+                product.attributes.findIndex(
+                  (item) => item.title === "شبکه های ارتباطی"
+                )
+              ]?.values
+            }
+          </div>
+        </div>
+        <div className="flex text-justify w-full font-Vazir-Medium">
+          <div className="flex text-justify w-fit p-2">
+            {
+              product.attributes?.[
+                product.attributes.findIndex(
+                  (item) => item.title === "مقدار RAM"
+                )
+              ]?.title
+            }
+          </div>
+          <div className="flex text-justify w-fit p-2">
+            {
+              product.attributes?.[
+                product.attributes.findIndex(
+                  (item) => item.title === "مقدار RAM"
+                )
+              ]?.values
+            }
+          </div>
+        </div> */}
         <div className="flex text-justify w-full font-Vazir-Medium">
           <div className="flex text-justify w-fit p-2">
             {product.attributes[2].title}
           </div>
           <div className="flex text-justify w-fit p-2">
             {product.attributes[2].values}
+          </div>
+        </div>
+        <div className="flex text-justify w-full font-Vazir-Medium">
+          <div className="flex text-justify w-fit p-2">
+            {product.attributes[4].title}
+          </div>
+          <div className="flex text-justify w-fit p-2">
+            {product.attributes[4].values}
+          </div>
+        </div>
+        <div className="flex text-justify w-full font-Vazir-Medium">
+          <div className="flex text-justify w-fit p-2">
+            {product.attributes[5].title}
+          </div>
+          <div className="flex text-justify w-fit p-2">
+            {product.attributes[5].values}
           </div>
         </div>
         <a href={`#espicification`}>

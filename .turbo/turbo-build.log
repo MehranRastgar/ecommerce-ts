@@ -3,23 +3,39 @@ info  - Loaded env from G:\gh\ecomerce-ts\ecommerce-ts\.env.local
 info  - Linting and checking validity of types...
 
 ./pages/client/login.tsx
-115:6  Warning: React Hook useEffect has missing dependencies: 'errorMessage.length', 'returnUrl', and 'router.query.returnUrl'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+118:6  Warning: React Hook useEffect has missing dependencies: 'errorMessage.length', 'returnUrl', and 'router.query.returnUrl'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./pages/search/brand/[brand].tsx
+48:6  Warning: React Hook useEffect has a missing dependency: 'router.query.page'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./pages/search/category/[category]/[subcat].tsx
+48:6  Warning: React Hook useEffect has a missing dependency: 'router.query.page'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./pages/search/category/[category].tsx
+48:6  Warning: React Hook useEffect has a missing dependency: 'router.query.page'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./pages/search/index.tsx
-45:6  Warning: React Hook useEffect has a missing dependency: 'router.query.page'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-120:6  Warning: React Hook useEffect has a missing dependency: 'changeState'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+46:6  Warning: React Hook useEffect has a missing dependency: 'router.query.page'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+122:6  Warning: React Hook useEffect has a missing dependency: 'changeState'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/headers/navbarMobile.tsx
+55:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'settingState'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/headers/navbarOne.tsx
+38:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'settingState'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./components/Layout.tsx
-60:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
-99:6  Warning: React Hook useEffect has a missing dependency: 'sizeComponent'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-118:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+87:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+126:6  Warning: React Hook useEffect has a missing dependency: 'sizeComponent'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+145:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+166:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./components/product/ProductCardOne.tsx
 43:6  Warning: React Hook useEffect has a missing dependency: 'minifyProduct?.color'. Either include it or remove the dependency array. If 'setColorState' needs the current value of 'minifyProduct.color', you can also switch to useReducer instead of useState and read 'minifyProduct.color' in the reducer.  react-hooks/exhaustive-deps
 
 ./components/ProductPage/ProductInfoSection.tsx
-43:6  Warning: React Hook useEffect has a missing dependency: 'autoVariantSelection'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-136:6  Warning: React Hook useEffect has a missing dependency: 'handleClickShape'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+44:6  Warning: React Hook useEffect has a missing dependency: 'autoVariantSelection'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+147:6  Warning: React Hook useEffect has a missing dependency: 'handleClickShape'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./components/products/ProductSliderOne.tsx
 164:6  Warning: React Hook useEffect has a missing dependency: 'minifyProduct?.color'. Either include it or remove the dependency array. If 'setColorState' needs the current value of 'minifyProduct.color', you can also switch to useReducer instead of useState and read 'minifyProduct.color' in the reducer.  react-hooks/exhaustive-deps
@@ -41,23 +57,26 @@ info  - Finalizing page optimization...
 
 Route (pages)                              Size     First Load JS
 ┌ ● /                                      178 B           134 kB
-├   /_app                                  0 B             133 kB
-├ ○ /404                                   293 B           134 kB
-├ λ /api/counter                           0 B             133 kB
-├ λ /api/hello                             0 B             133 kB
-├ λ /api/image                             0 B             133 kB
-├ λ /api/sendotp                           0 B             133 kB
-├ λ /api/signin                            0 B             133 kB
-├ ○ /client/login                          2.51 kB         136 kB
-├ ○ /other                                 386 B           134 kB
-├ λ /products/[id]/[name]                  6.35 kB         140 kB
-└ λ /search                                3.11 kB         137 kB
-+ First Load JS shared by all              141 kB
+├   /_app                                  0 B             134 kB
+├ ○ /404                                   293 B           135 kB
+├ λ /api/counter                           0 B             134 kB
+├ λ /api/hello                             0 B             134 kB
+├ λ /api/image                             0 B             134 kB
+├ λ /api/sendotp                           0 B             134 kB
+├ λ /api/signin                            0 B             134 kB
+├ ○ /client/login                          1.9 kB          136 kB
+├ ○ /other                                 386 B           135 kB
+├ λ /products/[id]/[name]                  6.04 kB         140 kB
+├ λ /search                                186 B           137 kB
+├ λ /search/brand/[brand]                  850 B           138 kB
+├ λ /search/category/[category]            850 B           138 kB
+└ λ /search/category/[category]/[subcat]   858 B           138 kB
++ First Load JS shared by all              142 kB
   ├ chunks/framework-3b5a00d5d7e8d93b.js   45.4 kB
   ├ chunks/main-7fd5f84692d6e98f.js        25.7 kB
-  ├ chunks/pages/_app-0f185d7b624ffa11.js  61.5 kB
+  ├ chunks/pages/_app-9ff56e54585ee77b.js  62.3 kB
   ├ chunks/webpack-527576ff117bb29f.js     826 B
-  └ css/188067f7cf5560e9.css               7.13 kB
+  └ css/b66ae85b09a15d36.css               7.51 kB
 
 λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
 ○  (Static)  automatically rendered as static HTML (uses no initial props)

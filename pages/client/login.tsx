@@ -19,6 +19,7 @@ import {
   selectMobileNumber,
 } from "../../src/store/slices/clientSlice";
 import { OtpRequest, SignInRequest } from "../../src/types/types";
+import LoadingOne from "../../components/loader/default";
 
 // import { useCookies } from "react-cookie";
 
@@ -142,7 +143,7 @@ export default function Login() {
                     setOtpCode(Number(e.target.value));
                   }}
                   type="string"
-                  className="  m-4 p-3 w-1/2 rounded-lg border flex justify-center rtl"
+                  className="m-4 p-3 w-1/2 rounded-lg border flex justify-center rtl"
                   placeholder="******"
                   id="code"
                 ></input>
@@ -157,7 +158,7 @@ export default function Login() {
                     تایید
                   </button>
 
-                  {signInFlag === "smsWaiting" ? loadingSvg : ""}
+                  {signInFlag === "smsWaiting" ? <LoadingOne /> : ""}
                 </div>
               </div>
             </>
@@ -193,7 +194,7 @@ export default function Login() {
                     }}
                     className=" mb-4 rounded-lg p-4  text-white bg-cyan-400 text-xl"
                   >
-                    {isLoading ? loadingSvg : "دریافت کد"}
+                    {isLoading ? <LoadingOne /> : "دریافت کد"}
                   </button>
                 </div>
                 <div
@@ -223,7 +224,7 @@ export default function Login() {
           {signInFlag === "loading" ? (
             <>
               <div className="h-48 bg-slate-900 text-brand-green p-5 flex justify-center items-center text-3xl text-center">
-                {loadingSvg}
+                {<LoadingOne />}
               </div>
             </>
           ) : (

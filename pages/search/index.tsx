@@ -8,6 +8,7 @@ import {
   MinifyProduct,
   ProductInterface,
   ProductsSearch,
+  Sort,
 } from "../../src/types/types";
 import Router, { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
@@ -255,10 +256,32 @@ export function Pagination({
   );
 }
 //==============================================================================================//
+import { FaSortAmountUpAlt } from "react-icons/fa";
+
 export function SortComponent() {
+  const sort: Sort = {
+    SortBy: "date",
+    SortType: "desc",
+  };
+
+  // const sorts:{
+  //   Sort[],
+  //   string
+  // }=[
+  //   {
+  //   SortBy: "date",
+  //   SortType: "desc",
+  //   },
+
+  // ]
+
   return (
-    <div className="w-full bg-slate-500 h-8">
-      <span className="flex w-fit rounded-xl border p-2 h-fit">مرتب سازی</span>
+    <div className="flex w-full h-8">
+      <FaSortAmountUpAlt size={25} />
+      <span className="flex h-fit w-fit rounded-xl  px-2 font-Vazir-Medium">
+        ترتیب :
+      </span>
+      <ul></ul>
     </div>
   );
 }

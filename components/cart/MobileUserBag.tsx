@@ -59,7 +59,9 @@ export default function MobileUserBag() {
       <div
         style={{
           transition: `${
-            drop === true ? "opacity 800ms ease-in-out" : "all 300ms ease-in"
+            drop === true
+              ? "opacity 800ms ease-in-out"
+              : "opacity 800ms ease-in-out"
           }`,
           opacity: `${drop === true ? "100%" : "0%"}`,
           width: `${true === true ? "100%" : "0%"}`,
@@ -69,21 +71,31 @@ export default function MobileUserBag() {
           // setDrop(false);
           setTimeout(() => setDrop(false), timeout);
         }}
+        onClick={() => {
+          // setDrop(false);
+          setTimeout(() => setDrop(false), timeout);
+        }}
         className="fixed top-0 left-0 z-[3] w-[100%] h-[100%] bg-black/60"
       ></div>
 
       <div
         id="bag-container"
         onMouseEnter={() => {
-          setTimeout(() => setDrop(true), timeout);
+          if (mobileCheck === "mobile") {
+          } else {
+            setTimeout(() => setDrop(true), timeout);
+          }
         }}
-        onTouchStart={() => {
+        onClick={() => {
           // setDrop(true);
           setTimeout(() => setDrop(true), timeout);
         }}
         onMouseLeave={() => {
+          if (mobileCheck === "mobile") {
+          } else {
+            setTimeout(() => setDrop(false), timeout);
+          }
           // setDrop(false);
-          setTimeout(() => setDrop(false), timeout);
         }}
         ref={bagElement}
         className="flex justify-end w-1/2 z-[50]"
