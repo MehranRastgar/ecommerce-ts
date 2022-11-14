@@ -26,9 +26,8 @@ info  - Linting and checking validity of types...
 
 ./components/Layout.tsx
 87:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
-126:6  Warning: React Hook useEffect has a missing dependency: 'sizeComponent'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-145:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-166:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+152:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+173:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./components/product/ProductCardOne.tsx
 43:6  Warning: React Hook useEffect has a missing dependency: 'minifyProduct?.color'. Either include it or remove the dependency array. If 'setColorState' needs the current value of 'minifyProduct.color', you can also switch to useReducer instead of useState and read 'minifyProduct.color' in the reducer.  react-hooks/exhaustive-deps
@@ -56,7 +55,7 @@ info  - Generating static pages (5/5)
 info  - Finalizing page optimization...
 
 Route (pages)                              Size     First Load JS
-┌ ● / (679 ms)                             178 B           134 kB
+┌ ● /                                      178 B           134 kB
 ├   /_app                                  0 B             134 kB
 ├ ○ /404                                   293 B           135 kB
 ├ λ /api/counter                           0 B             134 kB
@@ -66,7 +65,7 @@ Route (pages)                              Size     First Load JS
 ├ λ /api/signin                            0 B             134 kB
 ├ ○ /client/login                          1.9 kB          136 kB
 ├ ○ /other                                 386 B           135 kB
-├ λ /products/[id]/[name]                  6.72 kB         141 kB
+├ λ /products/[id]/[name]                  6.76 kB         141 kB
 ├ λ /search                                186 B           137 kB
 ├ λ /search/brand/[brand]                  850 B           138 kB
 ├ λ /search/category/[category]            850 B           138 kB
@@ -74,9 +73,9 @@ Route (pages)                              Size     First Load JS
 + First Load JS shared by all              142 kB
   ├ chunks/framework-3b5a00d5d7e8d93b.js   45.4 kB
   ├ chunks/main-7fd5f84692d6e98f.js        25.7 kB
-  ├ chunks/pages/_app-2090bb30e4958914.js  62.3 kB
+  ├ chunks/pages/_app-4840c9eac968e621.js  62.3 kB
   ├ chunks/webpack-527576ff117bb29f.js     826 B
-  └ css/b66ae85b09a15d36.css               7.51 kB
+  └ css/6095bcf6c4a64288.css               7.53 kB
 
 λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
 ○  (Static)  automatically rendered as static HTML (uses no initial props)

@@ -136,7 +136,7 @@ export function ProductSliderItem({
 }: {
   minifyProduct: MinifyProduct | undefined;
 }) {
-  const devType = useSelector(selectDeviceType);
+  // const devType = useSelector(selectDeviceType);
   const [colorState, setColorState] = useState<string[]>();
   let price = (
     minifyProduct?.Price?.selling_price
@@ -163,11 +163,7 @@ export function ProductSliderItem({
     }
   }, []);
   return (
-    <div
-      className={`w-full   m-1 mx-2 ${
-        devType === "mobile" ? "min-w-[120px] " : "min-w-[200px]"
-      }`}
-    >
+    <div className={`w-full   m-1 mx-2 min-w-[120px] md:min-w-[200px]`}>
       <Link
         key={"click-on-product"}
         href={`/products/${minifyProduct?._id}/${(
@@ -182,21 +178,20 @@ export function ProductSliderItem({
         >
           <div className="flex flex-wrap  justify-center m-2">
             <Image
-              className=" rounded-xl"
+              className="md:w-[200px] w-[100px] h-auto rounded-xl"
               loader={imageLoader}
-              unoptimized
               loading="eager"
               src={imageAddress(
                 minifyProduct?.image,
-                devType === "mobile" ? 100 : 200,
-                devType === "mobile" ? 100 : 200,
+                200,
+                200,
                 80,
                 "webp",
                 undefined
               )}
               alt={minifyProduct?.title_en ?? "not-present"}
-              width={devType === "mobile" ? 75 : 150}
-              height={devType === "mobile" ? 75 : 150}
+              width={200}
+              height={200}
             />
           </div>
 

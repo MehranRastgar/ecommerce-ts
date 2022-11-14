@@ -38,9 +38,9 @@ function SearchComponent() {
   const [divSize, setDivSize] = useState<string>("0");
   const [searchString, setSearchString] = useState<string>("");
 
-  const numb: string | undefined = String(
-    document?.getElementById("mydiv")?.offsetWidth
-  );
+  // const numb: string | undefined = String(
+  //   document?.getElementById("mydiv")?.offsetWidth
+  // );
 
   function enterChecker(key: string) {
     setSearchModal(true);
@@ -54,8 +54,7 @@ function SearchComponent() {
   useEffect(() => {
     // console.log("numbnumbnumbnumb", numb);
     console.log(searchString);
-    if (numb) setDivSize(numb);
-  }, [numb, searchString]);
+  }, [searchString]);
 
   return (
     <>
@@ -73,7 +72,7 @@ function SearchComponent() {
         <div
           id={"mydiv"}
           onClick={() => setSearchModal(true)}
-          className={`flex items-center max-w-[720px]  p-2 rounded-xl m-2  h-[40px] ${
+          className={`flex items-center md:max-w-[720px]  p-2 rounded-xl m-2  h-[40px] ${
             searchModal === true
               ? "rounded-b-none z-[2] h-[42px] bg-gray-100"
               : "bg-gray-200"
@@ -98,13 +97,7 @@ function SearchComponent() {
               searchModal === true ? "rounded-b-none z-[2]" : ""
             }`}
           ></input>
-          {/* <input  className='flex w-5/6 p-1 bg-transparent m-1 h-full border-none focus:'></input> */}
         </div>
-        <SearchModal
-          searchModal={searchModal}
-          setSearchModal={setSearchModal}
-          divSize={divSize}
-        />
       </div>
     </>
   );
@@ -119,7 +112,7 @@ function SearchModal({
   divSize: string;
 }) {
   // const [styler, setStyler] = useState<string>();
-  const style: string = `fixed flex    flex-wrap rounded-t-none items-start   p-2 rounded-xl -mt-2 m-2 bg-gray-100  ${
+  const style: string = `fixed flex items-center md:max-w-[720px] w-full flex-wrap rounded-t-none items-start p-2 rounded-xl -mt-2 m-2 bg-gray-100 ${
     searchModal === true
       ? `h-[110px] z-[3]`
       : `h-[10px] overflow-hidden -translate-y-4  bg-gray-200  -z-[1]`
@@ -129,30 +122,25 @@ function SearchModal({
     <div
       style={{
         transition: "height 0.5s ease-in-out",
-        width: `${divSize}px`,
       }}
       className={style}
     >
-      {searchModal === true ? (
-        <>
-          <div className="border-t-2 px-2 z-[3] border-blackout-black w-full"></div>
-          <div className="  z-[3]">
-            <button
-              onClick={() => {
-                setSearchModal(false);
-              }}
-            >
-              <BsForwardFill
-                onClick={() => setSearchModal(false)}
-                color="#5c5c5c"
-                size={30}
-              />{" "}
-            </button>
-          </div>
-        </>
-      ) : (
-        <></>
-      )}
+      <>
+        <div className="border-t-2 px-2 z-[3] border-blackout-black w-full"></div>
+        <div className="  z-[3]">
+          <button
+            onClick={() => {
+              setSearchModal(false);
+            }}
+          >
+            <BsForwardFill
+              onClick={() => setSearchModal(false)}
+              color="#5c5c5c"
+              size={30}
+            />{" "}
+          </button>
+        </div>
+      </>
     </div>
   );
 }

@@ -57,6 +57,8 @@ export default function ProductImageComponent({
                     "webp",
                     undefined
                   )}
+                  placeholder="blur"
+                  blurDataURL="/public/Asset12.png"
                   alt={productData?.main?.title_en ?? "noname"}
                   width={800}
                   height={800}

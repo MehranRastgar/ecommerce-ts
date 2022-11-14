@@ -14,30 +14,18 @@ export default function CardPromotionOne({
   ImageSrc: string;
   Url: string;
 }) {
-  const deviceType = useAppSelector<
-    "android" | "ios" | "mobile" | "tablet" | "pc" | "laptop" | undefined
-  >(selectDeviceType);
-
   return (
     <Link href={Url ?? "/"} className="flex select-none">
       <Image
+        className={`flex w-[150px] md:w-[250px] h-auto m-2`}
         loader={imageLoader}
         alt={cardName ?? "-"}
         priority
-        unoptimized
-        width={deviceType === "mobile" ? 150 : 250}
-        height={deviceType === "mobile" ? 150 : 250}
-        className={`flex w-[150px] md:w-[250px] h-auto m-2`}
+        width={250}
+        height={250}
         unselectable="on"
         draggable={false}
-        src={imageAddress(
-          `${ImageSrc}${deviceType === "mobile" ? "" : "-4x"}.png`,
-          deviceType === "mobile" ? 150 : 250,
-          deviceType === "mobile" ? 150 : 250,
-          80,
-          "webp",
-          "public"
-        )}
+        src={imageAddress(`${ImageSrc}.png`, 250, 250, 80, "webp", "public")}
       />
     </Link>
   );

@@ -105,9 +105,9 @@ function Layout({ children }: { children: any }) {
   //================================================
   function sizeComponent() {
     var width = document.body.clientWidth;
-    if (width < eventScreenSize && ismob === "false") {
+    if (width < eventScreenSize) {
       setIsmob("true");
-    } else if (width > eventScreenSize && ismob === "true") {
+    } else if (width > eventScreenSize) {
       setIsmob("false");
     }
     setUpdateSize((pervValue) => !pervValue);
@@ -126,44 +126,33 @@ function Layout({ children }: { children: any }) {
   }, []);
   //================================================
   useEffect(() => {
-    const ismobact = isMobile === true ? "true" : "false";
-    var width = document.body.clientWidth;
-
-    if (width > eventScreenSize && ismobact === "false") {
-      dispatch(setDeviceType("pc"));
-      setIsmob("false");
-    } else if (width < eventScreenSize && ismobact === "false") {
+    if (isMobile === true) {
       dispatch(setDeviceType("mobile"));
-      setIsmob("true");
-    } else if (width < eventScreenSize && ismobact === "true") {
-      dispatch(setDeviceType("mobile"));
-      setIsmob("true");
-    } else if (width > eventScreenSize && ismobact === "true") {
+    } else {
       dispatch(setDeviceType("pc"));
-      setIsmob("false");
     }
-  }, [updateSize]);
+  }, [isMobile]);
 
-  useEffect(() => {
-    const handleStartChange = () => {
-      setIsLoading(true);
-    };
-    const handleEndChange = () => {
-      setIsLoading(false);
-    };
+  // useEffect(() => {
+  //   const handleStartChange = () => {
+  //     setIsLoading(true);
+  //   };
+  //   const handleEndChange = () => {
+  //     setIsLoading(false);
+  //   };
 
-    router.events.on("routeChangeStart", handleStartChange);
-    router.events.on("routeChangeComplete", handleEndChange);
-    router.events.on("routeChangeError", handleEndChange);
+  //   router.events.on("routeChangeStart", handleStartChange);
+  //   router.events.on("routeChangeComplete", handleEndChange);
+  //   router.events.on("routeChangeError", handleEndChange);
 
-    // If the component is unmounted, unsubscribe
-    // from the event with the `off` method:
-    return () => {
-      router.events.off("routeChangeStart", handleStartChange);
-      router.events.off("routeChangeComplete", handleEndChange);
-      router.events.off("routeChangeError", handleEndChange);
-    };
-  }, []);
+  //   // If the component is unmounted, unsubscribe
+  //   // from the event with the `off` method:
+  //   return () => {
+  //     router.events.off("routeChangeStart", handleStartChange);
+  //     router.events.off("routeChangeComplete", handleEndChange);
+  //     router.events.off("routeChangeError", handleEndChange);
+  //   };
+  // }, []);
 
   //================================================
 
@@ -176,58 +165,32 @@ function Layout({ children }: { children: any }) {
       ) : (
         <></>
       )}
-      {ismob === "true" ? (
-        <>
-          <div className="flex bg-white border-b-2 mx-3 z-[1] ">
-            <NavbarMobile></NavbarMobile>
-            <HeaderMobile></HeaderMobile>
-            <button className="flex h-fit m-2 p-2 border rounded-xl bg-gray-100">
-              <FaTelegram color="#f99e23" size={20} />
-              {/* <div className="text-xs font-Vazir-Bold w-full">پشنیبانی</div> */}
-            </button>
-          </div>
-          <MobileSearchComponent></MobileSearchComponent>
-        </>
-      ) : (
-        <>
-          {deviceDetect !== undefined && ismob !== "undefined" ? (
-            <>
-              <AdsBanner />
-              <div className="topHeader flex flex-wrap w-full fixed h-[100px] items-start">
-                <header
-                  className={` relative  items-center flex flex-nowrap lg:flex-nowrap xl:flex-nowrap 2xl:flex-nowrap md:flex-nowrap sm:flex-wrap justify-start font-Vazir w-full filter  bg-white z-[1] transition-all duration-500
+      <div className="md:hidden flex bg-white border-b-2 mx-3 z-[1] ">
+        <NavbarMobile></NavbarMobile>
+        <HeaderMobile></HeaderMobile>
+        <button className="flex h-fit m-2 p-2 border rounded-xl bg-gray-100">
+          <FaTelegram color="#f99e23" size={20} />
+          {/* <div className="text-xs font-Vazir-Bold w-full">پشنیبانی</div> */}
+        </button>
+      </div>
+      <MobileSearchComponent></MobileSearchComponent>
+      <AdsBanner />
+      <div className="hidden md:flex topHeader flex-wrap w-full fixed h-[100px] items-start">
+        <header
+          className={` relative  items-center flex flex-nowrap lg:flex-nowrap xl:flex-nowrap 2xl:flex-nowrap md:flex-nowrap sm:flex-wrap justify-start font-Vazir w-full filter  bg-white z-[1] transition-all duration-500
               ${isScrolled === true ? "-mt-[55px] h-[60px] " : "h-[60px] "}
              
               `}
-                >
-                  <Header></Header>
-                </header>
+        >
+          <Header></Header>
+        </header>
 
-                <NavbarOne
-                  navHidden={navHidden}
-                  isScrolled={isScrolled}
-                ></NavbarOne>
-              </div>
-              <div className="flex w-full bg-white h-[100px]"></div>{" "}
-            </>
-          ) : (
-            <></>
-          )}
-        </>
-      )}
-      {deviceDetect !== undefined && ismob !== "undefined" ? (
-        <div className="flex w-full justify-center min-h-screen">
-          {children}
-        </div>
-      ) : (
-        <></>
-      )}
-
-      {ismob === "true" ? (
-        <footer className="footer-mobile"></footer>
-      ) : (
-        <FooterMain></FooterMain>
-      )}
+        <NavbarOne navHidden={navHidden} isScrolled={isScrolled}></NavbarOne>
+      </div>
+      <div className="hidden md:flex w-full bg-white h-[100px]"></div>{" "}
+      <div className="flex w-full justify-center min-h-screen">{children}</div>
+      {/* <footer className="footer-mobile"></footer> */}
+      <FooterMain></FooterMain>
     </div>
   );
 }
@@ -235,7 +198,8 @@ function Layout({ children }: { children: any }) {
 export default Layout;
 
 function AdsBanner() {
-  const liClass: string = "p-2 m-2 inline-flex justify-center w-auto ";
+  const liClass: string =
+    "hidden p-2 m-2 md:inline-flex justify-center w-auto ";
 
   return (
     <div className="max-h-[80px] h-auto  overflow-hidden flex w-full bg-white">

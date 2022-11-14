@@ -47,30 +47,23 @@ export default function ProductCategoriesContainer() {
 }
 
 function CategoryItem({ itemCat }: { itemCat: L1 | undefined }) {
-  const deviceType = useAppSelector<
-    "android" | "ios" | "mobile" | "tablet" | "pc" | "laptop" | undefined
-  >(selectDeviceType);
-
-  useEffect(() => {}, [deviceType]);
   return (
     <>
       <Link href={`/search${itemCat?.url ?? "/"}`}>
         <Image
           loader={imageLoader}
-          className="flex w-fit m-2"
+          className="flex md:w-[200px] w-[100px] h-auto m-2"
           unoptimized
           alt={itemCat?.title ?? "-"}
           priority
-          width={deviceType === "mobile" ? 100 : 200}
-          height={deviceType === "mobile" ? 150 : 250}
+          width={200}
+          height={250}
           unselectable="on"
           draggable={false}
           src={imageAddress(
-            `/catImage/${itemCat?.title}${
-              deviceType === "mobile" ? "" : "-4x"
-            }.png`,
-            deviceType === "mobile" ? 100 : 200,
-            deviceType === "mobile" ? 150 : 250,
+            `/catImage/${itemCat?.title}.png`,
+            200,
+            250,
             80,
             "webp",
             "public"

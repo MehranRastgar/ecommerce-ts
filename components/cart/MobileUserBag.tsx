@@ -46,13 +46,13 @@ export default function MobileUserBag() {
     }
   }
 
-  const numb: string | undefined = String(
-    document?.getElementById("bag-container")?.offsetLeft
-  );
+  // const numb: string | undefined = String(
+  //   document?.getElementById("bag-container")?.offsetLeft
+  // );
 
   useEffect(() => {
     setCount(userInfo?.cart?.length ?? 0);
-  }, [bagElement, offsetY, numb, userInfo]);
+  }, [bagElement, offsetY, userInfo]);
   const timeout: number = 200;
   return (
     <>
@@ -64,7 +64,7 @@ export default function MobileUserBag() {
               : "opacity 800ms ease-in-out"
           }`,
           opacity: `${drop === true ? "100%" : "0%"}`,
-          width: `${true === true ? "100%" : "0%"}`,
+          width: `${drop === true ? "100%" : "0%"}`,
           height: `${drop === true ? "100%" : "0%"}`,
         }}
         onTouchStart={() => {
@@ -75,9 +75,8 @@ export default function MobileUserBag() {
           // setDrop(false);
           setTimeout(() => setDrop(false), timeout);
         }}
-        className="fixed top-0 left-0 z-[3] w-[100%] h-[100%] bg-black/60"
+        className="fixed top-0 left-0 z-[100] w-[100%] h-[100%] bg-black/60"
       ></div>
-
       <div
         id="bag-container"
         onMouseEnter={() => {
@@ -87,8 +86,12 @@ export default function MobileUserBag() {
           }
         }}
         onClick={() => {
-          // setDrop(true);
-          setTimeout(() => setDrop(true), timeout);
+          if (mobileCheck === "mobile") {
+            if (drop) setTimeout(() => setDrop(false), timeout);
+            else setTimeout(() => setDrop(true), timeout);
+          } else {
+            setTimeout(() => setDrop(true), timeout);
+          }
         }}
         onMouseLeave={() => {
           if (mobileCheck === "mobile") {
@@ -98,9 +101,11 @@ export default function MobileUserBag() {
           // setDrop(false);
         }}
         ref={bagElement}
-        className="flex justify-end w-1/2 z-[50]"
+        className="flex justify-end w-1/2 "
       >
-        <button className="inline-flex p-2">
+        <button
+          className={`inline-flex p-2 ${drop === true ? " z-[101]" : ""}`}
+        >
           <FaShoppingBag
             color={`${!drop ? "#48424966" : "#ffffff"}`}
             size={20}
@@ -113,14 +118,12 @@ export default function MobileUserBag() {
           style={{
             transition: "all 300ms ease-in-out",
             opacity: `${drop === true ? "100%" : "0%"}`,
-            width: `${
-              true === true ? (mobileCheck === "mobile" ? "90%" : "30%") : "0%"
-            }`,
             height: `${drop === true ? "40%" : "0%"}`,
-            zIndex: "2",
             transform: `translate3d(0px,  50px, 0px)`,
           }}
-          className={`fixed flex justify-center bg-transparent z-50`}
+          className={`fixed z-[101] flex justify-center bg-transparent 
+          ${drop ? "md:w-[40%] lg:w-[550px] w-[80%]" : "w-[0px]"}
+          `}
         >
           <div className="flex border rounded-xl mx-2 bg-white h-[98%] w-full overflow-hidden ">
             <div className="flex flex-wrap justify-end p-2 w-full font-Vazir-Medium ">
