@@ -57,19 +57,20 @@ function CategoryItem({ itemCat }: { itemCat: L1 | undefined }) {
       <Link href={`/search${itemCat?.url ?? "/"}`}>
         <Image
           loader={imageLoader}
+          className="flex w-fit m-2"
+          unoptimized
           alt={itemCat?.title ?? "-"}
           priority
-          width={deviceType === "mobile" ? 150 : 250}
-          height={deviceType === "mobile" ? 120 : 250}
-          className="m-3"
+          width={deviceType === "mobile" ? 100 : 200}
+          height={deviceType === "mobile" ? 150 : 250}
           unselectable="on"
           draggable={false}
           src={imageAddress(
             `/catImage/${itemCat?.title}${
               deviceType === "mobile" ? "" : "-4x"
             }.png`,
+            deviceType === "mobile" ? 100 : 200,
             deviceType === "mobile" ? 150 : 250,
-            undefined,
             80,
             "webp",
             "public"

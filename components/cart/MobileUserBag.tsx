@@ -136,8 +136,9 @@ export default function MobileUserBag() {
                         <>
                           <div className="flex my-2 p-2 rounded-xl shadow border h-[120px] w-full text-xs font-Vazir-Medium overflow-hidden">
                             <Image
-                              className=" rounded-xl"
+                              className="flex w-[100px] h-auto m-1 rounded-xl"
                               loader={imageLoader}
+                              unoptimized
                               quality="80"
                               loading="eager"
                               unselectable="on"

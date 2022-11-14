@@ -70,6 +70,7 @@ function OpenMenuModal({ setOpenMenu }: { setOpenMenu: any }) {
             <div>
               <Image
                 loader={imageLoader}
+                unoptimized
                 alt="InoMal Logo"
                 src={"/Asset12.png"}
                 priority

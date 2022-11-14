@@ -56,7 +56,7 @@ info  - Generating static pages (5/5)
 info  - Finalizing page optimization...
 
 Route (pages)                              Size     First Load JS
-┌ ● /                                      178 B           134 kB
+┌ ● / (679 ms)                             178 B           134 kB
 ├   /_app                                  0 B             134 kB
 ├ ○ /404                                   293 B           135 kB
 ├ λ /api/counter                           0 B             134 kB
@@ -66,7 +66,7 @@ Route (pages)                              Size     First Load JS
 ├ λ /api/signin                            0 B             134 kB
 ├ ○ /client/login                          1.9 kB          136 kB
 ├ ○ /other                                 386 B           135 kB
-├ λ /products/[id]/[name]                  6.04 kB         140 kB
+├ λ /products/[id]/[name]                  6.72 kB         141 kB
 ├ λ /search                                186 B           137 kB
 ├ λ /search/brand/[brand]                  850 B           138 kB
 ├ λ /search/category/[category]            850 B           138 kB
@@ -74,7 +74,7 @@ Route (pages)                              Size     First Load JS
 + First Load JS shared by all              142 kB
   ├ chunks/framework-3b5a00d5d7e8d93b.js   45.4 kB
   ├ chunks/main-7fd5f84692d6e98f.js        25.7 kB
-  ├ chunks/pages/_app-9ff56e54585ee77b.js  62.3 kB
+  ├ chunks/pages/_app-2090bb30e4958914.js  62.3 kB
   ├ chunks/webpack-527576ff117bb29f.js     826 B
   └ css/b66ae85b09a15d36.css               7.51 kB
 

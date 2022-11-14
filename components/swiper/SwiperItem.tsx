@@ -41,6 +41,7 @@ function SwiperItem({ imageSrc, imageAlt }: Props) {
         className="swiper-img"
         // quality={90}
         loader={imageLoader}
+        unoptimized
         unselectable="on"
         priority
         src={imageAddress(

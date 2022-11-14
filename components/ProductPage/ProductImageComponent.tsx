@@ -81,6 +81,7 @@ export default function ProductImageComponent({
                     onClick={() => {
                       setTab(index), fadeAnimation();
                     }}
+                    unoptimized
                     // blurDataURL={imageAddress(img, 5, 5, 50, "webp", undefined)}
                     placeholder={"empty"}
                     loading={"eager"}

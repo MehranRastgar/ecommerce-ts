@@ -19,20 +19,21 @@ export default function CardPromotionOne({
   >(selectDeviceType);
 
   return (
-    <Link href={Url ?? "/"} className="flex  select-none">
+    <Link href={Url ?? "/"} className="flex select-none">
       <Image
         loader={imageLoader}
         alt={cardName ?? "-"}
         priority
+        unoptimized
         width={deviceType === "mobile" ? 150 : 250}
-        height={deviceType === "mobile" ? 120 : 250}
-        className="m-3"
+        height={deviceType === "mobile" ? 150 : 250}
+        className={`flex w-[150px] md:w-[250px] h-auto m-2`}
         unselectable="on"
         draggable={false}
         src={imageAddress(
           `${ImageSrc}${deviceType === "mobile" ? "" : "-4x"}.png`,
           deviceType === "mobile" ? 150 : 250,
-          undefined,
+          deviceType === "mobile" ? 150 : 250,
           80,
           "webp",
           "public"

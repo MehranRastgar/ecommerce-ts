@@ -101,7 +101,8 @@ export async function checkSignIn(
       token: accessToken,
     },
   };
-  const uri: string = "http://localhost:5000/api/client/islogin/" + `${id}`;
+  const uri: string =
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/client/islogin/` + `${id}`;
   try {
     const { data, status } = await axios.get(uri, getConfig);
     // .then((Response: AxiosResponse) => {

@@ -53,15 +53,19 @@ export default function ProductCardOne({
       )}
     >
       <div className="flex w-full items-center">
-        <div key={minifyProduct?._id + "-a"} className="flex flex-wrap w-1/3">
+        <div
+          key={minifyProduct?._id + "-a"}
+          className="flex flex-wrap h-auto w-1/3"
+        >
           <Image
-            className=" rounded-xl"
+            className="w-[100px] h-auto rounded-xl"
             loader={imageLoader}
             quality="80"
             loading="eager"
             unselectable="on"
             draggable="false"
             placeholder="empty"
+            unoptimized
             src={imageAddress(
               minifyProduct?.image,
               100,
@@ -75,7 +79,7 @@ export default function ProductCardOne({
             height={100}
           />
         </div>
-        <div className="flex flex-wrap w-2/3">
+        <div className="flex  flex-wrap w-2/3">
           <div
             key={minifyProduct?._id + "-num3"}
             className="text-xs font-Vazir-Bold  items-center text-justify"
@@ -148,7 +152,8 @@ export default function ProductCardOne({
       >
         <div className="flex flex-wrap  justify-center m-2">
           <Image
-            className="flex h-fit rounded-xl"
+            className="flex w-[300px] rounded-xl  h-auto"
+            unoptimized
             loader={imageLoader}
             placeholder="empty"
             loading="eager"
