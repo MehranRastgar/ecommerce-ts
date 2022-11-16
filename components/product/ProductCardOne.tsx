@@ -44,7 +44,7 @@ export default function ProductCardOne({
   return (
     <>
       <Link
-        className="flex flex-wrap w-full justify-center items-center border-b border-b-slate-300 p-2 mt-0 mx-1 m-2 font-Vazir-Medium h-fit select-none md:w-1/2 lg:w-1/4 xl:w-1/5 2xl:w-1/5 3xl:w-1/5"
+        className="flex flex-wrap w-full justify-center items-center border-b border-b-slate-300 p-2 mt-0 mx-1 m-2 font-Vazir-Medium select-none h-auto md:w-1/2 lg:w-1/4 xl:w-1/5 2xl:w-1/5 3xl:w-1/5"
         href={encodeURI(
           `/products/${minifyProduct?._id}/${(
             minifyProduct?.title_fa ?? minifyProduct?.sku
@@ -53,8 +53,9 @@ export default function ProductCardOne({
             .replaceAll("/", "-")}`
         )}
       >
-        <div className="flex justify-center md:w-4/5 w-full items-center">
-          <div className="hidden md:flex flex-wrap  w-1/5">
+        <div className="flex items-start justify-center md:w-4/5 w-full ">
+          <div className="hidden md:flex flex-wrap items-start justify-start w-1/5">
+            <div className="font-Vazir-Bold text-xs m-2">رنگ</div>
             {colorState?.map((color, index) => (
               <>
                 <input

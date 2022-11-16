@@ -143,7 +143,6 @@ export function CartSection({
 
   useEffect(() => {
     if (CartState === "idle" || CartState === "success") handleClickShape();
-    // console.log(deviceType);
   }, [userInfo?.cart, product?._id, variantNumber, CartState, deviceType]);
 
   useEffect(() => {
@@ -152,126 +151,136 @@ export function CartSection({
 
   return (
     <>
-      <div className="md:hidden fixed w-[100%] items-center bottom-0 left-0 h-[60px] flex bg-blackout-saffron z-[50]">
-        <div className="h-fit flex w-1/2">
-          {findedIndex < 1 ? (
-            <button
-              onTouchEnd={(event) => {
-                setMouseOverbutton(false);
-              }}
-              onTouchStart={(event) => {
-                setMouseOverbutton(true);
-              }}
-              onClick={(event) => {
-                //setActive(true)
-                handleAddToCart();
-              }}
-              className={`flex items-center transition-all duration-100 font-bold font-Vazirmatn bg-blackout-black focus:ring-4 focus:outline-none shadow-lg  rounded-lg text-md px-5 p-2 m-2 text-center ${
-                mouseOverbutton ? " text-white mx-3" : "text-white"
-              }`}
-            >
-              <GoDiffAdded
-                size={20}
-                className={`flex  ${
-                  mouseOverbutton
-                    ? "rotate-45 text-white mx-3"
-                    : "mx-1  text-blackout-white"
-                } transition-all duration-100 `}
-              ></GoDiffAdded>
-              {CartState === "loading" ? loadingSvg : "به سبد"}
-            </button>
-          ) : (
-            <>
-              <div className="flex  rounded-lg justify-around bg-gray-200 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2">
+      <div className="lg:hidden fixed w-[100%] items-center bottom-0 left-0 h-[60px] flex bg-gradient-to-r from-blackout-saffron via-yellow-300 to-blackout-saffron z-[50]">
+        {product?.variants?.[variantNumber ?? 0]?.price?.selling_price > 0 ? (
+          <>
+            <div className="h-fit flex w-1/2">
+              {findedIndex < 1 ? (
                 <button
-                  disabled={findedIndex > 1 ? true : false}
+                  onTouchEnd={(event) => {
+                    setMouseOverbutton(false);
+                  }}
+                  onTouchStart={(event) => {
+                    setMouseOverbutton(true);
+                  }}
                   onClick={(event) => {
-                    // setActive(true);
-                    // AddToCart();
+                    //setActive(true)
                     handleAddToCart();
                   }}
+                  className={`flex items-center transition-all duration-100 font-bold font-Vazirmatn bg-blackout-black focus:ring-4 focus:outline-none shadow-lg  rounded-lg text-md px-5 p-2 m-2 text-center ${
+                    mouseOverbutton ? " text-white mx-3" : "text-white"
+                  }`}
                 >
-                  <IoIosAddCircle
+                  <GoDiffAdded
                     size={20}
-                    className={`flex  rounded-full   ${
-                      findedIndex > 1 ? "text-gray-400" : "text-green-400"
-                    }`}
-                  ></IoIosAddCircle>
+                    className={`flex  ${
+                      mouseOverbutton
+                        ? "rotate-45 text-white mx-3"
+                        : "mx-1  text-blackout-white"
+                    } transition-all duration-100 `}
+                  ></GoDiffAdded>
+                  {CartState === "loading" ? loadingSvg : "به سبد"}
                 </button>
-
-                <a className="transition-transform ease-out duration-1000 font-Vazirmatn font-bold flex flex-wrap text-md justify-center  text-red-400 w-8">
-                  {findedIndex}{" "}
-                  {findedIndex > 1 ? (
-                    <span className="flex text-xs justify-center w-full hover:text-red-900 transition-colors ease-out duration-1000">
-                      حداکثر
-                    </span>
-                  ) : (
-                    <span></span>
-                  )}
-                </a>
-                <button
-                  onClick={(event) => {
-                    //setActive(false),
-                    handleReduceFromCart();
-                  }}
-                >
-                  {findedIndex > 0 ? (
-                    <IoMdRemoveCircle
-                      size={20}
-                      className="flex   rounded-full  text-red-400"
-                    ></IoMdRemoveCircle>
-                  ) : (
-                    <GoTrashcan
-                      size={20}
-                      className="flex transition-transform ease-out duration-500 hover:text-red-600 hover:scale-125 text-red-400"
-                    ></GoTrashcan>
-                  )}
-                </button>
-              </div>
-              {true ? (
-                <Link
-                  href="/checkout/cart"
-                  className=" font-Vazirmatn font-bold text-xs flex rounded-lg justify-around bg-gray-200 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2"
-                >
-                  <span className="mx-1 text-center">مشاهده سبد خرید</span>
-                  <AiOutlineShoppingCart
-                    className=" text-red-600"
-                    size={20}
-                  ></AiOutlineShoppingCart>
-                </Link>
               ) : (
-                <></>
+                <>
+                  <div className="flex  rounded-lg justify-around bg-gray-200 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2">
+                    <button
+                      disabled={findedIndex > 1 ? true : false}
+                      onClick={(event) => {
+                        // setActive(true);
+                        // AddToCart();
+                        handleAddToCart();
+                      }}
+                    >
+                      <IoIosAddCircle
+                        size={20}
+                        className={`flex  rounded-full   ${
+                          findedIndex > 1 ? "text-gray-400" : "text-green-400"
+                        }`}
+                      ></IoIosAddCircle>
+                    </button>
+
+                    <a className="transition-transform ease-out duration-1000 font-Vazirmatn font-bold flex flex-wrap text-md justify-center  text-red-400 w-8">
+                      {findedIndex}{" "}
+                      {findedIndex > 1 ? (
+                        <span className="flex text-xs justify-center w-full hover:text-red-900 transition-colors ease-out duration-1000">
+                          حداکثر
+                        </span>
+                      ) : (
+                        <span></span>
+                      )}
+                    </a>
+                    <button
+                      onClick={(event) => {
+                        //setActive(false),
+                        handleReduceFromCart();
+                      }}
+                    >
+                      {findedIndex > 0 ? (
+                        <IoMdRemoveCircle
+                          size={20}
+                          className="flex   rounded-full  text-red-400"
+                        ></IoMdRemoveCircle>
+                      ) : (
+                        <GoTrashcan
+                          size={20}
+                          className="flex transition-transform ease-out duration-500 hover:text-red-600 hover:scale-125 text-red-400"
+                        ></GoTrashcan>
+                      )}
+                    </button>
+                  </div>
+                  {true ? (
+                    <Link
+                      href="/checkout/cart"
+                      className=" font-Vazirmatn font-bold text-xs flex rounded-lg justify-around bg-gray-200 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2"
+                    >
+                      <span className="mx-1 text-center">مشاهده سبد خرید</span>
+                      <AiOutlineShoppingCart
+                        className=" text-red-600"
+                        size={20}
+                      ></AiOutlineShoppingCart>
+                    </Link>
+                  ) : (
+                    <></>
+                  )}
+                </>
               )}
-            </>
-          )}
-        </div>
-        <div className="flex min-w-1/2 w-1/2">
-          {product?.variants?.[variantNumber ?? 0]?.price?.selling_price ===
-            0 ||
-          product?.variants?.[variantNumber ?? 0]?.price?.selling_price ===
-            undefined ? (
-            <></>
-          ) : (
-            <>
-              <ul className="flex w-full h-fit justify-center text-center font-Vazir-Bold">
-                <li className="px-2 ">
-                  {(
-                    product?.variants?.[variantNumber ?? 0].price
-                      .selling_price / 10
-                  ).toLocaleString()}{" "}
-                </li>
-                <li className="px-2">تومان</li>
-              </ul>
-            </>
-          )}
-        </div>
+            </div>
+            <div className="flex min-w-1/2 w-1/2">
+              {product?.variants?.[variantNumber ?? 0]?.price?.selling_price ===
+                0 ||
+              product?.variants?.[variantNumber ?? 0]?.price?.selling_price ===
+                undefined ? (
+                <></>
+              ) : (
+                <>
+                  <ul className="flex w-full h-fit justify-center text-center font-Vazir-Bold">
+                    <li className="px-2 ">
+                      {(
+                        product?.variants?.[variantNumber ?? 0].price
+                          .selling_price / 10
+                      ).toLocaleString()}{" "}
+                    </li>
+                    <li className="px-2">تومان</li>
+                  </ul>
+                </>
+              )}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="h-fit font-Vazir-Medium text-xl text-blackout-red flex w-full text-center justify-center">
+              ناموجود
+            </div>
+          </>
+        )}
       </div>
 
-      <div className="hidden md:flex flex-wrap shadow h-full justify-center p-4 max-w-[320px] min-w-[260px] max-h-[400px] w-1/4  border rounded-xl m-2 font-Vazir-Medium text-blackout-black bg-gray-100 justify-self-end overflow-hidden">
+      <div className="hidden p-6 lg:flex flex-wrap shadow-lg h-full justify-center max-w-[320px] min-w-[260px] max-h-[400px] w-1/4 border rounded-xl m-2 font-Vazir-Medium text-white bg-gradient-to-t from-gray-300 to-gray-400 justify-self-end overflow-hidden">
         {product?.variants?.[variantNumber]?.warranty! ? (
-          <ul className="w-full">
+          <ul className="w-full border-b h-fit pb-4 border-black">
             <li>گارانتی :</li>
-            <li>
+            <li className="text-justify w-fit">
               {product?.variants?.[variantNumber]?.warranty ?? "بدون گارانتی"}
             </li>
           </ul>
@@ -279,7 +288,7 @@ export function CartSection({
           <></>
         )}
         {product?.variants?.[variantNumber]?.color?.hex_code !== undefined ? (
-          <ul className="flex w-full">
+          <ul className="flex w-full border-b pb-4 border-black h-fit">
             <li className="px-2">رنگ :</li>
             <li className="px-2 flex">
               {product?.variants?.[variantNumber]?.color?.title}
@@ -295,15 +304,15 @@ export function CartSection({
         ) : (
           <></>
         )}
-        <div className="flex w-full "></div>
+        <div className="flex w-full"></div>
         {product?.variants?.[variantNumber ?? 0]?.price?.selling_price === 0 ||
         product?.variants?.[variantNumber ?? 0]?.price?.selling_price ===
           undefined ? (
           <></>
         ) : (
           <>
-            <ul className="flex w-full h-fit min-w-[300px] justify-center text-center font-Vazir-Bold">
-              <li className="px-2">
+            <ul className="flex w-full items-center h-fit min-w-[300px] justify-center text-center font-Vazir-Bold">
+              <li className="px-2 text-xl text-green-600">
                 {(
                   product?.variants?.[variantNumber ?? 0].price.selling_price /
                   10
@@ -316,7 +325,7 @@ export function CartSection({
         {product?.variants?.[variantNumber ?? 0]?.price?.selling_price !== 0 &&
         product?.variants?.[variantNumber ?? 0]?.price?.selling_price !==
           undefined ? (
-          <ul className="h-fit ">
+          <ul className="h-fit border-b border-black ">
             {findedIndex < 1 ? (
               <button
                 onMouseLeave={(event) => {
@@ -412,7 +421,9 @@ export function CartSection({
             </div>
           </ul>
         ) : (
-          <div className="flex text-blackout-red ">ناموجود</div>
+          <div className="flex font-Vazir-Medium text-2xl text-blackout-red ">
+            ناموجود
+          </div>
         )}
       </div>
     </>

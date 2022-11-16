@@ -16,7 +16,7 @@ import mongoose, { NumberExpression } from "mongoose";
 import { GetServerSideProps } from "next";
 import ProProduct from "../../../src/models/ProProduct";
 import ProductCardOne from "../../../components/product/ProductCardOne";
-import { Pagination, SearchFilters } from "..";
+import { Pagination, SearchContainer, SearchFilters } from "..";
 //==============================================================================================//
 export default function SearchPage({
   products,
@@ -66,15 +66,13 @@ export default function SearchPage({
             setPage={setPageNumber}
           />
         </div>
-        <div ref={slideRef} className="flex justify-center w-full">
-          <div className="flex flex-wrap justify-center w-9/12">
-            {products?.map((product) => (
-              <>
-                <ProductCardOne minifyProduct={product} />
-              </>
-            ))}
-          </div>
-        </div>
+        <SearchContainer refs={slideRef}>
+          {products?.map((product) => (
+            <>
+              <ProductCardOne minifyProduct={product} />
+            </>
+          ))}
+        </SearchContainer>
       </div>
     </>
   );

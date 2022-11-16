@@ -62,15 +62,29 @@ export default function SearchPage({
             setPage={setPageNumber}
           />
         </div>
-        <div ref={slideRef} className="flex justify-center w-full">
-          <div className="flex flex-wrap justify-center w-9/12">
-            {products?.map((product) => (
-              <>
-                <ProductCardOne minifyProduct={product} />
-              </>
-            ))}
-          </div>
-        </div>
+        <SearchContainer refs={slideRef}>
+          {products?.map((product) => (
+            <>
+              <ProductCardOne minifyProduct={product} />
+            </>
+          ))}
+        </SearchContainer>
+      </div>
+    </>
+  );
+}
+//==============================================================================================//
+export function SearchContainer({
+  children,
+  refs,
+}: {
+  children: any;
+  refs: any;
+}) {
+  return (
+    <>
+      <div ref={refs} className="flex justify-center w-full">
+        <div className="flex flex-wrap justify-center w-10/12">{children}</div>
       </div>
     </>
   );
@@ -257,6 +271,7 @@ export function Pagination({
 }
 //==============================================================================================//
 import { FaSortAmountUpAlt } from "react-icons/fa";
+import { GoRepoForcePush } from "react-icons/go";
 
 export function SortComponent() {
   const sort: Sort = {

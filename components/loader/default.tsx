@@ -16,3 +16,22 @@ export default function LoadingOne() {
     </div>
   );
 }
+
+export function LoadingTwo() {
+  return (
+    <div className="lds-two">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  );
+}

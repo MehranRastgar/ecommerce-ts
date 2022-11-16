@@ -38,40 +38,37 @@ export default function ProductImageComponent({
 
   return (
     <>
-      <div className="flex flex-wrap w-full max-h-full overflow-hidden">
+      <div className="flex justify-center flex-wrap w-full max-h-full overflow-hidden">
         <div
           ref={slideRef}
-          className="w-full bg-white justify-items-stretch select-none"
+          className="flex w-full justify-center bg-white justify-items-stretch select-none"
         >
           {productData?.main?.images.length > 0 ? (
             <>
-              {!fullScreen ? (
-                <Image
-                  loader={imageLoader}
-                  unoptimized
-                  src={imageAddress(
-                    productData?.main?.images?.[tab],
-                    500,
-                    500,
-                    100,
-                    "webp",
-                    undefined
-                  )}
-                  placeholder="blur"
-                  blurDataURL="/public/Asset12.png"
-                  alt={productData?.main?.title_en ?? "noname"}
-                  width={800}
-                  height={800}
-                />
-              ) : (
-                <></>
-              )}
+              <Image
+                className="flex justify-center w-[500px] h-auto m-2 p-1"
+                loader={imageLoader}
+                src={imageAddress(
+                  productData?.main?.images?.[tab],
+                  500,
+                  500,
+                  90,
+                  "webp",
+                  undefined
+                )}
+                placeholder="blur"
+                blurDataURL="/Asset12.png"
+                loading="lazy"
+                alt={productData?.main?.title_en ?? "noname"}
+                width={500}
+                height={500}
+              />
             </>
           ) : (
             <></>
           )}
         </div>
-        <div className="flex justify-center border-b items-center mt-2">
+        <div className="overflow-y-hidden border rounded-xl overflow-hidden h-fit">
           <ScrollContainer
             hideScrollbars={false}
             className="flex scrollbar-for-slider  max-w-[600px] min-w-[600px] w-fit select-none max-h-[400px] overflow-x-auto  p-2 text-[12px]"
@@ -81,7 +78,7 @@ export default function ProductImageComponent({
                 <>
                   <Image
                     onClick={() => {
-                      setTab(index), fadeAnimation();
+                      setTab(index);
                     }}
                     unoptimized
                     // blurDataURL={imageAddress(img, 5, 5, 50, "webp", undefined)}
@@ -92,7 +89,7 @@ export default function ProductImageComponent({
                       `${tab === index ? "border-red-400 border-2" : ""}`
                     }
                     loader={imageLoader}
-                    src={imageAddress(img, 100, 100, 100, "webp", undefined)}
+                    src={imageAddress(img, 100, 100, 80, "webp", undefined)}
                     alt={productData?.main?.title_en ?? "noname"}
                     width={100}
                     height={100}

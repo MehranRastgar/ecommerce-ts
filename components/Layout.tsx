@@ -49,6 +49,7 @@ var changeRoute: boolean = false;
 Router.events.on("routeChangeStart", isLoader);
 Router.events.on("hashChangeComplete", isComplete);
 Router.events.on("routeChangeError", isComplete);
+
 function isLoader() {
   changeRoute = true;
 }
@@ -133,34 +134,49 @@ function Layout({ children }: { children: any }) {
     }
   }, [isMobile]);
 
-  // useEffect(() => {
-  //   const handleStartChange = () => {
-  //     setIsLoading(true);
-  //   };
-  //   const handleEndChange = () => {
-  //     setIsLoading(false);
-  //   };
+  useEffect(() => {
+    const handleStartChange = () => {
+      setIsLoading(true);
+    };
+    const handleEndChange = () => {
+      setIsLoading(false);
+    };
 
-  //   router.events.on("routeChangeStart", handleStartChange);
-  //   router.events.on("routeChangeComplete", handleEndChange);
-  //   router.events.on("routeChangeError", handleEndChange);
+    router.events.on("routeChangeStart", handleStartChange);
+    router.events.on("routeChangeComplete", handleEndChange);
+    router.events.on("routeChangeError", handleEndChange);
 
-  //   // If the component is unmounted, unsubscribe
-  //   // from the event with the `off` method:
-  //   return () => {
-  //     router.events.off("routeChangeStart", handleStartChange);
-  //     router.events.off("routeChangeComplete", handleEndChange);
-  //     router.events.off("routeChangeError", handleEndChange);
-  //   };
-  // }, []);
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method:
+    return () => {
+      router.events.off("routeChangeStart", handleStartChange);
+      router.events.off("routeChangeComplete", handleEndChange);
+      router.events.off("routeChangeError", handleEndChange);
+    };
+  }, []);
 
   //================================================
 
   return (
     <div style={{}} className="">
       {isLoading ? (
-        <div className="fixed flex items-center justify-center z-[1000] bg-black/50 top-0 left-0 h-[100%] w-[100%]">
-          <LoadingOne />
+        <div className="fixed flex-wrap flex items-center justify-center z-[1000] bg-black/50 top-0 left-0 h-[100%] w-[100%]">
+          <div className="flex flex-wrap h-fit">
+            <div className="flex h-fit justify-center w-full">
+              <Image
+                className="opacity-75"
+                loader={imageLoader}
+                alt="InoMal Logo"
+                src={"/Asset12.png"}
+                unoptimized
+                width={160}
+                height={100}
+              />
+            </div>
+            <div className="flex h-fit justify-center w-full">
+              <LoadingOne />
+            </div>
+          </div>
         </div>
       ) : (
         <></>
@@ -198,8 +214,7 @@ function Layout({ children }: { children: any }) {
 export default Layout;
 
 function AdsBanner() {
-  const liClass: string =
-    "hidden p-2 m-2 md:inline-flex justify-center w-auto ";
+  const liClass: string = "hidden p-2 m-2 md:inline-flex justify-center w-auto";
 
   return (
     <div className="max-h-[80px] h-auto  overflow-hidden flex w-full bg-white">

@@ -3,6 +3,7 @@ import {
   addToCartApi,
   checkSignIn,
   fetchClient,
+  PutUserApi,
   reduceFromCartApi,
   requestSms,
   signIn,
@@ -31,6 +32,15 @@ export interface ClientState {
   value: Client;
   status: "logedIn" | "loading" | "403" | "401" | "unknownError" | "logout";
   token: "loading" | string;
+  updateFlag:
+    | "idle"
+    | "request"
+    | "success"
+    | "pending"
+    | "403"
+    | "401"
+    | "unknownError"
+    | "faild";
   signInFlag:
     | "idle"
     | "request"
@@ -47,6 +57,7 @@ export interface ClientState {
 
 const initialState: ClientState = {
   value: {},
+  updateFlag: "idle",
   status: "loading",
   token: "loading",
   signInFlag: "idle",
@@ -104,6 +115,25 @@ export const signInCheck = createAsyncThunk("client/checkSignIn", async () => {
   console.log("response thunk", response);
   return response;
 });
+
+export const updateUserData = createAsyncThunk(
+  "client/updateUserData",
+  async (userInfo: Client) => {
+    const response:
+      | Client
+      | {
+          error: {
+            errorCode: any;
+          };
+        } = await PutUserApi(
+      String(localStorage?.getItem("accessToken")),
+      userInfo
+    );
+    console.log("response thunk", response);
+    return response;
+  }
+);
+
 //================================================================
 export const addToCart = createAsyncThunk(
   "client/addToCart",
@@ -288,6 +318,26 @@ export const clientSlice = createSlice({
             state.cartFlag = "error";
           }
         }
+      )
+      .addCase(updateUserData.pending, (state) => {
+        state.updateFlag = "pending";
+      })
+      .addCase(updateUserData.rejected, (state) => {
+        state.updateFlag = "faild";
+      })
+      .addCase(
+        updateUserData.fulfilled,
+        (state, action: PayloadAction<Client | any>) => {
+          if (
+            action?.payload?.error === undefined &&
+            action?.payload?.usernamebyphone !== undefined
+          ) {
+            state.value = action.payload;
+            state.updateFlag = "success";
+          } else {
+            state.updateFlag = "faild";
+          }
+        }
       );
   },
 });
@@ -305,6 +355,8 @@ export const selectToken = (state: AppState) => state.client.token;
 export const selectUserInfoStatus = (state: AppState) => state.client.status;
 export const selectSignInFlag = (state: AppState) => state.client.signInFlag;
 export const selectCartFlag = (state: AppState) => state.client.cartFlag;
+export const selectUserUpdateFlag = (state: AppState) =>
+  state.client.updateFlag;
 
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.

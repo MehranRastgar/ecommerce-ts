@@ -186,3 +186,42 @@ export async function reduceFromCartApi(
     }
   }
 }
+export async function PutUserApi(
+  token: string,
+  userInfo: Client
+): Promise<any | { error: { errorCode: any } }> {
+  // let clientid = localStorage.getItem("clientId");
+  // console.log(clientid);
+  // state.signInFlag = "request";
+
+  const getConfig = {
+    headers: {
+      "Cache-Control": "no-cache",
+      "Content-Type": "application/json;charset=UTF-8",
+      Accept: "*/*",
+      token: token,
+    },
+  };
+  const body: any = {
+    ...userInfo,
+  };
+  const uri: string = `${process.env.NEXT_PUBLIC_BASE_API_URL}/client/${String(
+    userInfo._id
+  )}`;
+  try {
+    const { data, status } = await axios.put(uri, body, getConfig);
+    // .then((Response: AxiosResponse) => {
+    //   console.log("sms sended:", Response.data);
+    //   if (Response.status < 300) state.signInFlag = "smsWaiting";
+    // })
+    // .catch((err) => {
+    //   state.signInFlag = "smsProviderError";
+    // });
+    const result: any = data;
+    return result;
+  } catch (err: any | AxiosError) {
+    {
+      return { error: { errorCode: JSON.stringify(err) } };
+    }
+  }
+}

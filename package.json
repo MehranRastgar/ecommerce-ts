@@ -15,6 +15,7 @@
     "@types/sharp": "^0.31.0",
     "axios": "^1.1.3",
     "jwt-decode": "^3.1.2",
+    "mapir-react-component": "^2.0.7",
     "mini-css-extract-plugin": "latest",
     "mongoose": "latest",
     "next": "^13.0.0",

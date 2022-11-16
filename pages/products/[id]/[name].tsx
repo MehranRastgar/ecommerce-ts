@@ -67,11 +67,13 @@ function ClickBar({ product }: { product: Product }) {
 export function ProductPriceComponent({ product }: { product: Product }) {}
 export function ProductDescriptionComponent({ product }: { product: Product }) {
   return (
-    <div className="flex flex-wrap text-center my-8 md:w-[85%] w-11/12 justify-center border rounded-xl p-4 shadow-lg">
-      <h3 className="h2 font-Vazir-Bold w-full my-8">درباره محصول</h3>
+    <div className="flex flex-wrap text-center my-8 max-w-[1200px] md:w-[85%] w-11/12 justify-center border rounded-xl p-4 shadow-lg">
+      <h3 className="h2 font-Vazir-Bold w-full my-8 leading-loose	">
+        درباره محصول
+      </h3>
       <div
         id="description"
-        className="font-Vazir-Medium md:w-8/12 w-full text-justify "
+        className="font-Vazir-Medium  w-full text-justify leading-loose	"
       >
         {product.review.description ?? product.main.long_desc}
       </div>

@@ -1,9 +1,9 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import Script from "next/script";
 
 export default function Document() {
   return (
     <Html lang="fa" dir="rtl" data-theme="corporate">
-      
       {/* <meta
         name="viewport"
         content="width=device-width, initial-scale=1, viewport-fit=cover"
@@ -16,19 +16,14 @@ export default function Document() {
       ></meta>
       <link rel="manifest" href="/manifest.json" />
       <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-      <meta name="theme-color" content="#317EFB"/>
+      <meta name="theme-color" content="#317EFB" />
       <Head>
         <link rel="icon" href="/favicon.ico" />
-
         {/* <title>بلاگ-پایتخت</title> */}
-
-
-        
       </Head>
 
-      <body  title="shopsoo"  >
-
-            {/* <noscript>
+      <body title="shopsoo">
+        {/* <noscript>
             <iframe
               src={`https://www.googletagmanager.com/ns.html?id=${process.env.GOOGLE_TAG_MANAGER}`}
               height="0"
@@ -37,7 +32,7 @@ export default function Document() {
             />
           </noscript> */}
 
-        <div id="page-transition" ></div>
+        <div id="page-transition"></div>
 
         <Main />
         <NextScript />
