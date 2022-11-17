@@ -27,7 +27,7 @@ export default function ProductAttributeComponent({
   return (
     <div
       id="espicification"
-      className="flex flex-col justify-center mt-20 max-w-[1200px] md:w-[85%] w-11/12 items-center border rounded-xl p-4 shadow-lg"
+      className="flex flex-col justify-center mt-20 max-w-[1200px] md:w-[85%] w-11/12 items-center border rounded-xl md:p-4 shadow-lg"
     >
       <h2 className="h2 font-Vazir-Medium my-12 text-blue-600">مشخصات فنی</h2>
       <div className={titleContainer}>
@@ -46,7 +46,7 @@ function NumberList({ attributeName }: { attributeName: attributeObj[] }) {
       <ul
         className={`flex flex-wrap md:flex-wrap-row justify-start items-start   ${
           index % 2 ? "bg-white" : "bg-gray-100"
-        } mx-4 font-Vazirmatn border border-white hover:border-black`}
+        } md:mx-4 font-Vazirmatn border border-white hover:border-black`}
       >
         <li
           className={`flex flex-wrap md:flex-wrap-row items-center w-full md:w-1/2  p-2  bg-transparent   text-base font-Vazirmatn font-bold px-10`}

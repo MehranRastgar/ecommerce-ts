@@ -415,3 +415,30 @@ export interface Sort {
   SortType: "asce" | "desc";
   SortBy: "date" | "price" | "interest" | "likes" | "ralative" | "sell";
 }
+//--------------------------------------------------
+export interface ReverseAddress {
+  address?: string;
+  postal_address?: string;
+  address_compact?: string;
+  primary?: string;
+  name?: string;
+  poi?: string;
+  country?: string;
+  province?: string;
+  county?: string;
+  district?: string;
+  rural_district?: string;
+  city?: string;
+  village?: string;
+  region?: string;
+  neighbourhood?: string;
+  last?: string;
+  plaque?: string;
+  postal_code?: string;
+  geom?: Geom;
+}
+
+export interface Geom {
+  type?: string;
+  coordinates?: string[];
+}

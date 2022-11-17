@@ -38,7 +38,7 @@ export default function ProductImageComponent({
 
   return (
     <>
-      <div className="flex justify-center flex-wrap w-full max-h-full overflow-hidden">
+      <div className="flex  justify-center flex-wrap w-full max-h-full overflow-hidden">
         <div
           ref={slideRef}
           className="flex w-full justify-center bg-white justify-items-stretch select-none"

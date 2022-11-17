@@ -83,6 +83,7 @@ export function CartSection({
   const CartState = useAppSelector(selectCartFlag);
   // const [cartArray, setCartArray] = useState<Cart[]>(userInfo.cart ?? []);
   const [findedIndex, setFindedIndex] = useState<number>(-1);
+  const [focus, setFocus] = useState<boolean>(false);
 
   function handleReduceFromCart() {
     if (
@@ -149,9 +150,15 @@ export function CartSection({
     // setCartArray(userInfo.cart ?? []);
   }, [CartState, userInfo, product]);
 
+  const toGra: string = `to-[${product?.variants?.[variantNumber]?.color?.hex_code}]`;
   return (
     <>
-      <div className="lg:hidden fixed w-[100%] items-center bottom-0 left-0 h-[60px] flex bg-gradient-to-r from-blackout-saffron via-yellow-300 to-blackout-saffron z-[50]">
+      {/* {focus === true ? (
+        <div className="fixed top-0 left-0 w-full h-full bg-transparent backdrop-filter backdrop-grayscale backdrop-blur-sm z-[3]"></div>
+      ) : (
+        <></>
+      )} */}
+      <div className="lg:hidden fixed w-[100%] items-center bottom-0 left-0 h-[60px] flex bg-transparent z-[50] backdrop-filter   backdrop-blur-md backdrop-contrast-200 backdrop-brightness-[70%]">
         {product?.variants?.[variantNumber ?? 0]?.price?.selling_price > 0 ? (
           <>
             <div className="h-fit flex w-1/2">
@@ -167,7 +174,7 @@ export function CartSection({
                     //setActive(true)
                     handleAddToCart();
                   }}
-                  className={`flex items-center transition-all duration-100 font-bold font-Vazirmatn bg-blackout-black focus:ring-4 focus:outline-none shadow-lg  rounded-lg text-md px-5 p-2 m-2 text-center ${
+                  className={`flex items-center transition-all duration-100 font-bold font-Vazirmatn bg-gradient-to-b from-gray-900 to-gray-600 hover:to-gray-900 focus:ring-4 focus:outline-none shadow-lg  rounded-lg text-md px-5 p-2 m-2 text-center ${
                     mouseOverbutton ? " text-white mx-3" : "text-white"
                   }`}
                 >
@@ -276,155 +283,171 @@ export function CartSection({
         )}
       </div>
 
-      <div className="hidden p-6 lg:flex flex-wrap shadow-lg h-full justify-center max-w-[320px] min-w-[260px] max-h-[400px] w-1/4 border rounded-xl m-2 font-Vazir-Medium text-white bg-gradient-to-t from-gray-300 to-gray-400 justify-self-end overflow-hidden">
-        {product?.variants?.[variantNumber]?.warranty! ? (
-          <ul className="w-full border-b h-fit pb-4 border-black">
-            <li>گارانتی :</li>
-            <li className="text-justify w-fit">
-              {product?.variants?.[variantNumber]?.warranty ?? "بدون گارانتی"}
-            </li>
-          </ul>
-        ) : (
-          <></>
-        )}
-        {product?.variants?.[variantNumber]?.color?.hex_code !== undefined ? (
-          <ul className="flex w-full border-b pb-4 border-black h-fit">
-            <li className="px-2">رنگ :</li>
-            <li className="px-2 flex">
-              {product?.variants?.[variantNumber]?.color?.title}
-              <div className="w-fit h-fit border-black p-1 border rounded-full mx-2">
-                {" "}
-                <FaCircle
-                  size={20}
-                  color={`${product?.variants?.[variantNumber]?.color?.hex_code}`}
-                />
-              </div>
-            </li>
-          </ul>
-        ) : (
-          <></>
-        )}
-        <div className="flex w-full"></div>
-        {product?.variants?.[variantNumber ?? 0]?.price?.selling_price === 0 ||
-        product?.variants?.[variantNumber ?? 0]?.price?.selling_price ===
-          undefined ? (
-          <></>
-        ) : (
-          <>
-            <ul className="flex w-full items-center h-fit min-w-[300px] justify-center text-center font-Vazir-Bold">
-              <li className="px-2 text-xl text-green-600">
-                {(
-                  product?.variants?.[variantNumber ?? 0].price.selling_price /
-                  10
-                ).toLocaleString()}{" "}
+      <div
+        className={`hidden  lg:flex flex-wrap shadow-lg h-full justify-center max-w-[320px] min-w-[260px] max-h-[400px] w-1/4 border rounded-xl m-2 font-Vazir-Medium text-black  bg-gradient-to-t from-gray-100 to-gray-200 justify-self-end overflow-hidden`}
+      >
+        <div
+          className={`flex flex-wrap justify-center w-full h-full backdrop-filter bg-transparent backdrop-blur-md backdrop-contrast-200 backdrop-brightness-[80%] p-6`}
+        >
+          {product?.variants?.[variantNumber]?.warranty! ? (
+            <ul className="w-full border-b h-fit pb-4 border-black">
+              <li>گارانتی :</li>
+              <li className="text-justify w-fit">
+                {product?.variants?.[variantNumber]?.warranty ?? "بدون گارانتی"}
               </li>
-              <li className="px-2">تومان</li>
             </ul>
-          </>
-        )}
-        {product?.variants?.[variantNumber ?? 0]?.price?.selling_price !== 0 &&
-        product?.variants?.[variantNumber ?? 0]?.price?.selling_price !==
-          undefined ? (
-          <ul className="h-fit border-b border-black ">
-            {findedIndex < 1 ? (
-              <button
-                onMouseLeave={(event) => {
-                  setMouseOverbutton(false);
-                }}
-                onMouseOver={(event) => {
-                  setMouseOverbutton(true);
-                }}
-                onClick={(event) => {
-                  //setActive(true)
-                  handleAddToCart();
-                }}
-                className={`flex items-center transition-all duration-100 font-bold font-Vazirmatn  hover:bg-cyan-300   bg-cyan-400 focus:ring-4 focus:outline-none shadow-lg shadow-cyan-500/50 rounded-lg text-md px-5 p-2 m-2 text-center ${
-                  mouseOverbutton ? " text-red-500 mx-3" : "text-white"
-                }`}
-              >
-                <GoDiffAdded
-                  size={20}
-                  className={`fle  ${
-                    mouseOverbutton
-                      ? "rotate-45 text-red-500 mx-3"
-                      : "mx-1  text-blackout-white"
-                  } transition-all duration-100 `}
-                ></GoDiffAdded>
-                {CartState === "loading" ? loadingSvg : "به سبد"}
-              </button>
-            ) : (
-              <>
-                <div className="flex  rounded-lg justify-around bg-gray-200 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2">
-                  <button
-                    disabled={findedIndex > 1 ? true : false}
-                    onClick={(event) => {
-                      // setActive(true);
-                      // AddToCart();
-                      handleAddToCart();
-                    }}
-                  >
-                    <IoIosAddCircle
-                      size={20}
-                      className={`flex  rounded-full   ${
-                        findedIndex > 1 ? "text-gray-400" : "text-green-400"
-                      }`}
-                    ></IoIosAddCircle>
-                  </button>
-
-                  <a className="transition-transform ease-out duration-1000 font-Vazirmatn font-bold flex flex-wrap text-md justify-center  text-red-400 w-8">
-                    {findedIndex}{" "}
-                    {findedIndex > 1 ? (
-                      <span className="flex text-xs justify-center w-full hover:text-red-900 transition-colors ease-out duration-1000">
-                        حداکثر
-                      </span>
-                    ) : (
-                      <span></span>
-                    )}
-                  </a>
-                  <button
-                    onClick={(event) => {
-                      //setActive(false),
-                      handleReduceFromCart();
-                    }}
-                  >
-                    {findedIndex > 0 ? (
-                      <IoMdRemoveCircle
-                        size={20}
-                        className="flex   rounded-full  text-red-400"
-                      ></IoMdRemoveCircle>
-                    ) : (
-                      <GoTrashcan
-                        size={20}
-                        className="flex transition-transform ease-out duration-500 hover:text-red-600 hover:scale-125 text-red-400"
-                      ></GoTrashcan>
-                    )}
-                  </button>
+          ) : (
+            <></>
+          )}
+          {product?.variants?.[variantNumber]?.color?.hex_code !== undefined ? (
+            <ul className="flex w-full border-b pb-4 border-black h-fit">
+              <li className="px-2">رنگ :</li>
+              <li className="px-2 flex">
+                {product?.variants?.[variantNumber]?.color?.title}
+                <div className="w-fit h-fit border-black p-1 border rounded-full mx-2">
+                  {" "}
+                  <FaCircle
+                    size={20}
+                    color={`${product?.variants?.[variantNumber]?.color?.hex_code}`}
+                  />
                 </div>
-                {true ? (
-                  <Link
-                    href="/checkout/cart"
-                    className=" font-Vazirmatn font-bold text-xs flex rounded-lg justify-around bg-gray-200 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2"
-                  >
-                    <span className="mx-1 text-center">مشاهده سبد خرید</span>
-                    <AiOutlineShoppingCart
-                      className=" text-red-600"
-                      size={20}
-                    ></AiOutlineShoppingCart>
-                  </Link>
-                ) : (
-                  <></>
-                )}
-              </>
-            )}
-            <div className="flex justify-center text-center w-full text-blackout-red">
-              {CartState === "error" ? "خطایی رخ داده" : ""}
+              </li>
+            </ul>
+          ) : (
+            <></>
+          )}
+          <div className="flex w-full"></div>
+          {product?.variants?.[variantNumber ?? 0]?.price?.selling_price ===
+            0 ||
+          product?.variants?.[variantNumber ?? 0]?.price?.selling_price ===
+            undefined ? (
+            <></>
+          ) : (
+            <>
+              <ul className="flex w-full items-center h-fit min-w-[300px] justify-center text-center font-Vazir-Bold">
+                <li className="px-2 text-xl text-gray-600">
+                  {(
+                    product?.variants?.[variantNumber ?? 0].price
+                      .selling_price / 10
+                  ).toLocaleString()}{" "}
+                </li>
+                <li className="px-2">تومان</li>
+              </ul>
+            </>
+          )}
+          {product?.variants?.[variantNumber ?? 0]?.price?.selling_price !==
+            0 &&
+          product?.variants?.[variantNumber ?? 0]?.price?.selling_price !==
+            undefined ? (
+            <ul
+              onMouseEnter={() => {
+                setFocus(true);
+              }}
+              onMouseLeave={() => {
+                setFocus(false);
+              }}
+              className="h-fit border-b border-black "
+            >
+              {findedIndex < 1 ? (
+                <button
+                  onMouseLeave={(event) => {
+                    setMouseOverbutton(false);
+                  }}
+                  onMouseOver={(event) => {
+                    setMouseOverbutton(true);
+                  }}
+                  onClick={(event) => {
+                    //setActive(true)
+                    handleAddToCart();
+                  }}
+                  className={`flex items-center transition-all duration-100 font-bold font-Vazirmatn bg-gradient-to-b from-gray-900 to-gray-600 hover:to-gray-900  focus:ring-4 focus:outline-none shadow-lg shadow-black/50 rounded-lg text-md px-5 p-2 m-2 text-center ${
+                    mouseOverbutton ? "text-white  mx-3" : "text-white"
+                  }`}
+                >
+                  <GoDiffAdded
+                    size={20}
+                    className={`fle  ${
+                      mouseOverbutton
+                        ? "rotate-45 text-red-500 mx-3"
+                        : "mx-1  text-blackout-white"
+                    } transition-all duration-100 `}
+                  ></GoDiffAdded>
+                  {CartState === "loading" ? loadingSvg : "به سبد"}
+                </button>
+              ) : (
+                <>
+                  <div className="flex  rounded-lg justify-around bg-gray-200 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2">
+                    <button
+                      disabled={findedIndex > 1 ? true : false}
+                      onClick={(event) => {
+                        // setActive(true);
+                        // AddToCart();
+                        handleAddToCart();
+                      }}
+                    >
+                      <IoIosAddCircle
+                        size={20}
+                        className={`flex  rounded-full   ${
+                          findedIndex > 1 ? "text-gray-400" : "text-green-400"
+                        }`}
+                      ></IoIosAddCircle>
+                    </button>
+
+                    <a className="transition-transform ease-out duration-1000 font-Vazirmatn font-bold flex flex-wrap text-md justify-center  text-red-400 w-8">
+                      {findedIndex}{" "}
+                      {findedIndex > 1 ? (
+                        <span className="flex text-xs justify-center w-full hover:text-red-900 transition-colors ease-out duration-1000">
+                          حداکثر
+                        </span>
+                      ) : (
+                        <span></span>
+                      )}
+                    </a>
+                    <button
+                      onClick={(event) => {
+                        //setActive(false),
+                        handleReduceFromCart();
+                      }}
+                    >
+                      {findedIndex > 0 ? (
+                        <IoMdRemoveCircle
+                          size={20}
+                          className="flex   rounded-full  text-red-400"
+                        ></IoMdRemoveCircle>
+                      ) : (
+                        <GoTrashcan
+                          size={20}
+                          className="flex transition-transform ease-out duration-500 hover:text-red-600 hover:scale-125 text-red-400"
+                        ></GoTrashcan>
+                      )}
+                    </button>
+                  </div>
+                  {true ? (
+                    <Link
+                      href="/checkout/cart"
+                      className=" font-Vazirmatn font-bold text-xs flex rounded-lg justify-around bg-gray-200 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2"
+                    >
+                      <span className="mx-1 text-center">مشاهده سبد خرید</span>
+                      <AiOutlineShoppingCart
+                        className=" text-red-600"
+                        size={20}
+                      ></AiOutlineShoppingCart>
+                    </Link>
+                  ) : (
+                    <></>
+                  )}
+                </>
+              )}
+              <div className="flex justify-center text-center w-full text-blackout-red">
+                {CartState === "error" ? "خطایی رخ داده" : ""}
+              </div>
+            </ul>
+          ) : (
+            <div className="flex font-Vazir-Medium text-2xl text-blackout-red ">
+              ناموجود
             </div>
-          </ul>
-        ) : (
-          <div className="flex font-Vazir-Medium text-2xl text-blackout-red ">
-            ناموجود
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </>
   );
@@ -448,21 +471,25 @@ function VariantSection({
     <div className="overflow-y-hidden border rounded-xl overflow-hidden h-fit">
       <ScrollContainer
         hideScrollbars={false}
-        className="flex scrollbar-for-slider w-full lg:w-fit  max-w-full lg:max-w-[600px] md:min-w-[600px] select-none max-h-[400px] overflow-x-hidden  p-2 text-[12px]"
+        className="flex scrollbar-for-slider w-full lg:w-fit  
+        bg-gradient-to-t from-gray-200 to-white
+        max-w-full lg:max-w-[600px] md:min-w-[600px] select-none max-h-[400px] overflow-x-hidden p-4 text-[12px]
+        
+        "
       >
         {product?.variants?.map((variant, index) => (
           <>
-            <div className="flex flex-wrap w-2/3 md:w-1/3 p-2">
+            <div className={" mx-2 flex w-2/3 md:w-1/3 border rounded-xl "}>
               <div
                 onClick={() => {
                   setVariantNumber(index);
                 }}
                 className={
-                  "cursor-pointer font-Vazir-Medium border rounded-xl w-full p-2 " +
+                  "cursor-pointer  font-Vazir-Medium border rounded-xl w-full p-2 " +
                   `${
                     index === variantNumber
-                      ? "border-red-600 text-gray-800 "
-                      : "text-gray-400 "
+                      ? "border-red-600 bg-lime-100/50 text-gray-900 "
+                      : " bg-slate-100/50"
                   }`
                 }
               >

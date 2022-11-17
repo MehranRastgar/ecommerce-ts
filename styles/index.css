@@ -300,7 +300,7 @@ a:link {
   height: auto;
   min-height: 250px;
   max-height: 350px;
-  background-color: #007df1;
+  /* background-color: #949494; */
   padding: 8px;
   border-radius: 15px;
   user-select: none;

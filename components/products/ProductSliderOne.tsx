@@ -82,7 +82,7 @@ export default function ProductSliderOne({ setting }: { setting: any }) {
     // getProductData({ setMinifyProducts, data });
   }, [data]);
   return (
-    <div className="product-slider-one-container ">
+    <div className="product-slider-one-container bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 ">
       {/* <div className="product-slider-one-items flex"> */}
       <ScrollContainer
         vertical={false}

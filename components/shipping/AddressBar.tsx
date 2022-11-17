@@ -4,7 +4,7 @@ import {
   IoIosRadioButtonOff,
   IoIosAddCircleOutline,
 } from "react-icons/io";
-import Map from "../map/Map";
+import Map from "../map";
 
 import { AiOutlineClose } from "react-icons/ai";
 import Link from "next/link";
@@ -15,8 +15,11 @@ import {
   updateUserData,
 } from "../../src/store/slices/clientSlice";
 import { useAppDispatch } from "../../src/store/hooks";
-import { Client } from "../../src/types/types";
+import { Client, ReverseAddress } from "../../src/types/types";
 import LoadingOne, { LoadingTwo } from "../loader/default";
+import styles from "../../styles/Home.module.css";
+import { LatLng, LatLngLiteral } from "leaflet";
+import axios from "axios";
 
 export default function AddressBar() {
   const userInfo = useSelector(selectUserInfo);
@@ -86,9 +89,6 @@ function AddressModal({ setAddressSelection }: { setAddressSelection: any }) {
   const [clickInside, setClickInside] = useState(false);
   const [newAddress, setNewAddress] = useState(100);
   const [edit, setEdit] = useState(100);
-  // const [hScale, setHScale] = useState(4);
-
-  function handleChangePrimaryAddress({ index }: { index: number }) {}
 
   useEffect(() => {}, []);
 
@@ -98,15 +98,15 @@ function AddressModal({ setAddressSelection }: { setAddressSelection: any }) {
         onClick={(event) => {
           setAddressSelection(false);
         }}
-        className={`fixed justify-center items-center border rounded-lg left-0 top-0  z-50 w-full h-full   bg-transparent  backdrop-blur-sm backdrop-brightness-75 `}
+        className={`fixed flex justify-center items-center border rounded-lg left-0 top-0  z-50 w-full h-full   bg-transparent  backdrop-blur-sm backdrop-brightness-75 `}
       ></div>
 
       <div
         // onDoubleClick={(event)=>{props.setAddressSelection(false)}}
-        className="fixed left-0 top-20  flex border rounded-lg w-full h-4/6 max-h-2/3 bg-white    z-[51]"
+        className="fixed left-0 top-20 md:left-1/3 md:w-1/3 flex border rounded-lg w-full h-4/6 max-h-2/3 bg-white    z-[51]"
       >
         {edit == 100 && newAddress == 100 ? (
-          <div className="flex flex-wrap	w-full h-full p-4  ">
+          <div className="flex flex-wrap w-full h-full p-4">
             <div className="flex items-center justify-center w-full border-b">
               <h1 className="flex text-xl font-Vazirmatn font-bold text-cyan-400 p-4 w-1/3">
                 انتخاب آدرس
@@ -195,6 +195,7 @@ function AddressContainer(props: any) {
       <section
         onClick={(event) => {
           selectThisAddress(props.index);
+          props.modal(false);
         }}
         className=" flex	flex-wrap w-full cursor-pointer	max-w-3xl	 rounded-lg items-start p-4"
       >
@@ -237,23 +238,60 @@ function AddressContainer(props: any) {
   );
 }
 
+const DEFAULT_CENTER: LatLngLiteral = {
+  lat: 35.774371784708535,
+  lng: 51.348438729135204,
+};
+
 function AddressEdit(props: any) {
   const userInfo = useSelector(selectUserInfo);
   const dispatch = useAppDispatch();
   const userState = useSelector(selectUserUpdateFlag);
-  const [reverseAddress, setReverseAddress] = useState();
+  const [reverseAddress, setReverseAddress] = useState<ReverseAddress>();
   const [steps, setSteps] = useState(0);
+  const [address, setAddress] = useState<LatLngLiteral>({
+    lat: 35.774371784708535,
+    lng: 51.348438729135204,
+  });
+
+  // const [hScale, setHScale] = useState(4);
+
+  function handleChangePrimaryAddress({ index }: { index: number }) {}
+  function readAddress(latlng: LatLngLiteral) {
+    let axiosConfig = {
+      headers: {
+        "x-api-key":
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijg5NTI2YzMyM2QxZmYyZDYwNDY4YTcxMzRhMGMxMjk5YWU1MGE0NzFmMjNhYjY3Nzk5MDljMTA1YzFjYzEzMmZjMzkyZDVkNDg1OWM5NjRmIn0.eyJhdWQiOiIxODA5NCIsImp0aSI6Ijg5NTI2YzMyM2QxZmYyZDYwNDY4YTcxMzRhMGMxMjk5YWU1MGE0NzFmMjNhYjY3Nzk5MDljMTA1YzFjYzEzMmZjMzkyZDVkNDg1OWM5NjRmIiwiaWF0IjoxNjUzNjQwMzQ5LCJuYmYiOjE2NTM2NDAzNDksImV4cCI6MTY1NjIzMjM0OSwic3ViIjoiIiwic2NvcGVzIjpbImJhc2ljIl19.MtvtH_1Ix-CaBsEOY206nejHMqclazbq5joDB5lqXZLt3PBqb1ZBpSsaz-vObIwFvalGiztOw6kojKVIwBCSLwXwFE1qzp6A7R5RRzQ6AwJFOUsVfUWLFYi0vukZ8gFPwrY-5hnwnt5ORYPTrd-tO_LoYxeTiGI11gsFg675OMlAZ5TmGCiuEbUZt9Nmztg6LWCMdSvpEev-Qp_s9EJOCi7_NnssT6DgxyVgMOvEpNpNPWEp3yFJT6Tmci5Ittr82-5DrpHQ8zNLZj1es9XXGwDcnR8v1kwK3-_Rhc3GLgYUtEoqz3zJXiAOtqCu6K2UcgRgQg_BVZL-jjyz-ncf1A",
+      },
+    };
+
+    //   const {lng1, lat1} = getCenter();
+    // console.log(lng1,lat1)
+    // setLat(lat1)
+    // setLng(lng1)
+
+    axios
+      .get(
+        `https://map.ir/reverse?lat=${latlng.lat}&lon=${latlng.lng}`,
+        axiosConfig
+      )
+      .then((response) => {
+        setReverseAddress(response.data);
+        console.log(reverseAddress);
+      });
+  }
   // async function checkNextStep() {
   //   if (reverseAddress?.address) {
   //     setSteps(1);
   //   }
   // }
+
   useEffect(() => {
     // checkNextStep();
     // console.log("reverseAddress", reverseAddress);
   }, []);
   return (
-    <section className="flex flex-wrap p-4 m-2">
+    <section className="flex w-full flex-wrap p-4 m-2">
       <div className="flex items-center justify-center w-full border-b h-14 m-2">
         <h1 className="flex text-xl font-Vazirmatn font-bold text-cyan-400  p-4 w-1/3">
           ویرایش آدرس
@@ -269,8 +307,57 @@ function AddressEdit(props: any) {
           </button>
         </div>
       </div>
-      <Map></Map>
-      {steps == 0 ? <></> : <></>}
+
+      {steps == 0 ? (
+        <>
+          <div className="flex flex-wrap w-full">
+            <button
+              onClick={() => {
+                readAddress(address);
+              }}
+            >
+              find my address
+            </button>
+            <div className="flex w-fit">{reverseAddress?.address_compact}</div>
+            <div className="flex w-fit">
+              {address.lat}
+              {address.lng}
+            </div>
+            <div className="flex w-full">
+              <Map
+                className={styles.homeMap}
+                center={DEFAULT_CENTER}
+                zoom={10}
+                setAddress={setAddress}
+              >
+                {({
+                  TileLayer,
+                  Marker,
+                  Popup,
+                }: {
+                  TileLayer: any;
+                  Marker: any;
+                  Popup: any;
+                }) => (
+                  <>
+                    <TileLayer
+                      url="http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+                      attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    />
+                    <Marker position={address}>
+                      <Popup>
+                        A pretty CSS3 popup. <br /> Easily customizable.
+                      </Popup>
+                    </Marker>
+                  </>
+                )}
+              </Map>
+            </div>
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
       {steps == 1 ? (
         <AddressForm
           setNewAddress={props.setNewAddress}
