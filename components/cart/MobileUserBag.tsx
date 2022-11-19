@@ -87,16 +87,23 @@ export default function MobileUserBag() {
         }}
         onClick={() => {
           if (mobileCheck === "mobile") {
-            if (drop) setTimeout(() => setDrop(false), timeout);
-            else setTimeout(() => setDrop(true), timeout);
+            if (drop) {
+              setDrop(false);
+              // setTimeout(() => setDrop(false), timeout);
+            } else {
+              setDrop(true);
+              // setTimeout(() => setDrop(true), timeout);
+            }
           } else {
-            setTimeout(() => setDrop(true), timeout);
+            setDrop(true);
+            // setTimeout(() => setDrop(true), timeout);
           }
         }}
         onMouseLeave={() => {
           if (mobileCheck === "mobile") {
           } else {
-            setTimeout(() => setDrop(false), timeout);
+            setDrop(false);
+            // setTimeout(() => setDrop(false), timeout);
           }
           // setDrop(false);
         }}
@@ -116,7 +123,7 @@ export default function MobileUserBag() {
         </button>
         <div
           style={{
-            transition: "all 300ms ease-in-out",
+            transition: "height 300ms ease-in-out",
             opacity: `${drop === true ? "100%" : "0%"}`,
             height: `${drop === true ? "40%" : "0%"}`,
             transform: `translate3d(0px,  50px, 0px)`,
@@ -219,7 +226,7 @@ export default function MobileUserBag() {
                                     cartItem?.variantId
                                   }`
                                 )}
-                                className="flex h-fit m-1 px-2 py-1 border rounded-xl bg-brand-purple text-white"
+                                className="px-4 rounded-lg hover:bg-gray-200 self-end text-md font-Vazirmatn font-bold text-blue-400	p-2"
                               >
                                 نمایش کالا
                               </Link>
@@ -237,9 +244,9 @@ export default function MobileUserBag() {
               </div>
               <Link
                 href={"/checkout/cart"}
-                className="flex h-fit m-1 px-2 py-1 border rounded-xl bg-brand-purple text-white"
+                className="px-4 rounded-lg hover:bg-gray-200 self-end text-md font-Vazirmatn font-bold text-blue-400	p-2"
               >
-                پرداخت
+                ثبت سفارش
               </Link>
             </div>
           </div>

@@ -15,7 +15,7 @@ import {
   updateUserData,
 } from "../../src/store/slices/clientSlice";
 import { useAppDispatch } from "../../src/store/hooks";
-import { Client, ReverseAddress } from "../../src/types/types";
+import { Address, Client, ReverseAddress } from "../../src/types/types";
 import LoadingOne, { LoadingTwo } from "../loader/default";
 import styles from "../../styles/Home.module.css";
 import { LatLng, LatLngLiteral } from "leaflet";
@@ -103,9 +103,9 @@ function AddressModal({ setAddressSelection }: { setAddressSelection: any }) {
 
       <div
         // onDoubleClick={(event)=>{props.setAddressSelection(false)}}
-        className="fixed left-0 top-20 md:left-1/3 md:w-1/3 flex border rounded-lg w-full h-4/6 max-h-2/3 bg-white    z-[51]"
+        className="fixed left-0 top-20 md:left-1/4 md:w-1/2 lg:left-1/3 lg:w-1/3 flex border rounded-lg w-full h-4/6 max-h-2/3 bg-white    z-[51]"
       >
-        {edit == 100 && newAddress == 100 ? (
+        {edit === 100 && newAddress === 100 ? (
           <div className="flex flex-wrap w-full h-full p-4">
             <div className="flex items-center justify-center w-full border-b">
               <h1 className="flex text-xl font-Vazirmatn font-bold text-cyan-400 p-4 w-1/3">
@@ -137,7 +137,7 @@ function AddressModal({ setAddressSelection }: { setAddressSelection: any }) {
                 </button>
               </div>
               <div className="flex flex-wrap w-full m-2 ">
-                {userInfo?.addresses?.length ? (
+                {userInfo?.addresses?.length !== undefined ? (
                   userInfo?.addresses?.map((address, index) => (
                     <>
                       <AddressContainer
@@ -185,9 +185,7 @@ function AddressContainer(props: any) {
     dispatch(updateUserData(user));
   }
 
-  // useEffect(() => {
-  //   console.log(userState);
-  // }, [userState]);
+  useEffect(() => {}, [userState]);
 
   return (
     <div className=" flex	flex-wrap w-full	max-w-3xl	border rounded-lg items-start p-4 m-2">
@@ -195,9 +193,8 @@ function AddressContainer(props: any) {
       <section
         onClick={(event) => {
           selectThisAddress(props.index);
-          props.modal(false);
         }}
-        className=" flex	flex-wrap w-full cursor-pointer	max-w-3xl	 rounded-lg items-start p-4"
+        className="flex	flex-wrap w-full cursor-pointer	max-w-3xl	 rounded-lg items-start p-4"
       >
         {userInfo?.PrimaryAddressNumber == props.index ? (
           <IoIosRadioButtonOn size={20} className="text-blue-700" />
@@ -248,15 +245,14 @@ function AddressEdit(props: any) {
   const dispatch = useAppDispatch();
   const userState = useSelector(selectUserUpdateFlag);
   const [reverseAddress, setReverseAddress] = useState<ReverseAddress>();
-  const [steps, setSteps] = useState(0);
+  const [steps, setSteps] = useState<"address" | "form">("address");
   const [address, setAddress] = useState<LatLngLiteral>({
     lat: 35.774371784708535,
     lng: 51.348438729135204,
   });
 
   // const [hScale, setHScale] = useState(4);
-
-  function handleChangePrimaryAddress({ index }: { index: number }) {}
+  // function handleChangePrimaryAddress({ index }: { index: number }) {}
   function readAddress(latlng: LatLngLiteral) {
     let axiosConfig = {
       headers: {
@@ -264,11 +260,6 @@ function AddressEdit(props: any) {
           "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijg5NTI2YzMyM2QxZmYyZDYwNDY4YTcxMzRhMGMxMjk5YWU1MGE0NzFmMjNhYjY3Nzk5MDljMTA1YzFjYzEzMmZjMzkyZDVkNDg1OWM5NjRmIn0.eyJhdWQiOiIxODA5NCIsImp0aSI6Ijg5NTI2YzMyM2QxZmYyZDYwNDY4YTcxMzRhMGMxMjk5YWU1MGE0NzFmMjNhYjY3Nzk5MDljMTA1YzFjYzEzMmZjMzkyZDVkNDg1OWM5NjRmIiwiaWF0IjoxNjUzNjQwMzQ5LCJuYmYiOjE2NTM2NDAzNDksImV4cCI6MTY1NjIzMjM0OSwic3ViIjoiIiwic2NvcGVzIjpbImJhc2ljIl19.MtvtH_1Ix-CaBsEOY206nejHMqclazbq5joDB5lqXZLt3PBqb1ZBpSsaz-vObIwFvalGiztOw6kojKVIwBCSLwXwFE1qzp6A7R5RRzQ6AwJFOUsVfUWLFYi0vukZ8gFPwrY-5hnwnt5ORYPTrd-tO_LoYxeTiGI11gsFg675OMlAZ5TmGCiuEbUZt9Nmztg6LWCMdSvpEev-Qp_s9EJOCi7_NnssT6DgxyVgMOvEpNpNPWEp3yFJT6Tmci5Ittr82-5DrpHQ8zNLZj1es9XXGwDcnR8v1kwK3-_Rhc3GLgYUtEoqz3zJXiAOtqCu6K2UcgRgQg_BVZL-jjyz-ncf1A",
       },
     };
-
-    //   const {lng1, lat1} = getCenter();
-    // console.log(lng1,lat1)
-    // setLat(lat1)
-    // setLng(lng1)
 
     axios
       .get(
@@ -308,21 +299,35 @@ function AddressEdit(props: any) {
         </div>
       </div>
 
-      {steps == 0 ? (
+      {steps === "address" ? (
         <>
           <div className="flex flex-wrap w-full">
-            <button
-              onClick={() => {
-                readAddress(address);
-              }}
-            >
-              find my address
-            </button>
-            <div className="flex w-fit">{reverseAddress?.address_compact}</div>
-            <div className="flex w-fit">
-              {address.lat}
-              {address.lng}
+            <div className="flex justify-around w-full">
+              <button
+                className="h-fit text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                onClick={() => {
+                  readAddress(address);
+                }}
+              >
+                آدرس منو پیدا کن
+              </button>
+              {reverseAddress?.address_compact !== undefined ? (
+                <button
+                  className="h-fit text-white bg-blackout-black hover:bg-black focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 "
+                  onClick={() => {
+                    setSteps("form");
+                  }}
+                >
+                  مرحله بعد
+                </button>
+              ) : (
+                <></>
+              )}
             </div>
+            <div className="flex w-fit">{reverseAddress?.address_compact}</div>
+            <div className="flex w-full">{address.lat}</div>
+
+            <div className="flex w-full">{address.lng}</div>
             <div className="flex w-full">
               <Map
                 className={styles.homeMap}
@@ -358,18 +363,20 @@ function AddressEdit(props: any) {
       ) : (
         <></>
       )}
-      {steps == 1 ? (
-        <AddressForm
-          setNewAddress={props.setNewAddress}
-          setEdit={props.setEdit}
-          setUpdated={props.setUpdated}
-          editnumber={props.editnumber}
-          userInfo={props.userInfo}
-          reverseAddress={reverseAddress}
-        >
-          {" "}
-          next step
-        </AddressForm>
+      {steps === "form" ? (
+        <>
+          <AddressForm
+            setNewAddress={props.setNewAddress}
+            setEdit={props.setEdit}
+            setUpdated={props.setUpdated}
+            editnumber={props.editnumber}
+            userInfo={props.userInfo}
+            reverseAddress={reverseAddress}
+          >
+            {" "}
+            next step
+          </AddressForm>
+        </>
       ) : (
         <></>
       )}
@@ -380,174 +387,249 @@ function AddressEdit(props: any) {
 function AddressForm(props: any) {
   const [reverseAddress, setReverseAddress] = useState(props.reverseAddress);
   const [client, setClient] = useState<Client>();
+  const [waitForSuccess, setWaitForSuccess] = useState<boolean>(false);
   const userInfo = useSelector(selectUserInfo);
+  const dispatch = useAppDispatch();
+  const userState = useSelector(selectUserUpdateFlag);
 
-  useEffect(() => {}, [reverseAddress]);
+  function saveHandler() {
+    const address: Address = {
+      title: (document.getElementById("title") as HTMLInputElement).value,
+      address_compact: (document.getElementById("address") as HTMLInputElement)
+        .value,
+      province: (document.getElementById("province") as HTMLInputElement).value,
+      city: (document.getElementById("city") as HTMLInputElement).value,
+      neighbourhood: (
+        document.getElementById("neighbourhood") as HTMLInputElement
+      ).value,
+      plaque: Number(
+        (document.getElementById("plaque") as HTMLInputElement).value
+      ),
+      unit: Number((document.getElementById("unit") as HTMLInputElement).value),
+      postal_code: Number(
+        (document.getElementById("postal_code") as HTMLInputElement).value
+      ),
+      receiver_name: (
+        document.getElementById("receiver_name") as HTMLInputElement
+      ).value,
+      receiver_family: (
+        document.getElementById("receiver_family") as HTMLInputElement
+      ).value,
+      receiver_phone: (
+        document.getElementById("receiver_phone") as HTMLInputElement
+      ).value,
+    };
+    const user: Client = {
+      ...userInfo,
+    };
+    // Object.defineProperties(user, { writable: true });
+    if (user?.addresses?.[Number(props?.editnumber)] !== undefined) {
+      // user.addresses[1] = { ...address };
+      user.addresses = [...user.addresses];
+      user.addresses[props?.editnumber] = { ...address };
+      // user.addresses[props?.editnumber].city = "shop";
+      console.log(user.addresses);
+      dispatch(updateUserData(user));
+      // console.log(address);
+    } else {
+      console.log("error");
+    }
+  }
+
+  useEffect(() => {
+    if (userState === "pending") setWaitForSuccess(true);
+
+    if (waitForSuccess === true && userState === "success") {
+      props.setEdit(100);
+    }
+  }, [userState]);
   return (
     <>
-      {userInfo.addresses !== undefined ? (
-        <div className="flex flex-wrap w-full max-h-[70%] m-2 overflow-y-scroll rounded-lg">
-          <div className="flex flex-wrap w-full">
-            {/* <h1>{props.userInfo?.addresses[props.editnumber]?.loc_address}</h1> */}
-            <form className="flex flex-wrap w-full">
-              <div className="flex m-2 flex-wrap w-full">
-                <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
-                  عنوان آدرس
-                </h3>
-                <input
-                  placeholder="مثال: خانه"
-                  id="title"
-                  className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
-                  type="address"
-                  defaultValue={userInfo?.addresses[props.editnumber]?.title}
-                ></input>
+      {props?.editnumber}
+      {userState === "success" || userState === "idle" ? (
+        <>
+          {userInfo.addresses !== undefined ? (
+            <div className="flex flex-wrap w-full max-h-[70%] m-2 overflow-y-scroll rounded-lg">
+              <div className="flex flex-wrap w-full">
+                {/* <h1>{props.userInfo?.addresses[props.editnumber]?.loc_address}</h1> */}
+                <form className="flex flex-wrap w-full">
+                  <div className="flex m-2 flex-wrap w-full">
+                    <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
+                      عنوان آدرس
+                    </h3>
+                    <input
+                      placeholder="مثال: خانه"
+                      id="title"
+                      className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
+                      type="address"
+                      defaultValue={
+                        userInfo?.addresses[props.editnumber]?.title
+                      }
+                    ></input>
+                  </div>
+                  <div className="flex m-2 flex-wrap  w-full">
+                    <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
+                      آدرس پستی
+                    </h3>
+                    <input
+                      id="address"
+                      className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
+                      type="address"
+                      defaultValue={props.reverseAddress?.address}
+                    ></input>
+                  </div>
+                  <div className="flex m-2 ">
+                    <div className="flex m-2 flex-wrap">
+                      <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
+                        استان
+                      </h3>
+                      <input
+                        id="province"
+                        className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
+                        type="address"
+                        defaultValue={
+                          userInfo?.addresses[props.editnumber]?.province
+                        }
+                      ></input>
+                    </div>
+                    <div className="flex m-2 flex-wrap">
+                      <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
+                        شهر
+                      </h3>
+                      <input
+                        id="city"
+                        className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
+                        type="address"
+                        defaultValue={
+                          userInfo?.addresses[props.editnumber]?.city
+                        }
+                      ></input>
+                    </div>
+                    <div className="flex m-2 flex-wrap">
+                      <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
+                        محله
+                      </h3>
+                      <input
+                        id="neighbourhood"
+                        className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
+                        type="address"
+                        defaultValue={
+                          userInfo?.addresses[props.editnumber]?.neighbourhood
+                        }
+                      ></input>
+                    </div>
+                  </div>
+                  <div className="flex m-2  w-full border-b">
+                    <div className="flex m-2 flex-wrap">
+                      <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
+                        پلاک
+                      </h3>
+                      <input
+                        id="plaque"
+                        className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
+                        type="address"
+                        defaultValue={
+                          userInfo?.addresses[props.editnumber]?.plaque
+                        }
+                      ></input>
+                    </div>
+                    <div className="flex m-2 flex-wrap">
+                      <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
+                        واحد
+                      </h3>
+                      <input
+                        id="unit"
+                        className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
+                        type="address"
+                        defaultValue={
+                          userInfo?.addresses[props.editnumber]?.unit
+                        }
+                      ></input>
+                    </div>
+                    <div className="flex m-2 flex-wrap">
+                      <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
+                        کدپستی
+                      </h3>
+                      <input
+                        id="postal_code"
+                        className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
+                        type="address"
+                        defaultValue={
+                          userInfo?.addresses[props.editnumber]?.postal_code
+                        }
+                      ></input>
+                    </div>
+                  </div>
+                  <h1 className="flex w-full font-Vazirmatn text-lg">
+                    مشخصات گیرنده مرسوله
+                  </h1>
+                  <div className="flex m-2  w-full border-b">
+                    <div className="flex m-2 flex-wrap">
+                      <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
+                        نام گیرنده
+                      </h3>
+                      <input
+                        id="receiver_name"
+                        className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
+                        type="string"
+                        defaultValue={
+                          userInfo?.addresses[props.editnumber]?.receiver_name
+                        }
+                      ></input>
+                    </div>
+                    <div className="flex m-2 flex-wrap">
+                      <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
+                        فامیلی گیرنده
+                      </h3>
+                      <input
+                        id="receiver_family"
+                        className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
+                        type="string"
+                        defaultValue={
+                          userInfo?.addresses[props.editnumber]?.receiver_family
+                        }
+                      ></input>
+                    </div>
+                    <div className="flex m-2 flex-wrap">
+                      <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
+                        موبایل گیرنده
+                      </h3>
+                      <input
+                        id="receiver_phone"
+                        className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
+                        type="phone"
+                        defaultValue={
+                          userInfo?.addresses[props.editnumber]?.receiver_phone
+                        }
+                      ></input>
+                    </div>
+                  </div>
+                </form>
               </div>
-              <div className="flex m-2 flex-wrap  w-full">
-                <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
-                  آدرس پستی
-                </h3>
-                <input
-                  id="address"
-                  className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
-                  type="address"
-                  defaultValue={props.reverseAddress?.address}
-                ></input>
+              <div className="flex w-full justify-end items-center">
+                <button
+                  onClick={(event) => {
+                    saveHandler();
+                  }}
+                  className="bg-cyan-400 rounded-lg m-2 px-2 py-2 font-bold font-Vazirmatn text-white"
+                >
+                  ذخیره آدرس
+                </button>
               </div>
-              <div className="flex m-2 ">
-                <div className="flex m-2 flex-wrap">
-                  <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
-                    استان
-                  </h3>
-                  <input
-                    id="province"
-                    className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
-                    type="address"
-                    defaultValue={
-                      userInfo?.addresses[props.editnumber]?.province
-                    }
-                  ></input>
-                </div>
-                <div className="flex m-2 flex-wrap">
-                  <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
-                    شهر
-                  </h3>
-                  <input
-                    id="city"
-                    className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
-                    type="address"
-                    defaultValue={userInfo?.addresses[props.editnumber]?.city}
-                  ></input>
-                </div>
-                <div className="flex m-2 flex-wrap">
-                  <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
-                    محله
-                  </h3>
-                  <input
-                    id="neighbourhood"
-                    className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
-                    type="address"
-                    defaultValue={
-                      userInfo?.addresses[props.editnumber]?.neighbourhood
-                    }
-                  ></input>
-                </div>
-              </div>
-              <div className="flex m-2  w-full border-b">
-                <div className="flex m-2 flex-wrap">
-                  <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
-                    پلاک
-                  </h3>
-                  <input
-                    id="plaque"
-                    className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
-                    type="address"
-                    defaultValue={userInfo?.addresses[props.editnumber]?.plaque}
-                  ></input>
-                </div>
-                <div className="flex m-2 flex-wrap">
-                  <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
-                    واحد
-                  </h3>
-                  <input
-                    id="unit"
-                    className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
-                    type="address"
-                    defaultValue={userInfo?.addresses[props.editnumber]?.unit}
-                  ></input>
-                </div>
-                <div className="flex m-2 flex-wrap">
-                  <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
-                    کدپستی
-                  </h3>
-                  <input
-                    id="postal_code"
-                    className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
-                    type="address"
-                    defaultValue={
-                      userInfo?.addresses[props.editnumber]?.postal_code
-                    }
-                  ></input>
-                </div>
-              </div>
-              <h1 className="flex w-full font-Vazirmatn text-lg">
-                مشخصات گیرنده مرسوله
-              </h1>
-              <div className="flex m-2  w-full border-b">
-                <div className="flex m-2 flex-wrap">
-                  <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
-                    نام گیرنده
-                  </h3>
-                  <input
-                    id="receiver_name"
-                    className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
-                    type="string"
-                    defaultValue={
-                      userInfo?.addresses[props.editnumber]?.receiver_name
-                    }
-                  ></input>
-                </div>
-                <div className="flex m-2 flex-wrap">
-                  <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
-                    فامیلی گیرنده
-                  </h3>
-                  <input
-                    id="receiver_family"
-                    className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
-                    type="string"
-                    defaultValue={
-                      userInfo?.addresses[props.editnumber]?.receiver_family
-                    }
-                  ></input>
-                </div>
-                <div className="flex m-2 flex-wrap">
-                  <h3 className="text-lg font-Vazirmatn font-bold text-gray-700 p-4">
-                    موبایل گیرنده
-                  </h3>
-                  <input
-                    id="receiver_phone"
-                    className="flex font-Vazirmatn items-start w-full h-16 border rounded-lg p-2 focus:bg-gray-100"
-                    type="phone"
-                    defaultValue={
-                      userInfo?.addresses[props.editnumber]?.receiver_phone
-                    }
-                  ></input>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div className="flex w-full justify-end items-center">
-            <button
-              onClick={(event) => {
-                // changesHandler();
-              }}
-              className="bg-cyan-400 rounded-lg m-2 px-2 py-2 font-bold font-Vazirmatn text-white"
-            >
-              ذخیره آدرس
-            </button>
-          </div>
-        </div>
+            </div>
+          ) : (
+            <></>
+          )}
+        </>
       ) : (
-        <></>
+        <>
+          <div className="flex flex-wrap justify-center w-full text-2xl">
+            <div className="flex justify-center w-full">
+              در حال ذخیره سازی آدرس
+            </div>
+            <LoadingTwo />
+          </div>
+        </>
       )}
     </>
   );
