@@ -111,7 +111,9 @@ export default function MobileUserBag() {
         className="flex justify-end w-1/2 "
       >
         <button
-          className={`inline-flex p-2 ${drop === true ? " z-[101]" : ""}`}
+          className={`border border-white rounded-xl px-6 p-4 inline-flex ${
+            drop === true ? " z-[101]" : ""
+          }`}
         >
           <FaShoppingBag
             color={`${!drop ? "#48424966" : "#ffffff"}`}
@@ -129,7 +131,11 @@ export default function MobileUserBag() {
             transform: `translate3d(0px,  50px, 0px)`,
           }}
           className={`fixed z-[101] flex justify-center bg-transparent 
-          ${drop ? "md:w-[40%] lg:w-[550px] w-[80%]" : "w-[0px]"}
+          ${
+            drop
+              ? "md:w-[40%] lg:w-[550px] w-full md:left-[20%] lg:loft-[225px] left-0"
+              : "w-[0px]"
+          }
           `}
         >
           <div className="flex border rounded-xl mx-2 bg-white h-[98%] w-full overflow-hidden ">

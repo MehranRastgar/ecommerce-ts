@@ -140,7 +140,7 @@ export default function NavbarOne({
 //               <Image
 //                 loader={imageLoader}
 //                 alt="InoMal Logo"
-//                 src={"/Asset12.png"}
+//                 src={"/Asset13.png"}
 //                 unoptimized
 //                 width={80}
 //                 height={50}

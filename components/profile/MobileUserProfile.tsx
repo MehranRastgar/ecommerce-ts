@@ -37,18 +37,18 @@ export default function MobileUserProfile() {
               : "opacity 800ms ease-in-out"
           }`,
           opacity: `${drop === true ? "100%" : "0%"}`,
-          width: `${true === true ? "100%" : "0%"}`,
+          width: `${drop === true ? "100%" : "0%"}`,
           height: `${drop === true ? "100%" : "0%"}`,
         }}
-        onClick={() => {
-          setTimeout(() => setDrop(false), timeout);
-          // setDrop(false);
-        }}
         onTouchStart={() => {
-          setTimeout(() => setDrop(false), timeout);
           // setDrop(false);
+          setTimeout(() => setDrop(false), timeout);
         }}
-        className="fixed top-0 left-0 z-[100] bg-black/70"
+        onClick={() => {
+          // setDrop(false);
+          setTimeout(() => setDrop(false), timeout);
+        }}
+        className="fixed top-0 left-0 z-[100] w-[100%] h-[100%] bg-black/60"
       ></div>
 
       <div className={`w-1/2 ${drop ? "z-[101]" : ""} `}>
@@ -87,7 +87,9 @@ export default function MobileUserProfile() {
             className="inline-flex justify-end w-full z-[2]"
           >
             <button
-              className={`inline-flex p-2 ${drop === true ? "z-[101]" : ""}`}
+              className={` inline-flex rounded-xl px-6 p-4 ${
+                drop === true ? "z-[101]" : ""
+              }`}
             >
               <div className="flex">
                 <FaUserCheck
@@ -97,7 +99,7 @@ export default function MobileUserProfile() {
               </div>
               <span
                 className={`-mr-8 mt-6 inline-flex items-center justify-center px-2 py-1 text-[8px] font-bold leading-none text-gray-600 bg-transparent rounded-full ${
-                  drop ? "text-white" : "text-gray-600"
+                  drop ? "text-white " : "text-gray-600"
                 }`}
               >
                 {userInfo?.firstname}
@@ -111,10 +113,10 @@ export default function MobileUserProfile() {
                 height: `${drop === true ? "300px" : "0%"}`,
                 zIndex: "2",
               }}
-              className={`fixed mt-[30px] pt-4  ml-[0px] flex flex-wrap bg-transparent  overflow-hidden`}
+              className={`md:left-[20%] lg:loft-[225px] left-0 fixed mt-[30px] pt-4  ml-[0px] flex flex-wrap bg-transparent  overflow-hidden`}
             >
               <div className="flex flex-wrap border border-t-0 rounded-xl mx-4 bg-white h-full w-full ">
-                <div className="flex flex-wrap h-3/4 overflow-y-scroll">
+                <div className="flex flex-wrap h-3/4 mt-2 overflow-y-scroll">
                   <div className="flex justify-start p-4 w-full h-4 font-Vazir-Medium">
                     <span className="mx-2">نام :</span>
                     {userInfo.firstname}

@@ -23,6 +23,7 @@ import { useAppDispatch, useAppSelector } from "../src/store/hooks";
 import imageLoader from "../src/imageLoader";
 import FooterMain from "./footers/footer";
 import { signInCheck } from "../src/store/slices/clientSlice";
+import { BsHeadset } from "react-icons/bs";
 
 const fetcher = (URL: string) => axios.get(URL).then((res) => res.data);
 const config: SWRConfiguration = {
@@ -164,10 +165,10 @@ function Layout({ children }: { children: any }) {
           <div className="flex flex-wrap h-fit">
             <div className="flex h-fit justify-center w-full">
               <Image
-                className="opacity-75"
+                className=""
                 loader={imageLoader}
                 alt="InoMal Logo"
-                src={"/Asset12.png"}
+                src={"/Asset14.png"}
                 unoptimized
                 width={160}
                 height={100}
@@ -185,7 +186,7 @@ function Layout({ children }: { children: any }) {
         <NavbarMobile></NavbarMobile>
         <HeaderMobile></HeaderMobile>
         <button className="flex h-fit m-2 p-2 border rounded-xl bg-gray-100">
-          <FaTelegram color="#f99e23" size={20} />
+          <BsHeadset color="#FF4500" size={20} />
           {/* <div className="text-xs font-Vazir-Bold w-full">پشنیبانی</div> */}
         </button>
       </div>
@@ -206,6 +207,7 @@ function Layout({ children }: { children: any }) {
       <div className="hidden md:flex w-full bg-white h-[100px]"></div>{" "}
       <div className="flex w-full justify-center min-h-screen">{children}</div>
       {/* <footer className="footer-mobile"></footer> */}
+      <div className="my-20"></div>
       <FooterMain></FooterMain>
     </div>
   );

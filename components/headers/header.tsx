@@ -13,7 +13,7 @@ export default function Header() {
           <Image
             loader={imageLoader}
             alt="InoMal Logo"
-            src={"/Asset12.png"}
+            src={"/Asset13.png"}
             unoptimized
             width={160}
             height={100}

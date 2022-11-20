@@ -57,7 +57,7 @@ export default function ProductImageComponent({
                   undefined
                 )}
                 placeholder="blur"
-                blurDataURL="/Asset12.png"
+                blurDataURL="/Asset13.png"
                 loading="lazy"
                 alt={productData?.main?.title_en ?? "noname"}
                 width={500}

@@ -131,7 +131,7 @@ export function imageAddress(
       `/api/image?x=${w}&y=${h}&q=${quality}&t=${format}&path=${src}` +
       `${prefix === "public" ? "&prefix=public" : ""}`
     );
-  else return `/Asset12.png`;
+  else return `/Asset13.png`;
 }
 
 const fetcher = (URL: string) => axios.get(URL).then((res) => res.data);

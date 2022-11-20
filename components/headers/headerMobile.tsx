@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import imager from "../../public/Asset12.png";
+import imager from "../../public/Asset13.png";
 import imageLoader from "../../src/imageLoader";
 
 export default function HeaderMobile() {

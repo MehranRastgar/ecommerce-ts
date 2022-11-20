@@ -28,7 +28,7 @@ export default function NavbarMobile() {
           setOpenMenu((PrevValue) => !PrevValue);
         }}
       >
-        <GiHamburgerMenu color="#E71D37" size={20} />
+        <GiHamburgerMenu color="#FF4500" size={20} />
       </button>
 
       {openMenu === true ? <OpenMenuModal setOpenMenu={setOpenMenu} /> : <></>}
@@ -72,7 +72,7 @@ function OpenMenuModal({ setOpenMenu }: { setOpenMenu: any }) {
                 loader={imageLoader}
                 unoptimized
                 alt="InoMal Logo"
-                src={"/Asset12.png"}
+                src={"/Asset13.png"}
                 priority
                 width={80}
                 height={50}
