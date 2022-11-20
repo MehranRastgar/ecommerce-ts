@@ -28,19 +28,19 @@ export default function AddressBar() {
   useEffect(() => {}, [userInfo]);
 
   return (
-    <section className=" flex	flex-wrap w-full	max-w-4xl	border rounded-lg items-start p-4">
+    <section className=" flex	flex-wrap w-full max-w-[800px] border rounded-lg items-start p-4">
       <h1 className="text-xl font-Vazirmatn font-bold text-brand-cyan w-full">
         آدرس
       </h1>
-      <div>
-        <h2 className="text-md font-Vazirmatn font-bold text-gray-600 p-2">
+      <div className="text-lg">
+        <h2 className="font-Vazirmatn font-bold text-gray-600 p-2">
           {" "}
           {userInfo?.addresses !== undefined
             ? userInfo?.addresses[userInfo?.PrimaryAddressNumber ?? 0]
                 ?.address_compact
             : "0"}
         </h2>
-        <h3 className="text-md font-Vazirmatn font-bold text-gray-400	p-2">
+        <h3 className="font-Vazirmatn font-bold text-gray-400	p-2">
           {userInfo?.addresses !== undefined
             ? userInfo?.addresses[userInfo?.PrimaryAddressNumber ?? 0]
                 ?.receiver_name
@@ -50,7 +50,7 @@ export default function AddressBar() {
                 ?.receiver_family
             : "0"}
         </h3>
-        <h3 className="text-md font-Vazirmatn font-bold text-gray-400	p-2">
+        <h3 className="font-Vazirmatn font-bold text-gray-400	p-2">
           {userInfo?.addresses !== undefined
             ? userInfo?.addresses[userInfo?.PrimaryAddressNumber ?? 0]
                 ?.receiver_phone
@@ -188,7 +188,7 @@ function AddressContainer(props: any) {
   useEffect(() => {}, [userState]);
 
   return (
-    <div className=" flex	flex-wrap w-full	max-w-3xl	border rounded-lg items-start p-4 m-2">
+    <div className=" flex	flex-wrap w-full	max-w-[800px]	border rounded-lg items-start p-4 m-2">
       {userState === "pending" ? <LoadingTwo /> : <></>}
       <section
         onClick={(event) => {

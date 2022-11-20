@@ -290,7 +290,7 @@ export function CartSection({
           className={`flex flex-wrap justify-center w-full h-full backdrop-filter bg-transparent backdrop-blur-md backdrop-contrast-200 backdrop-brightness-[80%] p-6`}
         >
           {product?.variants?.[variantNumber]?.warranty! ? (
-            <ul className="w-full border-b h-fit pb-4 border-black">
+            <ul className="w-full border-b h-fit pb-4 border-gray-400">
               <li>گارانتی :</li>
               <li className="text-justify w-fit">
                 {product?.variants?.[variantNumber]?.warranty ?? "بدون گارانتی"}
@@ -300,11 +300,11 @@ export function CartSection({
             <></>
           )}
           {product?.variants?.[variantNumber]?.color?.hex_code !== undefined ? (
-            <ul className="flex w-full border-b pb-4 border-black h-fit">
+            <ul className="flex w-full border-b pb-4 border-gray-400 h-fit">
               <li className="px-2">رنگ :</li>
               <li className="px-2 flex">
                 {product?.variants?.[variantNumber]?.color?.title}
-                <div className="w-fit h-fit border-black p-1 border rounded-full mx-2">
+                <div className="w-fit h-fit border-gray-400 p-1 border rounded-full mx-2">
                   {" "}
                   <FaCircle
                     size={20}

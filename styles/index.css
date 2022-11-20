@@ -624,3 +624,32 @@ a:link {
   padding: 2, 2, 2, 2;
 }
 /*===================================================*/
+.StickyContainer {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 100px;
+}
+/*===================================================*/
+.input-color-container {
+  position: relative;
+  overflow: hidden;
+  width: 15px;
+  height: 15px;
+  border: none;
+  border-radius: 40px;
+}
+
+.input-color {
+  position: absolute;
+  right: -8px;
+  top: -8px;
+  width: 56px;
+  height: 56px;
+  border: none;
+}
+
+.input-color-label {
+  cursor: pointer;
+  text-decoration: underline;
+  color: #3498db;
+}
