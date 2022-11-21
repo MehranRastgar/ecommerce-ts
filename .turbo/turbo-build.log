@@ -2,6 +2,9 @@ $ NODE_ENV='production' next build
 info  - Loaded env from G:\gh\ecomerce-ts\ecommerce-ts\.env.local
 info  - Linting and checking validity of types...
 
+./pages/checkout/cart.tsx
+103:6  Warning: React Hook useEffect has a missing dependency: 'calcSum'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
 ./pages/client/login.tsx
 118:6  Warning: React Hook useEffect has missing dependencies: 'errorMessage.length', 'returnUrl', and 'router.query.returnUrl'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
@@ -25,9 +28,9 @@ info  - Linting and checking validity of types...
 38:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'settingState'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./components/Layout.tsx
-88:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
-135:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array. Outer scope values like 'isMobile' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
-156:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+89:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+136:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array. Outer scope values like 'isMobile' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
+157:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./components/product/ProductCardOne.tsx
 43:6  Warning: React Hook useEffect has a missing dependency: 'minifyProduct?.color'. Either include it or remove the dependency array. If 'setColorState' needs the current value of 'minifyProduct.color', you can also switch to useReducer instead of useState and read 'minifyProduct.color' in the reducer.  react-hooks/exhaustive-deps
@@ -47,40 +50,39 @@ info  - Linting and checking validity of types...
 
 info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
 info  - Creating an optimized production build...
-Warning: A null PostCSS plugin was provided. This entry will be ignored.
 info  - Compiled successfully
 info  - Collecting page data...
-info  - Generating static pages (0/6)
-info  - Generating static pages (1/6)
-info  - Generating static pages (2/6)
-info  - Generating static pages (4/6)
-info  - Generating static pages (6/6)
+info  - Generating static pages (0/7)
+info  - Generating static pages (1/7)
+info  - Generating static pages (3/7)
+info  - Generating static pages (5/7)
+info  - Generating static pages (7/7)
 info  - Finalizing page optimization...
 
 Route (pages)                              Size     First Load JS
-┌ ● / (4696 ms)                            178 B           135 kB
-├   /_app                                  0 B             135 kB
-├ ○ /404                                   293 B           135 kB
-├ λ /api/counter                           0 B             135 kB
-├ λ /api/hello                             0 B             135 kB
-├ λ /api/image                             0 B             135 kB
-├ λ /api/sendotp                           0 B             135 kB
-├ λ /api/signin                            0 B             135 kB
-├ ○ /checkout/cart                         7.05 kB         143 kB
-├   └ css/202b43425db2c34c.css             750 B
-├ ○ /client/login                          1.9 kB          137 kB
-├ ○ /other                                 386 B           135 kB
-├ λ /products/[id]/[name]                  6.47 kB         142 kB
-├ λ /search                                186 B           138 kB
-├ λ /search/brand/[brand]                  847 B           139 kB
-├ λ /search/category/[category]            845 B           139 kB
-└ λ /search/category/[category]/[subcat]   854 B           139 kB
-+ First Load JS shared by all              143 kB
+┌ ● / (2698 ms)                            178 B           136 kB
+├   /_app                                  0 B             136 kB
+├ ○ /404                                   293 B           136 kB
+├ λ /api/counter                           0 B             136 kB
+├ λ /api/hello                             0 B             136 kB
+├ λ /api/image                             0 B             136 kB
+├ λ /api/sendotp                           0 B             136 kB
+├ λ /api/signin                            0 B             136 kB
+├ ○ /checkout/cart                         7.42 kB         144 kB
+├ ○ /client/login                          1.9 kB          138 kB
+├ ○ /other                                 386 B           136 kB
+├ λ /products/[id]/[name]                  6.47 kB         143 kB
+├ λ /search                                186 B           139 kB
+├ λ /search/brand/[brand]                  847 B           140 kB
+├ λ /search/category/[category]            845 B           140 kB
+├ λ /search/category/[category]/[subcat]   854 B           140 kB
+└ ○ /test                                  454 B           137 kB
++ First Load JS shared by all              145 kB
   ├ chunks/framework-3b5a00d5d7e8d93b.js   45.4 kB
   ├ chunks/main-7fd5f84692d6e98f.js        25.7 kB
-  ├ chunks/pages/_app-c51c2361245f9386.js  61.9 kB
-  ├ chunks/webpack-30147a499d67d369.js     2.03 kB
-  └ css/bf77029c1c78de99.css               8.34 kB
+  ├ chunks/pages/_app-84ab532e9d335966.js  63 kB
+  ├ chunks/webpack-1b269bd7cb7fc559.js     2.04 kB
+  └ css/49b87dd7de1bdd33.css               8.51 kB
 
 λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
 ○  (Static)  automatically rendered as static HTML (uses no initial props)

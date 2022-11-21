@@ -67,13 +67,16 @@ export default function MobileUserBag() {
           width: `${drop === true ? "100%" : "0%"}`,
           height: `${drop === true ? "100%" : "0%"}`,
         }}
+        onMouseEnter={() => {
+          setDrop(false);
+        }}
         onTouchStart={() => {
-          // setDrop(false);
-          setTimeout(() => setDrop(false), timeout);
+          setDrop(false);
+          // setTimeout(() => setDrop(false), timeout);
         }}
         onClick={() => {
-          // setDrop(false);
-          setTimeout(() => setDrop(false), timeout);
+          setDrop(false);
+          // setTimeout(() => setDrop(false), timeout);
         }}
         className="fixed top-0 left-0 z-[100] w-[100%] h-[100%] bg-black/60"
       ></div>
@@ -82,7 +85,9 @@ export default function MobileUserBag() {
         onMouseEnter={() => {
           if (mobileCheck === "mobile") {
           } else {
-            setTimeout(() => setDrop(true), timeout);
+            setDrop(true);
+
+            // setTimeout(() => setDrop(true), timeout);
           }
         }}
         onClick={() => {
