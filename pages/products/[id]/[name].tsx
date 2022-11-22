@@ -12,7 +12,9 @@ import ProductImageComponent from "../../../components/ProductPage/ProductImageC
 import Link from "next/link";
 import ProductAttributeComponent from "../../../components/ProductPage/ProductAttributeComponent";
 import ProductSliderOne from "../../../components/products/ProductSliderOne";
-import { Search } from "../..";
+import { imageAddress, Search } from "../..";
+import Image from "next/image";
+import imageLoader from "../../../src/imageLoader";
 
 export default function ProductPage({ product }: { product: Product | null }) {
   const [pro, setPro] = useState<Product | null>(null);
@@ -20,9 +22,9 @@ export default function ProductPage({ product }: { product: Product | null }) {
   useEffect(() => {
     if (pro === null) {
       setPro(product);
-      console.log("one time");
+      // console.log("one time");
     }
-    console.log("pro product in use effect", pro);
+    // console.log("pro product in use effect", pro);
   }, [pro, product]);
 
   return product !== null ? (
@@ -36,9 +38,10 @@ export default function ProductPage({ product }: { product: Product | null }) {
           <Title name={product.main.title_fa} />
           <ProductInfoSection product={product} />
         </div>
-        <div className="flex w-full  min-w-screen justify-center">
+        <div className="flex w-full min-w-screen justify-center">
           <ProductDescriptionComponent product={product} />
         </div>
+
         <div className="flex w-full min-w-screen justify-center">
           <ProductAttributeComponent product={product} />
         </div>
@@ -46,9 +49,89 @@ export default function ProductPage({ product }: { product: Product | null }) {
           <ProductRelativeComponent product={product} />
         </div>
       </div>
+      <div className="flex fixed top-0 md:top-[60px] left-0 w-full z-[50]">
+        <MobileTopViewComponent product={product} />
+      </div>
     </>
   ) : (
     <div>product not exist</div>
+  );
+}
+var scrollBefore = 0;
+
+function MobileTopViewComponent({ product }: { product: Product }) {
+  const [hidden, setHidden] = useState<number>(0);
+
+  //================================================
+  function scrollFunction() {
+    const numberOfImages: number = product.main.images.length;
+    var offsetY: number = window.pageYOffset;
+    if (offsetY > 500) {
+      const y: number = offsetY - 499;
+      const x = y / 300;
+      var role = Number(x.toFixed(0)) + 1;
+      if (role > numberOfImages) {
+        role = role % numberOfImages;
+      }
+
+      setHidden(role);
+    } else {
+      setHidden(0);
+    }
+
+    if (scrollBefore - offsetY < 0) {
+      // setHidden(1);
+    } else {
+      setHidden(0);
+    }
+    scrollBefore = window.pageYOffset;
+  }
+  //================================================
+
+  useEffect(() => {
+    window.addEventListener("scroll", scrollFunction);
+
+    return () => {
+      window.removeEventListener("scroll", scrollFunction);
+    };
+
+    // configPage();
+  }, []);
+
+  return (
+    <>
+      {" "}
+      <div
+        className={`w-full md:h-[30px] md:justify-center h-24 backdrop-filter backdrop-blur-sm  bg-white/80  ${
+          hidden === 0 ? "hidden" : "flex"
+        }`}
+      >
+        <div className="flex w-3/4 text-center p-2 text-black font-Vazir-Bold">
+          {product.main.title_fa}
+        </div>
+
+        <div className="md:hidden flex w-1/4">
+          <Image
+            className="flex justify-center w-[500px] h-auto  p-1"
+            loader={imageLoader}
+            src={imageAddress(
+              product?.main?.images?.[hidden - 1],
+              150,
+              150,
+              90,
+              "webp",
+              undefined
+            )}
+            placeholder="blur"
+            blurDataURL="/Asset13.png"
+            loading="lazy"
+            alt={product?.main?.title_en ?? "noname"}
+            width={500}
+            height={500}
+          />
+        </div>
+      </div>
+    </>
   );
 }
 
@@ -67,7 +150,10 @@ function ClickBar({ product }: { product: Product }) {
 export function ProductPriceComponent({ product }: { product: Product }) {}
 export function ProductDescriptionComponent({ product }: { product: Product }) {
   return (
-    <div className="flex flex-wrap text-center my-8 max-w-[1200px] md:w-[85%] w-11/12 justify-center border rounded-xl p-4 shadow-lg">
+    <div
+      id="about-product"
+      className="flex flex-wrap text-center my-8 max-w-[1200px] md:w-[85%] w-11/12 justify-center border rounded-xl p-4 shadow-lg"
+    >
       <h3 className="h2 font-Vazir-Bold w-full my-8 leading-loose	">
         درباره محصول
       </h3>
@@ -75,7 +161,7 @@ export function ProductDescriptionComponent({ product }: { product: Product }) {
         id="description"
         className="font-Vazir-Medium  w-full text-justify leading-loose"
       >
-        {product.review.description ?? product.main.long_desc}
+        {product?.review?.description ?? product?.main?.long_desc}
       </div>
     </div>
   );

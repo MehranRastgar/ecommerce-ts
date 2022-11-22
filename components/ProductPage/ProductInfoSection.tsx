@@ -37,11 +37,13 @@ export default function ProductInfoSection({ product }: { product: Product }) {
         (item) => String(item._id) === router?.query?.v
       );
       setVariantNumber(numb);
+    } else {
+      setVariantNumber(0);
     }
   }
   useEffect(() => {
     autoVariantSelection();
-  }, [router?.query?.v]);
+  }, [router?.query]);
 
   return (
     <div className="flex flex-wrap justify-start w-full h-full mt-4">
@@ -118,7 +120,12 @@ export function CartSection({
       };
       dispatch(addToCart(adder));
     } else {
-      console.log("please sign in first");
+      console.log(
+        "please sign in first",
+        userInfo._id,
+        product._id,
+        userInfo.accessToken
+      );
       router.push("/client/login?returnUrl=" + `${router.asPath}`);
     }
   }
@@ -158,7 +165,7 @@ export function CartSection({
       ) : (
         <></>
       )} */}
-      <div className="lg:hidden fixed w-[100%] items-center bottom-0 left-0 h-[60px] flex bg-transparent z-[50] backdrop-filter   backdrop-blur-md backdrop-contrast-200 backdrop-brightness-[70%]">
+      <div className="lg:hidden fixed w-[100%] items-center bottom-0 left-0 h-[60px] flex bg-transparent z-[50] backdrop-filter backdrop-blur-md backdrop-contrast-200 backdrop-brightness-[70%]">
         {product?.variants?.[variantNumber ?? 0]?.price?.selling_price > 0 ? (
           <>
             <div className="h-fit flex w-1/2">

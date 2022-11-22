@@ -28,9 +28,9 @@ export default function AddressBar() {
   useEffect(() => {}, [userInfo]);
 
   return (
-    <section className=" flex	flex-wrap w-full max-w-[800px] border rounded-lg items-start p-4">
-      <h1 className="text-xl font-Vazirmatn font-bold text-brand-cyan w-full">
-        آدرس
+    <section className=" flex	flex-wrap w-full max-w-[800px] border rounded-lg items-start p-4 shadow-lg">
+      <h1 className="text-lg font-Vazirmatn font-bold opacity-50 text-brand-cyan w-full">
+        آدرس انتخابی شما
       </h1>
       <div className="text-lg">
         <h2 className="font-Vazirmatn font-bold text-gray-600 p-2">
@@ -44,7 +44,7 @@ export default function AddressBar() {
           {userInfo?.addresses !== undefined
             ? userInfo?.addresses[userInfo?.PrimaryAddressNumber ?? 0]
                 ?.receiver_name
-            : "0"}
+            : "0"}{" "}
           {userInfo?.addresses !== undefined
             ? userInfo?.addresses[userInfo?.PrimaryAddressNumber ?? 0]
                 ?.receiver_family
@@ -70,11 +70,7 @@ export default function AddressBar() {
       {addressSelection ? (
         <>
           {" "}
-          <AddressModal
-            // setUpdated={props.setUpdated}
-            setAddressSelection={setAddressSelection}
-            // userInfo={userInfo}
-          />
+          <AddressModal setAddressSelection={setAddressSelection} />
         </>
       ) : (
         <></>
@@ -85,8 +81,6 @@ export default function AddressBar() {
 
 function AddressModal({ setAddressSelection }: { setAddressSelection: any }) {
   const userInfo = useSelector(selectUserInfo);
-  // const [clickOutside, setClickOutside] = useState(false);
-  const [clickInside, setClickInside] = useState(false);
   const [newAddress, setNewAddress] = useState(100);
   const [edit, setEdit] = useState(100);
 
@@ -241,9 +235,9 @@ const DEFAULT_CENTER: LatLngLiteral = {
 };
 
 function AddressEdit(props: any) {
-  const userInfo = useSelector(selectUserInfo);
-  const dispatch = useAppDispatch();
-  const userState = useSelector(selectUserUpdateFlag);
+  // const userInfo = useSelector(selectUserInfo);
+  // const dispatch = useAppDispatch();
+  // const userState = useSelector(selectUserUpdateFlag);
   const [reverseAddress, setReverseAddress] = useState<ReverseAddress>();
   const [steps, setSteps] = useState<"address" | "form">("address");
   const [address, setAddress] = useState<LatLngLiteral>({
@@ -351,7 +345,7 @@ function AddressEdit(props: any) {
                     />
                     <Marker position={address}>
                       <Popup>
-                        A pretty CSS3 popup. <br /> Easily customizable.
+                        موقعیت شما <br />
                       </Popup>
                     </Marker>
                   </>
@@ -365,6 +359,14 @@ function AddressEdit(props: any) {
       )}
       {steps === "form" ? (
         <>
+          <button
+            onClick={() => {
+              setSteps("address");
+            }}
+            className="px-4 rounded-lg hover:bg-gray-200 self-end text-md font-Vazirmatn font-bold text-blue-400	p-2"
+          >
+            انتخاب روی نقشه
+          </button>
           <AddressForm
             setNewAddress={props.setNewAddress}
             setEdit={props.setEdit}
@@ -432,7 +434,16 @@ function AddressForm(props: any) {
       dispatch(updateUserData(user));
       // console.log(address);
     } else {
-      console.log("error");
+      console.log("new one");
+      if (user.addresses) {
+        user.addresses = [...user.addresses];
+      } else {
+        user.addresses = [];
+      }
+      user.addresses[`${user?.addresses.length ?? "0"}`] = { ...address };
+      //user.addresses[props?.editnumber].city = "shop";
+      console.log(user.addresses);
+      dispatch(updateUserData(user));
     }
   }
 

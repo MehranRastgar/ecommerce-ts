@@ -128,7 +128,7 @@ export function Pagination({
       setNextState("idle");
     }
     setLastPage((total % 20 > 0 ? 1 : 0) + Math.trunc(total / 20));
-    console.log("lastpage", lastPage, total - page * 20);
+    // console.log("lastpage", lastPage, total - page * 20);
   }
 
   useEffect(() => {

@@ -133,8 +133,8 @@ export default function MobileUserProfile() {
                   <div className="flex flex-wrap justify-start p-4 w-full h-4 font-Vazir-Medium">
                     <span className="m-2">آدرس انتخابی :</span>
                     {
-                      userInfo?.addresses?.[userInfo.PrimaryAddressNumber ?? 0]
-                        .address_compact
+                      userInfo?.addresses?.[userInfo?.PrimaryAddressNumber ?? 0]
+                        ?.address_compact
                     }
                   </div>
                 </div>

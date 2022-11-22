@@ -71,10 +71,10 @@ export const orderSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(updateCartPrices.pending, (state) => {
-        state.status = "loading";
+        state.updateFlag = "pending";
       })
       .addCase(updateCartPrices.rejected, (state) => {
-        state.status = "unknownError";
+        state.updateFlag = "faild";
       })
       .addCase(
         updateCartPrices.fulfilled,

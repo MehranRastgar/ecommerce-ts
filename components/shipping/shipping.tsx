@@ -43,11 +43,7 @@ export default function Shipping() {
 
   return (
     <>
-      <div className="flex w-full items-start justify-center">
-        {/* <CheckoutBar state={1}></CheckoutBar> */}
-      </div>
-
-      <div className="flex mt-0 w-full max-h-96 items-start justify-center">
+      <div className="flex mt-0 w-full max-h-96 items-start justify-center ">
         {userInfo ? <AddressBar></AddressBar> : <></>}
       </div>
       <div className="flex mt-0 w-full max-h-96 items-start justify-center">

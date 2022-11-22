@@ -217,7 +217,8 @@ export async function PutUserApi(
     // .catch((err) => {
     //   state.signInFlag = "smsProviderError";
     // });
-    const result: any = data;
+    const result: Client = data;
+    result.accessToken = token;
     return result;
   } catch (err: any | AxiosError) {
     {

@@ -629,6 +629,12 @@ a:link {
   position: sticky;
   top: 100px;
 }
+.StickyContainer2 {
+  position: -webkit-sticky;
+  position: sticky;
+  z-index: 150;
+  top: 0px;
+}
 /*===================================================*/
 .input-color-container {
   position: relative;

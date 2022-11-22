@@ -129,7 +129,7 @@ export const updateUserData = createAsyncThunk(
       String(localStorage?.getItem("accessToken")),
       userInfo
     );
-    console.log("response thunk", response);
+    // console.log("response thunk", response);
     return response;
   }
 );
