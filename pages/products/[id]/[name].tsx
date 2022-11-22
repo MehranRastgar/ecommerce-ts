@@ -73,7 +73,7 @@ export function ProductDescriptionComponent({ product }: { product: Product }) {
       </h3>
       <div
         id="description"
-        className="font-Vazir-Medium  w-full text-justify leading-loose	"
+        className="font-Vazir-Medium  w-full text-justify leading-loose"
       >
         {product.review.description ?? product.main.long_desc}
       </div>
@@ -92,7 +92,7 @@ export function ProductRelativeComponent({ product }: { product: Product }) {
     <div id="relative-products" className="flex justify-center w-full">
       <ProductSliderOne
         setting={{
-          url: `/category/${product?.category?.L1}`,
+          url: `/search/category/${product?.category?.L1}`,
           name: "کالاهای مشابه",
           span: "مشاهده ...",
           getOption: getLaptop,

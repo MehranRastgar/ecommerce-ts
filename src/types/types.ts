@@ -442,3 +442,15 @@ export interface Geom {
   type?: string;
   coordinates?: string[];
 }
+//--------------------------------------------------
+export interface Order {
+  _id?: string;
+  userId?: string;
+  cart?: Cart[];
+  price?: string;
+  address?: Address;
+  status?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  __v?: number;
+}

@@ -11,9 +11,16 @@ import { imageAddress } from "..";
 import { GoTrashcan } from "react-icons/go";
 import { IoMdRemoveCircle } from "react-icons/io";
 import { AddToCartType, Cart } from "../../src/types/types";
-import { useAppDispatch } from "../../src/store/hooks";
+import { useAppDispatch, useAppSelector } from "../../src/store/hooks";
 import Shipping from "../../components/shipping/shipping";
 import { useEffect, useState } from "react";
+import { LoadingSvg, LoadingTwo } from "../../components/loader/default";
+import {
+  selectUpdatedPrices,
+  selectUpdatedPricesFlag,
+  updateCartPrices,
+  variantId,
+} from "../../src/store/slices/orderSlice";
 export default function CartPage() {
   const userInfo = useSelector(selectUserInfo);
 
@@ -68,28 +75,44 @@ export default function CartPage() {
 }
 
 function ReportContainer({ cart }: { cart: Cart[] | undefined }) {
+  const dispatch = useAppDispatch();
+  const UpdatedPricesFlag = useAppSelector(selectUpdatedPricesFlag);
+  const updatedPrices = useAppSelector(selectUpdatedPrices);
   const [cRep, setCrep] = useState<{
-    total: number;
-    benefit: number;
-    qty: number;
+    total: number | "loading";
+    benefit: number | "loading";
+    qty: number | "loading";
   }>({
-    total: 0,
-    benefit: 0,
-    qty: 0,
+    total: "loading",
+    benefit: "loading",
+    qty: "loading",
   });
 
   function calcSum() {
-    var cartReport: { total: number; benefit: number; qty: number } = {
-      total: 0,
-      benefit: 0,
-      qty: 0,
+    var cartReport: {
+      total: number | "loading";
+      benefit: number | "loading";
+      qty: number | "loading";
+    } = {
+      total: "loading",
+      benefit: "loading",
+      qty: "loading",
     };
     var TrrpPrice: number = 0;
     var TSellingPrice: number = 0;
     var TotalNumber: number = 0;
     cart?.map((item) => {
-      TrrpPrice += item.variant.price.rrp_price * (item.quantity ?? 0);
-      TSellingPrice += item.variant.price.selling_price * (item.quantity ?? 0);
+      const sellingPrice: number | undefined =
+        updatedPrices?.[
+          updatedPrices?.findIndex((it) => it?._id === item?.variantId)
+        ]?.price?.selling_price;
+      const rrpPrice: number | undefined =
+        updatedPrices?.[
+          updatedPrices?.findIndex((it) => it?._id === item?.variantId)
+        ]?.price?.rrp_price;
+
+      TrrpPrice += (rrpPrice ?? 0) * (item.quantity ?? 0);
+      TSellingPrice += (sellingPrice ?? 0) * (item.quantity ?? 0);
       TotalNumber += item.quantity ?? 0;
     });
     cartReport.total = TSellingPrice;
@@ -99,8 +122,16 @@ function ReportContainer({ cart }: { cart: Cart[] | undefined }) {
   }
 
   useEffect(() => {
-    calcSum();
-  }, [cart]);
+    if (cart?.length !== undefined) {
+      const variantIds: variantId[] = [];
+      cart?.map((item) => {
+        variantIds.push({ id: item?.variantId });
+      });
+      dispatch(updateCartPrices(variantIds));
+    }
+
+    if (UpdatedPricesFlag === "success") calcSum();
+  }, [cart, UpdatedPricesFlag]);
 
   const value: number = 115574;
   return (
@@ -111,14 +142,18 @@ function ReportContainer({ cart }: { cart: Cart[] | undefined }) {
             <li className="flex my-2 w-full">
               مبلغ کل :{" "}
               <span className="flex mx-2">
-                {(cRep.total / 10).toLocaleString()}
+                {cRep.total === "loading"
+                  ? LoadingSvg
+                  : (cRep.total / 10).toLocaleString()}
               </span>{" "}
               تومان
             </li>
             <li className="flex my-2 w-full">
               سود شما از خرید :{" "}
               <span className="flex mx-2">
-                {(cRep.benefit / 10).toLocaleString()}
+                {cRep.benefit === "loading"
+                  ? LoadingSvg
+                  : (cRep.benefit / 10).toLocaleString()}
               </span>{" "}
               تومان
             </li>
@@ -130,7 +165,9 @@ function ReportContainer({ cart }: { cart: Cart[] | undefined }) {
             <li className="flex my-2 w-full">
               قابل پرداخت :{" "}
               <span className="flex mx-2">
-                {(cRep.total / 10).toLocaleString()}
+                {cRep.total === "loading"
+                  ? LoadingSvg
+                  : (cRep.total / 10).toLocaleString()}
               </span>{" "}
               تومان
             </li>
@@ -196,6 +233,28 @@ function CartItem({
   cartItem: Cart;
   handleReduceFromCart: Function;
 }) {
+  const updatedPrices = useAppSelector(selectUpdatedPrices);
+  const updatedPricesFlag = useAppSelector(selectUpdatedPricesFlag);
+
+  const [price, setPrice] = useState<number | "loading" | "notAvailable">(
+    "loading"
+  );
+  useEffect(() => {
+    console.log(
+      "cartItem?.variantIdcartItem?.variantId",
+      updatedPrices,
+      cartItem?.variantId
+    );
+    if (updatedPrices.findIndex((it) => it?._id === cartItem?.variantId) >= 0) {
+      console.log("price finded");
+      const pri: number | undefined =
+        updatedPrices?.[
+          updatedPrices?.findIndex((it) => it?._id === cartItem?.variantId)
+        ]?.price?.selling_price;
+      if (pri) setPrice(pri);
+    }
+    console.log("updatedPricesFlag===>>>", updatedPricesFlag);
+  }, [updatedPrices, updatedPricesFlag]);
   return (
     <div className="flex w-full items-center rounded-md border shadow-lg h-[250px] my-4">
       <div className="flex justify-center w-1/6">
@@ -261,9 +320,15 @@ function CartItem({
           <div className="h-[200px]"></div>
           <div className="flex flex-wrap md:flex-nowrap h-fit w-full text-blackout-red my-4">
             <div className="flex h-fit w-fit mx-2 justify-end text-blackout-red">
-              {cartItem?.Price !== undefined
-                ? (cartItem?.Price / 10)?.toLocaleString()
-                : "0"}{" "}
+              {price === "loading" ? (
+                <div className="flex h-[45px] w-[45px]"> {LoadingSvg}</div>
+              ) : (
+                ` ${
+                  price === "notAvailable"
+                    ? "ناموجود"
+                    : (price / 10)?.toLocaleString()
+                }`
+              )}{" "}
             </div>
             <div className="flex h-fit w-fit mx-2 justify-end text-cyan-400">
               تومان
