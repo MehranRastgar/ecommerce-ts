@@ -2,6 +2,9 @@ import { useSelector } from "react-redux";
 import {
   reduecFromCart,
   selectUserInfo,
+  selectUserInfoStatus,
+  selectUserUpdateFlag,
+  updateVariantsCart,
 } from "../../src/store/slices/clientSlice";
 import Head from "next/head";
 import Link from "next/link";
@@ -26,17 +29,17 @@ export default function CartPage() {
   const dispatch = useAppDispatch();
 
   async function checkUpdate() {
-    const variantIds: variantId[] = [];
-    userInfo.cart?.map((item) => {
-      variantIds.push({ id: item?.variantId });
-    });
-    dispatch(updateCartPrices(variantIds));
+    // const variantIds: variantId[] = [];
+    // userInfo.cart?.map((item) => {
+    //   variantIds.push({ id: item?.variantId });
+    // });
+    dispatch(updateVariantsCart());
   }
 
   useEffect(() => {
     checkUpdate();
     // if (UpdatedPricesFlag === "success") calcSum();
-  }, [userInfo.cart, userInfo.cart?.length]);
+  }, []);
 
   return (
     <>
@@ -109,7 +112,7 @@ const FillFeild = ({ label, item }: { label: string; item: string }) => {
 };
 function ReportContainer({ cart }: { cart: Cart[] | undefined }) {
   const dispatch = useAppDispatch();
-  const UpdatedPricesFlag = useAppSelector(selectUpdatedPricesFlag);
+  const userInfoFlag = useAppSelector(selectUserUpdateFlag);
   const updatedPrices = useAppSelector(selectUpdatedPrices);
   const [cRep, setCrep] = useState<{
     total: number | "loading";
@@ -134,16 +137,23 @@ function ReportContainer({ cart }: { cart: Cart[] | undefined }) {
     var TrrpPrice: number = 0;
     var TSellingPrice: number = 0;
     var TotalNumber: number = 0;
-    cart?.map((item) => {
-      const sellingPrice: number | undefined =
-        updatedPrices?.[
-          updatedPrices?.findIndex((it) => it?._id === item?.variantId)
-        ]?.price?.selling_price;
-      const rrpPrice: number | undefined =
-        updatedPrices?.[
-          updatedPrices?.findIndex((it) => it?._id === item?.variantId)
-        ]?.price?.rrp_price;
+    // cart?.map((item) => {
+    //   const sellingPrice: number | undefined =
+    //     updatedPrices?.[
+    //       updatedPrices?.findIndex((it) => it?._id === item?.variantId)
+    //     ]?.price?.selling_price;
+    //   const rrpPrice: number | undefined =
+    //     updatedPrices?.[
+    //       updatedPrices?.findIndex((it) => it?._id === item?.variantId)
+    //     ]?.price?.rrp_price;
 
+    //   TrrpPrice += (rrpPrice ?? 0) * (item.quantity ?? 0);
+    //   TSellingPrice += (sellingPrice ?? 0) * (item.quantity ?? 0);
+    //   TotalNumber += item.quantity ?? 0;
+    // });
+    cart?.map((item) => {
+      const sellingPrice: number | undefined = item.variant.price.selling_price;
+      const rrpPrice: number | undefined = item.variant.price.rrp_price;
       TrrpPrice += (rrpPrice ?? 0) * (item.quantity ?? 0);
       TSellingPrice += (sellingPrice ?? 0) * (item.quantity ?? 0);
       TotalNumber += item.quantity ?? 0;
@@ -155,14 +165,14 @@ function ReportContainer({ cart }: { cart: Cart[] | undefined }) {
   }
 
   useEffect(() => {
-    console.log("UpdatedPricesFlag:", UpdatedPricesFlag);
-    if (UpdatedPricesFlag === "success") calcSum();
-  }, [UpdatedPricesFlag]);
+    console.log("UpdatedPricesFlag:", userInfoFlag);
+    if (userInfoFlag === "success") calcSum();
+  }, [userInfoFlag]);
   useEffect(() => {
     console.log("cart, cart?.length:", cart, cart?.length);
 
     // checkUpdate();
-    if (UpdatedPricesFlag === "success") calcSum();
+    if (userInfoFlag === "success") calcSum();
   }, [cart, cart?.length]);
 
   const value: number = 115574;
@@ -205,7 +215,7 @@ function ReportContainer({ cart }: { cart: Cart[] | undefined }) {
             </li>
             <li className="flex my-2 justify-center w-full">
               <button className="bg-blackout-red w-fit rounded-md font-Vazir-Bold text-white p-4">
-                ادامه و بازبینی سفارش
+                ثبت سفارش و پرداخت
               </button>
             </li>
           </ul>
@@ -265,21 +275,13 @@ function CartItem({
   cartItem: Cart;
   handleReduceFromCart: Function;
 }) {
-  const updatedPrices = useAppSelector(selectUpdatedPrices);
-  const updatedPricesFlag = useAppSelector(selectUpdatedPricesFlag);
+  const userInfo = useAppSelector(selectUserInfo);
+  const userUpdateFlag = useAppSelector(selectUserUpdateFlag);
 
   const [price, setPrice] = useState<number | "loading" | "notAvailable">(
     "loading"
   );
-  useEffect(() => {
-    if (updatedPrices.findIndex((it) => it?._id === cartItem?.variantId) >= 0) {
-      const pri: number | undefined =
-        updatedPrices?.[
-          updatedPrices?.findIndex((it) => it?._id === cartItem?.variantId)
-        ]?.price?.selling_price;
-      if (pri) setPrice(pri);
-    }
-  }, [updatedPrices, updatedPricesFlag]);
+  useEffect(() => {}, []);
   return (
     <div className="flex w-full items-center rounded-md border shadow-lg h-[250px] my-4">
       <div className="flex justify-center w-1/6">
@@ -346,13 +348,15 @@ function CartItem({
           <div className="h-[200px]"></div>
           <div className="flex flex-wrap md:flex-nowrap h-fit w-full text-blackout-red my-4">
             <div className="flex h-fit w-fit mx-2 justify-end text-blackout-red">
-              {price === "loading" ? (
+              {userUpdateFlag !== "success" ? (
                 <div className="flex h-[45px] w-[45px]"> {LoadingSvg}</div>
               ) : (
                 ` ${
                   price === "notAvailable"
                     ? "ناموجود"
-                    : (price / 10)?.toLocaleString()
+                    : (
+                        cartItem.variant.price.selling_price / 10
+                      )?.toLocaleString()
                 }`
               )}{" "}
             </div>

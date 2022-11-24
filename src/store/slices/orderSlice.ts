@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Order } from "../../types/types";
 import {
   getCartPrices,
+  getOrderByIdApi,
+  getOrdersApi,
   updatedPrice,
   UpdatePriceRespons,
 } from "../api/orderApi";
@@ -30,8 +32,49 @@ export const updateCartPrices = createAsyncThunk(
     return response;
   }
 );
+//===================================================================
+export const getOrders = createAsyncThunk(
+  "order/getOrders",
+  async ({ perpage, page }: { perpage: number; page: number }) => {
+    const response:
+      | Order[]
+      | {
+          error: {
+            errorCode: any;
+          };
+        } = await getOrdersApi(
+      perpage,
+      page,
+      String(localStorage?.getItem("accessToken")),
+      String(localStorage?.getItem("user-id"))
+    );
+
+    // The value we return becomes the `fulfilled` action payload
+    return response;
+  }
+);
+export const getOrderById = createAsyncThunk(
+  "order/getOrderById",
+  async (orderId: string) => {
+    const response:
+      | Order
+      | {
+          error: {
+            errorCode: any;
+          };
+        } = await getOrderByIdApi(
+      orderId,
+      String(localStorage?.getItem("accessToken")),
+      String(localStorage?.getItem("user-id"))
+    );
+
+    // The value we return becomes the `fulfilled` action payload
+    return response;
+  }
+);
 
 export interface OrderState {
+  Orders: Order[];
   value: Order;
   updatedPrice: UpdatePriceRespons[];
   status: "success" | "loading" | "403" | "401" | "unknownError";
@@ -48,6 +91,7 @@ export interface OrderState {
 }
 
 const initialState: OrderState = {
+  Orders: [],
   value: {},
   updatedPrice: [],
   updateFlag: "idle",
@@ -86,6 +130,40 @@ export const orderSlice = createSlice({
             state.updateFlag = "faild";
           }
         }
+      )
+      .addCase(getOrders.pending, (state) => {
+        state.updateFlag = "pending";
+      })
+      .addCase(getOrders.rejected, (state) => {
+        state.updateFlag = "faild";
+      })
+      .addCase(
+        getOrders.fulfilled,
+        (state, action: PayloadAction<Order[] | any>) => {
+          if (action?.payload?.error === undefined) {
+            state.Orders = action.payload;
+            state.updateFlag = "success";
+          } else {
+            state.updateFlag = "faild";
+          }
+        }
+      )
+      .addCase(getOrderById.pending, (state) => {
+        state.updateFlag = "pending";
+      })
+      .addCase(getOrderById.rejected, (state) => {
+        state.updateFlag = "faild";
+      })
+      .addCase(
+        getOrderById.fulfilled,
+        (state, action: PayloadAction<Order | any>) => {
+          if (action?.payload?.error === undefined) {
+            state.value = action.payload;
+            state.updateFlag = "success";
+          } else {
+            state.updateFlag = "faild";
+          }
+        }
       );
   },
 });
@@ -98,5 +176,7 @@ export const selectUpdatedPrices = (state: AppState) =>
   state.order.updatedPrice;
 export const selectUpdatedPricesFlag = (state: AppState) =>
   state.order.updateFlag;
+export const selectOrders = (state: AppState) => state.order.Orders;
+export const selectSpecOrder = (state: AppState) => state.order.value;
 
 export default orderSlice.reducer;

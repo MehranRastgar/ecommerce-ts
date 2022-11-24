@@ -21,6 +21,7 @@ import type {
   SignInResponse,
   SignUpRequest,
 } from "../../types/types";
+import { updateCartVariants } from "../api/orderApi";
 
 // import axios, { AxiosResponse } from "axios";
 // import { ActionsFromAsyncThunk } from "@reduxjs/toolkit/dist/matchers";
@@ -135,6 +136,23 @@ export const updateUserData = createAsyncThunk(
 );
 
 //================================================================
+export const updateVariantsCart = createAsyncThunk(
+  "client/updateVariantsCart",
+  async () => {
+    const response:
+      | Client
+      | {
+          error: {
+            errorCode: any;
+          };
+        } = await updateCartVariants(
+      String(localStorage?.getItem("accessToken")),
+      String(localStorage?.getItem("user-id"))
+    );
+    return response;
+  }
+);
+
 export const addToCart = createAsyncThunk(
   "client/addToCart",
   async (AddToCart: AddToCartType) => {
@@ -327,6 +345,26 @@ export const clientSlice = createSlice({
       })
       .addCase(
         updateUserData.fulfilled,
+        (state, action: PayloadAction<Client | any>) => {
+          if (
+            action?.payload?.error === undefined &&
+            action?.payload?.usernamebyphone !== undefined
+          ) {
+            state.value = action.payload;
+            state.updateFlag = "success";
+          } else {
+            state.updateFlag = "faild";
+          }
+        }
+      )
+      .addCase(updateVariantsCart.pending, (state) => {
+        state.updateFlag = "pending";
+      })
+      .addCase(updateVariantsCart.rejected, (state) => {
+        state.updateFlag = "faild";
+      })
+      .addCase(
+        updateVariantsCart.fulfilled,
         (state, action: PayloadAction<Client | any>) => {
           if (
             action?.payload?.error === undefined &&

@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { imageAddress, Search } from "../../pages";
@@ -26,9 +26,9 @@ import { useAppSelector } from "../../src/store/hooks";
 //   sortType: undefined,
 // };
 
-const fetcher = (URL: string, searchBody: Search) =>
+const fetcher = (URL: string, searchBody: Search, config: AxiosRequestConfig) =>
   axios
-    .post(`${process.env.NEXT_PUBLIC_BASE_API_URL}${URL}`, searchBody)
+    .post(`${process.env.NEXT_PUBLIC_BASE_API_URL}${URL}`, searchBody, config)
     .then((res: AxiosResponse) => {
       type MinifyProducts = MinifyProduct[];
       const GetProductsArray: GetProductsArray = {
@@ -61,18 +61,24 @@ const fetcher = (URL: string, searchBody: Search) =>
       return minifyProducts;
     });
 
-const config: SWRConfiguration = {
-  fallbackData: "fallback",
-  revalidateOnMount: false,
-  // ...
-};
+// const config: SWRConfiguration = {
+//   fallbackData: "fallback",
+//   revalidateOnMount: false,
+//   // ...
+// };
 
 import { BsArrowLeft } from "react-icons/bs";
-
+const config: AxiosRequestConfig = {
+  headers: {
+    "Cache-Control": "no-cache",
+    "Content-Type": "application/json;charset=UTF-8",
+    Accept: "*/*",
+  },
+};
 export default function ProductSliderOne({ setting }: { setting: any }) {
   const { data } = useSWR<MinifyProduct[]>(
     [`/pro/psearch`, setting?.getOption],
-    (url) => fetcher(url, setting?.getOption)
+    (url) => fetcher(url, setting?.getOption, config)
   );
   const settings = useAppSelector(selectSettings);
   const settingsStatus = useAppSelector(selectSettingsStatus);
