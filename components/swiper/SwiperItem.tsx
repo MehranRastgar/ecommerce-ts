@@ -5,16 +5,18 @@ import { imageAddress } from "../../pages";
 import image from "../../public/slider-a/1.jpg";
 import { useAppSelector } from "../../src/store/hooks";
 import { selectDeviceType } from "../../src/store/slices/themeSlice";
-
+import Link from "next/link";
+import Router from "next/router";
 export type SwiperItemType = {
   imageSrc: string;
   imageAlt: string;
+  url: string;
 };
 // import "./SwiperItem.css";
 
 export type Props = SwiperItemType;
 
-function SwiperItem({ imageSrc, imageAlt }: Props) {
+function SwiperItem({ imageSrc, imageAlt, url }: Props) {
   const deviceType = useAppSelector<
     "android" | "ios" | "mobile" | "tablet" | "pc" | "laptop" | undefined
   >(selectDeviceType);
@@ -22,7 +24,13 @@ function SwiperItem({ imageSrc, imageAlt }: Props) {
   useEffect(() => {}, [deviceType]);
 
   return (
-    <div className="swiper-item">
+    <div
+      onClick={(e) => {
+        Router.push(url);
+        console.log("tocuched");
+      }}
+      className="swiper-item"
+    >
       {/* <Image
         className=" rounded-xl"
         loader={imageLoader}

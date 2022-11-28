@@ -140,7 +140,7 @@ function Swiper({ items }: Props) {
         }}
       >
         {items.map((item, idx) => (
-          <SwiperItem key={idx} {...item} />
+          <SwiperItem key={idx + "-image"} {...item} />
         ))}
       </div>
       <div className="flex justify-center w-full absolute -mt-[40px] z-[2]">

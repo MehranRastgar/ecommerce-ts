@@ -93,23 +93,27 @@ const items = [
   {
     imageSrc: "slider-a/1.jpg",
     imageAlt: "گوشی موبایل",
-    search: "/",
+    url: "/search/category/mobile",
   },
   {
     imageSrc: "slider-a/2.jpg",
-    imageAlt: "A rock formation",
+    imageAlt: "ساعت هوشمند",
+    url: "/search/category/watch-wearable",
   },
   {
     imageSrc: "slider-a/3.jpg",
     imageAlt: "Some flowers",
+    url: "/search/brand/lenovo",
   },
   {
     imageSrc: "slider-a/4.jpg",
     imageAlt: "An egyptian wall painting",
+    url: "/search/brand/samsung",
   },
   {
     imageSrc: "slider-a/5.jpg",
-    imageAlt: "A butterfly on a leaf",
+    imageAlt: "laptop",
+    url: "/search/category/laptop",
   },
 ];
 
