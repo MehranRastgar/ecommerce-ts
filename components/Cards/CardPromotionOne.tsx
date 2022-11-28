@@ -15,17 +15,17 @@ export default function CardPromotionOne({
   Url: string;
 }) {
   return (
-    <Link href={Url ?? "/"} className="flex select-none">
+    <Link href={Url ?? "/"} className="flex flex-wrap select-none">
       <Image
-        className={`flex w-[150px] md:w-[250px] h-auto m-2`}
+        className={`flex  min-w-[300px] w-full md:w-[300px] h-auto m-2`}
         loader={imageLoader}
         alt={cardName ?? "-"}
         priority
-        width={250}
-        height={250}
+        width={300}
+        height={300}
         unselectable="on"
         draggable={false}
-        src={imageAddress(`${ImageSrc}.png`, 250, 250, 80, "webp", "public")}
+        src={imageAddress(`${ImageSrc}.png`, 300, 300, 90, "webp", "public")}
       />
     </Link>
   );

@@ -52,7 +52,7 @@ function CategoryItem({ itemCat }: { itemCat: L1 | undefined }) {
       <Link href={`/search${itemCat?.url ?? "/"}`}>
         <Image
           loader={imageLoader}
-          className="flex md:w-[200px] w-[100px] h-auto m-2"
+          className="flex md:w-full w-full h-auto m-2"
           unoptimized
           alt={itemCat?.title ?? "-"}
           priority

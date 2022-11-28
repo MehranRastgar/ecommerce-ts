@@ -68,6 +68,7 @@ const fetcher = (URL: string, searchBody: Search, config: AxiosRequestConfig) =>
 // };
 
 import { BsArrowLeft } from "react-icons/bs";
+import LoadingOne from "../loader/default";
 const config: AxiosRequestConfig = {
   headers: {
     "Access-Control-Allow-Origin": "*",
@@ -113,6 +114,15 @@ export default function ProductSliderOne({ setting }: { setting: any }) {
             </div>
           </Link>
         </div>
+        {data === undefined ? (
+          <>
+            <div className={`w-full m-1 mx-2 min-w-[120px] md:min-w-[200px]`}>
+              <LoadingOne />
+            </div>
+          </>
+        ) : (
+          ""
+        )}
         {data !== undefined ? (
           data?.map((minifyProduct: MinifyProduct, index) => (
             <>
@@ -206,7 +216,6 @@ export function ProductSliderItem({
           <h2 className="flex font-Vazir-Medium font-bold justify-center overflow-hidden  text-black text-sm   text-rtl mx-0 -my-1 items-top text-center tracking-normal  h-10 p-1     ">
             {minifyProduct?.title_fa ?? ""}
           </h2>
-
           {!(price == "0" || delPrice == "0") ? (
             <>
               <div className="text-red-500 flex w-full line-through font-Vazir-Medium text-xs font-thin   flex-wrap justify-center ">
