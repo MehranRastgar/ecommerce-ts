@@ -3,10 +3,15 @@ info  - Loaded env from G:\gh\ecomerce-ts\ecommerce-ts\.env.local
 info  - Linting and checking validity of types...
 
 ./pages/checkout/cart.tsx
-39:6  Warning: React Hook useEffect has a missing dependency: 'checkUpdate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-160:6  Warning: React Hook useEffect has a missing dependency: 'calcSum'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-166:6  Warning: React Hook useEffect has missing dependencies: 'UpdatedPricesFlag' and 'calcSum'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
-282:6  Warning: React Hook useEffect has a missing dependency: 'cartItem?.variantId'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+42:6  Warning: React Hook useEffect has a missing dependency: 'checkUpdate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+170:6  Warning: React Hook useEffect has a missing dependency: 'calcSum'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+176:6  Warning: React Hook useEffect has missing dependencies: 'calcSum' and 'userInfoFlag'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./pages/checkout/order/index.tsx
+20:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./pages/checkout/order/[id].tsx
+18:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'orderId'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./pages/client/login.tsx
 118:6  Warning: React Hook useEffect has missing dependencies: 'errorMessage.length', 'returnUrl', and 'router.query.returnUrl'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
@@ -31,12 +36,12 @@ info  - Linting and checking validity of types...
 55:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'settingState'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./components/headers/navbarOne.tsx
-38:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'settingState'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+43:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'settingState'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./components/Layout.tsx
-89:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
-136:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array. Outer scope values like 'isMobile' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
-157:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+93:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+140:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array. Outer scope values like 'isMobile' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
+161:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./components/product/ProductCardOne.tsx
 43:6  Warning: React Hook useEffect has a missing dependency: 'minifyProduct?.color'. Either include it or remove the dependency array. If 'setColorState' needs the current value of 'minifyProduct.color', you can also switch to useReducer instead of useState and read 'minifyProduct.color' in the reducer.  react-hooks/exhaustive-deps
@@ -46,7 +51,7 @@ info  - Linting and checking validity of types...
 154:6  Warning: React Hook useEffect has a missing dependency: 'handleClickShape'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./components/products/ProductSliderOne.tsx
-170:6  Warning: React Hook useEffect has a missing dependency: 'minifyProduct?.color'. Either include it or remove the dependency array. If 'setColorState' needs the current value of 'minifyProduct.color', you can also switch to useReducer instead of useState and read 'minifyProduct.color' in the reducer.  react-hooks/exhaustive-deps
+172:6  Warning: React Hook useEffect has a missing dependency: 'minifyProduct?.color'. Either include it or remove the dependency array. If 'setColorState' needs the current value of 'minifyProduct.color', you can also switch to useReducer instead of useState and read 'minifyProduct.color' in the reducer.  react-hooks/exhaustive-deps
 
 ./components/shipping/AddressBar.tsx
 456:6  Warning: React Hook useEffect has missing dependencies: 'props' and 'waitForSuccess'. Either include them or remove the dependency array. However, 'props' will change when *any* prop changes, so the preferred fix is to destructure the 'props' object outside of the useEffect call and refer to those specific props inside useEffect.  react-hooks/exhaustive-deps
@@ -59,37 +64,39 @@ info  - Creating an optimized production build...
 Warning: A null PostCSS plugin was provided. This entry will be ignored.
 info  - Compiled successfully
 info  - Collecting page data...
-info  - Generating static pages (0/6)
-info  - Generating static pages (1/6)
-info  - Generating static pages (2/6)
-info  - Generating static pages (4/6)
-info  - Generating static pages (6/6)
+info  - Generating static pages (0/7)
+info  - Generating static pages (1/7)
+info  - Generating static pages (3/7)
+info  - Generating static pages (5/7)
+info  - Generating static pages (7/7)
 info  - Finalizing page optimization...
 
 Route (pages)                              Size     First Load JS
-┌ ● / (817 ms)                             178 B           137 kB
-├   /_app                                  0 B             137 kB
-├ ○ /404                                   293 B           137 kB
-├ λ /api/counter                           0 B             137 kB
-├ λ /api/hello                             0 B             137 kB
-├ λ /api/image                             0 B             137 kB
-├ λ /api/sendotp                           0 B             137 kB
-├ λ /api/signin                            0 B             137 kB
-├ ○ /checkout/cart                         7.99 kB         146 kB
+┌ ● / (695 ms)                             178 B           138 kB
+├   /_app                                  0 B             138 kB
+├ ○ /404                                   293 B           138 kB
+├ λ /api/counter                           0 B             138 kB
+├ λ /api/hello                             0 B             138 kB
+├ λ /api/image                             0 B             138 kB
+├ λ /api/sendotp                           0 B             138 kB
+├ λ /api/signin                            0 B             138 kB
+├ ○ /checkout/cart                         7.84 kB         147 kB
 ├   └ css/202b43425db2c34c.css             750 B
-├ ○ /client/login                          1.9 kB          139 kB
+├ ○ /checkout/order                        390 B           138 kB
+├ λ /checkout/order/[id]                   513 B           139 kB
+├ ○ /client/login                          1.9 kB          140 kB
 ├ ○ /other                                 386 B           138 kB
 ├ λ /products/[id]/[name]                  6.79 kB         145 kB
-├ λ /search                                186 B           140 kB
-├ λ /search/brand/[brand]                  847 B           141 kB
-├ λ /search/category/[category]            845 B           141 kB
-└ λ /search/category/[category]/[subcat]   854 B           141 kB
-+ First Load JS shared by all              146 kB
+├ λ /search                                186 B           141 kB
+├ λ /search/brand/[brand]                  847 B           142 kB
+├ λ /search/category/[category]            845 B           142 kB
+└ λ /search/category/[category]/[subcat]   854 B           142 kB
++ First Load JS shared by all              147 kB
   ├ chunks/framework-3b5a00d5d7e8d93b.js   45.4 kB
   ├ chunks/main-7fd5f84692d6e98f.js        25.7 kB
-  ├ chunks/pages/_app-1c92d902504744e8.js  64 kB
-  ├ chunks/webpack-eae236f29b3e905d.js     2.03 kB
-  └ css/69fa7fe7904e6af1.css               8.58 kB
+  ├ chunks/pages/_app-674777bf18a73a31.js  64.9 kB
+  ├ chunks/webpack-66fdcd37a40e7b25.js     2.03 kB
+  └ css/614d37e9f41a5821.css               8.61 kB
 
 λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
 ○  (Static)  automatically rendered as static HTML (uses no initial props)

@@ -6,11 +6,14 @@ import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "../../src/store/hooks";
 import { GoGift } from "react-icons/go";
 import {
+  crmChangeState,
+  crmStatus,
   fetchSettingsAsync,
   selectSettings,
   selectSettingsStatus,
 } from "../../src/store/slices/settingsSlice";
 import { Settings } from "../../src/types/types";
+import { BsHeadset } from "react-icons/bs";
 
 export default function NavbarOne({
   isScrolled,
@@ -26,6 +29,8 @@ export default function NavbarOne({
   const styleClassLink = `flex px-6 py-2 hover:border-b-2 hover:border-b-red-500 border-b-2 border-b-transparent `;
   const dispatch = useAppDispatch();
   const settingState = useAppSelector(selectSettingsStatus);
+  const crmRequest = useAppSelector(crmStatus);
+
   useEffect(() => {
     setOpenMenu(false);
   }, [router.asPath]);
@@ -107,6 +112,27 @@ export default function NavbarOne({
             <Link className={styleClassLink} href="/res">
               تماس با ما
             </Link>
+          </li>
+          <li
+            onClick={() => {
+              dispatch(crmChangeState());
+            }}
+            className={styleClassLi}
+          >
+            <div
+              className={
+                styleClassLink +
+                " cursor-pointer " +
+                `${crmRequest === "open" ? " text-[#00ff00]" : ""}`
+              }
+            >
+              پشتیبانی آنلاین
+              <BsHeadset
+                color={crmRequest === "open" ? "#00ff00" : "#FF4500"}
+                size={20}
+              />
+            </div>
+            {/* <div className="text-xs font-Vazir-Bold w-full">پشنیبانی</div> */}
           </li>
         </ul>
       </nav>

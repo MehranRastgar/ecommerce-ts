@@ -92,7 +92,8 @@ const getMobile: Search = {
 const items = [
   {
     imageSrc: "slider-a/1.jpg",
-    imageAlt: "A person's eye",
+    imageAlt: "گوشی موبایل",
+    search: "/",
   },
   {
     imageSrc: "slider-a/2.jpg",

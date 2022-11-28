@@ -8,11 +8,13 @@ import { fetchSettings } from "../api/settingsApi";
 export interface SettingsState {
   value: Settings[];
   status: "idle" | "loading" | "failed";
+  crm: "open" | "close";
 }
 
 const initialState: SettingsState = {
   value: [],
   status: "loading",
+  crm: "close",
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -34,9 +36,15 @@ export const settingsSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    // fetchSettings: (state) => {
-    //   state.value
-    // },
+    crmChangeState: (state) => {
+      if (state.crm === "close") {
+        state.crm = "open";
+      }
+      // else {
+      //   state.crm = "close";
+      // }
+      // console.log("is cloese");
+    },
     // decrement: (state) => {
     //   state.value -= 1
     // },
@@ -64,13 +72,14 @@ export const settingsSlice = createSlice({
   },
 });
 
-export const {} = settingsSlice.actions;
+export const { crmChangeState } = settingsSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const selectSettings = (state: AppState) => state.settings.value;
 export const selectSettingsStatus = (state: AppState) => state.settings.status;
+export const crmStatus = (state: AppState) => state.settings.crm;
 // export const selectUserInfo = (state: AppState) => state.client.value;
 // We can also write thunks by hand, which may contain both sync and async logi c.
 // Here's an example of conditionally dispatching actions based on current state.

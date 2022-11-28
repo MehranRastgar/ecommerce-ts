@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // experimental: { appDir: true },
-
   reactStrictMode: true,
   swcMinify: true,
   images: {
@@ -16,7 +15,6 @@ const nextConfig = {
       "unsplash.com",
       "socialistmodernism.com",
       "via.placeholder.com",
-      "api.bugtech.ir",
       "api.bugtech.ir",
       "localhost",
     ],

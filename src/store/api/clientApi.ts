@@ -7,8 +7,18 @@ export async function fetchClient(
   let clientid = localStorage.getItem("clientId");
   // console.log(clientid);
   try {
+    const getConfig = {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
+        "Cache-Control": "no-cache",
+        "Content-Type": "application/json;charset=UTF-8",
+        Accept: "*/*",
+      },
+    };
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/clients/find/${clientId ?? ""}`
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/clients/find/${clientId ?? ""}`,
+      getConfig
     );
     const result: Client = response.data;
     return result;
@@ -28,6 +38,8 @@ export async function requestSms(
 
   const getConfig = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": "true",
       "Cache-Control": "no-cache",
       "Content-Type": "application/json;charset=UTF-8",
       Accept: "*/*",
@@ -61,6 +73,8 @@ export async function signIn(
 
   const getConfig = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": "true",
       "Cache-Control": "no-cache",
       "Content-Type": "application/json;charset=UTF-8",
       Accept: "*/*",
@@ -95,6 +109,8 @@ export async function checkSignIn(
 
   const getConfig = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": "true",
       "Cache-Control": "no-cache",
       "Content-Type": "application/json;charset=UTF-8",
       Accept: "*/*",
@@ -129,6 +145,8 @@ export async function addToCartApi(
   // state.signInFlag = "request";
   const axiosConf: AxiosRequestConfig = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": "true",
       "Cache-Control": "no-cache",
       "Content-Type": "application/json;charset=UTF-8",
       Accept: "*/*",
@@ -162,6 +180,8 @@ export async function reduceFromCartApi(
   // state.signInFlag = "request";
   const axiosConf: AxiosRequestConfig = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": "true",
       "Cache-Control": "no-cache",
       "Content-Type": "application/json;charset=UTF-8",
       Accept: "*/*",
@@ -196,6 +216,8 @@ export async function PutUserApi(
 
   const getConfig = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": "true",
       "Cache-Control": "no-cache",
       "Content-Type": "application/json;charset=UTF-8",
       Accept: "*/*",

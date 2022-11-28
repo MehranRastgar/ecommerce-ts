@@ -6,6 +6,8 @@ export async function fetchSettings(): Promise<Settings[]> {
     {
       method: "GET",
       headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
         "Content-Type": "application/json",
       },
     }

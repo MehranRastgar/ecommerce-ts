@@ -30,7 +30,7 @@ export default function ProductCardOne({
     var colorsStyle: string[] = [];
 
     colors.map((color) => {
-      colorsStyle.push(color.hex_code);
+      colorsStyle.push(color?.hex_code);
     });
     colorsStyle = [...new Set(colorsStyle)];
     return colorsStyle;

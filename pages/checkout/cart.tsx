@@ -336,7 +336,7 @@ function CartItem({
                 type={"color"}
                 disabled
                 className="input-color"
-                value={cartItem.variant.color.hex_code}
+                value={cartItem.variant?.color?.hex_code}
               ></input>
             </div>
             <label className="mx-3 font-Vazir-Thin text-sm">

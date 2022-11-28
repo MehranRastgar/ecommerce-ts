@@ -18,6 +18,8 @@ export async function getOrderByIdApi(
   try {
     const axiosConf: AxiosRequestConfig = {
       headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
         "Cache-Control": "no-cache",
         "Content-Type": "application/json;charset=UTF-8",
         Accept: "*/*",
@@ -52,6 +54,8 @@ export async function getOrdersApi(
   try {
     const axiosConf: AxiosRequestConfig = {
       headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
         "Cache-Control": "no-cache",
         "Content-Type": "application/json;charset=UTF-8",
         Accept: "*/*",
@@ -87,6 +91,8 @@ export async function getCartPrices(
   try {
     const axiosConf: AxiosRequestConfig = {
       headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
         "Cache-Control": "no-cache",
         "Content-Type": "application/json;charset=UTF-8",
         Accept: "*/*",
@@ -120,6 +126,8 @@ export async function updateCartVariants(
   try {
     const axiosConf: AxiosRequestConfig = {
       headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
         "Cache-Control": "no-cache",
         "Content-Type": "application/json;charset=UTF-8",
         Accept: "*/*",

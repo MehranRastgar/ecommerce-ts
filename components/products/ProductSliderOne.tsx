@@ -70,6 +70,8 @@ const fetcher = (URL: string, searchBody: Search, config: AxiosRequestConfig) =>
 import { BsArrowLeft } from "react-icons/bs";
 const config: AxiosRequestConfig = {
   headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Credentials": "true",
     "Cache-Control": "no-cache",
     "Content-Type": "application/json;charset=UTF-8",
     Accept: "*/*",
@@ -157,7 +159,7 @@ export function ProductSliderItem({
     var colorsStyle: string[] = [];
 
     colors.map((color) => {
-      colorsStyle.push(color.hex_code);
+      colorsStyle.push(color?.hex_code);
     });
     colorsStyle = [...new Set(colorsStyle)];
     return colorsStyle;
@@ -169,7 +171,7 @@ export function ProductSliderItem({
     }
   }, []);
   return (
-    <div className={`w-full   m-1 mx-2 min-w-[120px] md:min-w-[200px]`}>
+    <div className={`w-full m-1 mx-2 min-w-[120px] md:min-w-[200px]`}>
       <Link
         key={"click-on-product"}
         href={`/products/${minifyProduct?._id}/${(
