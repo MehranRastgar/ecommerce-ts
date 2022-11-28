@@ -49,7 +49,10 @@ export default function ProductCategoriesContainer() {
 function CategoryItem({ itemCat }: { itemCat: L1 | undefined }) {
   return (
     <>
-      <Link href={`/search${itemCat?.url ?? "/"}`}>
+      <Link
+        className="flex md:w-1/3 lg:w-1/5 xl:w-1/5 max-w-[200px] w-1/2"
+        href={`/search${itemCat?.url ?? "/"}`}
+      >
         <Image
           loader={imageLoader}
           className="flex md:w-full w-full h-auto m-2"
@@ -60,6 +63,16 @@ function CategoryItem({ itemCat }: { itemCat: L1 | undefined }) {
           height={250}
           unselectable="on"
           draggable={false}
+          loading="eager"
+          placeholder="blur"
+          blurDataURL={imageAddress(
+            `/catImage/${itemCat?.title}.png`,
+            10,
+            15,
+            80,
+            "webp",
+            "public"
+          )}
           src={imageAddress(
             `/catImage/${itemCat?.title}.png`,
             200,

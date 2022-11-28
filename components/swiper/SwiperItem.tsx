@@ -29,7 +29,7 @@ function SwiperItem({ imageSrc, imageAlt, url }: Props) {
         Router.push(url);
         console.log("tocuched");
       }}
-      className="swiper-item"
+      className="swiper-item justify-center flex h-full w-[100%] overflow-hidden"
     >
       {/* <Image
         className=" rounded-xl"
@@ -46,23 +46,16 @@ function SwiperItem({ imageSrc, imageAlt, url }: Props) {
       <Image
         // src={image}
         draggable={false}
-        className="swiper-img"
+        className="flex w-full min-w-[700px] object-fill h-full"
         // quality={90}
         loader={imageLoader}
         unoptimized
         unselectable="on"
         priority
-        src={imageAddress(
-          imageSrc,
-          deviceType === "mobile" ? 700 : 1400,
-          undefined,
-          80,
-          "webp",
-          "public"
-        )}
+        src={imageAddress(imageSrc, 1400, undefined, 80, "webp", "public")}
         // src={"/public/slider-a/1.jpg"}
         alt={imageAlt ?? "not-present"}
-        width={deviceType === "mobile" ? 700 : 1400}
+        width={1400}
         height={400}
       />
     </div>

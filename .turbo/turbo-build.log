@@ -72,7 +72,7 @@ info  - Generating static pages (7/7)
 info  - Finalizing page optimization...
 
 Route (pages)                              Size     First Load JS
-┌ ● / (12360 ms)                           178 B           138 kB
+┌ ● / (2460 ms)                            178 B           138 kB
 ├   /_app                                  0 B             138 kB
 ├ ○ /404                                   293 B           138 kB
 ├ λ /api/counter                           0 B             138 kB
@@ -82,10 +82,10 @@ Route (pages)                              Size     First Load JS
 ├ λ /api/signin                            0 B             138 kB
 ├ ○ /checkout/cart                         7.84 kB         147 kB
 ├   └ css/202b43425db2c34c.css             750 B
-├ ○ /checkout/order                        390 B           138 kB
+├ ○ /checkout/order                        390 B           139 kB
 ├ λ /checkout/order/[id]                   513 B           139 kB
 ├ ○ /client/login                          1.9 kB          140 kB
-├ ○ /other                                 386 B           138 kB
+├ ○ /other                                 386 B           139 kB
 ├ λ /products/[id]/[name]                  6.79 kB         146 kB
 ├ λ /search                                186 B           141 kB
 ├ λ /search/brand/[brand]                  847 B           142 kB
@@ -94,9 +94,9 @@ Route (pages)                              Size     First Load JS
 + First Load JS shared by all              147 kB
   ├ chunks/framework-3b5a00d5d7e8d93b.js   45.4 kB
   ├ chunks/main-7fd5f84692d6e98f.js        25.7 kB
-  ├ chunks/pages/_app-bfc61ceb7c353903.js  65 kB
-  ├ chunks/webpack-f4cccefea089ddfa.js     2.03 kB
-  └ css/e4b10759b535cadf.css               8.6 kB
+  ├ chunks/pages/_app-604cdd31f232302c.js  65 kB
+  ├ chunks/webpack-53a9a819ae5235ac.js     2.03 kB
+  └ css/41381ec5c9d466d4.css               8.62 kB
 
 λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
 ○  (Static)  automatically rendered as static HTML (uses no initial props)
