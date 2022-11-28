@@ -157,11 +157,20 @@ export default function ProductCardOne({
             key={minifyProduct?._id + "-num2"}
             className="md:justify-center md:w-full md:text-xl flex flex-wrap text-xs font-Vazir-Medium "
           >
-            {(minifyProduct?.Price?.selling_price !== undefined
-              ? minifyProduct?.Price?.selling_price / 10
-              : 0
-            ).toLocaleString()}{" "}
-            <span className="md:mx-2 text-cyan-400"> تومان</span>
+            {minifyProduct?.Price?.selling_price !== undefined &&
+            minifyProduct?.Price?.selling_price > 0 ? (
+              <>
+                {(minifyProduct?.Price?.selling_price !== undefined
+                  ? minifyProduct?.Price?.selling_price / 10
+                  : 0
+                ).toLocaleString()}{" "}
+                <span className="md:mx-2 text-cyan-400">تومان</span>
+              </>
+            ) : (
+              <>
+                <span className="md:mx-2 text-red-400">ناموجود</span>
+              </>
+            )}
           </div>
         </div>
         <h2 className="hidden md:flex font-Vazir-Medium font-bold justify-center overflow-hidden  text-black text-sm   text-rtl mx-2 my-1 items-top text-center tracking-normal  h-10 p-1     ">
