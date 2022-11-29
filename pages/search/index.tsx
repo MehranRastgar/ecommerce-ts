@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { FaSearchengin } from "react-icons/fa";
+import { FaSearchengin, FaSortAmountDownAlt } from "react-icons/fa";
 import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import useSWR, { SWRConfiguration } from "swr";
@@ -51,11 +51,14 @@ export default function SearchPage({
         <div className="flex  min-h-[200px] bg-white w-9/12">
           <SearchFilters />
         </div>
+
+        <div className="flex flex-wrap justify-center bg-white w-9/12">
+          <SortComponent />
+        </div>
         <span className="w-full text-center font-Vazir-Medium text-[16px]">
           {total} محصول
         </span>
         <div className="flex flex-wrap justify-center bg-white w-9/12">
-          <SortComponent />
           <Pagination
             page={pageNumber}
             total={totalProducts}
@@ -90,6 +93,19 @@ export function SearchContainer({
   );
 }
 //==============================================================================================//
+async function convertObjectToParam(query: object) {
+  var keys: string[] = Object.keys(query);
+  var values: string[] = Object.values(query);
+  var uri: string = "?";
+  keys.map((key, index) => {
+    uri += key + "=" + values[index];
+    if (keys.length > index + 1) {
+      uri += "&";
+    }
+  });
+  return uri;
+}
+
 export function Pagination({
   total,
   page,
@@ -135,18 +151,6 @@ export function Pagination({
     changeState();
   }, [total, page]);
 
-  async function convertObjectToParam(query: object) {
-    var keys: string[] = Object.keys(query);
-    var values: string[] = Object.values(query);
-    var uri: string = "?";
-    keys.map((key, index) => {
-      uri += key + "=" + values[index];
-      if (keys.length > index + 1) {
-        uri += "&";
-      }
-    });
-    return uri;
-  }
   async function changeRouteAndPage(newPage: number) {
     // setPage(newPage);
     if (
@@ -156,6 +160,7 @@ export function Pagination({
       return;
     router.query["page"] = newPage.toString();
     // console.log(router.query);
+
     const queryString: string = await convertObjectToParam(router.query);
     // console.log(router);
 
@@ -272,12 +277,36 @@ export function Pagination({
 //==============================================================================================//
 import { FaSortAmountUpAlt } from "react-icons/fa";
 import { GoRepoForcePush } from "react-icons/go";
+import { useAppDispatch, useAppSelector } from "../../src/store/hooks";
+import {
+  searchConfig,
+  SearchType,
+  setSearchConfig,
+  SortTranslate,
+} from "../../src/store/slices/settingsSlice";
 
 export function SortComponent() {
+  const searchConf = useAppSelector(searchConfig);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
   const sort: Sort = {
     SortBy: "date",
     SortType: "desc",
   };
+
+  async function changeSort() {
+    router.query["sorttype"] = searchConf.sortType;
+    router.query["sort"] = searchConf.sortBy;
+    const queryString: string = await convertObjectToParam(router.query);
+    // console.log(router);
+
+    router.push(`${router.pathname}${queryString}`);
+  }
+
+  useEffect(() => {
+    changeSort();
+  }, [searchConf.sortType, searchConf.sortBy]);
 
   // const sorts:{
   //   Sort[],
@@ -291,12 +320,69 @@ export function SortComponent() {
   // ]
 
   return (
-    <div className="flex w-full h-8">
-      <FaSortAmountUpAlt size={25} />
-      <span className="flex h-fit w-fit rounded-xl  px-2 font-Vazir-Medium">
-        ترتیب :
-      </span>
-      <ul></ul>
+    <div className="flex flex-wrap justify-start w-full items-center my-6 lg:text-[14px] text-[12px]">
+      <div
+        onClick={() => {
+          if (searchConf.sortType === "asce") {
+            const SearchT: SearchType = { ...searchConf, sortType: "desc" };
+            dispatch(setSearchConfig(SearchT));
+          } else {
+            const SearchT: SearchType = { ...searchConf, sortType: "asce" };
+            dispatch(setSearchConfig(SearchT));
+          }
+        }}
+        className="flex border p-2 rounded-md cursor-pointer "
+      >
+        <div
+          className={` ${
+            searchConf.sortType === "asce" ? "text-gray-500" : "text-gray-900"
+          }`}
+        >
+          {searchConf.sortType === "asce" ? (
+            <FaSortAmountUpAlt size={15} />
+          ) : (
+            <FaSortAmountDownAlt size={15} />
+          )}
+        </div>
+        <span
+          className={
+            "flex text-ellipsis justify-center items-center h-fit  rounded-xl  px-2 font-Vazir-Bold w-[100px] " +
+            `${
+              searchConf.sortType === "asce" ? "text-gray-500" : "text-gray-900"
+            }`
+          }
+        >
+          ترتیب {searchConf.sortType === "asce" ? "صعودی" : "نزولی"}
+        </span>
+      </div>
+      <div className="w-fit border-l p-2"></div>
+      <ul className="flex flex-wrap font-Vazir-Medium items-center justify-center">
+        {Object?.values(SortTranslate)?.map((trans, index) => (
+          <>
+            <li
+              onClick={() => {
+                var SearchT: SearchType = {
+                  ...searchConf,
+                };
+                const sortby = Object?.keys(SortTranslate)[index];
+                SearchT = {
+                  ...searchConf,
+                  sortBy: sortby,
+                };
+                dispatch(setSearchConfig(SearchT));
+              }}
+              className={`flex m-2 p-2 border rounded-md cursor-pointer ${
+                searchConf.sortBy === Object?.keys(SortTranslate)[index]
+                  ? "font-Vazir-Bold text-blackout-black bg-slate-100"
+                  : "text-gray-500"
+              }`}
+              key={index}
+            >
+              {trans}
+            </li>
+          </>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -371,10 +457,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 };
 //==================================================================
-const GetProducts = async (
+async function GetProducts(
   query: ParsedUrlQuery
-): Promise<ProductsSearch | null> => {
-  console.log("req.body======> ", query);
+): Promise<ProductsSearch | null> {
   const textObject: any = query?.q
     ? {
         $text: {
@@ -392,16 +477,56 @@ const GetProducts = async (
     },
   };
 
-  const sortType = query?.sortType == "desc" ? 1 : -1;
-  const sort = query?.sort ? query?.sort : false;
+  // const sortType = query?.sorttype == "desc" ? 1 : -1;
+  const sortType = query?.sorttype == "desc" ? 1 : -1;
+  const sortby:
+    | "price"
+    | "interest"
+    | "brand"
+    | "name"
+    | "date"
+    | "sale"
+    | "sell"
+    | "view"
+    | string
+    | undefined
+    | string[] = query?.sort;
+  var sort: string = "";
+  switch (sortby) {
+    case "brand":
+      sort = "main.brand";
+      break;
+    case "date":
+      sort = "updatedAt";
+      break;
+    case "price":
+      sort = "variants.price.rrp_price";
+      break;
+    case "interest":
+      sort = "seo.markup_schema.review.reviewRating.ratingValue";
+      break;
+    case "sell":
+      sort = "variants.price.discount_percent";
+      break;
+    case "view":
+      sort = "variants.rate";
+      break;
+    case undefined:
+      sort = "variants.rate";
+      break;
+    default:
+      sort = "variants.price.rrp_price";
+      break;
+  }
 
+  const sortArray: any[] = [[sort, sortType]];
   // const sda = eval(sort)
   // console.log(eval(sort))
 
-  var arrayone = [sort, sortType];
-  var sortArray: any[] = [];
-  sortArray.push(arrayone);
-  console.log(sortArray);
+  // var arrayone = [sort, sortType];
+  // var sortArray: any[] = [];
+  // sortArray.push(arrayone);
+  // console.log(sortArray);
   const filterObject = {};
   const specQuery = query.query != undefined ? query.query : {};
   console.log("specQuery", query.query);
@@ -457,4 +582,4 @@ const GetProducts = async (
     console.log("err ============>", err);
     return null;
   }
-};
+}

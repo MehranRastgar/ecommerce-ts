@@ -4,17 +4,48 @@ import type { AppState, AppThunk } from "../store";
 // import { fetchCount } from './../counterAPI'
 import type { Settings } from "../../types/types";
 import { fetchSettings } from "../api/settingsApi";
+import { Search } from "../../../pages";
 
+export interface SearchType {
+  sortType: "asce" | "desc";
+  sortBy:
+    | "price"
+    | "interest"
+    | "brand"
+    | "name"
+    | "date"
+    | "sale"
+    | "sell"
+    | "view"
+    | string;
+  justAvailable: boolean;
+}
+export const SortTranslate = {
+  price: "بر اساس قیمت",
+  interest: "محبوب ترینها",
+  brand: "به ترتیب برند",
+  name: "بر اساس اسم",
+  date: "تاریخ بروزرسانی",
+  sale: "بیشترین تخفیف",
+  sell: "پر فروشترین ها",
+  view: "بیشترین بازدید",
+};
 export interface SettingsState {
   value: Settings[];
   status: "idle" | "loading" | "failed";
   crm: "open" | "close";
+  search: SearchType;
 }
 
 const initialState: SettingsState = {
   value: [],
   status: "loading",
   crm: "close",
+  search: {
+    sortType: "asce",
+    sortBy: "interest",
+    justAvailable: false,
+  },
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -45,6 +76,9 @@ export const settingsSlice = createSlice({
       // }
       // console.log("is cloese");
     },
+    setSearchConfig: (state, action: PayloadAction<SearchType>) => {
+      state.search = action.payload;
+    },
     // decrement: (state) => {
     //   state.value -= 1
     // },
@@ -72,7 +106,7 @@ export const settingsSlice = createSlice({
   },
 });
 
-export const { crmChangeState } = settingsSlice.actions;
+export const { crmChangeState, setSearchConfig } = settingsSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
@@ -80,6 +114,7 @@ export const { crmChangeState } = settingsSlice.actions;
 export const selectSettings = (state: AppState) => state.settings.value;
 export const selectSettingsStatus = (state: AppState) => state.settings.status;
 export const crmStatus = (state: AppState) => state.settings.crm;
+export const searchConfig = (state: AppState) => state.settings.search;
 // export const selectUserInfo = (state: AppState) => state.client.value;
 // We can also write thunks by hand, which may contain both sync and async logi c.
 // Here's an example of conditionally dispatching actions based on current state.
