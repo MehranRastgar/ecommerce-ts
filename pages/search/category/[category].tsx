@@ -49,7 +49,7 @@ export default function SearchPage({
 
   return (
     <>
-      <div className="flex flex-wrap justify-center w-full select-none">
+      <div className="search-page">
         <div className="flex  min-h-[200px] bg-white w-9/12">
           <SearchFilters />
         </div>

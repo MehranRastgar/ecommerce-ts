@@ -1,7 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 import { FaSearchengin, FaSortAmountDownAlt } from "react-icons/fa";
+import { TiTick } from "react-icons/ti";
+import { RiFilterLine, RiFilterOffLine } from "react-icons/ri";
 import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import useSWR, { SWRConfiguration } from "swr";
 import {
   GetProductsArray,
@@ -47,31 +49,35 @@ export default function SearchPage({
 
   return (
     <>
-      <div className="flex flex-wrap justify-center w-full select-none">
-        <div className="flex  min-h-[200px] bg-white w-9/12">
-          <SearchFilters />
+      {" "}
+      <div className="flex w-full justify-center md:w-[100%]">
+        <div className="hidden md:flex h-full bg-white md:w-[15%] min-w-[300px] mx-2">
+          <FilterComponent />
         </div>
-
-        <div className="flex flex-wrap justify-center bg-white w-9/12">
-          <SortComponent />
+        <div className="search-page w-full md:w-[75%] ">
+          <div className="flex items-center justify-start bg-white w-full mx-10 border-b">
+            <div className="flex items-center justify-start bg-white w-full">
+              <SortComponent />
+              <span className="w-auto text-center font-Vazir-Medium text-[12px]">
+                {total} محصول
+              </span>
+            </div>
+          </div>
+          <div className="flex flex-wrap justify-center bg-white w-9/12">
+            <Pagination
+              page={pageNumber}
+              total={totalProducts}
+              setPage={setPageNumber}
+            />
+          </div>
+          <SearchContainer refs={slideRef}>
+            {products?.map((product) => (
+              <>
+                <ProductCardOne minifyProduct={product} />
+              </>
+            ))}
+          </SearchContainer>
         </div>
-        <span className="w-full text-center font-Vazir-Medium text-[16px]">
-          {total} محصول
-        </span>
-        <div className="flex flex-wrap justify-center bg-white w-9/12">
-          <Pagination
-            page={pageNumber}
-            total={totalProducts}
-            setPage={setPageNumber}
-          />
-        </div>
-        <SearchContainer refs={slideRef}>
-          {products?.map((product) => (
-            <>
-              <ProductCardOne minifyProduct={product} />
-            </>
-          ))}
-        </SearchContainer>
       </div>
     </>
   );
@@ -87,7 +93,7 @@ export function SearchContainer({
   return (
     <>
       <div ref={refs} className="flex justify-center w-full">
-        <div className="flex flex-wrap justify-center w-10/12">{children}</div>
+        <div className="flex flex-wrap justify-start w-full">{children}</div>
       </div>
     </>
   );
@@ -176,7 +182,7 @@ export function Pagination({
     "h-fit rounded-full p-2 px-3 text-black bg-white border mx-2 ";
 
   return (
-    <div className="flex items-center my-4 font-Vazir-Medium">
+    <div className="flex items-center my-4 font-Vazir-Medium text-xs">
       <button
         onClick={(e) => {
           changeRouteAndPage(page - 1);
@@ -186,7 +192,7 @@ export function Pagination({
           prevState === "idle" ? "text-gray-600" : "text-gray-300"
         }`}
       >
-        <MdSkipNext size={30} />
+        <MdSkipNext size={20} />
       </button>
       <div
         ref={slideRef}
@@ -269,7 +275,7 @@ export function Pagination({
           nextState === "idle" ? "text-gray-600" : "text-gray-300"
         }`}
       >
-        <MdSkipPrevious size={30} />
+        <MdSkipPrevious size={20} />
       </button>
     </div>
   );
@@ -284,11 +290,327 @@ import {
   setSearchConfig,
   SortTranslate,
 } from "../../src/store/slices/settingsSlice";
+import { privateDecrypt } from "crypto";
+import { BiFilter } from "react-icons/bi";
+
+type TypeFilterEnableItem = {
+  name: string;
+  value?: number;
+  value2?: number;
+  range1?: number;
+  range2?: number;
+};
+type TypeFilterObject = {
+  priceRange?: TypeFilterEnableItem;
+  brand?: TypeFilterEnableItem;
+  attribute?: TypeFilterEnableItem;
+  marketable?: TypeFilterEnableItem;
+  unblievable?: TypeFilterEnableItem;
+};
+export function FilterComponent() {
+  const searchConf = useAppSelector(searchConfig);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const [search, setSearch] = useState<SearchType>(searchConf);
+  const [changed, setChanged] = useState<boolean>(true);
+  const [filterEnableItems, setFilterEnableItems] = useState<TypeFilterObject>(
+    {}
+  );
+
+  async function changeFilter() {
+    if (searchConf?.filter?.state === false) {
+      delete router?.query?.pricelte;
+      delete router?.query?.pricegte;
+      const queryString: string = await convertObjectToParam(router.query);
+      router.push(`${router.pathname}${queryString}`);
+    }
+    if (
+      searchConf.filter?.priceRange?.pricegte !== undefined &&
+      searchConf.filter?.priceRange?.pricelte !== undefined
+    ) {
+      router.query["pricegte"] =
+        searchConf.filter?.priceRange?.pricegte.toString();
+      router.query["pricelte"] =
+        searchConf.filter?.priceRange?.pricelte.toString();
+      const queryString: string = await convertObjectToParam(router.query);
+      router.push(`${router.pathname}${queryString}`);
+      var obj = filterEnableItems;
+      obj = {
+        ...filterEnableItems,
+        priceRange: { name: "قیمت" },
+      };
+      setFilterEnableItems(obj);
+    }
+  }
+
+  useEffect(() => {
+    setChanged(true);
+  }, [search.filter]);
+  async function handleSetPriceFilter() {
+    if (
+      (document?.getElementById("pricelte") as HTMLInputElement) !== null &&
+      (document?.getElementById("pricegte") as HTMLInputElement) !== null
+    ) {
+      var SearchT: SearchType = {
+        ...searchConf,
+        filter: {
+          ...searchConf.filter,
+          priceRange: {
+            ...searchConf.filter?.priceRange,
+            pricelte:
+              Number(
+                (
+                  document?.getElementById("pricelte") as HTMLInputElement
+                )?.value.replaceAll(",", "")
+              ) * 10 ?? 0,
+            pricegte:
+              Number(
+                (
+                  document?.getElementById("pricegte") as HTMLInputElement
+                )?.value.replaceAll(",", "")
+              ) * 10 ?? 0,
+          },
+        },
+      };
+      dispatch(setSearchConfig(SearchT));
+    }
+  }
+  function handleFilterPriceLte(e: ChangeEvent<HTMLInputElement>) {
+    if (Number(e?.target?.value?.replaceAll(",", "")) >= 0) {
+      setSearch({
+        ...search,
+        filter: {
+          ...search.filter,
+          priceRange: {
+            ...search.filter?.priceRange,
+            pricelte: Number(e?.target?.value?.replaceAll(",", "")),
+          },
+        },
+      });
+    }
+  }
+  function handleFilterPriceGte(e: ChangeEvent<HTMLInputElement>) {
+    if (Number(e?.target?.value?.replaceAll(",", "")) >= 0) {
+      setSearch({
+        ...search,
+        filter: {
+          ...search.filter,
+          priceRange: {
+            ...search.filter?.priceRange,
+            pricegte: Number(e?.target?.value?.replaceAll(",", "")),
+          },
+        },
+      });
+    }
+  }
+
+  useEffect(() => {
+    changeFilter();
+  }, [searchConf.filter]);
+  const listStyle = "flex w-full mt-4 items-center";
+  return (
+    <>
+      <div className="flex StickyContainer overflow-hidden border rounded-lg flex-wrap justify-start w-[270px] min-h-[400px] h-fit items-start my-6 lg:text-[14px] text-[12px] p-[16px]">
+        <div className="flex flex-wrap items-start justify-center w-full">
+          <ul className="flex flex-wrap w-full">
+            <li
+              onClick={() => {
+                if (searchConf.filter?.state === true) {
+                  const SearchT: SearchType = {
+                    ...searchConf,
+                    filter: { state: false },
+                  };
+                  dispatch(setSearchConfig(SearchT));
+                } else {
+                  const SearchT: SearchType = {
+                    ...searchConf,
+                    filter: { state: true },
+                  };
+                  dispatch(setSearchConfig(SearchT));
+                }
+              }}
+              className={
+                "flex w-full border p-2 rounded-md cursor-pointer " +
+                `${searchConf.filter?.state === true ? "bg-sky-600" : ""}`
+              }
+            >
+              <div
+                className={`text ${
+                  searchConf.filter?.state === true
+                    ? "text-white "
+                    : "text-gray-500"
+                }`}
+              >
+                {searchConf.filter?.state === true ? (
+                  <RiFilterLine size={20} />
+                ) : (
+                  <RiFilterOffLine size={20} />
+                )}
+              </div>
+              <span
+                className={
+                  "flex text-ellipsis justify-center items-center h-fit rounded-xl px-2 font-Vazir-Bold w-[100px] " +
+                  `${
+                    searchConf.filter?.state === true
+                      ? "text-white"
+                      : "text-gray-500"
+                  }`
+                }
+              >
+                اعمال فیلترها
+              </span>
+            </li>
+            <li className={listStyle + " text-[12px]"}>
+              {" "}
+              <input
+                className="flex w-[80px] border-l mx-1 m-2 p-1 border rounded-md text-[12px]"
+                type={"string"}
+                onChange={(e) => {
+                  handleFilterPriceGte(e);
+                }}
+                value={
+                  search?.filter?.priceRange?.pricegte?.toLocaleString() ?? 0
+                }
+                id="pricegte"
+              />
+              تومان , تا
+              <input
+                className="flex w-[80px] border-l mx-2 m-2 p-2 border rounded-md text-[12px]"
+                type={"string"}
+                onChange={(e) => {
+                  // search
+                  handleFilterPriceLte(e);
+                }}
+                value={
+                  search?.filter?.priceRange?.pricelte?.toLocaleString() ?? "0"
+                }
+                id="pricelte"
+              />
+            </li>
+            <li className={listStyle}>filter1</li>
+            <li className={listStyle}>filter1</li>
+            <li className={listStyle}>filter1</li>
+            <li className={listStyle}>filter1</li>
+            {changed ? (
+              <button
+                onClick={() => {
+                  handleSetPriceFilter();
+                  setChanged(false);
+                }}
+                className="flex border rounded-md h-fit p-1 hover:bg-gray-500"
+              >
+                اعمال
+              </button>
+            ) : (
+              <>
+                <div className="flex m-2 text-green-400">
+                  <TiTick size={30} />
+                </div>
+              </>
+            )}
+          </ul>
+          <div className="flex flex-wrap">
+            {Object?.keys(filterEnableItems)?.map((item, index) => (
+              <>
+                {Object?.values(filterEnableItems)?.[index]?.name !==
+                undefined ? (
+                  <>
+                    <div key={index} className="p-1 rounded-lg border text-xs">
+                      {Object?.values(filterEnableItems)[index]?.name}
+                      <div
+                        className="flex p-1"
+                        onClick={() => {
+                          var obj = filterEnableItems;
+                          obj = { ...filterEnableItems, priceRange: undefined };
+
+                          setFilterEnableItems(obj);
+                        }}
+                      >
+                        remove
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// <div className="w-fit border-l p-2"></div>
+//           {searchConf.filter?.state === true ? (
+//             <ul className="flex flex-wrap font-Vazir-Medium items-center justify-center">
+//               <li className={`flex items-center`}>
+//                 از
+//                 {/* <input
+//                 className="border-l mx-2 m-2 p-2 border rounded-md"
+//                 type={"string"}
+//                 onChange={(e) => {
+//                   if (Number(e?.target?.value?.replaceAll(",", "")) >= 0) {
+//                     var SearchT: SearchType = {
+//                       ...searchConf,
+//                       filter: {
+//                         ...searchConf.filter,
+//                         priceRange: {
+//                           ...searchConf.filter?.priceRange,
+//                           pricelte:
+//                             Number(e?.target?.value?.replaceAll(",", "")) ?? 0,
+//                         },
+//                       },
+//                     };
+//                     dispatch(setSearchConfig(SearchT));
+//                   }
+//                   setPricelte(
+//                     Number(
+//                       e?.target?.value?.replaceAll(",", "")
+//                     ).toLocaleString()
+//                   );
+//                 }}
+//                 value={searchConf.filter.priceRange?.pricelte?.toLocaleString()}
+//                 id="pricelte"
+//               /> */}
+
+//               </li>
+//               {/* {Object?.values(SortTranslate)?.map((trans, index) => (
+//               <>
+//                 <li
+//                   onClick={() => {
+//                     var SearchT: SearchType = {
+//                       ...searchConf,
+//                     };
+//                     const sortby = Object?.keys(SortTranslate)[index];
+//                     SearchT = {
+//                       ...searchConf,
+//                       sortBy: sortby,
+//                     };
+//                     dispatch(setSearchConfig(SearchT));
+//                   }}
+//                   className={`flex m-2 p-2 border rounded-md cursor-pointer ${
+//                     searchConf.sortBy === Object?.keys(SortTranslate)[index]
+//                       ? "font-Vazir-Bold text-blackout-black bg-slate-100"
+//                       : "text-gray-500"
+//                   }`}
+//                   key={index}
+//                 >
+//                   {trans}
+//                 </li>
+//               </>
+//             ))} */}
+//             </ul>
+//           ) : (
+//             <></>
+//           )}
 
 export function SortComponent() {
   const searchConf = useAppSelector(searchConfig);
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [sortModal, setSortModal] = useState<boolean>(false);
 
   const sort: Sort = {
     SortBy: "date",
@@ -299,8 +621,6 @@ export function SortComponent() {
     router.query["sorttype"] = searchConf.sortType;
     router.query["sort"] = searchConf.sortBy;
     const queryString: string = await convertObjectToParam(router.query);
-    // console.log(router);
-
     router.push(`${router.pathname}${queryString}`);
   }
 
@@ -321,6 +641,42 @@ export function SortComponent() {
 
   return (
     <div className="flex flex-wrap justify-start w-full items-center my-6 lg:text-[14px] text-[12px]">
+      {sortModal ? (
+        <div className="md:hidden flex fixed items-end left-0 bottom-0 border w-full h-[100%] bg-black/30 font-Vazir-Medium text-lg">
+          <div className="flex flex-wrap overflow-y-scroll h-[50%] bg-white w-full">
+            <span className="flex m-2">مرتب سازی بر اساس</span>
+            {Object?.values(SortTranslate)?.map((trans, index) => (
+              <>
+                <li
+                  onClick={() => {
+                    var SearchT: SearchType = {
+                      ...searchConf,
+                    };
+                    const sortby = Object?.keys(SortTranslate)[index];
+                    SearchT = {
+                      ...searchConf,
+                      sortBy: sortby,
+                    };
+                    dispatch(setSearchConfig(SearchT));
+                    setSortModal(false);
+                  }}
+                  className={`flex w-full mx-[40px] m-2 p-2 md:p-[6px] md:m-[2px] rounded-md cursor-pointer ${
+                    searchConf.sortBy === Object?.keys(SortTranslate)[index]
+                      ? "font-Vazir-Bold text-blackout-black bg-slate-100 "
+                      : "text-gray-500 "
+                  }`}
+                  key={index}
+                >
+                  {trans}
+                </li>
+              </>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
+
       <div
         onClick={() => {
           if (searchConf.sortType === "asce") {
@@ -331,7 +687,7 @@ export function SortComponent() {
             dispatch(setSearchConfig(SearchT));
           }
         }}
-        className="flex border p-2 rounded-md cursor-pointer "
+        className="flex rounded-md cursor-pointer "
       >
         <div
           className={` ${
@@ -346,7 +702,7 @@ export function SortComponent() {
         </div>
         <span
           className={
-            "flex text-ellipsis justify-center items-center h-fit  rounded-xl  px-2 font-Vazir-Bold w-[100px] " +
+            "flex text-ellipsis justify-center items-center h-fit rounded-xl font-Vazir-Bold w-auto xl:w-[80px] " +
             `${
               searchConf.sortType === "asce" ? "text-gray-500" : "text-gray-900"
             }`
@@ -355,8 +711,8 @@ export function SortComponent() {
           ترتیب {searchConf.sortType === "asce" ? "صعودی" : "نزولی"}
         </span>
       </div>
-      <div className="w-fit border-l p-2"></div>
-      <ul className="flex flex-wrap font-Vazir-Medium items-center justify-center">
+      <div className="w-fit border-l mx-[2px] px-[2px] py-2"></div>
+      <ul className="hidden md:flex flex-wrap font-Vazir-Medium items-center justify-center">
         {Object?.values(SortTranslate)?.map((trans, index) => (
           <>
             <li
@@ -371,10 +727,10 @@ export function SortComponent() {
                 };
                 dispatch(setSearchConfig(SearchT));
               }}
-              className={`flex m-2 p-2 border rounded-md cursor-pointer ${
+              className={`flex 2xl:m-2 2xl:p-2 md:p-[6px] md:m-[2px] rounded-md cursor-pointer ${
                 searchConf.sortBy === Object?.keys(SortTranslate)[index]
-                  ? "font-Vazir-Bold text-blackout-black bg-slate-100"
-                  : "text-gray-500"
+                  ? "font-Vazir-Bold text-blackout-black bg-slate-100 "
+                  : "text-gray-500 "
               }`}
               key={index}
             >
@@ -382,6 +738,48 @@ export function SortComponent() {
             </li>
           </>
         ))}
+      </ul>
+      <ul className="md:hidden flex flex-wrap font-Vazir-Medium items-center justify-center">
+        <li
+          onClick={() => {
+            setSortModal(true);
+          }}
+          className={`flex 2xl:m-2 2xl:p-2 md:p-[6px] md:m-[2px] rounded-md cursor-pointer ${"font-Vazir-Bold text-blackout-black bg-slate-100"}`}
+        >
+          {
+            Object?.values(SortTranslate)?.[
+              Object?.keys(SortTranslate)?.findIndex(
+                (item) => searchConf.sortBy === item
+              )
+            ]
+          }
+        </li>
+        {/*         
+        {Object?.values(SortTranslate)?.map((trans, index) => (
+          <>
+            <li
+              onClick={() => {
+                var SearchT: SearchType = {
+                  ...searchConf,
+                };
+                const sortby = Object?.keys(SortTranslate)[index];
+                SearchT = {
+                  ...searchConf,
+                  sortBy: sortby,
+                };
+                dispatch(setSearchConfig(SearchT));
+              }}
+              className={`flex 2xl:m-2 2xl:p-2 md:p-[6px] md:m-[2px] rounded-md cursor-pointer ${
+                searchConf.sortBy === Object?.keys(SortTranslate)[index]
+                  ? "font-Vazir-Bold text-blackout-black bg-slate-100 "
+                  : "text-gray-500 "
+              }`}
+              key={index}
+            >
+              {trans}
+            </li>
+          </>
+        ))} */}
       </ul>
     </div>
   );
@@ -506,6 +904,9 @@ async function GetProducts(
       sort = "seo.markup_schema.review.reviewRating.ratingValue";
       break;
     case "sell":
+      sort = "variants.order_limit";
+      break;
+    case "sale":
       sort = "variants.price.discount_percent";
       break;
     case "view":
@@ -527,7 +928,16 @@ async function GetProducts(
   // var sortArray: any[] = [];
   // sortArray.push(arrayone);
   // console.log(sortArray);
-  const filterObject = {};
+  var filterObject: object = {};
+  if (query?.pricegte !== undefined && query?.pricelte !== undefined)
+    filterObject = {
+      ...filterObject,
+      "variants.price.selling_price": {
+        $gte: Number(query?.pricegte ?? 0),
+        $lt: Number(query?.pricelte ?? 0),
+      },
+    };
+
   const specQuery = query.query != undefined ? query.query : {};
   console.log("specQuery", query.query);
   const categoryObject: object = query.cat ? { newCategory: query.cat } : {};

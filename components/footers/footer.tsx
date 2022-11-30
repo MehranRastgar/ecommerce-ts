@@ -35,7 +35,19 @@ function FooterCallUs() {
         پشتیبانی
       </div>
       <div className="flex w-full items-center justify-center font-Vazir-Bold">
-        <span className="m-2">021-777021554</span>
+        <span className="m-2">
+          {" "}
+          <a
+            href="tel:02174037600"
+            style={{
+              direction: "ltr",
+            }}
+            className="justify-end text-justify"
+          >
+            02174037600
+          </a>
+        </span>
+
         <BsHeadset size={25} />
       </div>
     </>

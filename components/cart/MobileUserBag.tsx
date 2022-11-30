@@ -17,6 +17,7 @@ import {
   selectDeviceType,
   ThemeState,
 } from "../../src/store/slices/themeSlice";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export default function MobileUserBag() {
   const [count, setCount] = useState(0);
@@ -27,6 +28,7 @@ export default function MobileUserBag() {
   const [drop2, setDrop2] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const mobileCheck = useAppSelector(selectDeviceType);
+  const [animationParent] = useAutoAnimate<HTMLDivElement>({ duration: 500 });
 
   function handleReduceFromCart(productId: string, variantId: string) {
     if (
@@ -149,7 +151,10 @@ export default function MobileUserBag() {
                 سبد خرید
               </span>
               <div className="flex h-[80%] p-2 rounded-xl bg-white overflow-y-auto  items-start justify-center w-full">
-                <div className="flex flex-wrap h-fit items-start justify-center w-full">
+                <div
+                  ref={animationParent}
+                  className="flex flex-wrap h-fit items-start justify-center w-full"
+                >
                   {userInfo?.cart !== undefined &&
                   userInfo?.cart?.length > 0 ? (
                     <>

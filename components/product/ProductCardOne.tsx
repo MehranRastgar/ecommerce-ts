@@ -44,7 +44,7 @@ export default function ProductCardOne({
   return (
     <>
       <Link
-        className="flex flex-wrap w-full justify-center items-center border-b border-b-slate-300 p-2 mt-0 mx-1 m-2 font-Vazir-Medium select-none h-auto md:w-1/2 lg:w-1/4 xl:w-1/5 2xl:w-1/5 3xl:w-1/5"
+        className="flex flex-wrap w-full justify-center items-center border-b-2 hover:border-b-red-300 border-b-slate-300 p-2 font-Vazir-Medium select-none h-auto md:w-1/2 lg:w-1/4 xl:w-1/5 2xl:w-1/5 3xl:w-1/5"
         href={encodeURI(
           `/products/${minifyProduct?._id}/${(
             minifyProduct?.title_fa ?? minifyProduct?.sku
@@ -93,10 +93,10 @@ export default function ProductCardOne({
               height={100}
             />
           </div>
-          <div className="md:hidden flex  flex-wrap w-2/3">
+          <div className="md:hidden flex flex-wrap w-2/3">
             <div
               key={minifyProduct?._id + "-num3"}
-              className="text-xs font-Vazir-Bold  items-center text-justify"
+              className="text-xs font-Vazir-Bold items-center text-justify"
             >
               {minifyProduct?.title_fa.toLocaleUpperCase()}
             </div>
@@ -141,14 +141,14 @@ export default function ProductCardOne({
           minifyProduct?.Price?.selling_price <
             minifyProduct?.Price?.rrp_price ? (
             <>
-              <div className="text-red-500 flex w-full line-through font-Vazir-Medium text-lg font-thin   flex-wrap justify-center ">
+              <div className="text-red-500 flex w-full line-through font-Vazir-Medium text-lg font-thin flex-wrap justify-center ">
                 {minifyProduct?.Price?.rrp_price}
               </div>
             </>
           ) : (
             <>
               {" "}
-              <div className="text-white flex w-full font-Vazir-Medium text-lg font-thin   flex-wrap justify-center ">
+              <div className="text-white flex w-full font-Vazir-Medium text-lg font-thin flex-wrap justify-center ">
                 {minifyProduct?.Price?.rrp_price}
               </div>
             </>
@@ -173,7 +173,7 @@ export default function ProductCardOne({
             )}
           </div>
         </div>
-        <h2 className="hidden md:flex font-Vazir-Medium font-bold justify-center overflow-hidden  text-black text-sm   text-rtl mx-2 my-1 items-top text-center tracking-normal  h-10 p-1     ">
+        <h2 className="hidden md:flex font-Vazir-Medium justify-center overflow-hidden text-black text-sm text-rtl mx-[2px] my-1 items-top text-center tracking-normal h-10 p-[2px]">
           {minifyProduct?.title_fa ?? ""}
         </h2>
       </Link>

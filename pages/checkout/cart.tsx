@@ -24,6 +24,7 @@ import {
   updateCartPrices,
   variantId,
 } from "../../src/store/slices/orderSlice";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 export default function CartPage() {
   const userInfo = useSelector(selectUserInfo);
   const dispatch = useAppDispatch();
@@ -230,6 +231,7 @@ function ReportContainer({ cart }: { cart: Cart[] | undefined }) {
 function CartContainer() {
   const userInfo = useSelector(selectUserInfo);
   const dispatch = useAppDispatch();
+  const [animationParent] = useAutoAnimate<HTMLDivElement>({ duration: 500 });
 
   function handleReduceFromCart(productId: string, variantId: string) {
     if (
@@ -250,7 +252,10 @@ function CartContainer() {
   }
 
   return (
-    <div className="flex text-sm md:text-lg flex-wrap w-full justify-center rounded-lg max-w-[400px] md:max-w-[800px]">
+    <div
+      ref={animationParent}
+      className="flex text-sm md:text-lg flex-wrap w-full justify-center rounded-lg max-w-[400px] md:max-w-[800px]"
+    >
       {userInfo?.cart !== undefined ? (
         userInfo?.cart.map((cartItem, index) => (
           <>
@@ -275,6 +280,8 @@ function CartItem({
   cartItem: Cart;
   handleReduceFromCart: Function;
 }) {
+  const [animationParent] = useAutoAnimate<HTMLDivElement>({ duration: 500 });
+
   const userInfo = useAppSelector(selectUserInfo);
   const userUpdateFlag = useAppSelector(selectUserUpdateFlag);
 
@@ -283,7 +290,10 @@ function CartItem({
   );
   useEffect(() => {}, []);
   return (
-    <div className="flex w-full items-center rounded-md border shadow-lg h-[250px] my-4">
+    <div
+      ref={animationParent}
+      className="flex w-full items-center rounded-md border shadow-lg h-[250px] my-4"
+    >
       <div className="flex justify-center w-1/6">
         <button
           onClick={() => {

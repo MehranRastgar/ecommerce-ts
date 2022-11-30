@@ -659,3 +659,18 @@ a:link {
   text-decoration: underline;
   color: #3498db;
 }
+/*===================================================*/
+/* flex flex-wrap justify-center w-9/12 select-none */
+.search-page {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  user-select: none;
+}
+.search-page-mobile {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* width: 90%; */
+  user-select: none;
+}

@@ -6,7 +6,16 @@ import type { Settings } from "../../types/types";
 import { fetchSettings } from "../api/settingsApi";
 import { Search } from "../../../pages";
 
+export interface PriceRange {
+  pricegte?: undefined | number;
+  pricelte?: undefined | number;
+}
+export interface FilterType {
+  priceRange?: PriceRange;
+  state?: boolean;
+}
 export interface SearchType {
+  filter?: FilterType;
   sortType: "asce" | "desc";
   sortBy:
     | "price"
