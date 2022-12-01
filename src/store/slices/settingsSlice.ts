@@ -13,9 +13,12 @@ export interface PriceRange {
 export interface FilterType {
   priceRange?: PriceRange;
   state?: boolean;
+  justAvailable: boolean;
+  unbleivable: boolean;
+  isSale: boolean;
 }
 export interface SearchType {
-  filter?: FilterType;
+  filter: FilterType;
   sortType: "asce" | "desc";
   sortBy:
     | "price"
@@ -27,7 +30,6 @@ export interface SearchType {
     | "sell"
     | "view"
     | string;
-  justAvailable: boolean;
 }
 export const SortTranslate = {
   price: "بر اساس قیمت",
@@ -53,7 +55,11 @@ const initialState: SettingsState = {
   search: {
     sortType: "asce",
     sortBy: "interest",
-    justAvailable: false,
+    filter: {
+      justAvailable: false,
+      unbleivable: false,
+      isSale: false,
+    },
   },
 };
 

@@ -1,8 +1,14 @@
 import axios, { AxiosResponse } from "axios";
 import { FaSearchengin, FaSortAmountDownAlt } from "react-icons/fa";
 import { TiTick } from "react-icons/ti";
-import { RiFilterLine, RiFilterOffLine } from "react-icons/ri";
-import { MdSkipNext, MdSkipPrevious } from "react-icons/md";
+import { AiOutlineDown } from "react-icons/ai";
+import { RiFilterFill, RiFilterOffLine } from "react-icons/ri";
+import {
+  MdSkipNext,
+  MdSkipPrevious,
+  MdAttachMoney,
+  MdOutlineCardMembership,
+} from "react-icons/md";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import useSWR, { SWRConfiguration } from "swr";
 import {
@@ -54,7 +60,7 @@ export default function SearchPage({
         <div className="hidden md:flex h-full bg-white md:w-[15%] min-w-[300px] mx-2">
           <FilterComponent />
         </div>
-        <div className="search-page w-full md:w-[75%] ">
+        <div className="search-page h-fit w-full md:w-[75%] ">
           <div className="flex items-center justify-start bg-white w-full mx-10 border-b">
             <div className="flex items-center justify-start bg-white w-full">
               <SortComponent />
@@ -63,7 +69,7 @@ export default function SearchPage({
               </span>
             </div>
           </div>
-          <div className="flex flex-wrap justify-center bg-white w-9/12">
+          <div className="flex h-fit flex-wrap justify-center bg-white w-9/12">
             <Pagination
               page={pageNumber}
               total={totalProducts}
@@ -182,7 +188,7 @@ export function Pagination({
     "h-fit rounded-full p-2 px-3 text-black bg-white border mx-2 ";
 
   return (
-    <div className="flex items-center my-4 font-Vazir-Medium text-xs">
+    <div className="flex h-fit items-center my-1 font-Vazir-Medium text-xs">
       <button
         onClick={(e) => {
           changeRouteAndPage(page - 1);
@@ -292,6 +298,8 @@ import {
 } from "../../src/store/slices/settingsSlice";
 import { privateDecrypt } from "crypto";
 import { BiFilter } from "react-icons/bi";
+import Filter from "../../src/class/filter";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 type TypeFilterEnableItem = {
   name: string;
@@ -307,45 +315,35 @@ type TypeFilterObject = {
   marketable?: TypeFilterEnableItem;
   unblievable?: TypeFilterEnableItem;
 };
+
+let filter = new Filter({
+  sortType: "asce",
+  sortBy: "interest",
+  filter: {
+    justAvailable: false,
+    unbleivable: false,
+    isSale: false,
+  },
+});
+
 export function FilterComponent() {
   const searchConf = useAppSelector(searchConfig);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [search, setSearch] = useState<SearchType>(searchConf);
   const [changed, setChanged] = useState<boolean>(true);
+  const [dropdown1, setDropdown1] = useState<boolean>(true);
+  const [dropdown2, setDropdown2] = useState<boolean>(true);
+  const [animationParent] = useAutoAnimate<HTMLDivElement>({ duration: 200 });
+
   const [filterEnableItems, setFilterEnableItems] = useState<TypeFilterObject>(
     {}
   );
-
+  // queryAdder()
+  // queryRemover()
   async function changeFilter() {
-    if (searchConf?.filter?.state === false) {
-      delete router?.query?.pricelte;
-      delete router?.query?.pricegte;
-      const queryString: string = await convertObjectToParam(router.query);
-      router.push(`${router.pathname}${queryString}`);
-    }
-    if (
-      searchConf.filter?.priceRange?.pricegte !== undefined &&
-      searchConf.filter?.priceRange?.pricelte !== undefined
-    ) {
-      router.query["pricegte"] =
-        searchConf.filter?.priceRange?.pricegte.toString();
-      router.query["pricelte"] =
-        searchConf.filter?.priceRange?.pricelte.toString();
-      const queryString: string = await convertObjectToParam(router.query);
-      router.push(`${router.pathname}${queryString}`);
-      var obj = filterEnableItems;
-      obj = {
-        ...filterEnableItems,
-        priceRange: { name: "قیمت" },
-      };
-      setFilterEnableItems(obj);
-    }
+    filter.changeFilter(searchConf, router);
   }
-
-  useEffect(() => {
-    setChanged(true);
-  }, [search.filter]);
   async function handleSetPriceFilter() {
     if (
       (document?.getElementById("pricelte") as HTMLInputElement) !== null &&
@@ -403,17 +401,36 @@ export function FilterComponent() {
       });
     }
   }
+  function handleToggleUnbleivable() {
+    dispatch(setSearchConfig(filter.ToggleUnbleivable(searchConf)));
+  }
+  function handleToggleIsSale() {
+    dispatch(setSearchConfig(filter.ToggleIsSale(searchConf)));
+  }
+  function handleAvailable() {
+    dispatch(setSearchConfig(filter.ToggleAvailable(searchConf)));
+  }
 
   useEffect(() => {
+    filter.SearchSetter(searchConf);
+
     changeFilter();
   }, [searchConf.filter]);
-  const listStyle = "flex w-full mt-4 items-center";
+
+  useEffect(() => {
+    filter.SearchSetter(searchConf);
+
+    setChanged(true);
+  }, [search.filter]);
+
+  const listStyle =
+    "flex w-full mt-4 items-center font-Vazir-Medium text-[12px]";
   return (
     <>
-      <div className="flex StickyContainer overflow-hidden border rounded-lg flex-wrap justify-start w-[270px] min-h-[400px] h-fit items-start my-6 lg:text-[14px] text-[12px] p-[16px]">
+      <div className="flex shadow-lg StickyContainer overflow-hidden border rounded-lg flex-wrap justify-start w-[270px] min-h-[400px] h-fit items-start my-6 lg:text-[14px] text-[12px] p-[16px]">
         <div className="flex flex-wrap items-start justify-center w-full">
           <ul className="flex flex-wrap w-full">
-            <li
+            {/* <li
               onClick={() => {
                 if (searchConf.filter?.state === true) {
                   const SearchT: SearchType = {
@@ -459,11 +476,19 @@ export function FilterComponent() {
               >
                 اعمال فیلترها
               </span>
+            </li> */}
+            <li className="flex items-center">
+              <span className="flex -mt-3 text-gray-500">
+                <RiFilterFill size={25} />
+              </span>
+              <span className="flex text-gray-500 mx-2 font-Vazir-Bold">
+                فیلتر ها
+              </span>
             </li>
             <li className={listStyle + " text-[12px]"}>
-              {" "}
+              {"قیمت"}
               <input
-                className="flex w-[80px] border-l mx-1 m-2 p-1 border rounded-md text-[12px]"
+                className="flex w-[60px] border-l mx-1 m-2 p-1 border rounded-md text-[12px] bg-green-100"
                 type={"string"}
                 onChange={(e) => {
                   handleFilterPriceGte(e);
@@ -473,9 +498,9 @@ export function FilterComponent() {
                 }
                 id="pricegte"
               />
-              تومان , تا
+              الی
               <input
-                className="flex w-[80px] border-l mx-2 m-2 p-2 border rounded-md text-[12px]"
+                className="flex w-[60px] border-l mx-1 m-2 p-1 border rounded-md text-[12px] bg-red-100"
                 type={"string"}
                 onChange={(e) => {
                   // search
@@ -486,11 +511,158 @@ export function FilterComponent() {
                 }
                 id="pricelte"
               />
+              تومان
             </li>
-            <li className={listStyle}>filter1</li>
-            <li className={listStyle}>filter1</li>
-            <li className={listStyle}>filter1</li>
-            <li className={listStyle}>filter1</li>
+            <li className={listStyle}>
+              <div
+                onClick={() => {
+                  handleToggleIsSale();
+                }}
+                className={
+                  "flex items-center p-2 rounded-md bg-gray-100 hover:bg-gray-400 hover:text-white cursor-pointer " +
+                  ` ${searchConf.filter.isSale ? "bg-green-200" : ""}`
+                }
+              >
+                <span className="mx-2">تخفییف دار</span>
+                <div
+                  className={`${
+                    searchConf.filter.isSale
+                      ? "animate-pulse text-blue-600"
+                      : ""
+                  }`}
+                >
+                  <MdAttachMoney size={15} />
+                </div>
+              </div>
+              <div
+                onClick={() => {
+                  handleToggleUnbleivable();
+                }}
+                className={
+                  "flex items-center p-2 rounded-md bg-gray-100 hover:bg-gray-400 hover:text-white cursor-pointer mx-2" +
+                  ` ${searchConf.filter.unbleivable ? "bg-green-200" : ""}`
+                }
+              >
+                <span className="mx-2">شگفت انگیز</span>
+                <div
+                  className={`${
+                    searchConf.filter.unbleivable
+                      ? "animate-pulse text-blue-600"
+                      : ""
+                  }`}
+                >
+                  <MdOutlineCardMembership size={15} />
+                </div>
+              </div>
+            </li>
+            <li className={listStyle}>
+              <div
+                onClick={() => {
+                  handleAvailable();
+                }}
+                className={
+                  "flex items-center p-2 rounded-md bg-gray-100 hover:bg-gray-400 hover:text-white cursor-pointer "
+                }
+              >
+                <span className="mx-2">فقط کالاهای موجود</span>
+                <div
+                  className={`flex justify-start p-[1px] items-center rounded-xl w-[24px] h-[12px]  ${
+                    searchConf.filter.justAvailable
+                      ? "bg-green-500"
+                      : "bg-gray-500"
+                  }`}
+                >
+                  <div
+                    className={`transition-transform duration-700  flex w-[10px] h-[10px] bg-white rounded-full ${
+                      searchConf.filter.justAvailable
+                        ? "-translate-x-[12px]"
+                        : ""
+                    }`}
+                  ></div>
+                </div>
+              </div>
+            </li>
+            <li className={listStyle}>
+              <div
+                className={`flex flex-wrap items-center bg-gray-100 cursor-pointer rounded-md w-fit transition-all duration-300 ${
+                  dropdown2
+                    ? "overflow-y-scroll h-[120px]"
+                    : "overflow-hidden h-[34px]"
+                }`}
+                // ref={animationParent}
+              >
+                <div
+                  onClick={() => {
+                    setDropdown2((prevVal) => !prevVal);
+                  }}
+                  className="flex StickyContainer2 bg-gray-100 w-full p-2 -mt-2"
+                >
+                  انتخاب برند های مرتبط با سرچ شما
+                  <div
+                    className={
+                      "flex mx-2 " +
+                      `${
+                        dropdown2
+                          ? "-translate-x-4 -translate-y-1 rotate-90"
+                          : ""
+                      }`
+                    }
+                  >
+                    {" "}
+                    <AiOutlineDown />
+                  </div>
+                </div>
+                {
+                  <>
+                    <div className="flex w-full p-2">dropdown</div>
+                    <div className="flex w-full p-2">dropdown</div>
+                    <div className="flex w-full p-2">dropdown</div>
+                    <div className="flex w-full p-2">dropdown</div>
+                    <div className="flex w-full p-2">dropdown</div>
+                  </>
+                }
+              </div>
+            </li>
+            <li className={listStyle}>
+              <div
+                className={`flex flex-wrap items-center  bg-gray-100 cursor-pointer rounded-md w-fit transition-all duration-300 ${
+                  dropdown1
+                    ? "overflow-y-scroll h-[120px]"
+                    : "overflow-hidden h-[34px]"
+                }`}
+                // ref={animationParent}
+              >
+                <div
+                  onClick={() => {
+                    setDropdown1((prevVal) => !prevVal);
+                  }}
+                  className="flex StickyContainer2 bg-gray-100 w-full p-2 -mt-2"
+                >
+                  انتخاب دسته بندی ها
+                  <div
+                    className={
+                      "flex mx-2 " +
+                      `${
+                        dropdown1
+                          ? "-translate-x-4 -translate-y-1 rotate-90"
+                          : ""
+                      }`
+                    }
+                  >
+                    <AiOutlineDown />
+                  </div>
+                </div>
+
+                <>
+                  <div className="flex w-full p-2">dropdown</div>
+                  <div className="flex w-full p-2">dropdown</div>
+                  <div className="flex w-full p-2">dropdown</div>
+                  <div className="flex w-full p-2">dropdown</div>
+                  <div className="flex w-full p-2">dropdown</div>
+                </>
+              </div>
+            </li>
+            <li className={listStyle}>مشخصات فنی</li>
             {changed ? (
               <button
                 onClick={() => {
