@@ -37,6 +37,7 @@ function SearchComponent() {
   const [searchModal, setSearchModal] = useState(false);
   const [divSize, setDivSize] = useState<string>("0");
   const [searchString, setSearchString] = useState<string>("");
+  const router = useRouter();
 
   // const numb: string | undefined = String(
   //   document?.getElementById("mydiv")?.offsetWidth
@@ -53,8 +54,11 @@ function SearchComponent() {
 
   useEffect(() => {
     // console.log("numbnumbnumbnumb", numb);
+    setSearchString(
+      typeof router?.query?.q == "string" ? router?.query?.q : ""
+    );
     console.log(searchString);
-  }, [searchString]);
+  }, []);
 
   return (
     <>
@@ -86,12 +90,15 @@ function SearchComponent() {
           <div className="mx-2 py-4 border-r border-gray-600 h-[40] "></div>
           <input
             type={"search"}
-            placeholder={"جستجو"}
+            placeholder={
+              typeof router?.query?.q == "string" ? router?.query?.q : "جستجو"
+            }
             style={{
               transition: "height 1.2s ease-in-out",
               outlineStyle: "none",
             }}
             onKeyDown={(e) => enterChecker(e?.key ?? "nothing")}
+            value={searchString}
             onChange={(e) => setSearchString(e.target.value)}
             className={`flex w-full focus:w-full  h-[40px] bg-transparent p-2 text-slate-600  ${
               searchModal === true ? "rounded-b-none z-[2]" : ""

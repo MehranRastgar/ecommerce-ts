@@ -332,8 +332,8 @@ export function FilterComponent() {
   const router = useRouter();
   const [search, setSearch] = useState<SearchType>(searchConf);
   const [changed, setChanged] = useState<boolean>(true);
-  const [dropdown1, setDropdown1] = useState<boolean>(true);
-  const [dropdown2, setDropdown2] = useState<boolean>(true);
+  const [dropdown1, setDropdown1] = useState<boolean>(false);
+  const [dropdown2, setDropdown2] = useState<boolean>(false);
   const [animationParent] = useAutoAnimate<HTMLDivElement>({ duration: 200 });
 
   const [filterEnableItems, setFilterEnableItems] = useState<TypeFilterObject>(
@@ -512,6 +512,23 @@ export function FilterComponent() {
                 id="pricelte"
               />
               تومان
+              {changed ? (
+                <button
+                  onClick={() => {
+                    handleSetPriceFilter();
+                    setChanged(false);
+                  }}
+                  className="flex border rounded-md h-fit p-1 hover:bg-gray-500"
+                >
+                  اعمال
+                </button>
+              ) : (
+                <>
+                  <div className="flex m-2 text-green-400">
+                    <TiTick size={30} />
+                  </div>
+                </>
+              )}
             </li>
             <li className={listStyle}>
               <div
@@ -663,23 +680,6 @@ export function FilterComponent() {
               </div>
             </li>
             <li className={listStyle}>مشخصات فنی</li>
-            {changed ? (
-              <button
-                onClick={() => {
-                  handleSetPriceFilter();
-                  setChanged(false);
-                }}
-                className="flex border rounded-md h-fit p-1 hover:bg-gray-500"
-              >
-                اعمال
-              </button>
-            ) : (
-              <>
-                <div className="flex m-2 text-green-400">
-                  <TiTick size={30} />
-                </div>
-              </>
-            )}
           </ul>
           <div className="flex flex-wrap">
             {Object?.keys(filterEnableItems)?.map((item, index) => (
@@ -1048,6 +1048,20 @@ async function GetProducts(
   };
 
   // const sortType = query?.sorttype == "desc" ? 1 : -1;
+  const available =
+    query?.available === "true"
+      ? { "variants.price.rrp_price": { $gte: 1 } }
+      : {};
+  const unbleivable =
+    query?.unbleivable === "true"
+      ? { "variants.price.is_incredible": true }
+      : {};
+  const issale =
+    query?.issale === "true"
+      ? { "variants.price.discount_percent": { $gte: 1 } }
+      : {};
+
+  console.log(query.brands);
   const sortType = query?.sorttype == "desc" ? 1 : -1;
   const sortby:
     | "price"
@@ -1145,6 +1159,10 @@ async function GetProducts(
           .find(categoryObject)
           .find(categoryL1Object.category)
           .find(subCategoryObject)
+          .find(available)
+          .find(issale)
+          .find(unbleivable)
+          .find(available)
           .limit(perPageLimit)
           .skip(PageNumber)
           .sort(sortArray)
@@ -1155,6 +1173,9 @@ async function GetProducts(
     // if (Number(query?.page ?? 0) < 1) {
     products.Total = await ProProduct.countDocuments(textObject)
       .countDocuments(filterObject)
+      .countDocuments(available)
+      .countDocuments(unbleivable)
+      .countDocuments(issale)
       .countDocuments(categoryObject)
       .countDocuments(attributextObject.attributext)
       .countDocuments(categoryL1Object.category);

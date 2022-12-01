@@ -41,13 +41,13 @@ export default class Filter {
   }
 
   async changeFilter(searchConf: SearchType, router: NextRouter) {
-    if (searchConf?.filter?.state === false) {
-      delete router?.query?.pricelte;
-      delete router?.query?.pricegte;
+    // if (searchConf?.filter?.state === false) {
+    //   delete router?.query?.pricelte;
+    //   delete router?.query?.pricegte;
 
-      const queryString: string = await this.convertObjectToParam(router.query);
-      router.push(`${router.pathname}${queryString}`);
-    }
+    //   const queryString: string = await this.convertObjectToParam(router.query);
+    //   router.push(`${router.pathname}${queryString}`);
+    // }
     if (
       searchConf.filter?.priceRange?.pricegte !== undefined &&
       searchConf.filter?.priceRange?.pricelte !== undefined
@@ -56,7 +56,10 @@ export default class Filter {
         searchConf.filter?.priceRange?.pricegte.toString();
       router.query["pricelte"] =
         searchConf.filter?.priceRange?.pricelte.toString();
-
+      if (Number(router?.query?.pricelte) < 1) {
+        delete router?.query?.pricelte;
+        delete router?.query?.pricegte;
+      }
       router.query = this.addOrRemoveFromQuery(
         "issale",
         router.query,
@@ -75,6 +78,7 @@ export default class Filter {
         searchConf.filter.unbleivable
       );
 
+      router.query["page"] = "1";
       const queryString: string = await this.convertObjectToParam(router.query);
       router.push(`${router.pathname}${queryString}`);
 
