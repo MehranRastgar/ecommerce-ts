@@ -56,6 +56,65 @@ export default function SearchPage({
   return (
     <>
       {" "}
+      <SearchPageComponent
+        total={total}
+        pageNumber={pageNumber}
+        totalProducts={totalProducts}
+        setPageNumber={setPageNumber}
+        slideRef={slideRef}
+        products={products}
+      />
+      {/* 
+      <div className="flex w-full justify-center md:w-[100%]">
+        <div className="hidden md:flex h-full bg-white md:w-[15%] min-w-[300px] mx-2">
+          <FilterComponent />
+        </div>
+        <div className="search-page h-fit w-full md:w-[75%] ">
+          <div className="flex items-center justify-start bg-white w-full mx-10 border-b">
+            <div className="flex items-center justify-start bg-white w-full">
+              <SortComponent />
+              <span className="w-auto text-center font-Vazir-Medium text-[12px]">
+                {total} محصول
+              </span>
+            </div>
+          </div>
+          <div className="flex h-fit flex-wrap justify-center bg-white w-9/12">
+            <Pagination
+              page={pageNumber}
+              total={totalProducts}
+              setPage={setPageNumber}
+            />
+          </div>
+          <SearchContainer refs={slideRef}>
+            {products?.map((product) => (
+              <>
+                <ProductCardOne minifyProduct={product} />
+              </>
+            ))}
+          </SearchContainer>
+        </div>
+      </div> */}
+    </>
+  );
+}
+//==============================================================================================//
+export function SearchPageComponent({
+  total,
+  pageNumber,
+  totalProducts,
+  setPageNumber,
+  slideRef,
+  products,
+}: {
+  total: number;
+  pageNumber: number;
+  totalProducts: number;
+  setPageNumber: any;
+  slideRef: any;
+  products: MinifyProduct[] | null;
+}) {
+  return (
+    <>
       <div className="flex w-full justify-center md:w-[100%]">
         <div className="hidden md:flex h-full bg-white md:w-[15%] min-w-[300px] mx-2">
           <FilterComponent />
@@ -639,11 +698,11 @@ export function FilterComponent() {
                 </div>
                 {
                   <>
-                    <div className="flex w-full p-2">dropdown</div>
-                    <div className="flex w-full p-2">dropdown</div>
-                    <div className="flex w-full p-2">dropdown</div>
-                    <div className="flex w-full p-2">dropdown</div>
-                    <div className="flex w-full p-2">dropdown</div>
+                    <div className="flex w-full p-2">به زودی</div>
+                    <div className="flex w-full p-2">به زودی</div>
+                    <div className="flex w-full p-2">به زودی</div>
+                    <div className="flex w-full p-2">به زودی</div>
+                    <div className="flex w-full p-2">به زودی</div>
                   </>
                 }
               </div>
@@ -679,11 +738,11 @@ export function FilterComponent() {
                 </div>
 
                 <>
-                  <div className="flex w-full p-2">dropdown</div>
-                  <div className="flex w-full p-2">dropdown</div>
-                  <div className="flex w-full p-2">dropdown</div>
-                  <div className="flex w-full p-2">dropdown</div>
-                  <div className="flex w-full p-2">dropdown</div>
+                  <div className="flex w-full p-2">به زودی</div>
+                  <div className="flex w-full p-2">به زودی</div>
+                  <div className="flex w-full p-2">به زودی</div>
+                  <div className="flex w-full p-2">به زودی</div>
+                  <div className="flex w-full p-2">به زودی</div>
                 </>
               </div>
             </li>
@@ -696,7 +755,7 @@ export function FilterComponent() {
                 }`}
                 // ref={animationParent}
               >
-                مشخصات فنی
+                مشخصات فنی - به زودی
               </div>
             </li>
           </ul>

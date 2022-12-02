@@ -16,7 +16,12 @@ import mongoose, { NumberExpression } from "mongoose";
 import { GetServerSideProps } from "next";
 import ProProduct from "../../../src/models/ProProduct";
 import ProductCardOne from "../../../components/product/ProductCardOne";
-import { Pagination, SearchContainer, SearchFilters } from "..";
+import {
+  Pagination,
+  SearchContainer,
+  SearchFilters,
+  SearchPageComponent,
+} from "..";
 //==============================================================================================//
 export default function SearchPage({
   products,
@@ -49,31 +54,14 @@ export default function SearchPage({
 
   return (
     <>
-      <div className="search-page">
-        <div className="flex  min-h-[200px] bg-white w-9/12">
-          <SearchFilters />
-        </div>
-        <div className="flex h-20 text-3xl w-full text-center justify-center items-center text-slate-700 font-Vazir-Bold">
-          محصولات {category}
-        </div>
-        <span className="w-full text-center font-Vazir-Medium text-[16px]">
-          {total} محصول
-        </span>
-        <div className="flex justify-center bg-white w-9/12">
-          <Pagination
-            page={pageNumber}
-            total={totalProducts}
-            setPage={setPageNumber}
-          />
-        </div>
-        <SearchContainer refs={slideRef}>
-          {products?.map((product) => (
-            <>
-              <ProductCardOne minifyProduct={product} />
-            </>
-          ))}
-        </SearchContainer>
-      </div>
+      <SearchPageComponent
+        total={total}
+        pageNumber={pageNumber}
+        totalProducts={totalProducts}
+        setPageNumber={setPageNumber}
+        slideRef={slideRef}
+        products={products}
+      />
     </>
   );
 }
@@ -142,10 +130,105 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 };
 //==================================================================
-const GetProducts = async (
+// const GetProducts = async (
+//   query: ParsedUrlQuery
+// ): Promise<ProductsSearch | null> => {
+//   console.log("req.body======> ", query);
+//   const textObject: any = query?.q
+//     ? {
+//         $text: {
+//           $search: query?.q,
+//           $diacriticSensitive: false,
+//           $caseSensitive: false,
+//         },
+//       }
+//     : {};
+//   const AttrtextObject = {
+//     $attributex: {
+//       $search: { "attributext.سری پردازنده": "Ryzen" },
+//       $diacriticSensitive: false,
+//       $caseSensitive: false,
+//     },
+//   };
+
+//   const sortType = query?.sortType == "desc" ? 1 : -1;
+//   const sort = query?.sort ? query?.sort : false;
+
+//   // const sda = eval(sort)
+//   // console.log(eval(sort))
+
+//   var arrayone = [sort, sortType];
+//   var sortArray: any[] = [];
+//   sortArray.push(arrayone);
+//   console.log(sortArray);
+//   const filterObject = {};
+//   const specQuery = query.query != undefined ? query.query : {};
+//   console.log("specQuery", query.query);
+//   //   const categoryObject: object = query.cat ? { newCategory: query.cat } : {};
+//   var category: string | undefined = "";
+//   // if (typeof query?.category === "string") {
+//   //   category =
+//   //     query?.category?.[0].toUpperCase() + query?.category?.substring(1);
+//   // }
+
+//   const categoryL1Object: any = {
+//     category: { "category.L1": query?.category },
+//   };
+//   //   { "category.L1": "laptop" }
+
+//   const attributextObject: any = query.attributext
+//     ? { attributext: query.attributext }
+//     : {};
+//   console.log("categoryL1Object", categoryL1Object);
+
+//   const subCategoryObject = query.subCat ? { subCategory: query.subCat } : {};
+//   const perPageLimit = query.perPage != undefined ? Number(query.perPage) : 20;
+//   const PageNumber =
+//     query.page != undefined ? (Number(query?.page) - 1) * perPageLimit : 0;
+//   const count = query.count ? 1 : 0;
+//   console.log("perPageLimit", perPageLimit);
+//   console.log("PageNumber", PageNumber);
+
+//   try {
+//     var products: ProductsSearch = {
+//       Total: 0,
+//       filterItems: [],
+//       Products: [],
+//     };
+
+//     products.Products = await JSON.parse(
+//       JSON.stringify(
+//         await ProProduct.find(specQuery)
+//           .find(attributextObject?.attributext)
+//           .find(textObject)
+//           .find(filterObject)
+//           //   .find(categoryObject)
+//           .find(categoryL1Object.category)
+//           .find(subCategoryObject)
+//           .limit(perPageLimit)
+//           .skip(PageNumber)
+//           .sort(sortArray)
+//           .populate("status")
+//       )
+//     );
+
+//     // if (Number(query?.page ?? 0) < 1) {
+//     products.Total = await ProProduct.countDocuments(textObject)
+//       .countDocuments(filterObject)
+//       //   .countDocuments(categoryObject)
+//       .countDocuments(attributextObject.attributext)
+//       .countDocuments(categoryL1Object.category);
+//     // }
+//     return products;
+//   } catch (err) {
+//     console.log("err ============>", err);
+//     return null;
+//   }
+// };
+
+async function GetProducts(
   query: ParsedUrlQuery
-): Promise<ProductsSearch | null> => {
-  console.log("req.body======> ", query);
+): Promise<ProductsSearch | null> {
   const textObject: any = query?.q
     ? {
         $text: {
@@ -163,30 +246,89 @@ const GetProducts = async (
     },
   };
 
-  const sortType = query?.sortType == "desc" ? 1 : -1;
-  const sort = query?.sort ? query?.sort : false;
+  // const sortType = query?.sorttype == "desc" ? 1 : -1;
+  const available =
+    query?.available === "true"
+      ? { "variants.price.rrp_price": { $gte: 1 } }
+      : {};
+  const unbleivable =
+    query?.unbleivable === "true"
+      ? { "variants.price.is_incredible": true }
+      : {};
+  const issale =
+    query?.issale === "true"
+      ? { "variants.price.discount_percent": { $gte: 1 } }
+      : {};
 
+  console.log(query.brands);
+  const sortType = query?.sorttype == "desc" ? 1 : -1;
+  const sortby:
+    | "price"
+    | "interest"
+    | "brand"
+    | "name"
+    | "date"
+    | "sale"
+    | "sell"
+    | "view"
+    | string
+    | undefined
+    | string[] = query?.sort;
+  var sort: string = "";
+  switch (sortby) {
+    case "brand":
+      sort = "main.brand";
+      break;
+    case "date":
+      sort = "updatedAt";
+      break;
+    case "price":
+      sort = "variants.price.rrp_price";
+      break;
+    case "interest":
+      sort = "seo.markup_schema.review.reviewRating.ratingValue";
+      break;
+    case "sell":
+      sort = "variants.order_limit";
+      break;
+    case "sale":
+      sort = "variants.price.discount_percent";
+      break;
+    case "view":
+      sort = "variants.rate";
+      break;
+    case undefined:
+      sort = "variants.rate";
+      break;
+    default:
+      sort = "variants.price.rrp_price";
+      break;
+  }
+
+  const sortArray: any[] = [[sort, sortType]];
   // const sda = eval(sort)
   // console.log(eval(sort))
 
-  var arrayone = [sort, sortType];
-  var sortArray: any[] = [];
-  sortArray.push(arrayone);
-  console.log(sortArray);
-  const filterObject = {};
-  const specQuery = query.query != undefined ? query.query : {};
-  console.log("specQuery", query.query);
-  //   const categoryObject: object = query.cat ? { newCategory: query.cat } : {};
-  var category: string | undefined = "";
-  // if (typeof query?.category === "string") {
-  //   category =
-  //     query?.category?.[0].toUpperCase() + query?.category?.substring(1);
-  // }
+  // var arrayone = [sort, sortType];
+  // var sortArray: any[] = [];
+  // sortArray.push(arrayone);
+  // console.log(sortArray);
+  var filterObject: object = {};
+  if (query?.pricegte !== undefined && query?.pricelte !== undefined)
+    filterObject = {
+      ...filterObject,
+      "variants.price.selling_price": {
+        $gte: Number(query?.pricegte ?? 0),
+        $lt: Number(query?.pricelte ?? 0),
+      },
+    };
 
   const categoryL1Object: any = {
     category: { "category.L1": query?.category },
   };
-  //   { "category.L1": "laptop" }
+  const specQuery = query.query != undefined ? query.query : {};
+  console.log("specQuery", query.query);
+  const categoryObject: object = query.cat ? { newCategory: query.cat } : {};
 
   const attributextObject: any = query.attributext
     ? { attributext: query.attributext }
@@ -214,9 +356,13 @@ const GetProducts = async (
           .find(attributextObject?.attributext)
           .find(textObject)
           .find(filterObject)
-          //   .find(categoryObject)
+          .find(categoryObject)
           .find(categoryL1Object.category)
           .find(subCategoryObject)
+          .find(available)
+          .find(issale)
+          .find(unbleivable)
+          .find(available)
           .limit(perPageLimit)
           .skip(PageNumber)
           .sort(sortArray)
@@ -227,7 +373,10 @@ const GetProducts = async (
     // if (Number(query?.page ?? 0) < 1) {
     products.Total = await ProProduct.countDocuments(textObject)
       .countDocuments(filterObject)
-      //   .countDocuments(categoryObject)
+      .countDocuments(available)
+      .countDocuments(unbleivable)
+      .countDocuments(issale)
+      .countDocuments(categoryObject)
       .countDocuments(attributextObject.attributext)
       .countDocuments(categoryL1Object.category);
     // }
@@ -236,4 +385,4 @@ const GetProducts = async (
     console.log("err ============>", err);
     return null;
   }
-};
+}
