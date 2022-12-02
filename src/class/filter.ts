@@ -60,35 +60,35 @@ export default class Filter {
         delete router?.query?.pricelte;
         delete router?.query?.pricegte;
       }
-      router.query = this.addOrRemoveFromQuery(
-        "issale",
-        router.query,
-        searchConf.filter.isSale
-      );
-
-      router.query = this.addOrRemoveFromQuery(
-        "available",
-        router.query,
-        searchConf.filter.justAvailable
-      );
-
-      router.query = this.addOrRemoveFromQuery(
-        "unbleivable",
-        router.query,
-        searchConf.filter.unbleivable
-      );
-
-      router.query["page"] = "1";
-      const queryString: string = await this.convertObjectToParam(router.query);
-      router.push(`${router.pathname}${queryString}`);
-
-      // var obj = filterEnableItems;
-      // obj = {
-      //   ...filterEnableItems,
-      //   priceRange: { name: "قیمت" },
-      // };
-      // setFilterEnableItems(obj);
     }
+    router.query = this.addOrRemoveFromQuery(
+      "issale",
+      router.query,
+      searchConf.filter.isSale
+    );
+
+    router.query = this.addOrRemoveFromQuery(
+      "available",
+      router.query,
+      searchConf.filter.justAvailable
+    );
+
+    router.query = this.addOrRemoveFromQuery(
+      "unbleivable",
+      router.query,
+      searchConf.filter.unbleivable
+    );
+
+    router.query["page"] = "1";
+    const queryString: string = await this.convertObjectToParam(router.query);
+    router.push(`${router.pathname}${queryString}`);
+
+    // var obj = filterEnableItems;
+    // obj = {
+    //   ...filterEnableItems,
+    //   priceRange: { name: "قیمت" },
+    // };
+    // setFilterEnableItems(obj);
   }
   ToggleUnbleivable(search: SearchType): SearchType {
     if (search?.filter?.unbleivable) {

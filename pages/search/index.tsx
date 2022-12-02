@@ -301,6 +301,16 @@ import { BiFilter } from "react-icons/bi";
 import Filter from "../../src/class/filter";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
+const translateQuery: object = {
+  sorttype: null,
+  page: null,
+  pricegte: "کمینه قیمت",
+  pricelte: "بیشینه قیمت",
+  available: "فقط موجودها",
+  unbleivable: "شگفت انگیز",
+  issale: "تخفیف دار",
+};
+
 type TypeFilterEnableItem = {
   name: string;
   value?: number;
@@ -339,8 +349,6 @@ export function FilterComponent() {
   const [filterEnableItems, setFilterEnableItems] = useState<TypeFilterObject>(
     {}
   );
-  // queryAdder()
-  // queryRemover()
   async function changeFilter() {
     filter.changeFilter(searchConf, router);
   }
@@ -427,7 +435,7 @@ export function FilterComponent() {
     "flex w-full mt-4 items-center font-Vazir-Medium text-[12px]";
   return (
     <>
-      <div className="flex shadow-lg StickyContainer overflow-hidden border rounded-lg flex-wrap justify-start w-[270px] min-h-[400px] h-fit items-start my-6 lg:text-[14px] text-[12px] p-[16px]">
+      <div className="flex shadow-lg StickyContainer overflow-hidden border rounded-lg flex-wrap justify-start w-[270px] min-h-[400px] h-fit items-start my-6 lg:text-[14px] text-[12px] p-[16px] select-none">
         <div className="flex flex-wrap items-start justify-center w-full">
           <ul className="flex flex-wrap w-full">
             {/* <li
@@ -679,26 +687,37 @@ export function FilterComponent() {
                 </>
               </div>
             </li>
-            <li className={listStyle}>مشخصات فنی</li>
+            <li className={listStyle}>
+              <div
+                className={`flex flex-wrap items-center text-gray-300 p-2 bg-gray-100 cursor-pointer rounded-md w-fit transition-all duration-300 ${
+                  dropdown1
+                    ? "overflow-y-scroll h-[120px]"
+                    : "overflow-hidden h-[34px]"
+                }`}
+                // ref={animationParent}
+              >
+                مشخصات فنی
+              </div>
+            </li>
           </ul>
+          <div className="flex w-full p-3 border-b my-2"></div>
           <div className="flex flex-wrap">
-            {Object?.keys(filterEnableItems)?.map((item, index) => (
+            {Object?.keys(router.query)?.map((item, index) => (
               <>
-                {Object?.values(filterEnableItems)?.[index]?.name !==
-                undefined ? (
+                {eval(`translateQuery?.${item} !== null`) &&
+                eval(`translateQuery?.${item} !== undefined`) ? (
                   <>
-                    <div key={index} className="p-1 rounded-lg border text-xs">
-                      {Object?.values(filterEnableItems)[index]?.name}
-                      <div
-                        className="flex p-1"
-                        onClick={() => {
-                          var obj = filterEnableItems;
-                          obj = { ...filterEnableItems, priceRange: undefined };
-
-                          setFilterEnableItems(obj);
-                        }}
-                      >
-                        remove
+                    <div
+                      key={index}
+                      className="m-0 h-fit p-2 bg-red-800 bg-opacity-90 text-white font-Vazir-Medium rounded-lg border text-xs"
+                    >
+                      {eval(`translateQuery?.${item}`)
+                        ? eval(`translateQuery?.${item}`)
+                        : ""}
+                      <div className="flex font-Vazir-Medium">
+                        {item === "pricelte" || item === "pricegte"
+                          ? router.query?.[item]?.toLocaleString()
+                          : ""}
                       </div>
                     </div>
                   </>
@@ -800,19 +819,8 @@ export function SortComponent() {
     changeSort();
   }, [searchConf.sortType, searchConf.sortBy]);
 
-  // const sorts:{
-  //   Sort[],
-  //   string
-  // }=[
-  //   {
-  //   SortBy: "date",
-  //   SortType: "desc",
-  //   },
-
-  // ]
-
   return (
-    <div className="flex flex-wrap justify-start w-full items-center my-6 lg:text-[14px] text-[12px]">
+    <div className="flex flex-wrap justify-start w-full items-center my-6 lg:text-[14px] text-[12px] select-none">
       {sortModal ? (
         <div className="md:hidden flex fixed items-end left-0 bottom-0 border w-full h-[100%] bg-black/30 font-Vazir-Medium text-lg">
           <div className="flex flex-wrap overflow-y-scroll h-[50%] bg-white w-full">
@@ -884,7 +892,7 @@ export function SortComponent() {
         </span>
       </div>
       <div className="w-fit border-l mx-[2px] px-[2px] py-2"></div>
-      <ul className="hidden md:flex flex-wrap font-Vazir-Medium items-center justify-center">
+      <ul className="hidden md:flex flex-wrap font-Vazir-Medium items-center justify-center select-none">
         {Object?.values(SortTranslate)?.map((trans, index) => (
           <>
             <li
