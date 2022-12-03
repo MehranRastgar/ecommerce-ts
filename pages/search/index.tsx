@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { FaSearchengin, FaSortAmountDownAlt } from "react-icons/fa";
-import { TiTick } from "react-icons/ti";
+import { TiDeleteOutline, TiTick } from "react-icons/ti";
 import { AiOutlineDown } from "react-icons/ai";
 import { RiFilterFill, RiFilterOffLine } from "react-icons/ri";
 import {
@@ -16,6 +16,8 @@ import {
   MinifyProduct,
   ProductInterface,
   ProductsSearch,
+  PropertyProperty,
+  Settings,
   Sort,
 } from "../../src/types/types";
 import Router, { useRouter } from "next/router";
@@ -55,7 +57,6 @@ export default function SearchPage({
 
   return (
     <>
-      {" "}
       <SearchPageComponent
         total={total}
         pageNumber={pageNumber}
@@ -352,6 +353,8 @@ import { useAppDispatch, useAppSelector } from "../../src/store/hooks";
 import {
   searchConfig,
   SearchType,
+  selectCategories,
+  selectSettings,
   setSearchConfig,
   SortTranslate,
 } from "../../src/store/slices/settingsSlice";
@@ -360,6 +363,7 @@ import { BiFilter } from "react-icons/bi";
 import Filter from "../../src/class/filter";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Search } from "..";
+import { BsCheckCircle, BsCircle } from "react-icons/bs";
 
 const translateQuery: object = {
   sorttype: null,
@@ -369,6 +373,8 @@ const translateQuery: object = {
   available: "فقط موجودها",
   unbleivable: "شگفت انگیز",
   issale: "تخفیف دار",
+  brands: "برندها",
+  category: "دسته بندی ها",
 };
 
 type TypeFilterEnableItem = {
@@ -393,6 +399,8 @@ let filter = new Filter({
     justAvailable: false,
     unbleivable: false,
     isSale: false,
+    brands: [],
+    category: [],
   },
 });
 
@@ -409,6 +417,9 @@ export function FilterComponent() {
   const [filterEnableItems, setFilterEnableItems] = useState<TypeFilterObject>(
     {}
   );
+  function initFilter() {
+    dispatch(setSearchConfig(filter.initFilter(searchConf, router)));
+  }
   async function changeFilter() {
     filter.changeFilter(searchConf, router);
   }
@@ -480,16 +491,18 @@ export function FilterComponent() {
   }
 
   useEffect(() => {
-    filter.SearchSetter(searchConf);
-
+    // filter.SearchSetter(searchConf);
     changeFilter();
   }, [searchConf.filter]);
 
   useEffect(() => {
-    filter.SearchSetter(searchConf);
-
+    // filter.SearchSetter(searchConf);
     setChanged(true);
   }, [search.filter]);
+
+  useEffect(() => {
+    initFilter();
+  }, []);
 
   const listStyle =
     "flex w-full mt-4 items-center font-Vazir-Medium text-[12px]";
@@ -582,13 +595,35 @@ export function FilterComponent() {
               تومان
               {changed ? (
                 <button
+                  disabled={
+                    search?.filter?.priceRange?.pricelte !== undefined &&
+                    search?.filter?.priceRange?.pricegte !== undefined &&
+                    search?.filter?.priceRange?.pricelte <=
+                      search?.filter?.priceRange?.pricegte
+                      ? true
+                      : false
+                  }
                   onClick={() => {
                     handleSetPriceFilter();
                     setChanged(false);
                   }}
-                  className="flex border rounded-md h-fit p-1 hover:bg-gray-500"
+                  className={`flex border rounded-md h-fit p-1  mx-1  ${
+                    search?.filter?.priceRange?.pricelte !== undefined &&
+                    search?.filter?.priceRange?.pricegte !== undefined &&
+                    search?.filter?.priceRange?.pricelte >
+                      search?.filter?.priceRange?.pricegte
+                      ? "bg-green-400 hover:bg-green-600"
+                      : ""
+                  }`}
                 >
-                  اعمال
+                  {search?.filter?.priceRange?.pricelte !== undefined &&
+                  search?.filter?.priceRange?.pricegte !== undefined &&
+                  search?.filter?.priceRange?.pricelte <=
+                    search?.filter?.priceRange?.pricegte ? (
+                    <TiDeleteOutline fill="red" size={15} />
+                  ) : (
+                    "تایید"
+                  )}
                 </button>
               ) : (
                 <>
@@ -669,54 +704,9 @@ export function FilterComponent() {
             </li>
             <li className={listStyle}>
               <div
-                className={`flex flex-wrap items-center bg-gray-100 cursor-pointer rounded-md w-fit transition-all duration-300 ${
-                  dropdown2
-                    ? "overflow-y-scroll h-[180px]"
-                    : "overflow-hidden h-[34px]"
-                }`}
-                // ref={animationParent}
-              >
-                <div
-                  onClick={() => {
-                    setDropdown2((prevVal) => !prevVal);
-                  }}
-                  className="flex StickyContainer2 bg-gray-100 w-full p-2 -mt-2"
-                >
-                  انتخاب برند های مرتبط با سرچ شما
-                  <div
-                    className={
-                      "flex mx-2 " +
-                      `${
-                        dropdown2
-                          ? "-translate-x-4 -translate-y-1 rotate-90"
-                          : ""
-                      }`
-                    }
-                  >
-                    {" "}
-                    <AiOutlineDown />
-                  </div>
-                </div>
-                {
-                  <>
-                    <div className="flex w-full mx-2">
-                      {router.query !== undefined ? (
-                        <FetchBrandsComponent
-                          query={filter.convertObjectToParamSync(router.query)}
-                        />
-                      ) : (
-                        <></>
-                      )}
-                    </div>
-                  </>
-                }
-              </div>
-            </li>
-            <li className={listStyle}>
-              <div
                 className={`flex flex-wrap items-center  bg-gray-100 cursor-pointer rounded-md w-fit transition-all duration-300 ${
                   dropdown1
-                    ? "overflow-y-scroll h-[120px]"
+                    ? " overflow-y-scroll h-[180px]"
                     : "overflow-hidden h-[34px]"
                 }`}
                 // ref={animationParent}
@@ -743,12 +733,61 @@ export function FilterComponent() {
                 </div>
 
                 <>
-                  <div className="flex w-full p-2">به زودی</div>
-                  <div className="flex w-full p-2">به زودی</div>
-                  <div className="flex w-full p-2">به زودی</div>
-                  <div className="flex w-full p-2">به زودی</div>
-                  <div className="flex w-full p-2">به زودی</div>
+                  <div className="flex  h-auto w-full mx-2">
+                    {router.query !== undefined ? (
+                      <FetchCategoriesComponent
+                        query={filter.convertObjectToParamSync(router.query)}
+                      />
+                    ) : (
+                      <></>
+                    )}
+                  </div>
                 </>
+              </div>
+            </li>
+            <li className={listStyle}>
+              <div
+                className={`flex flex-wrap items-start bg-gray-100 cursor-pointer rounded-md w-fit transition-all duration-300 ${
+                  dropdown2
+                    ? "overflow-y-scroll h-[180px]"
+                    : "overflow-hidden h-[34px]"
+                }`}
+                // ref={animationParent}
+              >
+                <div
+                  onClick={() => {
+                    setDropdown2((prevVal) => !prevVal);
+                  }}
+                  className="flex  StickyContainer2 bg-gray-100 w-full p-2 h-fit -mt-2"
+                >
+                  انتخاب برند های مرتبط با سرچ شما
+                  <div
+                    className={
+                      "flex mx-2 " +
+                      `${
+                        dropdown2
+                          ? "-translate-x-4 -translate-y-1 rotate-90"
+                          : ""
+                      }`
+                    }
+                  >
+                    {" "}
+                    <AiOutlineDown />
+                  </div>
+                </div>
+                {
+                  <>
+                    <div className="flex h-auto min-h-full w-full mx-2">
+                      {router.query !== undefined ? (
+                        <FetchBrandsComponent
+                          query={filter.convertObjectToParamSync(router.query)}
+                        />
+                      ) : (
+                        <></>
+                      )}
+                    </div>
+                  </>
+                }
               </div>
             </li>
             <li className={listStyle}>
@@ -764,26 +803,64 @@ export function FilterComponent() {
               </div>
             </li>
           </ul>
-          <div className="flex w-full p-3 border-b my-2"></div>
+          <div className="flex w-full p-3 border-b my-2">
+            <div className="flex w-full  "> فیلترهای اعمال شده</div>
+          </div>
           <div className="flex flex-wrap">
             {Object?.keys(router.query)?.map((item, index) => (
               <>
                 {eval(`translateQuery?.${item} !== null`) &&
                 eval(`translateQuery?.${item} !== undefined`) ? (
                   <>
-                    <div
-                      key={index}
-                      className="m-0 h-fit p-2 bg-red-800 bg-opacity-90 text-white font-Vazir-Medium rounded-lg border text-xs"
-                    >
-                      {eval(`translateQuery?.${item}`)
-                        ? eval(`translateQuery?.${item}`)
-                        : ""}
-                      <div className="flex font-Vazir-Medium">
-                        {item === "pricelte" || item === "pricegte"
-                          ? router.query?.[item]?.toLocaleString()
+                    {typeof router?.query?.[item] === "string" &&
+                    (router?.query?.[item] as string)?.split(",")?.length ===
+                      1 ? (
+                      <div
+                        key={index}
+                        className=" h-fit p-1 m-1 bg-opacity-90 text-black font-Vazir-Medium rounded-lg border text-xs"
+                      >
+                        {eval(`translateQuery?.${item}`)
+                          ? eval(`translateQuery?.${item}`)
                           : ""}
+                        <div className="flex font-Vazir-Medium">
+                          {item === "pricelte" || item === "pricegte"
+                            ? `${(
+                                Number(
+                                  typeof router?.query?.[item] === "string"
+                                    ? router?.query?.[item]
+                                    : 0
+                                ) / 10
+                              )?.toLocaleString()} تومان`
+                            : ""}
+
+                          {item === "brands"
+                            ? router.query?.[item]?.toLocaleString()
+                            : ""}
+                          {item === "category"
+                            ? router.query?.[item]?.toLocaleString()
+                            : ""}
+                        </div>{" "}
                       </div>
-                    </div>
+                    ) : (
+                      <>
+                        {typeof router?.query?.[item] === "string" &&
+                          (router?.query?.[item] as string)
+                            ?.split(",")
+                            ?.map((itemak: string) => (
+                              <div
+                                key={index}
+                                className=" h-fit p-1 m-1 bg-opacity-90 text-black font-Vazir-Medium rounded-lg border text-xs"
+                              >
+                                {eval(`translateQuery?.${item}`)
+                                  ? eval(`translateQuery?.${item}`)
+                                  : ""}
+                                <div className="flex font-Vazir-Medium">
+                                  {itemak}
+                                </div>{" "}
+                              </div>
+                            ))}
+                      </>
+                    )}
                   </>
                 ) : (
                   <></>
@@ -811,34 +888,122 @@ const configAxios: AxiosRequestConfig = {
 };
 
 function FetchBrandsComponent({ query }: { query: any }) {
+  const searchConf = useAppSelector(searchConfig);
+  const dispatch = useAppDispatch();
   const { data } = useSWR<any>([`/api/psearch/brands${query}`, query], (url) =>
     fetcher(url, query, configAxios)
   );
 
+  function handleAddBrand(brand: string) {
+    if (
+      searchConf?.filter?.brands?.findIndex((item: string) => item === brand) <=
+      -1
+    ) {
+      console.log("add");
+      const search: SearchType = filter.addToBrands(searchConf, brand);
+      dispatch(setSearchConfig(search));
+    } else {
+      console.log("remove");
+
+      const search: SearchType = filter.removeFromBrands(searchConf, brand);
+      dispatch(setSearchConfig(search));
+    }
+  }
+
   useEffect(() => {
-    console.log(data);
+    console.log(searchConf.filter);
+  }, [searchConf.filter]);
+
+  return (
+    <>
+      <div className="flex h-fit flex-wrap my-2">
+        {data?.data?.ProductsBrands?.[0]?.brands !== undefined ? (
+          data?.data?.ProductsBrands?.[0]?.brands
+            ?.sort()
+            .map((brand: string, index: number) => (
+              <>
+                {" "}
+                <div
+                  onClick={() => handleAddBrand(brand)}
+                  className="flex justify-end w-full p-2 border rounded-md h-fit my-1 shadow-sm bg-gray-300 hover:animate-pulse font-Vazir-Bold text-gray-600"
+                >
+                  <div className="mx-4 items-center text-green-400">
+                    {searchConf?.filter?.brands?.findIndex(
+                      (item) => item === brand
+                    ) < 0 ? (
+                      <TiDeleteOutline fill="red" size={15} />
+                    ) : (
+                      <BsCheckCircle fill="green" size={15} />
+                    )}
+                  </div>
+                  {brand?.[0].toUpperCase() + brand?.substring(1)}
+                </div>
+              </>
+            ))
+        ) : (
+          <>با این مشخضه یافت نشد</>
+        )}{" "}
+      </div>
+    </>
+  );
+}
+function FetchCategoriesComponent({ query }: { query: any }) {
+  const categories = useAppSelector<Settings>(selectCategories);
+  const searchConf = useAppSelector(searchConfig);
+  const dispatch = useAppDispatch();
+
+  function handleAddCategories(catL1: string | undefined) {
+    if (catL1 === undefined) {
+      return;
+    }
+    if (
+      searchConf?.filter?.category?.findIndex(
+        (item: string) => item === catL1
+      ) <= -1
+    ) {
+      console.log("add");
+      const search: SearchType = filter.addToCatL1(searchConf, catL1);
+      dispatch(setSearchConfig(search));
+    } else {
+      console.log("remove");
+
+      const search: SearchType = filter.removeFromCatL1(searchConf, catL1);
+      dispatch(setSearchConfig(search));
+    }
+  }
+  useEffect(() => {
+    console.log("cats", categories);
   });
 
   return (
     <>
-      <div className="flex flex-wrap mt-2">
-        {data?.data?.ProductsBrands?.[0]?.brands !== undefined ? (
-          data?.data?.ProductsBrands?.[0]?.brands?.map(
-            (brand: string, index: number) => (
-              <>
-                {" "}
-                <span className="flex justify-end w-2/3 p-2 border rounded-md h-fit my-1 shadow-sm bg-gray-300 hover:animate-pulse font-Vazir-Bold text-gray-600">
-                  <div className="text-green-400">
-                    <TiTick size={15} />
-                  </div>
-                  {brand?.[0].toUpperCase() + brand?.substring(1)}
-                </span>
-              </>
-            )
-          )
+      <div className="flex h-fit flex-wrap my-2 ">
+        {categories.name === "categories" ? (
+          categories?.properties?.[0]?.properties?.map((cat, index: number) => (
+            <>
+              {" "}
+              <div
+                onClick={() => {
+                  handleAddCategories(cat?.L1?.[0]?.title);
+                }}
+                className="flex justify-start w-full p-2 border rounded-md h-fit my-1 shadow-sm bg-gray-300 hover:animate-pulse font-Vazir-Bold text-gray-600"
+              >
+                {cat?.L1?.[0]?.title_fa}
+                <div className="mx-4 items-center text-green-400">
+                  {searchConf?.filter?.category?.findIndex(
+                    (item) => item === cat?.L1?.[0]?.title
+                  ) < 0 ? (
+                    <TiDeleteOutline fill="red" size={15} />
+                  ) : (
+                    <BsCheckCircle fill="green" size={15} />
+                  )}
+                </div>
+              </div>
+            </>
+          ))
         ) : (
-          <>با این مشخضه یافت نشد</>
-        )}
+          <></>
+        )}{" "}
       </div>
     </>
   );
@@ -1224,6 +1389,11 @@ async function GetProducts(
       break;
   }
 
+  let brString: string = typeof query.brands === "string" ? query.brands : "";
+
+  const brands: object =
+    brString === "" ? {} : { "main.brand": brString.split(",") };
+
   const sortArray: any[] = [[sort, sortType]];
   // const sda = eval(sort)
   // console.log(eval(sort))
@@ -1242,16 +1412,18 @@ async function GetProducts(
       },
     };
 
+  let catString: string =
+    typeof query.category === "string" ? query.category : "";
+
   const specQuery = query.query != undefined ? query.query : {};
   console.log("specQuery", query.query);
-  const categoryObject: object = query.cat ? { newCategory: query.cat } : {};
-  const categoryL1Object: any = query.category
-    ? { category: query.category }
+  const categoryL1Object: any = query?.category
+    ? { "category.L1": catString.split(",") }
     : {};
   const attributextObject: any = query.attributext
     ? { attributext: query.attributext }
     : {};
-  console.log("categoryL1Object", categoryL1Object);
+  // console.log("categoryL1Object", categoryL1Object);
 
   const subCategoryObject = query.subCat ? { subCategory: query.subCat } : {};
   const perPageLimit = query.perPage != undefined ? Number(query.perPage) : 20;
@@ -1274,8 +1446,8 @@ async function GetProducts(
           .find(attributextObject?.attributext)
           .find(textObject)
           .find(filterObject)
-          .find(categoryObject)
-          .find(categoryL1Object.category)
+          .find(brands)
+          .find(categoryL1Object)
           .find(subCategoryObject)
           .find(available)
           .find(issale)
@@ -1291,10 +1463,10 @@ async function GetProducts(
       .countDocuments(filterObject)
       .countDocuments(available)
       .countDocuments(unbleivable)
+      .countDocuments(brands)
       .countDocuments(issale)
-      .countDocuments(categoryObject)
       .countDocuments(attributextObject.attributext)
-      .countDocuments(categoryL1Object.category);
+      .countDocuments(categoryL1Object);
     // }
     return products;
   } catch (err) {

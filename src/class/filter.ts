@@ -52,7 +52,53 @@ export default class Filter {
     else eval(`obj.${item?.toString()}='true'`);
     return obj;
   }
+  initFilter(searchConf: SearchType, router: NextRouter): SearchType {
+    const category: string[] =
+      typeof router?.query?.category === "string"
+        ? router?.query?.category.split(",")
+        : [];
+    const brands: string[] =
+      typeof router?.query?.brands === "string"
+        ? router?.query?.brands.split(",")
+        : [];
+    const isSale: boolean =
+      typeof router?.query?.issale === "string" &&
+      router?.query?.issale === "true"
+        ? true
+        : false;
+    const justAvailable: boolean =
+      typeof router?.query?.justAvailable === "string" &&
+      router?.query?.justAvailable === "true"
+        ? true
+        : false;
+    const unbleivable: boolean =
+      typeof router?.query?.unbleivable === "string" &&
+      router?.query?.unbleivable === "true"
+        ? true
+        : false;
+    const pricegte: number =
+      typeof router?.query?.pricegte === "string" &&
+      Number(router?.query?.pricegte) > 0
+        ? Number(router?.query?.pricegte)
+        : 0;
+    const pricelte: number =
+      typeof router?.query?.pricelte === "string" &&
+      Number(router?.query?.pricelte) > 0
+        ? Number(router?.query?.pricelte)
+        : 0;
 
+    return (searchConf = {
+      ...searchConf,
+      filter: {
+        brands: [...brands],
+        category: [...category],
+        isSale: isSale,
+        justAvailable: justAvailable,
+        unbleivable: unbleivable,
+        priceRange: { pricegte: pricegte, pricelte: pricelte },
+      },
+    });
+  }
   async changeFilter(searchConf: SearchType, router: NextRouter) {
     // if (searchConf?.filter?.state === false) {
     //   delete router?.query?.pricelte;
@@ -92,8 +138,11 @@ export default class Filter {
       searchConf.filter.unbleivable
     );
 
+    router.query["brands"] = searchConf.filter.brands;
+    router.query["category"] = searchConf.filter.category;
+
     router.query["page"] = "1";
-    const queryString: string = await this.convertObjectToParam(router.query);
+    const queryString: string = await this.convertObjectToParam(router?.query);
     router.push(`${router.pathname}${queryString}`);
 
     // var obj = filterEnableItems;
@@ -166,6 +215,59 @@ export default class Filter {
   // greet() {
   //   return "Hello, " + this.greeting;
   // }
+  addToBrands(search: SearchType, brand: string): SearchType {
+    if (search?.filter?.brands?.findIndex((item) => item === brand) < 0)
+      search = {
+        ...search,
+        filter: {
+          ...search.filter,
+          brands: [...search.filter.brands, brand],
+        },
+      };
+
+    return search;
+  }
+
+  removeFromBrands(search: SearchType, brand: string): SearchType {
+    if (search?.filter?.brands?.findIndex((item) => item === brand) >= 0) {
+      const arr = search.filter.brands.filter((item) => item !== brand);
+      search = {
+        ...search,
+        filter: {
+          ...search.filter,
+          brands: [...arr],
+        },
+      };
+    }
+
+    return search;
+  }
+  addToCatL1(search: SearchType, catL1: string): SearchType {
+    if (search?.filter?.category?.findIndex((item) => item === catL1) < 0)
+      search = {
+        ...search,
+        filter: {
+          ...search.filter,
+          category: [...search.filter.category, catL1],
+        },
+      };
+
+    return search;
+  }
+
+  removeFromCatL1(search: SearchType, catL1: string): SearchType {
+    if (search?.filter?.category?.findIndex((item) => item === catL1) >= 0) {
+      const arr = search.filter.category.filter((item) => item !== catL1);
+      search = {
+        ...search,
+        filter: {
+          ...search.filter,
+          category: [...arr],
+        },
+      };
+    }
+    return search;
+  }
 }
 
 //   let greeter = new Greeter("world");

@@ -139,16 +139,16 @@ async function GetProducts(
       },
     };
 
-  const specQuery = query.query != undefined ? query.query : {};
-  console.log("specQuery", query.query);
-  const categoryObject: object = query.cat ? { newCategory: query.cat } : {};
-  const categoryL1Object: any = query.category
-    ? { category: query.category }
+  let catString: string =
+    typeof query.category === "string" ? query.category : "";
+  // const specQuery = query.query != undefined ? query.query : {};
+  const categoryL1Object: any = query?.category
+    ? { "category.L1": { $in: catString.split(",") } }
     : {};
+
   const attributextObject: any = query.attributext
     ? { attributext: query.attributext }
     : {};
-  console.log("categoryL1Object", categoryL1Object);
 
   const subCategoryObject = query.subCat ? { subCategory: query.subCat } : {};
   const perPageLimit = query.perPage != undefined ? Number(query.perPage) : 20;
@@ -172,8 +172,7 @@ async function GetProducts(
             $match: {
               ...textObject,
               ...filterObject,
-              ...categoryObject,
-              ...categoryL1Object.category,
+              ...categoryL1Object,
               ...subCategoryObject,
               ...available,
               ...issale,
@@ -184,6 +183,7 @@ async function GetProducts(
             $group: {
               _id: null,
               brands: { $addToSet: "$main.brand" },
+              cats: { $addToSet: "$category.L1" },
             },
           },
         ])

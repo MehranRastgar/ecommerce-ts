@@ -55,20 +55,22 @@ export default function NavbarOne({
             onMouseEnter={() => {
               setOpenCategorieMenu(true);
             }}
+            onTouchEnd={() => {
+              setOpenCategorieMenu((value) => !value);
+            }}
             onMouseLeave={() => {
               setOpenCategorieMenu(false);
             }}
             className={`flex border-l  `}
           >
-            <Link
+            <div
               className={` flex mr-6 pr-0 px-6 py-2 hover:shadow-xl ${
                 openCategorieMenu === true ? "border-b-red-500" : ""
               } border-b-2 border-b-transparent `}
-              href="/"
             >
               <GiHamburgerMenu size={20} />
               <span className="mr-2">دسته بندی ها</span>
-            </Link>
+            </div>
             <div
               style={{
                 transition: "all 300ms ease-in-out",

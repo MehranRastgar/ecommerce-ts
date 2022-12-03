@@ -36,7 +36,7 @@ const config: SWRConfiguration = {
 };
 
 import Router, { useRouter } from "next/router";
-import LoadingOne from "./loader/default";
+import LoadingOne, { LoadingTwo } from "./loader/default";
 
 var changeRoute: boolean = false;
 
@@ -180,7 +180,7 @@ function Layout({ children }: { children: any }) {
         <></>
       )}
       {isLoading ? (
-        <div className="fixed flex-wrap flex items-center justify-center z-[1000] bg-black/20 top-0 left-0 h-[100%] w-[100%]">
+        <div className="fixed flex-wrap flex items-center justify-center z-[1000] bg-transparent top-0 left-0 h-[100%] w-[100%]">
           <div className="flex flex-wrap h-fit">
             <div className="flex h-fit justify-center w-full">
               <Image
@@ -194,7 +194,7 @@ function Layout({ children }: { children: any }) {
               />
             </div>
             <div className="flex h-fit justify-center w-full">
-              <LoadingOne />
+              <LoadingTwo />
             </div>
           </div>
         </div>

@@ -178,7 +178,7 @@ export function ProductRelativeComponent({ product }: { product: Product }) {
     <div id="relative-products" className="flex justify-center w-full">
       <ProductSliderOne
         setting={{
-          url: `/search/category/${product?.category?.L1}`,
+          url: `/search?category=${product?.category?.L1}`,
           name: "کالاهای مشابه",
           span: "مشاهده ...",
           getOption: getLaptop,

@@ -2,13 +2,13 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import type { AppState, AppThunk } from "../store";
 // import { fetchCount } from './../counterAPI'
-import type { Settings } from "../../types/types";
+import type { PropertyProperty, Settings } from "../../types/types";
 import { fetchSettings } from "../api/settingsApi";
 import { Search } from "../../../pages";
 
 export interface PriceRange {
-  pricegte?: undefined | number;
-  pricelte?: undefined | number;
+  pricegte?: number;
+  pricelte?: number;
 }
 export interface FilterType {
   priceRange?: PriceRange;
@@ -16,6 +16,8 @@ export interface FilterType {
   justAvailable: boolean;
   unbleivable: boolean;
   isSale: boolean;
+  brands: string[];
+  category: string[];
 }
 export interface SearchType {
   filter: FilterType;
@@ -43,6 +45,7 @@ export const SortTranslate = {
 };
 export interface SettingsState {
   value: Settings[];
+  categories: Settings;
   status: "idle" | "loading" | "failed";
   crm: "open" | "close";
   search: SearchType;
@@ -50,6 +53,7 @@ export interface SettingsState {
 
 const initialState: SettingsState = {
   value: [],
+  categories: {},
   status: "loading",
   crm: "close",
   search: {
@@ -59,6 +63,8 @@ const initialState: SettingsState = {
       justAvailable: false,
       unbleivable: false,
       isSale: false,
+      brands: [],
+      category: [],
     },
   },
 };
@@ -113,6 +119,10 @@ export const settingsSlice = createSlice({
       .addCase(fetchSettingsAsync.fulfilled, (state, action) => {
         state.status = "idle";
         state.value = action.payload;
+        const index = action.payload.findIndex(
+          (item) => item.name === "categories"
+        );
+        state.categories = action?.payload?.[index] ?? [];
       })
       .addCase(fetchSettingsAsync.rejected, (state, action) => {
         state.status = "failed";
@@ -130,6 +140,7 @@ export const selectSettings = (state: AppState) => state.settings.value;
 export const selectSettingsStatus = (state: AppState) => state.settings.status;
 export const crmStatus = (state: AppState) => state.settings.crm;
 export const searchConfig = (state: AppState) => state.settings.search;
+export const selectCategories = (state: AppState) => state.settings.categories;
 // export const selectUserInfo = (state: AppState) => state.client.value;
 // We can also write thunks by hand, which may contain both sync and async logi c.
 // Here's an example of conditionally dispatching actions based on current state.

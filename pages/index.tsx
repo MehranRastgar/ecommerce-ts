@@ -93,27 +93,27 @@ const items = [
   {
     imageSrc: "slider-a/1.jpg",
     imageAlt: "گوشی موبایل",
-    url: "/search/category/mobile",
+    url: "/search?category=mobile",
   },
   {
     imageSrc: "slider-a/2.jpg",
     imageAlt: "ساعت هوشمند",
-    url: "/search/category/watch-wearable",
+    url: "/search?category=watch-wearable",
   },
   {
     imageSrc: "slider-a/3.jpg",
     imageAlt: "Some flowers",
-    url: "/search/brand/lenovo",
+    url: "/search?brands=lenovo",
   },
   {
     imageSrc: "slider-a/4.jpg",
     imageAlt: "An egyptian wall painting",
-    url: "/search/brand/samsung",
+    url: "/search?brands=samsung",
   },
   {
     imageSrc: "slider-a/5.jpg",
     imageAlt: "laptop",
-    url: "/search/category/laptop",
+    url: "/search?category=laptop",
   },
 ];
 
@@ -191,7 +191,7 @@ function Home({
           ))} */}
           <ProductSliderOne
             setting={{
-              url: "/search/category/laptop",
+              url: "/search?category=laptop",
               name: "فروش ویژه لپتاپ",
               span: "مشاهده این دسته",
               getOption: getLaptop,
@@ -201,27 +201,27 @@ function Home({
           <CardPromotionOne
             ImageSrc="/cardOne/logitech"
             cardName="Logitech promotion"
-            Url="/search/brand/logitech"
+            Url="/search?brand=logitech"
+          />
+          <CardPromotionOne
+            ImageSrc="/cardOne/logitech2"
+            Url="/search?brand=logitech"
+            cardName="Logitech promotion"
           />
           <CardPromotionOne
             ImageSrc="/cardOne/logitech2"
             cardName="Logitech promotion"
-            Url="/search/brand/logitech"
-          />
-          <CardPromotionOne
-            ImageSrc="/cardOne/logitech2"
-            cardName="Logitech promotion"
-            Url="/search/brand/logitech"
+            Url="/search?brand=logitech"
           />
           <CardPromotionOne
             ImageSrc="/cardOne/logitech"
             cardName="Logitech promotion"
-            Url="/search/brand/logitech"
+            Url="/search?brand=logitech"
           />
           <div className="h-10 w-full p-2"></div>
           <ProductSliderOne
             setting={{
-              url: "/search/category/laptop",
+              url: "/search?category=laptop",
               name: " ویژه موبایل",
               span: "مشاهده این دسته",
               getOption: getMobile,
@@ -230,7 +230,7 @@ function Home({
           <div className="h-10 w-full p-2"></div>
           <ProductSliderOne
             setting={{
-              url: "/search/category/laptop",
+              url: "/search?category=laptop",
               name: "لپتاپ گیمینگ",
               span: "مشاهده این دسته",
               getOption: getLaptop2,
