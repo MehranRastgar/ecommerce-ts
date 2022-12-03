@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { FaSearchengin, FaSortAmountDownAlt } from "react-icons/fa";
 import { TiTick } from "react-icons/ti";
 import { AiOutlineDown } from "react-icons/ai";
@@ -359,6 +359,7 @@ import { privateDecrypt } from "crypto";
 import { BiFilter } from "react-icons/bi";
 import Filter from "../../src/class/filter";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { Search } from "..";
 
 const translateQuery: object = {
   sorttype: null,
@@ -670,7 +671,7 @@ export function FilterComponent() {
               <div
                 className={`flex flex-wrap items-center bg-gray-100 cursor-pointer rounded-md w-fit transition-all duration-300 ${
                   dropdown2
-                    ? "overflow-y-scroll h-[120px]"
+                    ? "overflow-y-scroll h-[180px]"
                     : "overflow-hidden h-[34px]"
                 }`}
                 // ref={animationParent}
@@ -698,11 +699,15 @@ export function FilterComponent() {
                 </div>
                 {
                   <>
-                    <div className="flex w-full p-2">به زودی</div>
-                    <div className="flex w-full p-2">به زودی</div>
-                    <div className="flex w-full p-2">به زودی</div>
-                    <div className="flex w-full p-2">به زودی</div>
-                    <div className="flex w-full p-2">به زودی</div>
+                    <div className="flex w-full mx-2">
+                      {router.query !== undefined ? (
+                        <FetchBrandsComponent
+                          query={filter.convertObjectToParamSync(router.query)}
+                        />
+                      ) : (
+                        <></>
+                      )}
+                    </div>
                   </>
                 }
               </div>
@@ -749,7 +754,7 @@ export function FilterComponent() {
             <li className={listStyle}>
               <div
                 className={`flex flex-wrap items-center text-gray-300 p-2 bg-gray-100 cursor-pointer rounded-md w-fit transition-all duration-300 ${
-                  dropdown1
+                  false
                     ? "overflow-y-scroll h-[120px]"
                     : "overflow-hidden h-[34px]"
                 }`}
@@ -791,7 +796,53 @@ export function FilterComponent() {
     </>
   );
 }
+const fetcher = (URL: string, searchBody: Search, config: AxiosRequestConfig) =>
+  axios.get(`${URL}`, config).then((res: AxiosResponse) => {
+    return res;
+  });
+const configAxios: AxiosRequestConfig = {
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Credentials": "true",
+    "Cache-Control": "no-cache",
+    "Content-Type": "application/json;charset=UTF-8",
+    Accept: "*/*",
+  },
+};
 
+function FetchBrandsComponent({ query }: { query: any }) {
+  const { data } = useSWR<any>([`/api/psearch/brands${query}`, query], (url) =>
+    fetcher(url, query, configAxios)
+  );
+
+  useEffect(() => {
+    console.log(data);
+  });
+
+  return (
+    <>
+      <div className="flex flex-wrap mt-2">
+        {data?.data?.ProductsBrands?.[0]?.brands !== undefined ? (
+          data?.data?.ProductsBrands?.[0]?.brands?.map(
+            (brand: string, index: number) => (
+              <>
+                {" "}
+                <span className="flex justify-end w-2/3 p-2 border rounded-md h-fit my-1 shadow-sm bg-gray-300 hover:animate-pulse font-Vazir-Bold text-gray-600">
+                  <div className="text-green-400">
+                    <TiTick size={15} />
+                  </div>
+                  {brand?.[0].toUpperCase() + brand?.substring(1)}
+                </span>
+              </>
+            )
+          )
+        ) : (
+          <>با این مشخضه یافت نشد</>
+        )}
+      </div>
+    </>
+  );
+}
 // <div className="w-fit border-l p-2"></div>
 //           {searchConf.filter?.state === true ? (
 //             <ul className="flex flex-wrap font-Vazir-Medium items-center justify-center">
@@ -1106,13 +1157,13 @@ async function GetProducts(
         },
       }
     : {};
-  const AttrtextObject = {
-    $attributex: {
-      $search: { "attributext.سری پردازنده": "Ryzen" },
-      $diacriticSensitive: false,
-      $caseSensitive: false,
-    },
-  };
+  // const AttrtextObject = {
+  //   $attributex: {
+  //     $search: { "attributext.سری پردازنده": "Ryzen" },
+  //     $diacriticSensitive: false,
+  //     $caseSensitive: false,
+  //   },
+  // };
 
   // const sortType = query?.sorttype == "desc" ? 1 : -1;
   const available =
@@ -1229,11 +1280,9 @@ async function GetProducts(
           .find(available)
           .find(issale)
           .find(unbleivable)
-          .find(available)
           .limit(perPageLimit)
           .skip(PageNumber)
           .sort(sortArray)
-          .populate("status")
       )
     );
 

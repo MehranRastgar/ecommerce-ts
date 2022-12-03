@@ -367,7 +367,7 @@ async function GetProducts(
           .limit(perPageLimit)
           .skip(PageNumber)
           .sort(sortArray)
-          .populate("status")
+        // .populate("status")
       )
     );
 

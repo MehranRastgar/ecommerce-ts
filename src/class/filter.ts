@@ -30,6 +30,19 @@ export default class Filter {
     return uri;
   }
 
+  convertObjectToParamSync(query: object) {
+    var keys: string[] = Object.keys(query);
+    var values: string[] = Object.values(query);
+    var uri: string = "?";
+    keys.map((key, index) => {
+      uri += key + "=" + values[index];
+      if (keys.length > index + 1) {
+        uri += "&";
+      }
+    });
+    return uri;
+  }
+
   addOrRemoveFromQuery(
     item: string,
     obj: ParsedUrlQuery,
