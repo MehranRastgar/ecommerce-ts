@@ -116,14 +116,11 @@ export function SearchPageComponent({
 }) {
   return (
     <>
-      <div className="flex md:flex-nowrap w-full justify-center md:w-[100%]">
-        <div className="hidden w-full md:flex h-full bg-white md:w-[15%] min-w-[300px] mx-2">
+      <div className="flex flex-wrap md:flex-nowrap w-full justify-center md:w-[100%]">
+        <div className="w-full h-fit md:flex md:h-full bg-white md:w-[15%] min-w-[300px] mx-2">
           <FilterComponent />
         </div>
         <div className="search-page h-fit w-full md:w-[75%] ">
-          <div className="flex w-full md:hidden h-fit bg-white mx-2">
-            <FilterComponent />
-          </div>
           <div className="flex items-center justify-start bg-white w-full mx-10 border-b">
             <div className="flex items-center justify-start bg-white w-full">
               <SortComponent />

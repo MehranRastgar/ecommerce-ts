@@ -81,7 +81,7 @@ info  - Generating static pages (7/7)
 info  - Finalizing page optimization...
 
 Route (pages)                              Size     First Load JS
-┌ ● / (1818 ms)                            178 B           141 kB
+┌ ● / (1640 ms)                            178 B           141 kB
 ├   /_app                                  0 B             141 kB
 ├ ○ /404                                   293 B           141 kB
 ├ λ /api/counter                           0 B             141 kB
@@ -105,8 +105,8 @@ Route (pages)                              Size     First Load JS
   ├ chunks/framework-3b5a00d5d7e8d93b.js   45.4 kB
   ├ chunks/main-7fd5f84692d6e98f.js        25.7 kB
   ├ chunks/pages/_app-71b742ee107ad812.js  67.8 kB
-  ├ chunks/webpack-17d1bcf6eacd0266.js     2.03 kB
-  └ css/4e5f28af67425661.css               9.16 kB
+  ├ chunks/webpack-411b914d7c886831.js     2.03 kB
+  └ css/84f7ae27bfb9cf51.css               9.17 kB
 
 λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
 ○  (Static)  automatically rendered as static HTML (uses no initial props)
