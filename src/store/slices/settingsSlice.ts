@@ -18,6 +18,7 @@ export interface FilterType {
   isSale: boolean;
   brands: string[];
   category: string[];
+  availableBrands: string[];
 }
 export interface SearchType {
   filter: FilterType;
@@ -67,6 +68,7 @@ const initialState: SettingsState = {
       isSale: false,
       brands: [],
       category: [],
+      availableBrands: [],
     },
   },
 };

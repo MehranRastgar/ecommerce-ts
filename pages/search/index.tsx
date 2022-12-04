@@ -404,11 +404,12 @@ let filter = new Filter({
     isSale: false,
     brands: [],
     category: [],
+    availableBrands: [],
   },
 });
 
 export function FilterComponent() {
-  const searchConf = useAppSelector(searchConfig);
+  const searchConf = useAppSelector<SearchType>(searchConfig);
   const seartchState = useSelector(selectSearchState);
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -962,19 +963,31 @@ function FetchBrandsComponent({ query }: { query: any }) {
   }
 
   useEffect(() => {
-    console.log(searchConf.filter);
-  }, [searchConf.filter]);
+    // console.log(searchConf.filter);
+    if (data?.data?.ProductsBrands?.[0]?.brands?.length !== undefined) {
+      const sorted = [...data?.data?.ProductsBrands?.[0]?.brands].sort();
+      var searchT: SearchType = {
+        ...searchConf,
+        filter: {
+          ...searchConf.filter,
+          availableBrands: sorted,
+        },
+      };
+      dispatch(setSearchConfig(searchT));
+      // searchConf.availableBrands
+    }
+  }, [data]);
 
   return (
     <>
       <div className="flex h-fit flex-wrap my-2">
-        {data?.data?.ProductsBrands?.[0]?.brands !== undefined ? (
-          data?.data?.ProductsBrands?.[0]?.brands
-            ?.sort()
-            .map((brand: string, index: number) => (
+        {searchConf.filter?.availableBrands?.length > 0 ? (
+          searchConf.filter.availableBrands?.map(
+            (brand: string, index: number) => (
               <>
                 {" "}
                 <div
+                  key={index}
                   onClick={() => handleAddBrand(brand)}
                   className="flex justify-end w-full p-2 border rounded-md h-fit my-1 shadow-sm bg-gray-300 hover:animate-pulse font-Vazir-Bold text-gray-600"
                 >
@@ -990,7 +1003,8 @@ function FetchBrandsComponent({ query }: { query: any }) {
                   {brand?.[0].toUpperCase() + brand?.substring(1)}
                 </div>
               </>
-            ))
+            )
+          )
         ) : (
           <>با این مشخضه یافت نشد</>
         )}{" "}
@@ -1036,6 +1050,7 @@ function FetchCategoriesComponent({ query }: { query: any }) {
             <>
               {" "}
               <div
+                key={index}
                 onClick={() => {
                   handleAddCategories(cat?.L1?.[0]?.title);
                 }}

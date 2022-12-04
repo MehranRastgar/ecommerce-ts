@@ -30,10 +30,10 @@ info  - Linting and checking validity of types...
 
 ./pages/search/index.tsx
 56:6  Warning: React Hook useEffect has a missing dependency: 'router.query.page'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-227:6  Warning: React Hook useEffect has a missing dependency: 'changeState'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-527:6  Warning: React Hook useEffect has a missing dependency: 'changeFilter'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-536:6  Warning: React Hook useEffect has a missing dependency: 'initFilter'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-1146:6  Warning: React Hook useEffect has a missing dependency: 'changeSort'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+224:6  Warning: React Hook useEffect has a missing dependency: 'changeState'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+524:6  Warning: React Hook useEffect has a missing dependency: 'changeFilter'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+533:6  Warning: React Hook useEffect has a missing dependency: 'initFilter'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+1143:6  Warning: React Hook useEffect has a missing dependency: 'changeSort'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./components/headers/header.tsx
 61:6  Warning: React Hook useEffect has missing dependencies: 'router?.query?.q' and 'searchString'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
@@ -81,7 +81,7 @@ info  - Generating static pages (7/7)
 info  - Finalizing page optimization...
 
 Route (pages)                              Size     First Load JS
-┌ ● / (1640 ms)                            178 B           141 kB
+┌ ● / (1586 ms)                            178 B           141 kB
 ├   /_app                                  0 B             141 kB
 ├ ○ /404                                   293 B           141 kB
 ├ λ /api/counter                           0 B             141 kB
@@ -105,8 +105,8 @@ Route (pages)                              Size     First Load JS
   ├ chunks/framework-3b5a00d5d7e8d93b.js   45.4 kB
   ├ chunks/main-7fd5f84692d6e98f.js        25.7 kB
   ├ chunks/pages/_app-71b742ee107ad812.js  67.8 kB
-  ├ chunks/webpack-411b914d7c886831.js     2.03 kB
-  └ css/84f7ae27bfb9cf51.css               9.17 kB
+  ├ chunks/webpack-27ad63ac6d0861be.js     2.03 kB
+  └ css/15ffd8bc3529e139.css               9.17 kB
 
 λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
 ○  (Static)  automatically rendered as static HTML (uses no initial props)

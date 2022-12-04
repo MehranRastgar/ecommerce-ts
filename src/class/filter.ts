@@ -96,6 +96,7 @@ export default class Filter {
         justAvailable: justAvailable,
         unbleivable: unbleivable,
         priceRange: { pricegte: pricegte, pricelte: pricelte },
+        availableBrands: searchConf.filter.availableBrands,
       },
     });
   }
@@ -137,8 +138,19 @@ export default class Filter {
       router.query,
       searchConf.filter.unbleivable
     );
-
-    router.query["brands"] = searchConf.filter.brands;
+    var ChooseTrueBrands: string[] = [];
+    for (let i = 0; i < searchConf.filter.availableBrands.length; i++) {}
+    searchConf.filter.availableBrands.map((brand) => {
+      if (searchConf.filter.brands.includes(brand)) {
+        ChooseTrueBrands.push(brand);
+      }
+    });
+    console.log(
+      "ChooseTrueBrands",
+      ChooseTrueBrands,
+      searchConf.filter.availableBrands
+    );
+    router.query["brands"] = ChooseTrueBrands;
     router.query["category"] = searchConf.filter.category;
 
     router.query["page"] = "1";
