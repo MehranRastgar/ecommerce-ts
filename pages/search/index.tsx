@@ -542,7 +542,7 @@ export function FilterComponent() {
       <div
         className={`flex transition-all w-full shadow-lg StickyContainer overflow-hidden border rounded-lg flex-wrap justify-start md:w-[270px] ${
           dropdownFilter ? "" : "h-[70px]"
-        } md:min-h-[400px] h-fit items-start my-6 lg:text-[14px] text-[12px] p-[16px] select-none`}
+        } md:min-h-[400px] md:h-fit h-fit items-start my-6 lg:text-[14px] text-[12px] p-[16px] select-none`}
       >
         <div className="flex flex-wrap items-start justify-center w-full">
           <ul className="flex flex-wrap w-full">
