@@ -116,11 +116,14 @@ export function SearchPageComponent({
 }) {
   return (
     <>
-      <div className="flex w-full justify-center md:w-[100%]">
-        <div className="hidden md:flex h-full bg-white md:w-[15%] min-w-[300px] mx-2">
+      <div className="flex md:flex-nowrap w-full justify-center md:w-[100%]">
+        <div className="hidden w-full md:flex h-full bg-white md:w-[15%] min-w-[300px] mx-2">
           <FilterComponent />
         </div>
         <div className="search-page h-fit w-full md:w-[75%] ">
+          <div className="flex w-full md:hidden h-fit bg-white mx-2">
+            <FilterComponent />
+          </div>
           <div className="flex items-center justify-start bg-white w-full mx-10 border-b">
             <div className="flex items-center justify-start bg-white w-full">
               <SortComponent />
@@ -354,8 +357,10 @@ import {
   searchConfig,
   SearchType,
   selectCategories,
+  selectSearchState,
   selectSettings,
   setSearchConfig,
+  setSearchState,
   SortTranslate,
 } from "../../src/store/slices/settingsSlice";
 import { privateDecrypt } from "crypto";
@@ -364,6 +369,7 @@ import Filter from "../../src/class/filter";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Search } from "..";
 import { BsCheckCircle, BsCircle } from "react-icons/bs";
+import { useSelector } from "react-redux";
 
 const translateQuery: object = {
   sorttype: null,
@@ -406,12 +412,14 @@ let filter = new Filter({
 
 export function FilterComponent() {
   const searchConf = useAppSelector(searchConfig);
+  const seartchState = useSelector(selectSearchState);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [search, setSearch] = useState<SearchType>(searchConf);
   const [changed, setChanged] = useState<boolean>(true);
   const [dropdown1, setDropdown1] = useState<boolean>(false);
   const [dropdown2, setDropdown2] = useState<boolean>(false);
+  const [dropdownFilter, setDropdownFilter] = useState<boolean>(false);
   const [animationParent] = useAutoAnimate<HTMLDivElement>({ duration: 200 });
 
   const [filterEnableItems, setFilterEnableItems] = useState<TypeFilterObject>(
@@ -419,9 +427,28 @@ export function FilterComponent() {
   );
   function initFilter() {
     dispatch(setSearchConfig(filter.initFilter(searchConf, router)));
+    var SearchT: SearchType = {
+      ...searchConf,
+      filter: {
+        ...searchConf.filter,
+        priceRange: {
+          ...searchConf.filter?.priceRange,
+          pricelte:
+            searchConf?.filter?.priceRange?.pricelte !== undefined
+              ? searchConf?.filter?.priceRange?.pricelte / 10
+              : 0,
+          pricegte:
+            searchConf?.filter?.priceRange?.pricegte !== undefined
+              ? searchConf?.filter?.priceRange?.pricegte / 10
+              : 0,
+        },
+      },
+    };
+    setSearch(SearchT);
   }
   async function changeFilter() {
-    filter.changeFilter(searchConf, router);
+    await filter.changeFilter(searchConf, router);
+    dispatch(setSearchState("idle"));
   }
   async function handleSetPriceFilter() {
     if (
@@ -450,6 +477,7 @@ export function FilterComponent() {
         },
       };
       dispatch(setSearchConfig(SearchT));
+      dispatch(setSearchState("shouldhandle"));
     }
   }
   function handleFilterPriceLte(e: ChangeEvent<HTMLInputElement>) {
@@ -480,20 +508,23 @@ export function FilterComponent() {
       });
     }
   }
-  function handleToggleUnbleivable() {
+  async function handleToggleUnbleivable() {
     dispatch(setSearchConfig(filter.ToggleUnbleivable(searchConf)));
+    dispatch(setSearchState("shouldhandle"));
   }
-  function handleToggleIsSale() {
+  async function handleToggleIsSale() {
     dispatch(setSearchConfig(filter.ToggleIsSale(searchConf)));
+    dispatch(setSearchState("shouldhandle"));
   }
-  function handleAvailable() {
+  async function handleAvailable() {
     dispatch(setSearchConfig(filter.ToggleAvailable(searchConf)));
+    dispatch(setSearchState("shouldhandle"));
   }
 
   useEffect(() => {
     // filter.SearchSetter(searchConf);
-    changeFilter();
-  }, [searchConf.filter]);
+    if (seartchState === "shouldhandle") changeFilter();
+  }, [seartchState]);
 
   useEffect(() => {
     // filter.SearchSetter(searchConf);
@@ -502,13 +533,17 @@ export function FilterComponent() {
 
   useEffect(() => {
     initFilter();
-  }, []);
+  }, [router]);
 
   const listStyle =
     "flex w-full mt-4 items-center font-Vazir-Medium text-[12px]";
   return (
     <>
-      <div className="flex shadow-lg StickyContainer overflow-hidden border rounded-lg flex-wrap justify-start w-[270px] min-h-[400px] h-fit items-start my-6 lg:text-[14px] text-[12px] p-[16px] select-none">
+      <div
+        className={`flex transition-all w-full shadow-lg StickyContainer overflow-hidden border rounded-lg flex-wrap justify-start md:w-[270px] ${
+          dropdownFilter ? "" : "h-[70px]"
+        } md:min-h-[400px] h-fit items-start my-6 lg:text-[14px] text-[12px] p-[16px] select-none`}
+      >
         <div className="flex flex-wrap items-start justify-center w-full">
           <ul className="flex flex-wrap w-full">
             {/* <li
@@ -558,13 +593,30 @@ export function FilterComponent() {
                 اعمال فیلترها
               </span>
             </li> */}
-            <li className="flex items-center">
+            <li className="flex w-full items-center">
               <span className="flex -mt-3 text-gray-500">
                 <RiFilterFill size={25} />
               </span>
-              <span className="flex text-gray-500 mx-2 font-Vazir-Bold">
+              <span className="flex w-full text-gray-500 mx-2 font-Vazir-Bold">
                 فیلتر ها
               </span>
+              <div className="md:hidden flex justify-end w-full">
+                <div
+                  onClick={() => {
+                    setDropdownFilter((value) => !value);
+                  }}
+                  className="flex text-xl font-Vazir-Bold items-center justify-center w-10 h-10 rounded-md border-2"
+                >
+                  {" "}
+                  {dropdownFilter ? (
+                    <div>-</div>
+                  ) : (
+                    <>
+                      <div>+</div>
+                    </>
+                  )}
+                </div>
+              </div>
             </li>
             <li className={listStyle + " text-[12px]"}>
               {"قیمت"}
@@ -902,11 +954,13 @@ function FetchBrandsComponent({ query }: { query: any }) {
       console.log("add");
       const search: SearchType = filter.addToBrands(searchConf, brand);
       dispatch(setSearchConfig(search));
+      dispatch(setSearchState("shouldhandle"));
     } else {
       console.log("remove");
 
       const search: SearchType = filter.removeFromBrands(searchConf, brand);
       dispatch(setSearchConfig(search));
+      dispatch(setSearchState("shouldhandle"));
     }
   }
 
@@ -964,11 +1018,13 @@ function FetchCategoriesComponent({ query }: { query: any }) {
       console.log("add");
       const search: SearchType = filter.addToCatL1(searchConf, catL1);
       dispatch(setSearchConfig(search));
+      dispatch(setSearchState("shouldhandle"));
     } else {
       console.log("remove");
 
       const search: SearchType = filter.removeFromCatL1(searchConf, catL1);
       dispatch(setSearchConfig(search));
+      dispatch(setSearchState("shouldhandle"));
     }
   }
   useEffect(() => {
@@ -1077,11 +1133,6 @@ export function SortComponent() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [sortModal, setSortModal] = useState<boolean>(false);
-
-  const sort: Sort = {
-    SortBy: "date",
-    SortType: "desc",
-  };
 
   async function changeSort() {
     router.query["sorttype"] = searchConf.sortType;
@@ -1199,7 +1250,7 @@ export function SortComponent() {
           onClick={() => {
             setSortModal(true);
           }}
-          className={`flex 2xl:m-2 2xl:p-2 md:p-[6px] md:m-[2px] rounded-md cursor-pointer ${"font-Vazir-Bold text-blackout-black bg-slate-100"}`}
+          className={`flex 2xl:m-2 2xl:p-2 md:p-[6px] md:m-[2px] p-2 rounded-md cursor-pointer text-brand-red ${"font-Vazir-Bold text-blackout-black bg-slate-100"}`}
         >
           {
             Object?.values(SortTranslate)?.[

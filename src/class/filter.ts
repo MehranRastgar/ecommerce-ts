@@ -67,8 +67,8 @@ export default class Filter {
         ? true
         : false;
     const justAvailable: boolean =
-      typeof router?.query?.justAvailable === "string" &&
-      router?.query?.justAvailable === "true"
+      typeof router?.query?.available === "string" &&
+      router?.query?.available === "true"
         ? true
         : false;
     const unbleivable: boolean =
@@ -193,7 +193,7 @@ export default class Filter {
     return search;
   }
   ToggleAvailable(search: SearchType): SearchType {
-    if (search?.filter?.justAvailable) {
+    if (search?.filter?.justAvailable === true) {
       search = {
         ...search,
         filter: {

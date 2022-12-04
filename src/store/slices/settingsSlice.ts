@@ -49,9 +49,11 @@ export interface SettingsState {
   status: "idle" | "loading" | "failed";
   crm: "open" | "close";
   search: SearchType;
+  searchState: "edited" | "idle" | "shouldhandle";
 }
 
 const initialState: SettingsState = {
+  searchState: "idle",
   value: [],
   categories: {},
   status: "loading",
@@ -100,6 +102,12 @@ export const settingsSlice = createSlice({
     setSearchConfig: (state, action: PayloadAction<SearchType>) => {
       state.search = action.payload;
     },
+    setSearchState: (
+      state,
+      action: PayloadAction<"edited" | "idle" | "shouldhandle">
+    ) => {
+      state.searchState = action.payload;
+    },
     // decrement: (state) => {
     //   state.value -= 1
     // },
@@ -131,7 +139,8 @@ export const settingsSlice = createSlice({
   },
 });
 
-export const { crmChangeState, setSearchConfig } = settingsSlice.actions;
+export const { crmChangeState, setSearchConfig, setSearchState } =
+  settingsSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
@@ -141,6 +150,9 @@ export const selectSettingsStatus = (state: AppState) => state.settings.status;
 export const crmStatus = (state: AppState) => state.settings.crm;
 export const searchConfig = (state: AppState) => state.settings.search;
 export const selectCategories = (state: AppState) => state.settings.categories;
+export const selectSearchState = (state: AppState) =>
+  state.settings.searchState;
+
 // export const selectUserInfo = (state: AppState) => state.client.value;
 // We can also write thunks by hand, which may contain both sync and async logi c.
 // Here's an example of conditionally dispatching actions based on current state.
