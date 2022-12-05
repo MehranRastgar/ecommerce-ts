@@ -23,14 +23,14 @@ export default function NavbarMobile() {
         "
     >
       <button
-        className="flex h-fit m-2 p-2 border rounded-xl bg-gray-100"
+        className="flex h-fit m-2 p-2 border rounded-xl bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 text-white"
         onClick={() => {
           setOpenMenu((PrevValue) => !PrevValue);
         }}
       >
-        <GiHamburgerMenu color="#FF4500" size={20} />
+        <GiHamburgerMenu size={20} />
       </button>
-
+      {/* openMenu */}
       {openMenu === true ? <OpenMenuModal setOpenMenu={setOpenMenu} /> : <></>}
     </nav>
   );
@@ -63,9 +63,9 @@ function OpenMenuModal({ setOpenMenu }: { setOpenMenu: any }) {
       }}
       className={`justify-start flex fixed top-0 right-0  h-full bg-black/30 `}
     >
-      <div className="flex flex-wrap w-3/6   border-cyan-400 p-2 h-full bg-white justify-start items-start overflow-y-auto">
+      <div className="flex flex-wrap w-5/6   border-cyan-400 p-2 h-full bg-white justify-start items-start overflow-y-auto">
         {/* <input placeholder='جستجو گزینه ها' className='p-2 m-2 cursor-pointer h-fit'></input> */}
-        <div className="p-1 py-0 border-b-2 border-blackout-red h-fit w-full">
+        <div className="p-1 py-0 border-b-2 border-blue-400 h-fit w-full">
           <Link href={"/"}>
             <div>
               <Image
@@ -162,6 +162,7 @@ function MobileCategoriesMenuComponent() {
   const [categories, setCategories] = useState<Settings>();
   const [preview, setPreview] = useState<number>(100);
   const [transition, setTransition] = useState<boolean>(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (settingsStatus === "idle") {
@@ -178,70 +179,72 @@ function MobileCategoriesMenuComponent() {
         <div className="text-gray-800 text-[13px] ">
           {categories?.properties?.[0]?.properties?.map((highCat, index1) => (
             <ul
-              className="flex flex-wrap w-full justify-start cursor-pointer"
+              className={`${
+                preview !== index1
+                  ? "h-[50px] overflow-hidden"
+                  : "h-[300px] overflow-y-scroll overflow-x-hidden"
+              } transition-all flex flex-wrap w-full justify-start cursor-pointer`}
               key={index1 + "-ul1"}
             >
               <li
-                onClick={() => {
-                  if (index1 !== preview) {
-                    setTransition(false);
-                    setTimeout(() => {
-                      setTransition(true);
-                    }, 150);
-                    setPreview(index1);
-                  } else {
-                    setTransition(false);
-                    setTimeout(() => {
-                      setPreview(100);
-                    }, 150);
-                  }
-                }}
                 key={index1 + "-l1"}
-                className={`w-full inline-flex my-2 justify-start ${
-                  preview === index1 ? "text-blackout-red2" : ""
+                className={`flex flex-wrap w-full h-fit my-2 justify-start  ${
+                  preview === index1 ? "text-blue-400 font-bold" : ""
                 }`}
               >
-                <div className="flex w-5/6">{highCat?.L1?.[0].title_fa}</div>
-                <div className="flex mr-2 mt-1 w-1/6 justify-end">
-                  {preview === index1 ? (
-                    <HiChevronLeft size={15} />
-                  ) : (
-                    <HiChevronDown size={15} />
-                  )}
-                </div>
-              </li>
-              {preview === index1 ? (
-                <Link
-                  className="flex w-full mr-4 font-Vazir-Thin py-2 "
-                  key={index1 + "-l2"}
-                  href={`/search${highCat?.L1?.[0]?.url}`}
+                <div
+                  onClick={() => {
+                    if (index1 !== preview) {
+                      setTransition(false);
+                      setTransition(true);
+                      setPreview(index1);
+                    } else {
+                      setTransition(false);
+                      setPreview(100);
+                    }
+                  }}
+                  className="flex h-fit w-5/6 border p-2 rounded-md"
                 >
-                  <li>مشاهده تمام موارد این دسته</li>
-                </Link>
-              ) : (
-                <></>
-              )}
-              {preview === index1 ? (
-                highCat?.L2?.map((subcat, index2) => (
-                  <Link
-                    style={{
-                      transition: "width   500ms ease-in-out",
-                      width: `${transition === true ? "100%" : "0%"}`,
+                  {highCat?.L1?.[0].title_fa}{" "}
+                  <div className="flex mr-2 mt-1 w-1/6 justify-end">
+                    {preview === index1 ? (
+                      <HiChevronLeft size={15} />
+                    ) : (
+                      <HiChevronDown size={15} />
+                    )}
+                  </div>
+                </div>
+
+                <ul>
+                  <li
+                    onClick={() => {
+                      router.push(`/search${highCat?.L1?.[0].url}`);
                     }}
-                    className="flex w-full -mx-2 font-Vazir-Thin bg-gray-100 py-2 "
-                    key={index2 + "-l2"}
-                    href={`/search${subcat?.url}`}
+                    className="flex p-2 my-2 border rounded-md items-center"
                   >
-                    <li
-                    // key={index2 + "-l2"}
-                    >
-                      <div className="flex mr-4 w-full">{subcat.title_fa}</div>
-                    </li>
-                  </Link>
-                ))
-              ) : (
-                <></>
-              )}
+                    مشاهده تمام موارد این دسته
+                    <div className="flex mx-1">
+                      {" "}
+                      <HiChevronLeft size={15} />
+                    </div>
+                  </li>
+
+                  {highCat?.L2?.map((subcat, index2) => (
+                    <>
+                      <li
+                        onClick={() => {
+                          router.push(`/search${subcat?.url}`);
+                        }}
+                        key={index2 + "-l2"}
+                      >
+                        <div className="flex mr-4 w-full p-2 border rounded-md mt-1">
+                          {subcat.title_fa}
+                        </div>
+                      </li>
+                    </>
+                  ))}
+                </ul>
+              </li>
             </ul>
           ))}
         </div>

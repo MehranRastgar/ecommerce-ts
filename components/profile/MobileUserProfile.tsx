@@ -91,9 +91,11 @@ export default function MobileUserProfile() {
                 drop === true ? "z-[101]" : ""
               }`}
             >
-              <div className="flex">
+              <div
+                className={`flex ${!drop ? "text-sky-600" : "text-sky-300"} `}
+              >
                 <FaUserCheck
-                  color={`${!drop ? "#48424966" : "#ffffff"}`}
+                  // color={`${!drop ? "#48424966" : "#ffffff"}`}
                   size={20}
                 />
               </div>

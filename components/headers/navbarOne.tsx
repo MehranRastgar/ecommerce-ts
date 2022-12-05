@@ -226,9 +226,7 @@ export function CategoriesMenuWindow() {
                     setMenuSelector(index1);
                   }}
                   className={`flex w-[200px] h-12 items-center px-6 py-6 ${
-                    menuSelector === index1
-                      ? "bg-gray-200 text-blackout-red"
-                      : ""
+                    menuSelector === index1 ? "bg-gray-200 text-blue-400" : ""
                   }`}
                 >
                   {highCat.L1?.[0]?.title_fa}
@@ -258,7 +256,7 @@ export function CategoriesMenuWindow() {
                   key={index1 + "-ul1"}
                 >
                   <Link
-                    className="flex w-auto mr-4 font-Vazir-Light py-2 justify-start text-[14px] hover:text-red-500 "
+                    className="flex w-auto mr-4 font-Vazir-Light py-2 justify-start text-[14px] hover:text-blue-400 "
                     key={menuSelector + "-l2"}
                     href={`/search${subcat?.url}`}
                   >

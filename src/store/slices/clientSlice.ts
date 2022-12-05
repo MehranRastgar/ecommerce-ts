@@ -80,6 +80,7 @@ export const signInAction = createAsyncThunk(
             errorCode: any;
           };
         } = await signIn(signInReq.usernamebyphone, signInReq.code);
+    console.log("response thunk signInsignInsignIn", response);
 
     // The value we return becomes the `fulfilled` action payload
     return response;

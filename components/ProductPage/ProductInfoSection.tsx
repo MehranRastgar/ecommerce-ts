@@ -165,7 +165,7 @@ export function CartSection({
       ) : (
         <></>
       )} */}
-      <div className="lg:hidden fixed w-[100%] items-center bottom-0 left-0 h-[60px] flex bg-transparent z-[50] backdrop-filter backdrop-blur-md backdrop-contrast-200 backdrop-brightness-[70%]">
+      <div className="lg:hidden fixed w-[100%] items-center bottom-0 left-0 h-[60px] flex bg-transparent z-[50] backdrop-filter backdrop-blur-md backdrop-contrast-200 backdrop-brightness-[80%]">
         {product?.variants?.[variantNumber ?? 0]?.price?.selling_price > 0 ? (
           <>
             <div className="h-fit flex w-1/2">
@@ -181,7 +181,7 @@ export function CartSection({
                     //setActive(true)
                     handleAddToCart();
                   }}
-                  className={`flex items-center transition-all duration-100 font-bold font-Vazirmatn bg-gradient-to-b from-gray-900 to-gray-600 hover:to-gray-900 focus:ring-4 focus:outline-none shadow-lg  rounded-lg text-md px-5 p-2 m-2 text-center ${
+                  className={`flex items-center transition-all duration-100 font-bold font-Vazirmatn bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 hover:to-gray-900 focus:ring-4 focus:outline-none shadow-lg  rounded-lg text-md px-5 p-2 m-2 text-center ${
                     mouseOverbutton ? " text-white mx-3" : "text-white"
                   }`}
                 >
@@ -197,7 +197,7 @@ export function CartSection({
                 </button>
               ) : (
                 <>
-                  <div className="flex  rounded-lg justify-around bg-gray-200 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2">
+                  <div className="flex rounded-lg justify-around bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2">
                     <button
                       disabled={findedIndex > 1 ? true : false}
                       onClick={(event) => {
@@ -206,15 +206,18 @@ export function CartSection({
                         handleAddToCart();
                       }}
                     >
-                      <IoIosAddCircle
-                        size={20}
+                      <div
                         className={`flex  rounded-full   ${
-                          findedIndex > 1 ? "text-gray-400" : "text-green-400"
+                          findedIndex > 1
+                            ? "text-gray-400"
+                            : "text-green-400 bg-white"
                         }`}
-                      ></IoIosAddCircle>
+                      >
+                        <IoIosAddCircle size={20}></IoIosAddCircle>
+                      </div>
                     </button>
 
-                    <a className="transition-transform ease-out duration-1000 font-Vazirmatn font-bold flex flex-wrap text-md justify-center  text-red-400 w-8">
+                    <a className="transition-transform ease-out duration-1000 font-Vazirmatn font-bold flex flex-wrap text-md justify-center  text-white w-8">
                       {findedIndex}{" "}
                       {findedIndex > 1 ? (
                         <span className="flex text-xs justify-center w-full hover:text-red-900 transition-colors ease-out duration-1000">
@@ -231,28 +234,29 @@ export function CartSection({
                       }}
                     >
                       {findedIndex > 0 ? (
-                        <IoMdRemoveCircle
-                          size={20}
-                          className="flex   rounded-full  text-red-400"
-                        ></IoMdRemoveCircle>
+                        <div className="flex   rounded-full bg-white text-red-400">
+                          <IoMdRemoveCircle size={20}></IoMdRemoveCircle>
+                        </div>
                       ) : (
-                        <GoTrashcan
-                          size={20}
-                          className="flex transition-transform ease-out duration-500 hover:text-red-600 hover:scale-125 text-red-400"
-                        ></GoTrashcan>
+                        <div className="flex transition-transform ease-out duration-500 hover:text-red-600 hover:scale-125 text-red-400">
+                          <GoTrashcan size={20}></GoTrashcan>
+                        </div>
                       )}
                     </button>
                   </div>
                   {true ? (
                     <Link
                       href="/checkout/cart"
-                      className=" font-Vazirmatn font-bold text-xs flex rounded-lg justify-around bg-gray-200 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2"
+                      className=" font-Vazirmatn-Bold text-white font-bold text-xs flex rounded-lg justify-around bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2 mx-1"
                     >
-                      <span className="mx-1 text-center">مشاهده سبد خرید</span>
-                      <AiOutlineShoppingCart
-                        className=" text-red-600"
-                        size={20}
-                      ></AiOutlineShoppingCart>
+                      <span className="mx-1 p-1 text-[15px] text-center">
+                        مشاهده
+                      </span>
+                      <div className="p-1 bg-white rounded-full text-red-600">
+                        <AiOutlineShoppingCart
+                          size={20}
+                        ></AiOutlineShoppingCart>
+                      </div>
                     </Link>
                   ) : (
                     <></>
@@ -268,14 +272,14 @@ export function CartSection({
                 <></>
               ) : (
                 <>
-                  <ul className="flex w-full h-fit justify-center text-center font-Vazir-Bold">
+                  <ul className="flex w-full h-fit justify-center text-center sm:text-[18px] text-[15px] text-cyan-400 font-Vazir-Bold">
                     <li className="px-2 ">
                       {(
                         product?.variants?.[variantNumber ?? 0].price
                           .selling_price / 10
                       ).toLocaleString()}{" "}
                     </li>
-                    <li className="px-2">تومان</li>
+                    <li className="px-2 ">تومان</li>
                   </ul>
                 </>
               )}
@@ -367,7 +371,7 @@ export function CartSection({
                     //setActive(true)
                     handleAddToCart();
                   }}
-                  className={`flex items-center transition-all duration-100 font-bold font-Vazirmatn bg-gradient-to-b from-gray-900 to-gray-600 hover:to-gray-900  focus:ring-4 focus:outline-none shadow-lg shadow-black/50 rounded-lg text-md px-5 p-2 m-2 text-center ${
+                  className={`flex items-center transition-all duration-100 font-bold font-Vazirmatn bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 hover:to-gray-900  focus:ring-4 focus:outline-none shadow-lg shadow-black/50 rounded-lg text-md px-5 p-2 m-2 text-center ${
                     mouseOverbutton ? "text-white  mx-3" : "text-white"
                   }`}
                 >
@@ -383,7 +387,7 @@ export function CartSection({
                 </button>
               ) : (
                 <>
-                  <div className="flex  rounded-lg justify-around bg-gray-200 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2">
+                  <div className="flex rounded-lg justify-around bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2">
                     <button
                       disabled={findedIndex > 1 ? true : false}
                       onClick={(event) => {
@@ -392,18 +396,21 @@ export function CartSection({
                         handleAddToCart();
                       }}
                     >
-                      <IoIosAddCircle
-                        size={20}
+                      <div
                         className={`flex  rounded-full   ${
-                          findedIndex > 1 ? "text-gray-400" : "text-green-400"
+                          findedIndex > 1
+                            ? "text-gray-400"
+                            : "text-green-400 bg-white"
                         }`}
-                      ></IoIosAddCircle>
+                      >
+                        <IoIosAddCircle size={20}></IoIosAddCircle>
+                      </div>
                     </button>
 
-                    <a className="transition-transform ease-out duration-1000 font-Vazirmatn font-bold flex flex-wrap text-md justify-center  text-red-400 w-8">
+                    <a className="transition-transform ease-out duration-1000 font-Vazirmatn font-bold flex flex-wrap text-md justify-center text-white w-8">
                       {findedIndex}{" "}
                       {findedIndex > 1 ? (
-                        <span className="flex text-xs justify-center w-full hover:text-red-900 transition-colors ease-out duration-1000">
+                        <span className="flex text-xs justify-center w-full hover:text-white transition-colors ease-out duration-1000">
                           حداکثر
                         </span>
                       ) : (
@@ -417,28 +424,27 @@ export function CartSection({
                       }}
                     >
                       {findedIndex > 0 ? (
-                        <IoMdRemoveCircle
-                          size={20}
-                          className="flex   rounded-full  text-red-400"
-                        ></IoMdRemoveCircle>
+                        <div className="flex   rounded-full bg-white text-red-400">
+                          <IoMdRemoveCircle size={20}></IoMdRemoveCircle>
+                        </div>
                       ) : (
-                        <GoTrashcan
-                          size={20}
-                          className="flex transition-transform ease-out duration-500 hover:text-red-600 hover:scale-125 text-red-400"
-                        ></GoTrashcan>
+                        <div className="flex transition-transform ease-out duration-500 hover:text-red-600 hover:scale-125 text-red-400">
+                          <GoTrashcan size={20}></GoTrashcan>
+                        </div>
                       )}
                     </button>
                   </div>
                   {true ? (
                     <Link
                       href="/checkout/cart"
-                      className=" font-Vazirmatn font-bold text-xs flex rounded-lg justify-around bg-gray-200 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2"
+                      className=" font-Vazirmatn-Bold text-white font-bold text-xs flex rounded-lg justify-around bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2"
                     >
                       <span className="mx-1 text-center">مشاهده سبد خرید</span>
-                      <AiOutlineShoppingCart
-                        className=" text-red-600"
-                        size={20}
-                      ></AiOutlineShoppingCart>
+                      <div className="p-1 bg-white rounded-full text-red-600">
+                        <AiOutlineShoppingCart
+                          size={20}
+                        ></AiOutlineShoppingCart>
+                      </div>
                     </Link>
                   ) : (
                     <></>

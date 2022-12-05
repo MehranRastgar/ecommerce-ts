@@ -34,10 +34,10 @@ export function MobileSearchBar() {
     <>
       <div
         onClick={() => setSearchModal(true)}
-        className="flex items-center w-2/3 p-2 rounded-xl m-2  bg-gray-200 h-[50px] "
+        className="flex items-center w-2/3 p-2 rounded-xl m-2   h-[50px] bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-gray-100 to-gray-400 text-sky-600"
       >
         <FaSearchengin
-          color={`${searchModal === true ? "" : "#e61f37"}`}
+          // color={`${searchModal === true ? "" : "#e61f37"}`}
           size={30}
         />
         {/* <input  className='flex w-5/6 p-1 bg-transparent m-1 h-full border-none focus:'></input> */}
@@ -73,12 +73,8 @@ function SearchModal({
   }
   return (
     <div className="fixed justify-start h-[100%] flex  top-0 right-0 w-full bg-white z-[130]">
-      <div className="flex w-full mx-3 border-b-2 border-[#f99e23] p-2 h-fit">
-        <BsForwardFill
-          onClick={() => setSearchModal(false)}
-          color="#e61f37"
-          size={40}
-        />
+      <div className="flex w-full mx-3 border-b-2 border-sky-400 p-2 h-fit text-sky-600">
+        <BsForwardFill onClick={() => setSearchModal(false)} size={40} />
         <input
           type={"search"}
           placeholder={"جستجو"}

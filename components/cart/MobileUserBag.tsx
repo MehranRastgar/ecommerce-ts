@@ -119,11 +119,11 @@ export default function MobileUserBag() {
       >
         <button
           className={`border border-white rounded-xl px-6 p-4 inline-flex ${
-            drop === true ? " z-[101]" : ""
-          }`}
+            !drop ? "text-sky-600" : "text-sky-300"
+          } ${drop === true ? " z-[101]" : ""}`}
         >
           <FaShoppingBag
-            color={`${!drop ? "#48424966" : "#ffffff"}`}
+            // color={`${!drop ? "#48424966" : "#ffffff"}`}
             size={20}
           />
           <span className="font-thin -mr-8 mt-4 font-serif inline-flex items-center justify-center px-[8px] py-[3px] text-xs  leading-none text-gray-100 bg-blackout-red2 rounded-full ">
@@ -147,7 +147,7 @@ export default function MobileUserBag() {
         >
           <div className="flex border rounded-xl mx-2 bg-white h-[98%] w-full overflow-hidden ">
             <div className="flex flex-wrap justify-end p-2 w-full font-Vazir-Medium ">
-              <span className="w-full text-start mx-2 font-Vazir-Medium text-brand-purple">
+              <span className="w-full text-start  mx-2 font-Vazir-Bold text-sky-600">
                 سبد خرید
               </span>
               <div className="flex h-[80%] p-2 rounded-xl bg-white overflow-y-auto  items-start justify-center w-full">
@@ -260,7 +260,7 @@ export default function MobileUserBag() {
               </div>
               <Link
                 href={"/checkout/cart"}
-                className="px-4 rounded-lg hover:bg-gray-200 self-end text-md font-Vazirmatn font-bold text-blue-400	p-2"
+                className="px-4 rounded-lg hover:bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 hover:text-white self-end text-md font-Vazirmatn font-bold text-sky-600	p-2"
               >
                 ثبت سفارش
               </Link>

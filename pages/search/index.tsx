@@ -689,11 +689,11 @@ export function FilterComponent() {
                   handleToggleIsSale();
                 }}
                 className={
-                  "flex items-center p-2 rounded-md bg-gray-100 hover:bg-gray-400 hover:text-white cursor-pointer " +
+                  "flex items-center p-2 rounded-md bg-gray-100 font-Vazir-Medium border hover:font-Vazir-Bold cursor-pointer " +
                   ` ${searchConf.filter.isSale ? "bg-green-200" : ""}`
                 }
               >
-                <span className="mx-2">تخفییف دار</span>
+                <span className="mx-2">تخفیف دار</span>
                 <div
                   className={`${
                     searchConf.filter.isSale
@@ -709,7 +709,7 @@ export function FilterComponent() {
                   handleToggleUnbleivable();
                 }}
                 className={
-                  "flex items-center p-2 rounded-md bg-gray-100 hover:bg-gray-400 hover:text-white cursor-pointer mx-2" +
+                  "flex items-center p-2 rounded-md bg-gray-100 font-Vazir-Medium border hover:font-Vazir-Bold cursor-pointer mx-2" +
                   ` ${searchConf.filter.unbleivable ? "bg-green-200" : ""}`
                 }
               >
@@ -731,7 +731,7 @@ export function FilterComponent() {
                   handleAvailable();
                 }}
                 className={
-                  "flex items-center p-2 rounded-md bg-gray-100 hover:bg-gray-400 hover:text-white cursor-pointer "
+                  "flex items-center p-2 rounded-md bg-gray-100 font-Vazir-Medium border hover:font-Vazir-Bold cursor-pointer "
                 }
               >
                 <span className="mx-2">فقط کالاهای موجود</span>
@@ -1159,6 +1159,60 @@ export function SortComponent() {
 
   return (
     <div className="flex flex-wrap justify-start w-full items-center my-6 lg:text-[14px] text-[12px] select-none">
+      <div className="flex w-full font-Vazir-Medium">
+        نتایج جستجو برای:
+        <div className="mx-2 font-Vazir-Medium">{router.query.q}</div>
+        {typeof router?.query?.category === "string" &&
+        router?.query?.category.length > 1 ? (
+          <div className=" flex mx-2 font-Vazir-Medium">
+            {(router?.query?.category as string)?.split(",")?.[0] !==
+            undefined ? (
+              (router?.query?.category as string)
+                ?.split(",")
+                ?.map((item: string) => (
+                  <>
+                    <div className="flex mx-2">
+                      {item?.[0]?.toUpperCase() !== undefined
+                        ? item?.[0]?.toUpperCase() + item?.substring(1)
+                        : null}
+                    </div>
+                  </>
+                ))
+            ) : (
+              <></>
+            )}
+          </div>
+        ) : (
+          <></>
+        )}
+        {typeof router?.query?.subcat === "string" &&
+        router?.query?.subcat.length > 1 ? (
+          <div className=" flex mx-2 font-Vazir-Medium">
+            {(router?.query?.subcat as string)?.split(",")?.[0] !==
+            undefined ? (
+              (router?.query?.subcat as string)
+                ?.split(",")
+                ?.map((item: string) => (
+                  <>
+                    <div className="flex mx-2">
+                      {item?.[0]?.toUpperCase() !== undefined
+                        ? item?.[0]?.toUpperCase() + item?.substring(1)
+                        : null}
+                    </div>
+                  </>
+                ))
+            ) : (
+              <></>
+            )}
+          </div>
+        ) : (
+          <></>
+        )}
+        {/* <div className="mx-2 font-Vazir-Medium">
+          {router.query.subcat?.[0].toUpperCase() +
+            router.query?.subcat?.substring(1)}
+        </div> */}
+      </div>
       {sortModal ? (
         <div className="md:hidden flex fixed items-end left-0 bottom-0 border w-full h-[100%] bg-black/30 font-Vazir-Medium text-lg">
           <div className="flex flex-wrap overflow-y-scroll h-[50%] bg-white w-full">
@@ -1194,7 +1248,6 @@ export function SortComponent() {
       ) : (
         <></>
       )}
-
       <div
         onClick={() => {
           if (searchConf.sortType === "asce") {

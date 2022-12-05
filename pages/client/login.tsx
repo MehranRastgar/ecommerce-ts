@@ -131,82 +131,96 @@ export default function Login() {
           </header>
           {signInFlag === "request" || signInFlag === "smsWaiting" ? (
             <>
-              <div className="m-4 p-5 flex  text-xl text-black text-center">
-                کد اعتبار سنجی برای شما ارسال شد در صورت دریافت وارد نمایید
-              </div>
-              <div className=" flex flex-wrap justify-center w-full ">
-                <div className="m-4 mb-0 pb-0 p-3 flex w-full justify-center center text-center   ">
-                  {phoneNumber}
+              <form
+                onSubmit={() => {
+                  setIsLoading(true);
+                  loginUser();
+                }}
+              >
+                <div className="m-4 p-5 flex  text-xl text-black text-center">
+                  کد اعتبار سنجی برای شما ارسال شد در صورت دریافت وارد نمایید
                 </div>
-                <input
-                  onChange={(e) => {
-                    setOtpCode(Number(e.target.value));
-                  }}
-                  type="string"
-                  className="m-4 p-3 w-1/2 rounded-lg border flex justify-center rtl"
-                  placeholder="******"
-                  id="code"
-                ></input>
-                <div className="flex justify-center w-full">
-                  <button
-                    onClick={(event) => {
-                      setIsLoading(true);
-                      loginUser();
+                <div className=" flex flex-wrap justify-center w-full ">
+                  <div className="m-4 mb-0 pb-0 p-3 flex w-full justify-center center text-center   ">
+                    {phoneNumber}
+                  </div>
+                  <input
+                    onChange={(e) => {
+                      setOtpCode(Number(e.target.value));
                     }}
-                    className=" mb-4 rounded-lg p-4  text-white bg-cyan-400 text-xl"
-                  >
-                    تایید
-                  </button>
+                    type="string"
+                    className="m-4 p-3 w-1/2 rounded-lg border flex justify-center rtl"
+                    placeholder="******"
+                    id="code"
+                  ></input>
+                  <div className="flex justify-center w-full">
+                    <button
+                      onClick={(event) => {
+                        setIsLoading(true);
+                        loginUser();
+                      }}
+                      className=" mb-4 rounded-lg p-4  text-white bg-cyan-400 text-xl"
+                    >
+                      تایید
+                    </button>
 
-                  {signInFlag === "smsWaiting" ? <LoadingOne /> : ""}
+                    {signInFlag === "smsWaiting" ? <LoadingOne /> : ""}
+                  </div>
                 </div>
-              </div>
+              </form>
             </>
           ) : (
             <></>
           )}
           {signInFlag === "idle" || signInFlag === "faild" ? (
             <>
-              <div className=" m-4 p-5 flex  text-xl text-blackout-black text-center">
-                جهت ثبت نام یا ورود شماره موبایل خود را وارد کنید
-              </div>
-              <div className="m-4 p-5 flex  text-lg text-white text-center">
-                و در ادامه کد پیامک شده را وارد نمایید
-              </div>
-              <div className=" flex flex-wrap justify-center w-full ">
-                <div className="m-4 mb-0 pb-0 p-3 flex w-full justify-center center text-center   ">
-                  فقط شماره موبایل{" "}
+              <form
+                onSubmit={() => {
+                  setIsLoading(true);
+                  sendOtp();
+                }}
+              >
+                <div className=" m-4 p-5 flex  text-xl text-blackout-black text-center">
+                  جهت ثبت نام یا ورود شماره موبایل خود را وارد کنید
                 </div>
-                <input
-                  // ref={phone}
-                  pattern="[0-9]{4}[0-9]{3}[0-9]{4}"
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  id="phoneNumber"
-                  type={"tel"}
-                  className="  m-4 p-3 w-1/2 rounded-lg border flex justify-center rtl"
-                  placeholder="*******0912"
-                ></input>
-                <div className="flex justify-center w-full">
-                  <button
-                    onClick={(event) => {
-                      setIsLoading(true);
-                      sendOtp();
-                    }}
-                    className=" mb-4 rounded-lg p-4  text-white bg-cyan-400 text-xl"
+                <div className="m-4 p-5 flex  text-lg text-white text-center">
+                  و در ادامه کد پیامک شده را وارد نمایید
+                </div>
+                <div className=" flex flex-wrap justify-center w-full ">
+                  <div className="m-4 mb-0 pb-0 p-3 flex w-full justify-center center text-center   ">
+                    فقط شماره موبایل{" "}
+                  </div>
+                  <input
+                    // ref={phone}
+                    pattern="[0-9]{4}[0-9]{3}[0-9]{4}"
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    id="phoneNumber"
+                    type={"tel"}
+                    className="  m-4 p-3 w-1/2 rounded-lg border flex justify-center rtl"
+                    placeholder="*******0912"
+                  ></input>
+                  <div className="flex justify-center w-full">
+                    <button
+                      onClick={(event) => {
+                        setIsLoading(true);
+                        sendOtp();
+                      }}
+                      className=" mb-4 rounded-lg p-4  text-white bg-cyan-400 text-xl"
+                    >
+                      {isLoading ? <LoadingOne /> : "دریافت کد"}
+                    </button>
+                  </div>
+                  <div
+                    className={
+                      errorMessage === "فرمت شماره درست مبباشد"
+                        ? "text-wipro-green"
+                        : "text-blackout-red"
+                    }
                   >
-                    {isLoading ? <LoadingOne /> : "دریافت کد"}
-                  </button>
+                    {errorMessage}
+                  </div>
                 </div>
-                <div
-                  className={
-                    errorMessage === "فرمت شماره درست مبباشد"
-                      ? "text-wipro-green"
-                      : "text-blackout-red"
-                  }
-                >
-                  {errorMessage}
-                </div>
-              </div>
+              </form>
             </>
           ) : (
             <></>

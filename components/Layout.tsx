@@ -209,11 +209,13 @@ function Layout({ children }: { children: any }) {
             dispatch(crmChangeState());
           }}
           id={"open-crm"}
-          className={`flex h-fit m-2 p-2 border rounded-xl ${
-            crmRequest === "open" ? "bg-green-100" : "bg-gray-100"
+          className={`flex h-fit m-2 p-2 border  rounded-xl ${
+            crmRequest === "open"
+              ? "bg-green-100"
+              : "bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 text-white"
           }`}
         >
-          <BsHeadset color="#FF4500" size={20} />
+          <BsHeadset size={20} />
           {/* <div className="text-xs font-Vazir-Bold w-full">پشنیبانی</div> */}
         </button>
       </div>
