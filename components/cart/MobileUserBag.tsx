@@ -118,8 +118,8 @@ export default function MobileUserBag() {
         className="flex justify-end w-1/2 "
       >
         <button
-          className={`border border-white rounded-xl px-6 p-4 inline-flex ${
-            !drop ? "text-sky-600" : "text-sky-300"
+          className={` rounded-xl px-6 p-4 inline-flex ${
+            !drop ? "text-ino-hgray" : "text-ino-gray"
           } ${drop === true ? " z-[101]" : ""}`}
         >
           <FaShoppingBag
@@ -145,12 +145,12 @@ export default function MobileUserBag() {
           }
           `}
         >
-          <div className="flex border rounded-xl mx-2 bg-white h-[98%] w-full overflow-hidden ">
+          <div className="flex border rounded-xl mx-2 bg-ino-white h-[98%] w-full overflow-hidden ">
             <div className="flex flex-wrap justify-end p-2 w-full font-Vazir-Medium ">
               <span className="w-full text-start  mx-2 font-Vazir-Bold text-sky-600">
                 سبد خرید
               </span>
-              <div className="flex h-[80%] p-2 rounded-xl bg-white overflow-y-auto  items-start justify-center w-full">
+              <div className="flex h-[80%] p-2 rounded-xl bg-ino-white overflow-y-auto  items-start justify-center w-full">
                 <div
                   ref={animationParent}
                   className="flex flex-wrap h-fit items-start justify-center w-full"
@@ -260,7 +260,7 @@ export default function MobileUserBag() {
               </div>
               <Link
                 href={"/checkout/cart"}
-                className="px-4 rounded-lg hover:bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 hover:text-white self-end text-md font-Vazirmatn font-bold text-sky-600	p-2"
+                className="px-4 rounded-lg hover:bg-ino-primary hover:text-white self-end text-md font-Vazirmatn font-bold text-ino-primary	p-2"
               >
                 ثبت سفارش
               </Link>

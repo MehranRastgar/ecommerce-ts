@@ -163,7 +163,7 @@ function Layout({ children }: { children: any }) {
   //================================================
 
   return (
-    <div style={{}} className="">
+    <div style={{}} className="bg-ino-white">
       {crmRequest === "open" ? (
         <Script
           id="goftino"
@@ -201,7 +201,7 @@ function Layout({ children }: { children: any }) {
       ) : (
         <></>
       )}
-      <div className="md:hidden flex bg-white border-b-2 mx-3 z-[1] ">
+      <div className="md:hidden flex bg-ino-lwhite border-ino-gray border-b-2 px-3 z-[1] ">
         <NavbarMobile></NavbarMobile>
         <HeaderMobile></HeaderMobile>
         <button
@@ -212,7 +212,7 @@ function Layout({ children }: { children: any }) {
           className={`flex h-fit m-2 p-2 border  rounded-xl ${
             crmRequest === "open"
               ? "bg-green-100"
-              : "bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 text-white"
+              : "bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-ino-primary to-ino-dark text-white"
           }`}
         >
           <BsHeadset size={20} />
@@ -221,9 +221,9 @@ function Layout({ children }: { children: any }) {
       </div>
       <MobileSearchComponent></MobileSearchComponent>
       <AdsBanner />
-      <div className="hidden md:flex topHeader flex-wrap w-full fixed h-[100px] items-start">
+      <div className="hidden md:flex topHeader flex-wrap w-full fixed h-[100px] items-start bg-transparent">
         <header
-          className={` relative  items-center flex flex-nowrap lg:flex-nowrap xl:flex-nowrap 2xl:flex-nowrap md:flex-nowrap sm:flex-wrap justify-start font-Vazir w-full filter  bg-white z-[1] transition-all duration-500
+          className={`relative items-center flex flex-nowrap lg:flex-nowrap xl:flex-nowrap 2xl:flex-nowrap md:flex-nowrap sm:flex-wrap justify-start font-Vazir w-full filter bg-ino-lwhite z-[1] transition-all duration-500
               ${isScrolled === true ? "-mt-[55px] h-[60px] " : "h-[60px] "}
              
               `}
@@ -233,7 +233,7 @@ function Layout({ children }: { children: any }) {
 
         <NavbarOne navHidden={navHidden} isScrolled={isScrolled}></NavbarOne>
       </div>
-      <div className="hidden md:flex w-full bg-white h-[100px]"></div>{" "}
+      <div className="hidden md:flex w-full bg-transparent h-[100px]"></div>{" "}
       <div className="flex w-full justify-center min-h-screen">{children}</div>
       {/* <footer className="footer-mobile"></footer> */}
       <div className="my-20"></div>
@@ -248,7 +248,7 @@ function AdsBanner() {
   const liClass: string = "hidden p-2 m-2 md:inline-flex justify-center w-auto";
 
   return (
-    <div className="max-h-[80px] h-auto  overflow-hidden flex w-full bg-white">
+    <div className="max-h-[80px] h-auto  overflow-hidden flex w-full bg-ino-lwhite">
       <Link href={"/"}>
         <div className="mr-[80px]">
           <ul

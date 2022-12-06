@@ -92,7 +92,9 @@ export default function MobileUserProfile() {
               }`}
             >
               <div
-                className={`flex ${!drop ? "text-sky-600" : "text-sky-300"} `}
+                className={`flex ${
+                  !drop ? "text-ino-hgray" : "text-ino-gray"
+                } `}
               >
                 <FaUserCheck
                   // color={`${!drop ? "#48424966" : "#ffffff"}`}
@@ -117,7 +119,7 @@ export default function MobileUserProfile() {
               }}
               className={`md:left-[20%] lg:loft-[225px] left-0 fixed mt-[30px] pt-4  ml-[0px] flex flex-wrap bg-transparent  overflow-hidden`}
             >
-              <div className="flex flex-wrap border border-t-0 rounded-xl mx-4 bg-white h-full w-full ">
+              <div className="flex flex-wrap border border-t-0 rounded-xl mx-4 bg-ino-white h-full w-full ">
                 <div className="flex flex-wrap h-3/4 mt-2 overflow-y-scroll">
                   <div className="flex justify-start p-4 w-full h-4 font-Vazir-Medium">
                     <span className="mx-2">نام :</span>

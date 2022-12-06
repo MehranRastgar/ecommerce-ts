@@ -19,7 +19,7 @@ import MobileUserProfile from "../profile/MobileUserProfile";
 
 export default function MobileSearchComponent() {
   return (
-    <div className="md:hidden flex mx-3">
+    <div className="md:hidden flex px-3 bg-ino-lwhite">
       <MobileSearchBar />
       <MobileUserTwinComponent />
     </div>
@@ -34,7 +34,7 @@ export function MobileSearchBar() {
     <>
       <div
         onClick={() => setSearchModal(true)}
-        className="flex items-center w-2/3 p-2 rounded-xl m-2   h-[50px] bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-gray-100 to-gray-400 text-sky-600"
+        className="flex items-center w-2/3 p-2 rounded-xl m-2 h-[50px] bg-ino-white"
       >
         <FaSearchengin
           // color={`${searchModal === true ? "" : "#e61f37"}`}
@@ -72,7 +72,7 @@ function SearchModal({
     }
   }
   return (
-    <div className="fixed justify-start h-[100%] flex  top-0 right-0 w-full bg-white z-[130]">
+    <div className="fixed justify-start h-[100%] flex  top-0 right-0 w-full bg-ino-white z-[130]">
       <div className="flex w-full mx-3 border-b-2 border-sky-400 p-2 h-fit text-sky-600">
         <BsForwardFill onClick={() => setSearchModal(false)} size={40} />
         <input

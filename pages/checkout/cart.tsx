@@ -56,7 +56,7 @@ export default function CartPage() {
         {userInfo?.firstname !== undefined ? (
           <>
             <div className="flex justify-center w-full max-w-[800px] flex-wrap">
-              <h1 className="mt-6 flex text-center h-fit justify-center w-full font-Vazir-Medium text-2xl font-extrabold text-sky-500">
+              <h1 className="mt-6 flex text-center h-fit justify-center w-full font-Vazir-Medium text-2xl font-extrabold text-ino-gray">
                 مشخصات
               </h1>
               <div className="flex w-full max-w-[800px] flex-wrap border mt-4 rounded-md text-gray-600 text-xs shadow-lg">
@@ -76,12 +76,12 @@ export default function CartPage() {
                 </div>
               </div>
               <div className="flex w-full flex-wrap mt-4 text-gray-600 text-xs rounded-lg">
-                <h1 className="my-4 flex text-center h-fit justify-center w-full font-Vazir-Medium text-2xl font-extrabold text-sky-500">
+                <h1 className="my-4 flex text-center h-fit justify-center w-full font-Vazir-Medium text-2xl font-extrabold text-ino-gray">
                   آدرس
                 </h1>
                 <Shipping />
               </div>
-              <h1 className="mt-20 flex text-center h-fit justify-center w-full font-Vazir-Medium text-2xl font-extrabold text-sky-500">
+              <h1 className="mt-20 flex text-center h-fit justify-center w-full font-Vazir-Medium text-2xl font-extrabold text-ino-gray">
                 سبد خرید
               </h1>
               <div className="flex w-full justify-center">
@@ -215,7 +215,7 @@ function ReportContainer({ cart }: { cart: Cart[] | undefined }) {
               تومان
             </li>
             <li className="flex my-2 justify-center w-full">
-              <button className="bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 w-fit rounded-md font-Vazir-Bold text-white p-4">
+              <button className="bg-ino-primary w-fit rounded-md font-Vazir-Bold text-white p-4">
                 ثبت سفارش و پرداخت
               </button>
             </li>

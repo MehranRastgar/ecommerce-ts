@@ -181,7 +181,7 @@ export function CartSection({
                     //setActive(true)
                     handleAddToCart();
                   }}
-                  className={`flex items-center transition-all duration-100 font-bold font-Vazirmatn bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 hover:to-gray-900 focus:ring-4 focus:outline-none shadow-lg  rounded-lg text-md px-5 p-2 m-2 text-center ${
+                  className={`flex items-center transition-all duration-100 font-bold font-Vazirmatn bg-ino-primary hover:bg-ino-dark focus:ring-4 focus:outline-none shadow-lg  rounded-lg text-md px-5 p-2 m-2 text-center ${
                     mouseOverbutton ? " text-white mx-3" : "text-white"
                   }`}
                 >
@@ -197,7 +197,7 @@ export function CartSection({
                 </button>
               ) : (
                 <>
-                  <div className="flex rounded-lg justify-around bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2">
+                  <div className="flex rounded-lg justify-around bg-ino-primary max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2">
                     <button
                       disabled={findedIndex > 1 ? true : false}
                       onClick={(event) => {
@@ -234,7 +234,7 @@ export function CartSection({
                       }}
                     >
                       {findedIndex > 0 ? (
-                        <div className="flex   rounded-full bg-white text-red-400">
+                        <div className="flex   rounded-full bg-ino-white text-red-400">
                           <IoMdRemoveCircle size={20}></IoMdRemoveCircle>
                         </div>
                       ) : (
@@ -247,12 +247,12 @@ export function CartSection({
                   {true ? (
                     <Link
                       href="/checkout/cart"
-                      className=" font-Vazirmatn-Bold text-white font-bold text-xs flex rounded-lg justify-around bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2 mx-1"
+                      className=" font-Vazirmatn-Bold text-white font-bold text-xs flex rounded-lg justify-around bg-ino-primary max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2 mx-1"
                     >
                       <span className="mx-1 p-1 text-[15px] text-center">
                         مشاهده
                       </span>
-                      <div className="p-1 bg-white rounded-full text-red-600">
+                      <div className="p-1 bg-ino-white rounded-full text-red-600">
                         <AiOutlineShoppingCart
                           size={20}
                         ></AiOutlineShoppingCart>
@@ -295,10 +295,10 @@ export function CartSection({
       </div>
 
       <div
-        className={`hidden  lg:flex flex-wrap shadow-lg h-full justify-center max-w-[320px] min-w-[260px] max-h-[400px] w-1/4 border rounded-xl m-2 font-Vazir-Medium text-black  bg-gradient-to-t from-gray-100 to-gray-200 justify-self-end overflow-hidden`}
+        className={`hidden  lg:flex flex-wrap shadow-lg h-full justify-center max-w-[320px] min-w-[260px] max-h-[400px] w-1/4 border rounded-xl m-2 font-Vazir-Medium text-black bg-ino-lwhite  justify-self-end overflow-hidden`}
       >
         <div
-          className={`flex flex-wrap justify-center w-full h-full backdrop-filter bg-transparent backdrop-blur-md backdrop-contrast-200 backdrop-brightness-[80%] p-6`}
+          className={`flex flex-wrap justify-center w-full h-full backdrop-filter bg-transparent backdrop-blur-md backdrop-contrast-200 backdrop-brightness-[80%] p-[16px]`}
         >
           {product?.variants?.[variantNumber]?.warranty! ? (
             <ul className="w-full border-b h-fit pb-4 border-gray-400">
@@ -371,7 +371,7 @@ export function CartSection({
                     //setActive(true)
                     handleAddToCart();
                   }}
-                  className={`flex items-center transition-all duration-100 font-bold font-Vazirmatn bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 hover:to-gray-900  focus:ring-4 focus:outline-none shadow-lg shadow-black/50 rounded-lg text-md px-5 p-2 m-2 text-center ${
+                  className={`flex items-center transition-all duration-100 font-bold font-Vazirmatn bg-ino-primary hover:to-gray-900  focus:ring-4 focus:outline-none shadow-lg shadow-black/50 rounded-lg text-md px-5 p-2 m-2 text-center ${
                     mouseOverbutton ? "text-white  mx-3" : "text-white"
                   }`}
                 >
@@ -387,7 +387,7 @@ export function CartSection({
                 </button>
               ) : (
                 <>
-                  <div className="flex rounded-lg justify-around bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2">
+                  <div className="flex rounded-lg justify-around bg-ino-primary max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2">
                     <button
                       disabled={findedIndex > 1 ? true : false}
                       onClick={(event) => {
@@ -424,7 +424,7 @@ export function CartSection({
                       }}
                     >
                       {findedIndex > 0 ? (
-                        <div className="flex   rounded-full bg-white text-red-400">
+                        <div className="flex   rounded-full bg-ino-white text-red-400">
                           <IoMdRemoveCircle size={20}></IoMdRemoveCircle>
                         </div>
                       ) : (
@@ -437,10 +437,10 @@ export function CartSection({
                   {true ? (
                     <Link
                       href="/checkout/cart"
-                      className=" font-Vazirmatn-Bold text-white font-bold text-xs flex rounded-lg justify-around bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2"
+                      className=" font-Vazirmatn-Bold text-white font-bold text-xs flex rounded-lg justify-around bg-ino-primary max-w-[110px] h-10 shadow-lg shadow-gray-500/50 items-center p-2 m-2"
                     >
                       <span className="mx-1 text-center">مشاهده سبد خرید</span>
-                      <div className="p-1 bg-white rounded-full text-red-600">
+                      <div className="p-1 bg-ino-white rounded-full text-red-600">
                         <AiOutlineShoppingCart
                           size={20}
                         ></AiOutlineShoppingCart>
@@ -650,7 +650,7 @@ function ProductAttributeComponentReview({ product }: { product: Product }) {
           </div>
         </div>
         <a href={`#espicification`}>
-          <button className="flex bg-white border rounded-xl px-6 py-2 text-blue-600 items-center">
+          <button className="flex bg-ino-white border rounded-xl px-6 py-2 text-blue-600 items-center">
             <div className="mx-2">مشخصات فنی</div>
             <FaChevronCircleDown />
           </button>

@@ -97,7 +97,7 @@ function AddressModal({ setAddressSelection }: { setAddressSelection: any }) {
 
       <div
         // onDoubleClick={(event)=>{props.setAddressSelection(false)}}
-        className="fixed left-0 top-20 md:left-1/4 md:w-1/2 lg:left-1/3 lg:w-1/3 flex border rounded-lg w-full h-4/6 max-h-2/3 bg-white    z-[51]"
+        className="fixed left-0 top-20 md:left-1/4 md:w-1/2 lg:left-1/3 lg:w-1/3 flex border rounded-lg w-full h-4/6 max-h-2/3 bg-ino-white    z-[51]"
       >
         {edit === 100 && newAddress === 100 ? (
           <div className="flex flex-wrap w-full h-full p-4">

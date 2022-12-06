@@ -67,19 +67,19 @@ export default function SearchPage({
       />
       {/* 
       <div className="flex w-full justify-center md:w-[100%]">
-        <div className="hidden md:flex h-full bg-white md:w-[15%] min-w-[300px] mx-2">
+        <div className="hidden md:flex h-full bg-ino-white md:w-[15%] min-w-[300px] mx-2">
           <FilterComponent />
         </div>
         <div className="search-page h-fit w-full md:w-[75%] ">
-          <div className="flex items-center justify-start bg-white w-full mx-10 border-b">
-            <div className="flex items-center justify-start bg-white w-full">
+          <div className="flex items-center justify-start bg-ino-white w-full mx-10 border-b">
+            <div className="flex items-center justify-start bg-ino-white w-full">
               <SortComponent />
               <span className="w-auto text-center font-Vazir-Medium text-[12px]">
                 {total} محصول
               </span>
             </div>
           </div>
-          <div className="flex h-fit flex-wrap justify-center bg-white w-9/12">
+          <div className="flex h-fit flex-wrap justify-center bg-ino-white w-9/12">
             <Pagination
               page={pageNumber}
               total={totalProducts}
@@ -117,19 +117,19 @@ export function SearchPageComponent({
   return (
     <>
       <div className="flex flex-wrap md:flex-nowrap w-full justify-center md:w-[100%]">
-        <div className="w-full h-fit md:flex md:h-full bg-white md:w-[15%] min-w-[300px] mx-2">
+        <div className="w-full h-fit md:flex md:h-full bg-ino-white md:w-[15%] min-w-[300px] mx-2">
           <FilterComponent />
         </div>
         <div className="search-page h-fit w-full md:w-[75%] ">
-          <div className="flex items-center justify-start bg-white w-full mx-10 border-b">
-            <div className="flex items-center justify-start bg-white w-full">
+          <div className="flex items-center justify-start bg-ino-white w-full mx-10 border-b">
+            <div className="flex items-center justify-start bg-ino-white w-full">
               <SortComponent />
               <span className="w-auto text-center font-Vazir-Medium text-[12px]">
                 {total} محصول
               </span>
             </div>
           </div>
-          <div className="flex h-fit flex-wrap justify-center bg-white w-9/12">
+          <div className="flex h-fit flex-wrap justify-center bg-ino-white w-9/12">
             <Pagination
               page={pageNumber}
               total={totalProducts}
@@ -245,7 +245,7 @@ export function Pagination({
   }
 
   const paginationNumberStyle =
-    "h-fit rounded-full p-2 px-3 text-black bg-white border mx-2 ";
+    "h-fit rounded-full p-2 px-3 text-black bg-ino-white border mx-2 ";
 
   return (
     <div className="flex h-fit items-center my-1 font-Vazir-Medium text-xs">
@@ -276,7 +276,7 @@ export function Pagination({
             >
               1
             </div>
-            <div className="h-fit rounded-full p-2 px-3 text-black bg-white  mx-2 ">
+            <div className="h-fit rounded-full p-2 px-3 text-black bg-ino-white  mx-2 ">
               ...
             </div>
           </>
@@ -617,71 +617,80 @@ export function FilterComponent() {
               </div>
             </li>
             <li className={listStyle + " text-[12px]"}>
-              {"قیمت"}
-              <input
-                className="flex w-[60px] border-l mx-1 m-2 p-1 border rounded-md text-[12px] bg-green-100"
-                type={"string"}
-                onChange={(e) => {
-                  handleFilterPriceGte(e);
+              <form
+                className="flex items-center"
+                onSubmit={() => {
+                  handleSetPriceFilter();
+                  setChanged(false);
                 }}
-                value={
-                  search?.filter?.priceRange?.pricegte?.toLocaleString() ?? 0
-                }
-                id="pricegte"
-              />
-              الی
-              <input
-                className="flex w-[60px] border-l mx-1 m-2 p-1 border rounded-md text-[12px] bg-red-100"
-                type={"string"}
-                onChange={(e) => {
-                  // search
-                  handleFilterPriceLte(e);
-                }}
-                value={
-                  search?.filter?.priceRange?.pricelte?.toLocaleString() ?? "0"
-                }
-                id="pricelte"
-              />
-              تومان
-              {changed ? (
-                <button
-                  disabled={
-                    search?.filter?.priceRange?.pricelte !== undefined &&
+              >
+                {"قیمت"}
+                <input
+                  className="flex w-[60px] border-l mx-1 m-2 p-1 border rounded-md text-[12px] bg-green-100"
+                  type={"string"}
+                  onChange={(e) => {
+                    handleFilterPriceGte(e);
+                  }}
+                  value={
+                    search?.filter?.priceRange?.pricegte?.toLocaleString() ?? 0
+                  }
+                  id="pricegte"
+                />
+                الی
+                <input
+                  className="flex w-[60px] border-l mx-1 m-2 p-1 border rounded-md text-[12px] bg-red-100"
+                  type={"string"}
+                  onChange={(e) => {
+                    // search
+                    handleFilterPriceLte(e);
+                  }}
+                  value={
+                    search?.filter?.priceRange?.pricelte?.toLocaleString() ??
+                    "0"
+                  }
+                  id="pricelte"
+                />
+                تومان
+                {changed ? (
+                  <button
+                    disabled={
+                      search?.filter?.priceRange?.pricelte !== undefined &&
+                      search?.filter?.priceRange?.pricegte !== undefined &&
+                      search?.filter?.priceRange?.pricelte <=
+                        search?.filter?.priceRange?.pricegte
+                        ? true
+                        : false
+                    }
+                    onClick={() => {
+                      handleSetPriceFilter();
+                      setChanged(false);
+                    }}
+                    className={`flex border rounded-md h-fit p-1  mx-1  ${
+                      search?.filter?.priceRange?.pricelte !== undefined &&
+                      search?.filter?.priceRange?.pricegte !== undefined &&
+                      search?.filter?.priceRange?.pricelte >
+                        search?.filter?.priceRange?.pricegte
+                        ? "bg-green-400 hover:bg-green-600"
+                        : ""
+                    }`}
+                  >
+                    {search?.filter?.priceRange?.pricelte !== undefined &&
                     search?.filter?.priceRange?.pricegte !== undefined &&
                     search?.filter?.priceRange?.pricelte <=
-                      search?.filter?.priceRange?.pricegte
-                      ? true
-                      : false
-                  }
-                  onClick={() => {
-                    handleSetPriceFilter();
-                    setChanged(false);
-                  }}
-                  className={`flex border rounded-md h-fit p-1  mx-1  ${
-                    search?.filter?.priceRange?.pricelte !== undefined &&
-                    search?.filter?.priceRange?.pricegte !== undefined &&
-                    search?.filter?.priceRange?.pricelte >
-                      search?.filter?.priceRange?.pricegte
-                      ? "bg-green-400 hover:bg-green-600"
-                      : ""
-                  }`}
-                >
-                  {search?.filter?.priceRange?.pricelte !== undefined &&
-                  search?.filter?.priceRange?.pricegte !== undefined &&
-                  search?.filter?.priceRange?.pricelte <=
-                    search?.filter?.priceRange?.pricegte ? (
-                    <TiDeleteOutline fill="red" size={15} />
-                  ) : (
-                    "تایید"
-                  )}
-                </button>
-              ) : (
-                <>
-                  <div className="flex m-2 text-green-400">
-                    <TiTick size={30} />
-                  </div>
-                </>
-              )}
+                      search?.filter?.priceRange?.pricegte ? (
+                      <TiDeleteOutline fill="red" size={15} />
+                    ) : (
+                      "تایید"
+                    )}
+                  </button>
+                ) : (
+                  <>
+                    <div className="flex m-2 text-green-400">
+                      <TiTick size={30} />
+                    </div>
+                  </>
+                )}
+              </form>
             </li>
             <li className={listStyle}>
               <div
@@ -743,7 +752,7 @@ export function FilterComponent() {
                   }`}
                 >
                   <div
-                    className={`transition-transform duration-700  flex w-[10px] h-[10px] bg-white rounded-full ${
+                    className={`transition-transform duration-700  flex w-[10px] h-[10px] bg-ino-white rounded-full ${
                       searchConf.filter.justAvailable
                         ? "-translate-x-[12px]"
                         : ""
@@ -867,7 +876,7 @@ export function FilterComponent() {
                       1 ? (
                       <div
                         key={index}
-                        className=" h-fit p-1 m-1 bg-opacity-90 text-black font-Vazir-Medium rounded-lg border text-xs"
+                        className=" h-fit m-1 bg-opacity-90 text-white bg-ino-dark  p-[5px] font-Vazir-Medium rounded-lg border shadow-lg text-xs"
                       >
                         {eval(`translateQuery?.${item}`)
                           ? eval(`translateQuery?.${item}`)
@@ -1215,7 +1224,7 @@ export function SortComponent() {
       </div>
       {sortModal ? (
         <div className="md:hidden flex fixed items-end left-0 bottom-0 border w-full h-[100%] bg-black/30 font-Vazir-Medium text-lg">
-          <div className="flex flex-wrap overflow-y-scroll h-[50%] bg-white w-full">
+          <div className="flex flex-wrap overflow-y-scroll h-[50%] bg-ino-white w-full">
             <span className="flex m-2">مرتب سازی بر اساس</span>
             {Object?.values(SortTranslate)?.map((trans, index) => (
               <>

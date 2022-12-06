@@ -5,7 +5,7 @@ import imageLoader from "../../src/imageLoader";
 
 export default function HeaderMobile() {
   return (
-    <div className="flex w-full justify-center  text-2xl text-blackout-red text-center items-center">
+    <div className="flex w-full justify-center my-4 text-2xl text-blackout-red text-center items-center">
       <Link href={"/"}>
         <div className="flex">
           <Image

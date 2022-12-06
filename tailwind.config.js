@@ -95,6 +95,17 @@ module.exports = {
           pink: "#FF449F",
           navy: "#005F99",
         },
+        ino: {
+          white: "#ffffff",
+          lwhite: "#F5F5F7",
+          lgray: "#313131",
+          hgray: "#1D1D1F",
+          gray: "#6D6C71",
+          primary: "#EB0750",
+          secondary: "#FB84A6",
+          dark: "#990E3E",
+          darker: "#4C0010",
+        },
       },
       spacing: {
         "11px": "11px",

@@ -329,7 +329,7 @@ function SearchModal({
 //           <BsCart size={25} />
 
 //           {cartDropdown1 & activeCartDropdown ? (
-//             <div className="flex-wrap items-center overflow-hidden rounded-xl absolute z-[20] flex justify-center  h-3/7 max-w-xl border shadow-lg translate-y-10 mx-4 w-full left-0 bg-white ">
+//             <div className="flex-wrap items-center overflow-hidden rounded-xl absolute z-[20] flex justify-center  h-3/7 max-w-xl border shadow-lg translate-y-10 mx-4 w-full left-0 bg-ino-white ">
 //               <Link href="/checkout/cart">
 //                 <a>
 //                   <div className="flex w-full flex-nowrap items-center justify-end">
@@ -402,7 +402,7 @@ function SearchModal({
 //               <>
 //                 <div
 //                   key={`cart-items-${index}`}
-//                   className="flex rounded-xl  bg-white  mx-1 my-3 justify-center w-11/12 items-center border hover:border-2 max-h-32 overflow-hidden"
+//                   className="flex rounded-xl  bg-ino-white  mx-1 my-3 justify-center w-11/12 items-center border hover:border-2 max-h-32 overflow-hidden"
 //                 >
 //                   <Link href={cart.ProductUrl}>
 //                     <a className="flex flex-wrap items-center">

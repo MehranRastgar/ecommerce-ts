@@ -43,13 +43,13 @@ export default function NavbarOne({
   }, [openMenu, openCategorieMenu]);
   return (
     <div
-      className={`transition-all duration-500 w-screen border-b-2 bg-white ${
+      className={`transition-all duration-500 w-screen border-b-2 bg-ino-white ${
         navHidden === true && openCategorieMenu !== true
           ? "-mt-[90px] h-[50px] overflow-hidden -z-[2] border-b-2"
-          : `h-[40px] bg-white ${isScrolled === true ? "-mt-[50px]" : ""}`
+          : `h-[40px] bg-ino-white ${isScrolled === true ? "-mt-[50px]" : ""}`
       }`}
     >
-      <nav className="inline-flex mr-[80px] items-center justify-start filter font-semibold bg-white w-full">
+      <nav className="inline-flex mr-[80px] items-center justify-start filter font-semibold bg-ino-white w-full">
         <ul className="-mr-3 inline-flex text-[14px] font-Vazir-Medium text-gray-400">
           <li
             onMouseEnter={() => {
@@ -79,7 +79,7 @@ export default function NavbarOne({
                 height: `${openCategorieMenu === true ? "66%" : "0%"}`,
                 zIndex: "2",
               }}
-              className="fixed mr-[90px] flex w-2/3 bg-white h-2/3 rounded-b-xl   mt-[39px]  right-0  z-50"
+              className="fixed mr-[90px] flex w-2/3 bg-ino-white h-2/3 rounded-b-xl   mt-[39px]  right-0  z-50"
             >
               {openCategorieMenu === true ? <CategoriesMenuWindow /> : <></>}
             </div>
@@ -160,7 +160,7 @@ export default function NavbarOne({
 //       }}
 //       className="justify-start flex fixed top-0 right-0 w-full h-full bg-black/30  z-[2]"
 //     >
-//       <div className="flex flex-wrap w-4/5 border-cyan-400 p-2 h-full bg-white justify-start items-start overflow-y-auto">
+//       <div className="flex flex-wrap w-4/5 border-cyan-400 p-2 h-full bg-ino-white justify-start items-start overflow-y-auto">
 //         {/* <input placeholder='جستجو گزینه ها' className='p-2 m-2 cursor-pointer h-fit'></input> */}
 //         <div className="p-1 py-0 border-b-2 border-blackout-red h-fit w-full">
 //           <Link href={"/"}>
@@ -226,7 +226,9 @@ export function CategoriesMenuWindow() {
                     setMenuSelector(index1);
                   }}
                   className={`flex w-[200px] h-12 items-center px-6 py-6 ${
-                    menuSelector === index1 ? "bg-gray-200 text-blue-400" : ""
+                    menuSelector === index1
+                      ? "bg-ino-lwhite text-ino-primary"
+                      : ""
                   }`}
                 >
                   {highCat.L1?.[0]?.title_fa}
@@ -256,7 +258,7 @@ export function CategoriesMenuWindow() {
                   key={index1 + "-ul1"}
                 >
                   <Link
-                    className="flex w-auto mr-4 font-Vazir-Light py-2 justify-start text-[14px] hover:text-blue-400 "
+                    className="flex w-auto mr-4 font-Vazir-Light py-2 justify-start text-[14px] hover:text-ino-primary "
                     key={menuSelector + "-l2"}
                     href={`/search${subcat?.url}`}
                   >

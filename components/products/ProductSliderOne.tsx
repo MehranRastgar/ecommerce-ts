@@ -91,7 +91,7 @@ export default function ProductSliderOne({ setting }: { setting: any }) {
     // getProductData({ setMinifyProducts, data });
   }, [data]);
   return (
-    <div className="product-slider-one-container bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 ">
+    <div className="product-slider-one-container bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-ino-primary to-ino-darker">
       {/* <div className="product-slider-one-items flex"> */}
       <ScrollContainer
         vertical={false}
@@ -134,7 +134,7 @@ export default function ProductSliderOne({ setting }: { setting: any }) {
         )}
         <div className=" font-Vazir-Bold w-full min-w-[200px] m-1 mx-2 flex items-center justify-center">
           <Link
-            className="flex items-center p-6 bg-white rounded-lg"
+            className="flex items-center p-6 bg-ino-white rounded-lg"
             href={setting?.url ?? "/"}
           >
             <div className="mx-2">مشاهده همه</div>

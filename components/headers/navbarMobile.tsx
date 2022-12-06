@@ -23,7 +23,7 @@ export default function NavbarMobile() {
         "
     >
       <button
-        className="flex h-fit m-2 p-2 border rounded-xl bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-sky-400 to-indigo-900 text-white"
+        className="flex h-fit m-2 p-2 border rounded-xl bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-ino-primary to-ino-dark text-white"
         onClick={() => {
           setOpenMenu((PrevValue) => !PrevValue);
         }}
@@ -63,9 +63,9 @@ function OpenMenuModal({ setOpenMenu }: { setOpenMenu: any }) {
       }}
       className={`justify-start flex fixed top-0 right-0  h-full bg-black/30 `}
     >
-      <div className="flex flex-wrap w-5/6   border-cyan-400 p-2 h-full bg-white justify-start items-start overflow-y-auto">
+      <div className="flex flex-wrap w-5/6   border-ino-primary p-2 h-full bg-ino-white justify-start items-start overflow-y-auto">
         {/* <input placeholder='جستجو گزینه ها' className='p-2 m-2 cursor-pointer h-fit'></input> */}
-        <div className="p-1 py-0 border-b-2 border-blue-400 h-fit w-full">
+        <div className="p-2 py-2 border-b-2 border-ino-primary h-fit w-full my-2">
           <Link href={"/"}>
             <div>
               <Image
@@ -117,7 +117,7 @@ function MobileImportantMenuComponent() {
     <div>
       <ul
         key={"menu-high"}
-        className="flex flex-wrap w-full text-[14px] font-Vazir-Bold text-gray-400"
+        className="flex flex-wrap w-full text-[14px] font-Vazir-Bold text-ino-gray mt-2"
       >
         <li key={"1"} className={liClass}>
           <Link href="/">
@@ -176,7 +176,7 @@ function MobileCategoriesMenuComponent() {
   return (
     <>
       {settingsStatus === "idle" ? (
-        <div className="text-gray-800 text-[13px] ">
+        <div className="text-ino-white text-[13px] ">
           {categories?.properties?.[0]?.properties?.map((highCat, index1) => (
             <ul
               className={`${
@@ -189,7 +189,9 @@ function MobileCategoriesMenuComponent() {
               <li
                 key={index1 + "-l1"}
                 className={`flex flex-wrap w-full h-fit my-2 justify-start  ${
-                  preview === index1 ? "text-blue-400 font-bold" : ""
+                  preview === index1
+                    ? "text-ino-primary font-bold"
+                    : "text-ino-lgray"
                 }`}
               >
                 <div

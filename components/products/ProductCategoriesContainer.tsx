@@ -50,7 +50,7 @@ function CategoryItem({ itemCat }: { itemCat: L1 | undefined }) {
   return (
     <>
       <Link
-        className="flex md:w-1/3 lg:w-1/5 xl:w-1/5 max-w-[200px] w-1/2"
+        className="flex mx-1 md:w-1/3 lg:w-1/5 xl:w-1/5 max-w-[200px] w-1/2"
         href={`/search${itemCat?.url ?? "/"}`}
       >
         <Image

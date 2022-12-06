@@ -41,7 +41,7 @@ export default function ProductImageComponent({
       <div className="flex  justify-center flex-wrap w-full max-h-full overflow-hidden">
         <div
           ref={slideRef}
-          className="flex w-full justify-center bg-white justify-items-stretch select-none"
+          className="flex w-full justify-center bg-ino-white justify-items-stretch select-none"
         >
           {productData?.main?.images.length > 0 ? (
             <>

@@ -27,7 +27,7 @@ import LoadingOne from "../../components/loader/default";
 
 const inputStyle = "flex flex-wrap w-8/12 justify-center border ";
 const listStyle =
-  "flex flex-wrap-row w-11/12 justify-center border bg-white m-2 p-2";
+  "flex flex-wrap-row w-11/12 justify-center border bg-ino-white m-2 p-2";
 const parentStyle = "flex flex-wrap w-6/12 justify-center border bg-white";
 const formStyle = "flex flex-wrap w-11/12 justify-center border bg-wipro-blue";
 const aStyle = "mx-5";
@@ -124,9 +124,9 @@ export default function Login() {
         <title>ورود / ثبت نام</title>
         <meta name="description" content=""></meta>
       </Head>
-      <section className="flex bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 justify-center min-h-screen h-full gradient-form items-center  w-full md:h-screen">
-        <div className="bg-white/30 max-w-[400px] border m-2 mt-20 w-full md:w-3/4 lg:w-1/2 xl:w-1/3 2xl:w-1/3 3xl:w-1/4 rounded-xl shadow-lg overflow-hidden h-fit -translate-y-36 font-Vazir-Medium">
-          <header className="p-4 flex justify-center w-full bg-cyan-400 border-b  text-xl text-white text-center">
+      <section className="flex bg-ino-lwhite justify-center min-h-screen h-full gradient-form items-center  w-full md:h-screen">
+        <div className="bg-white/30 max-w-[400px] border m-2 mt-4 w-full md:w-3/4 lg:w-1/2 xl:w-1/3 2xl:w-1/3 3xl:w-1/4 rounded-xl shadow-lg overflow-hidden h-fit  font-Vazir-Medium">
+          <header className="p-4 flex justify-center w-full bg-ino-gray border-b  text-xl text-white text-center">
             ثبت نام / ورود
           </header>
           {signInFlag === "request" || signInFlag === "smsWaiting" ? (
@@ -159,7 +159,7 @@ export default function Login() {
                         setIsLoading(true);
                         loginUser();
                       }}
-                      className=" mb-4 rounded-lg p-4  text-white bg-cyan-400 text-xl"
+                      className=" mb-4 rounded-lg p-4  text-white bg-ino-primary text-xl"
                     >
                       تایید
                     </button>
@@ -183,7 +183,7 @@ export default function Login() {
                 <div className=" m-4 p-5 flex  text-xl text-blackout-black text-center">
                   جهت ثبت نام یا ورود شماره موبایل خود را وارد کنید
                 </div>
-                <div className="m-4 p-5 flex  text-lg text-white text-center">
+                <div className="m-4 p-5 flex  text-lg text-ino-lgray text-center">
                   و در ادامه کد پیامک شده را وارد نمایید
                 </div>
                 <div className=" flex flex-wrap justify-center w-full ">
@@ -205,7 +205,7 @@ export default function Login() {
                         setIsLoading(true);
                         sendOtp();
                       }}
-                      className=" mb-4 rounded-lg p-4  text-white bg-cyan-400 text-xl"
+                      className=" mb-4 rounded-lg p-4  text-white bg-ino-primary text-xl"
                     >
                       {isLoading ? <LoadingOne /> : "دریافت کد"}
                     </button>
