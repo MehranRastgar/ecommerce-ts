@@ -100,18 +100,24 @@ export default function NavbarOne({
             </Link>
           </li>
           <li className={styleClassLi}>
-            <Link className={styleClassLink} href="/res">
+            <Link
+              className={styleClassLink}
+              href="/search?sorttype=asce&sort=price&issale=true"
+            >
               <GoGift size={20} color="#E71D37" />
-              <span className="mr-2">پیشنهاد شگفت انگیز</span>
+              <span className="mr-2">تخفیف ویژه</span>
             </Link>
           </li>
           <li className={styleClassLi}>
-            <Link className={styleClassLink} href="/res">
+            <Link
+              className={styleClassLink}
+              href="/search?sorttype=asce&sort=sell"
+            >
               پرفروش ها
             </Link>
           </li>
           <li className={styleClassLi}>
-            <Link className={styleClassLink} href="/res">
+            <Link className={styleClassLink} href="/aboutus">
               تماس با ما
             </Link>
           </li>

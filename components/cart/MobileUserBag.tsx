@@ -18,6 +18,8 @@ import {
   ThemeState,
 } from "../../src/store/slices/themeSlice";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { AiFillCloseSquare } from "react-icons/ai";
+import { useRouter } from "next/router";
 
 export default function MobileUserBag() {
   const [count, setCount] = useState(0);
@@ -29,7 +31,7 @@ export default function MobileUserBag() {
   const dispatch = useAppDispatch();
   const mobileCheck = useAppSelector(selectDeviceType);
   const [animationParent] = useAutoAnimate<HTMLDivElement>({ duration: 500 });
-
+  const router = useRouter();
   function handleReduceFromCart(productId: string, variantId: string) {
     if (
       userInfo._id !== undefined &&
@@ -55,216 +57,331 @@ export default function MobileUserBag() {
   useEffect(() => {
     setCount(userInfo?.cart?.length ?? 0);
   }, [bagElement, offsetY, userInfo]);
+
+  useEffect(() => {
+    setDrop(false);
+  }, [router]);
+
   const timeout: number = 200;
   return (
     <>
-      <div
-        style={{
-          transition: `${
-            drop === true
-              ? "opacity 800ms ease-in-out"
-              : "opacity 800ms ease-in-out"
-          }`,
-          opacity: `${drop === true ? "100%" : "0%"}`,
-          width: `${drop === true ? "100%" : "0%"}`,
-          height: `${drop === true ? "100%" : "0%"}`,
-        }}
-        onMouseEnter={() => {
-          setDrop(false);
-        }}
-        onTouchStart={() => {
-          setDrop(false);
-          // setTimeout(() => setDrop(false), timeout);
-        }}
-        onClick={() => {
-          setDrop(false);
-          // setTimeout(() => setDrop(false), timeout);
-        }}
-        className="fixed top-0 left-0 z-[100] w-[100%] h-[100%] bg-black/60"
-      ></div>
+      {drop ? (
+        <div
+          onMouseEnter={() => {
+            setDrop(false);
+          }}
+          onClick={() => {
+            setDrop(false);
+          }}
+          className={`fixed hidden ${
+            !drop ? "hidden" : "md:flex"
+          } top-0 left-0 z-[100] w-[100%] h-[100%] bg-ino-lgray/10 `}
+        ></div>
+      ) : (
+        <></>
+      )}
       <div
         id="bag-container"
         onMouseEnter={() => {
-          if (mobileCheck === "mobile") {
-          } else {
-            setDrop(true);
-
-            // setTimeout(() => setDrop(true), timeout);
-          }
+          setDrop(true);
         }}
-        onClick={() => {
-          if (mobileCheck === "mobile") {
-            if (drop) {
-              setDrop(false);
-              // setTimeout(() => setDrop(false), timeout);
-            } else {
-              setDrop(true);
-              // setTimeout(() => setDrop(true), timeout);
-            }
-          } else {
-            setDrop(true);
-            // setTimeout(() => setDrop(true), timeout);
-          }
+        onTouchEnd={() => {
+          setDrop(true);
         }}
         onMouseLeave={() => {
-          if (mobileCheck === "mobile") {
-          } else {
-            setDrop(false);
-            // setTimeout(() => setDrop(false), timeout);
-          }
-          // setDrop(false);
+          setDrop(false);
         }}
         ref={bagElement}
-        className="flex justify-end w-1/2 "
+        className="md:flex flex-wrap hidden justify-end "
       >
         <button
-          className={` rounded-xl px-6 p-4 inline-flex ${
-            !drop ? "text-ino-hgray" : "text-ino-gray"
-          } ${drop === true ? " z-[101]" : ""}`}
+          className={`rounded-xl p-4 inline-flex ${
+            !drop ? "text-ino-hgray" : "text-ino-hgray"
+          } ${drop === true ? " z-[100]" : "z-[100]"}`}
         >
-          <FaShoppingBag
-            // color={`${!drop ? "#48424966" : "#ffffff"}`}
-            size={20}
-          />
+          <FaShoppingBag size={20} />
           <span className="font-thin -mr-8 mt-4 font-serif inline-flex items-center justify-center px-[8px] py-[3px] text-xs  leading-none text-gray-100 bg-blackout-red2 rounded-full ">
             {count}
           </span>
         </button>
+
         <div
-          style={{
-            transition: "height 300ms ease-in-out",
-            opacity: `${drop === true ? "100%" : "0%"}`,
-            height: `${drop === true ? "40%" : "0%"}`,
-            transform: `translate3d(0px,  50px, 0px)`,
-          }}
-          className={`fixed z-[101] flex justify-center bg-transparent 
-          ${
-            drop
-              ? "md:w-[40%] lg:w-[550px] w-full md:left-[20%] lg:loft-[225px] left-0"
-              : "w-[0px]"
-          }
-          `}
+          className={`hidden md:flex flex-wrap rounded-lg fixed transition-all z-[101] bg-white translate-y-14 translate-x-[14px] w-[400px] ${
+            drop ? "h-[500px] flex p-[16px]" : " overflow-hidden h-[0px]"
+          }`}
         >
-          <div className="flex border rounded-xl mx-2 bg-ino-white h-[98%] w-full overflow-hidden ">
-            <div className="flex flex-wrap justify-end p-2 w-full font-Vazir-Medium ">
-              <span className="w-full text-start  mx-2 font-Vazir-Bold text-sky-600">
-                سبد خرید
-              </span>
-              <div className="flex h-[80%] p-2 rounded-xl bg-ino-white overflow-y-auto  items-start justify-center w-full">
-                <div
-                  ref={animationParent}
-                  className="flex flex-wrap h-fit items-start justify-center w-full"
-                >
-                  {userInfo?.cart !== undefined &&
-                  userInfo?.cart?.length > 0 ? (
+          <span className="w-full text-start mx-2 font-Vazir-Bold text-sky-600">
+            سبد خرید
+          </span>
+          <div className="flex h-[70%] p-2 rounded-xl bg-ino-white overflow-y-auto  items-start justify-center w-full">
+            <div
+              ref={animationParent}
+              className="flex flex-wrap h-fit items-start justify-center w-full"
+            >
+              {userInfo?.cart !== undefined && userInfo?.cart?.length > 0 ? (
+                <>
+                  {userInfo?.cart?.map((cartItem) => (
                     <>
-                      {userInfo?.cart?.map((cartItem) => (
-                        <>
-                          <div className="flex my-2 p-2 rounded-xl shadow border h-[120px] w-full text-xs font-Vazir-Medium overflow-hidden">
-                            <Image
-                              className="flex w-[100px] h-auto m-1 rounded-xl"
-                              loader={imageLoader}
-                              unoptimized
-                              quality="80"
-                              loading="eager"
-                              unselectable="on"
-                              draggable="false"
-                              placeholder="empty"
-                              src={imageAddress(
-                                cartItem?.ImageUrl,
-                                100,
-                                100,
-                                100,
-                                "webp",
-                                undefined
-                              )}
-                              alt={cartItem?.title_fa ?? "not-present"}
-                              width={100}
-                              height={100}
-                            />
-                            <div className="flex h-fit w-2/4 ">
-                              {cartItem.title_fa ?? cartItem.sku}
-                            </div>
-                            <div className="flex flex-wrap h-fit w-1/4 ">
-                              <span className="text-red-500 line-through">
-                                {(
-                                  cartItem?.variant.price.rrp_price / 10
-                                ).toLocaleString()}
-                              </span>
-                              {(
-                                cartItem?.variant.price.selling_price / 10
-                              ).toLocaleString()}{" "}
-                              تومان
-                            </div>
-                            <div className="flex flex-wrap h-fit w-1/4 ">
-                              <div className="flex w-full">
-                                {cartItem?.quantity !== undefined &&
-                                cartItem?.quantity > 1 ? (
-                                  <button
-                                    onClick={() => {
-                                      handleReduceFromCart(
-                                        cartItem.productId,
-                                        cartItem.variantId
-                                      );
-                                    }}
-                                    className="text-sm"
-                                  >
-                                    <IoMdRemoveCircle
-                                      color={"rgb(235,18,18)"}
-                                      size={20}
-                                    />
-                                  </button>
-                                ) : (
-                                  <button
-                                    onClick={() => {
-                                      handleReduceFromCart(
-                                        cartItem.productId,
-                                        cartItem.variantId
-                                      );
-                                    }}
-                                    className="text-sm "
-                                  >
-                                    <GoTrashcan
-                                      color={"rgb(235,18,18)"}
-                                      size={20}
-                                    />
-                                  </button>
-                                )}
-                                {cartItem?.quantity} عدد
-                              </div>
-                              <Link
-                                href={encodeURI(
-                                  `/products/${cartItem?.productId}/${(
-                                    cartItem?.title_fa ?? cartItem?.sku
-                                  )
-                                    ?.replaceAll(" ", "-")
-                                    .replaceAll("/", "-")}?v=${
-                                    cartItem?.variantId
-                                  }`
-                                )}
-                                className="px-4 rounded-lg hover:bg-gray-200 self-end text-md font-Vazirmatn font-bold text-blue-400	p-2"
+                      <div className="flex my-2 p-2 rounded-xl shadow border h-[120px] w-full text-xs font-Vazir-Medium overflow-hidden">
+                        <Image
+                          className="flex w-[100px] h-auto m-1 rounded-xl"
+                          loader={imageLoader}
+                          unoptimized
+                          quality="80"
+                          loading="eager"
+                          unselectable="on"
+                          draggable="false"
+                          placeholder="empty"
+                          src={imageAddress(
+                            cartItem?.ImageUrl,
+                            100,
+                            100,
+                            100,
+                            "webp",
+                            undefined
+                          )}
+                          alt={cartItem?.title_fa ?? "not-present"}
+                          width={100}
+                          height={100}
+                        />
+                        <div className="flex h-fit w-2/4 ">
+                          {cartItem.title_fa ?? cartItem.sku}
+                        </div>
+                        <div className="flex flex-wrap h-fit w-1/4 ">
+                          <span className="text-red-500 line-through">
+                            {(
+                              cartItem?.variant.price.rrp_price / 10
+                            ).toLocaleString()}
+                          </span>
+                          {(
+                            cartItem?.variant.price.selling_price / 10
+                          ).toLocaleString()}{" "}
+                          تومان
+                        </div>
+                        <div className="flex flex-wrap h-fit w-1/4 ">
+                          <div className="flex w-full">
+                            {cartItem?.quantity !== undefined &&
+                            cartItem?.quantity > 1 ? (
+                              <button
+                                onClick={() => {
+                                  handleReduceFromCart(
+                                    cartItem.productId,
+                                    cartItem.variantId
+                                  );
+                                }}
+                                className="text-sm"
                               >
-                                نمایش کالا
-                              </Link>
-                            </div>
+                                <IoMdRemoveCircle
+                                  color={"rgb(235,18,18)"}
+                                  size={20}
+                                />
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  handleReduceFromCart(
+                                    cartItem.productId,
+                                    cartItem.variantId
+                                  );
+                                }}
+                                className="text-sm "
+                              >
+                                <GoTrashcan
+                                  color={"rgb(235,18,18)"}
+                                  size={20}
+                                />
+                              </button>
+                            )}
+                            {cartItem?.quantity} عدد
                           </div>
-                        </>
-                      ))}
+                          <Link
+                            href={encodeURI(
+                              `/products/${cartItem?.productId}/${(
+                                cartItem?.title_fa ?? cartItem?.sku
+                              )
+                                ?.replaceAll(" ", "-")
+                                .replaceAll("/", "-")}?v=${cartItem?.variantId}`
+                            )}
+                            className="px-4 rounded-lg hover:bg-gray-200 self-end text-md font-Vazirmatn font-bold text-blue-400	p-2"
+                          >
+                            نمایش کالا
+                          </Link>
+                        </div>
+                      </div>
                     </>
-                  ) : (
-                    <span className="flex w-full h-full items-center mx-2 text-3xl text-gray-300 font-Vazir-Medium">
-                      خالی...
-                    </span>
-                  )}
-                </div>
-              </div>
-              <Link
-                href={"/checkout/cart"}
-                className="px-4 rounded-lg hover:bg-ino-primary hover:text-white self-end text-md font-Vazirmatn font-bold text-ino-primary	p-2"
-              >
-                ثبت سفارش
-              </Link>
+                  ))}
+                </>
+              ) : (
+                <span className="flex w-full h-full items-center mx-2 text-3xl text-gray-300 font-Vazir-Medium">
+                  خالی...
+                </span>
+              )}
             </div>
+          </div>
+          <div>
+            <Link
+              href={"/checkout/cart"}
+              className="flex h-fit mb-2 px-4 rounded-lg bg-ino-primary hover:bg-ino-dark text-white hover:text-white self-end text-md font-Vazirmatn font-bold 	p-2"
+            >
+              ثبت سفارش
+            </Link>
+          </div>
+        </div>
+      </div>
+      {/* =========================================== */}
+      <div
+        id="bag-container-mobile"
+        onTouchEnd={() => {
+          setDrop(true);
+        }}
+        onClick={() => {
+          setDrop(true);
+        }}
+        ref={bagElement}
+        className="md:hidden flex justify-end "
+      >
+        <button
+          className={` rounded-xl p-4 inline-flex ${
+            !drop ? "text-ino-hgray" : "text-ino-hgray"
+          } ${drop === true ? " z-[100]" : "z-[100]"}`}
+        >
+          <FaShoppingBag size={20} />
+          <span className="font-thin -mr-8 mt-4 font-serif inline-flex items-center justify-center px-[8px] py-[3px] text-xs  leading-none text-gray-100 bg-blackout-red2 rounded-full ">
+            {count}
+          </span>
+        </button>
+      </div>
+      <div
+        className={`md:hidden fixed flex flex-wrap z-[101] bg-white right-0 top-0 h-[100%] w-[100%] ${
+          drop ? "flex" : "hidden"
+        }`}
+      >
+        <div className="flex h-fit w-full justify-end p-2 text-ino-primary">
+          <div
+            onClick={() => {
+              setDrop(false);
+            }}
+            className="flex p-2 cursor-pointer"
+          >
+            <AiFillCloseSquare size={30} />
+          </div>
+        </div>
+        <div className="flex flex-wrap items-start h-full rounded-xl mx-2 bg-ino-white w-full overflow-hidden">
+          <span className="w-full text-start  mx-2 font-Vazir-Bold text-sky-600">
+            سبد خرید
+          </span>
+          <div className="flex h-[70%] p-2 rounded-xl bg-ino-white overflow-y-auto  items-start justify-center w-full">
+            <div
+              ref={animationParent}
+              className="flex flex-wrap h-fit items-start justify-center w-full"
+            >
+              {userInfo?.cart !== undefined && userInfo?.cart?.length > 0 ? (
+                <>
+                  {userInfo?.cart?.map((cartItem) => (
+                    <>
+                      <div className="flex my-2 p-2 rounded-xl shadow border h-[120px] w-full text-xs font-Vazir-Medium overflow-hidden">
+                        <Image
+                          className="flex w-[100px] h-auto m-1 rounded-xl"
+                          loader={imageLoader}
+                          unoptimized
+                          quality="80"
+                          loading="eager"
+                          unselectable="on"
+                          draggable="false"
+                          placeholder="empty"
+                          src={imageAddress(
+                            cartItem?.ImageUrl,
+                            100,
+                            100,
+                            100,
+                            "webp",
+                            undefined
+                          )}
+                          alt={cartItem?.title_fa ?? "not-present"}
+                          width={100}
+                          height={100}
+                        />
+                        <div className="flex h-fit w-2/4 ">
+                          {cartItem.title_fa ?? cartItem.sku}
+                        </div>
+                        <div className="flex flex-wrap h-fit w-1/4 ">
+                          <span className="text-red-500 line-through">
+                            {(
+                              cartItem?.variant.price.rrp_price / 10
+                            ).toLocaleString()}
+                          </span>
+                          {(
+                            cartItem?.variant.price.selling_price / 10
+                          ).toLocaleString()}{" "}
+                          تومان
+                        </div>
+                        <div className="flex flex-wrap h-fit w-1/4 ">
+                          <div className="flex w-full">
+                            {cartItem?.quantity !== undefined &&
+                            cartItem?.quantity > 1 ? (
+                              <button
+                                onClick={() => {
+                                  handleReduceFromCart(
+                                    cartItem.productId,
+                                    cartItem.variantId
+                                  );
+                                }}
+                                className="text-sm"
+                              >
+                                <IoMdRemoveCircle
+                                  color={"rgb(235,18,18)"}
+                                  size={20}
+                                />
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => {
+                                  handleReduceFromCart(
+                                    cartItem.productId,
+                                    cartItem.variantId
+                                  );
+                                }}
+                                className="text-sm "
+                              >
+                                <GoTrashcan
+                                  color={"rgb(235,18,18)"}
+                                  size={20}
+                                />
+                              </button>
+                            )}
+                            {cartItem?.quantity} عدد
+                          </div>
+                          <Link
+                            href={encodeURI(
+                              `/products/${cartItem?.productId}/${(
+                                cartItem?.title_fa ?? cartItem?.sku
+                              )
+                                ?.replaceAll(" ", "-")
+                                .replaceAll("/", "-")}?v=${cartItem?.variantId}`
+                            )}
+                            className="px-4 rounded-lg hover:bg-gray-200 self-end text-md font-Vazirmatn font-bold text-blue-400	p-2"
+                          >
+                            نمایش کالا
+                          </Link>
+                        </div>
+                      </div>
+                    </>
+                  ))}
+                </>
+              ) : (
+                <span className="flex w-full h-full items-center mx-2 text-3xl text-gray-300 font-Vazir-Medium">
+                  خالی...
+                </span>
+              )}
+            </div>
+          </div>
+          <div>
+            <Link
+              href={"/checkout/cart"}
+              className="flex h-fit mb-2 px-4 rounded-lg bg-ino-primary hover:bg-ino-dark text-white hover:text-white self-end text-md font-Vazirmatn font-bold 	p-2"
+            >
+              ثبت سفارش
+            </Link>
           </div>
         </div>
       </div>

@@ -281,10 +281,6 @@ export const clientSlice = createSlice({
         signInCheck.fulfilled,
         (state, action: PayloadAction<Client | any>) => {
           if (action?.payload?.usernamebyphone !== undefined) {
-            console.log(
-              "action.payloadaction.payloadaction.payloadaction.payloadaction.payload",
-              action.payload
-            );
             state.value = action.payload;
             state.signInFlag = "success";
           } else {

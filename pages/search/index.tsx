@@ -591,20 +591,20 @@ export function FilterComponent() {
                 اعمال فیلترها
               </span>
             </li> */}
-            <li className="flex w-full items-center">
+            <li
+              onClick={() => {
+                setDropdownFilter((value) => !value);
+              }}
+              className="flex w-full items-center"
+            >
               <span className="flex -mt-3 text-gray-500">
                 <RiFilterFill size={25} />
               </span>
               <span className="flex w-full text-gray-500 mx-2 font-Vazir-Bold">
-                فیلتر ها
+                فیلترها
               </span>
               <div className="md:hidden flex justify-end w-full">
-                <div
-                  onClick={() => {
-                    setDropdownFilter((value) => !value);
-                  }}
-                  className="flex text-xl font-Vazir-Bold items-center justify-center w-10 h-10 rounded-md border-2"
-                >
+                <div className="flex text-xl font-Vazir-Bold items-center justify-center w-10 h-10 rounded-md border-2">
                   {" "}
                   {dropdownFilter ? (
                     <div>-</div>
