@@ -55,10 +55,10 @@ export default function MobileUserProfile() {
       <div
         id="user-container"
         onMouseEnter={() => {
-          setDrop(true);
+          if (signInFlag === "success") setDrop(true);
         }}
         onTouchEnd={() => {
-          setDrop(true);
+          if (signInFlag === "success") setDrop(true);
         }}
         onMouseLeave={() => {
           setDrop(false);
@@ -146,10 +146,10 @@ export default function MobileUserProfile() {
       <div
         id="user-container-mobile"
         onTouchEnd={() => {
-          setDrop(true);
+          if (signInFlag === "success") setDrop(true);
         }}
         onClick={() => {
-          setDrop(true);
+          if (signInFlag === "success") setDrop(true);
         }}
         className="justify-end md:hidden flex"
       >
