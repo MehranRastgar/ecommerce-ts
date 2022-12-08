@@ -183,7 +183,7 @@ function Home({
           </h2>
           <ProductCategoriesContainer />
         </div>
-        <div className="flex flex-wrap w-full mx-4 my-6 bg-ino-white overflow-hidden justify-center">
+        <div className="flex flex-wrap w-full mx-2 my-6 bg-ino-white overflow-hidden justify-center">
           {/* {minifyProducts?.map((minifyProduct: MinifyProduct) => (
             <>
               <ProductCardOne minifyProduct={minifyProduct} />
@@ -195,6 +195,7 @@ function Home({
               name: "فروش ویژه لپتاپ",
               span: "مشاهده این دسته",
               getOption: getLaptop,
+              color: 1,
             }}
           />
           <div className="h-10 w-full p-2"></div>
@@ -225,6 +226,7 @@ function Home({
               name: " ویژه موبایل",
               span: "مشاهده این دسته",
               getOption: getMobile,
+              color: 2,
             }}
           />
           <div className="h-10 w-full p-2"></div>
@@ -234,6 +236,7 @@ function Home({
               name: "لپتاپ گیمینگ",
               span: "مشاهده این دسته",
               getOption: getLaptop2,
+              color: 3,
             }}
           />
         </div>

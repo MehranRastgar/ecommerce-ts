@@ -82,12 +82,6 @@ export default function MobileUserBag() {
       )}
       <div
         id="bag-container"
-        onMouseEnter={() => {
-          setDrop(true);
-        }}
-        onTouchEnd={() => {
-          setDrop(true);
-        }}
         onMouseLeave={() => {
           setDrop(false);
         }}
@@ -99,10 +93,20 @@ export default function MobileUserBag() {
             !drop ? "text-ino-hgray" : "text-ino-hgray"
           } ${drop === true ? " z-[100]" : "z-[100]"}`}
         >
-          <FaShoppingBag size={20} />
-          <span className="font-thin -mr-8 mt-4 font-serif inline-flex items-center justify-center px-[8px] py-[3px] text-xs  leading-none text-gray-100 bg-blackout-red2 rounded-full ">
-            {count}
-          </span>
+          <div
+            className="inline-flex"
+            onMouseEnter={() => {
+              setDrop(true);
+            }}
+            onTouchEnd={() => {
+              setDrop(true);
+            }}
+          >
+            <FaShoppingBag size={20} />
+            <span className="font-thin -mr-8 mt-4 font-serif inline-flex items-center justify-center px-[8px] py-[3px] text-xs  leading-none text-gray-100 bg-blackout-red2 rounded-full ">
+              {count}
+            </span>
+          </div>
         </button>
 
         <div

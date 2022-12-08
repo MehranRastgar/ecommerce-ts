@@ -43,88 +43,94 @@ export default function ProductCardOne({
   }, []);
   return (
     <>
-      <Link
-        className="flex flex-wrap w-full justify-center items-center border-b-2 hover:border-b-red-300 border-b-slate-300 p-2 font-Vazir-Medium select-none h-auto md:w-1/2 lg:w-1/4 xl:w-1/5 2xl:w-1/5 3xl:w-1/5"
-        href={encodeURI(
-          `/products/${minifyProduct?._id}/${(
-            minifyProduct?.title_fa ?? minifyProduct?.sku
-          )
-            ?.replaceAll(" ", "-")
-            .replaceAll("/", "-")}`
-        )}
-      >
-        <div className="flex items-start justify-center md:w-4/5 w-full ">
-          <div className="hidden md:flex flex-wrap items-start justify-start w-1/5">
-            <div className="font-Vazir-Bold text-xs m-2">رنگ</div>
-            {colorState?.map((color, index) => (
-              <>
-                <input
-                  key={index}
-                  type={"color"}
-                  disabled
-                  className="m-2 h-[20px] w-[15px] bg-transparent "
-                  value={color}
-                ></input>
-              </>
-            ))}
-          </div>
-          <div
-            key={minifyProduct?._id + "-a"}
-            className="md:w-full  justify-center flex flex-wrap h-auto w-1/3"
-          >
-            <Image
-              className="lg:w-[300px] md:w-[200px]  w-[100px] h-auto p-1 m-1 rounded-xl"
-              loader={imageLoader}
-              quality="80"
-              loading="eager"
-              unselectable="on"
-              draggable="false"
-              placeholder="empty"
-              src={imageAddress(
-                minifyProduct?.image,
-                300,
-                300,
-                80,
-                "webp",
-                undefined
-              )}
-              alt={minifyProduct?.title_en ?? "not-present"}
-              width={100}
-              height={100}
-            />
-          </div>
-          <div className="md:hidden flex flex-wrap w-2/3">
-            <div
-              key={minifyProduct?._id + "-num3"}
-              className="text-xs font-Vazir-Bold items-center text-justify"
-            >
-              {minifyProduct?.title_fa.toLocaleUpperCase()}
+      <div className="flex flex-wrap w-full justify-center items-center  border-b-slate-300 p-2 font-Vazir-Medium select-none h-auto md:h-[350px] md:w-1/2 lg:w-1/4 xl:w-1/5 2xl:w-1/5 3xl:w-1/5">
+        <Link
+          href={encodeURI(
+            `/products/${minifyProduct?._id}/${(
+              minifyProduct?.title_fa ?? minifyProduct?.sku
+            )
+              ?.replaceAll(" ", "-")
+              .replaceAll("/", "-")}`
+          )}
+          className="w-full border p-2 rounded-lg shadow h-full overflow-hidden md:max-w-[260px] "
+        >
+          <div className="flex items-start justify-center md:w-4/5 w-full ">
+            <div className="hidden md:flex flex-wrap items-start justify-start w-1/5">
+              <div className="font-Vazir-Bold text-xs m-2">رنگ</div>
+              {colorState?.map((color, index) => (
+                <>
+                  <div
+                    style={{
+                      boxShadow: `${color} 0px 5px 15px`,
+                      backgroundColor: `${color} `,
+                    }}
+                    key={index}
+                    className="m-2 h-[10px] w-[10px] bg-transparent rounded-full border"
+                  ></div>
+                </>
+              ))}
             </div>
-            {
+            <div
+              key={minifyProduct?._id + "-a"}
+              className="md:w-full  justify-center flex flex-wrap h-auto w-1/3"
+            >
+              <Image
+                // style={{
+                //   boxShadow: `${minifyProduct?.color?.[0].hex_code} 2px 3px 2px`,
+                // }}
+                className={`lg:w-[300px] md:w-[200px] w-[100px] h-auto p-1 m-1 rounded-xl`}
+                loader={imageLoader}
+                quality="80"
+                loading="eager"
+                unselectable="on"
+                draggable="false"
+                placeholder="empty"
+                src={imageAddress(
+                  minifyProduct?.image,
+                  300,
+                  300,
+                  80,
+                  "webp",
+                  undefined
+                )}
+                alt={minifyProduct?.title_en ?? "not-present"}
+                width={100}
+                height={100}
+              />
+            </div>
+            <div className="md:hidden flex flex-wrap w-2/3">
               <div
-                key={minifyProduct?._id + "-num4"}
-                className="text-xs mt-2  items-center text-justify text-blackout-black"
+                key={minifyProduct?._id + "-num3"}
+                className="text-md text-ino-gray font-Vazir-Bold items-center text-justify"
               >
-                {minifyProduct?.primaryAttribute.title}
-                <span className="text-gray-400 mx-2">
-                  {minifyProduct?.primaryAttribute.values}
-                </span>
+                {minifyProduct?.title_fa.toLocaleUpperCase()}
               </div>
-            }
+              {
+                <div
+                  key={minifyProduct?._id + "-num4"}
+                  className="text-xs mt-2 w-full items-center text-justify text-blackout-black"
+                >
+                  {minifyProduct?.primaryAttribute.title}
+                  <span className="text-gray-400 mx-2">
+                    {minifyProduct?.primaryAttribute.values}
+                  </span>
+                </div>
+              }
+            </div>
           </div>
-        </div>
-        <div className="md:flex-wrap flex w-full">
-          <div className="md:hidden flex w-full">
-            {colorState?.map((color, index) => (
-              <>
-                <input
-                  key={index}
-                  type={"color"}
-                  disabled
-                  className="m-2 h-[20px] w-[15px] bg-transparent "
-                  value={color}
-                ></input>
-                {/* <button
+          <div className="md:flex-wrap flex w-full">
+            <div className="md:hidden flex w-full">
+              {colorState?.map((color, index) => (
+                <>
+                  <div
+                    style={{
+                      boxShadow: `${color} 0px 5px 15px`,
+                      backgroundColor: `${color} `,
+                    }}
+                    key={index}
+                    className="m-2 h-[10px] w-[10px] bg-transparent rounded-full border"
+                  ></div>
+                  {/* <button
                 key={`colo-${index}`}
                 type={"button"}
                 className={
@@ -134,49 +140,64 @@ export default function ProductCardOne({
                   "]"
                 }
               ></button> */}
-              </>
-            ))}
-          </div>
-          {minifyProduct?.Price?.selling_price !== undefined &&
-          minifyProduct?.Price?.selling_price <
-            minifyProduct?.Price?.rrp_price ? (
-            <>
-              <div className="text-red-500 flex w-full line-through font-Vazir-Medium text-lg font-thin flex-wrap justify-center ">
-                {minifyProduct?.Price?.rrp_price}
-              </div>
-            </>
-          ) : (
-            <>
-              {" "}
-              <div className="text-white flex w-full font-Vazir-Medium text-lg font-thin flex-wrap justify-center ">
-                {minifyProduct?.Price?.rrp_price}
-              </div>
-            </>
-          )}
-          <div
-            key={minifyProduct?._id + "-num2"}
-            className="md:justify-center md:w-full md:text-xl flex flex-wrap text-xs font-Vazir-Medium "
-          >
+                </>
+              ))}
+            </div>
             {minifyProduct?.Price?.selling_price !== undefined &&
-            minifyProduct?.Price?.selling_price > 0 ? (
+            minifyProduct?.Price?.selling_price <
+              minifyProduct?.Price?.rrp_price ? (
               <>
-                {(minifyProduct?.Price?.selling_price !== undefined
-                  ? minifyProduct?.Price?.selling_price / 10
-                  : 0
-                ).toLocaleString()}{" "}
-                <span className="md:mx-2 text-cyan-400">تومان</span>
+                <div className="text-red-500 flex w-full line-through font-Vazir-Medium text-lg font-thin flex-wrap justify-center ">
+                  {(minifyProduct?.Price?.rrp_price / 10).toLocaleString()}
+                </div>
               </>
             ) : (
               <>
-                <span className="md:mx-2 text-red-400">ناموجود</span>
+                {" "}
+                <div className="text-white flex w-full font-Vazir-Medium text-lg font-thin flex-wrap justify-center ">
+                  {minifyProduct?.Price?.rrp_price}
+                </div>
               </>
             )}
+            <div
+              key={minifyProduct?._id + "-num2"}
+              className="md:justify-center md:w-full md:text-lg flex flex-wrap  md:text-[16px] font-Vazir-Medium "
+            >
+              {minifyProduct?.Price?.selling_price !== undefined &&
+              minifyProduct?.Price?.selling_price > 0 ? (
+                <>
+                  {(minifyProduct?.Price?.selling_price !== undefined
+                    ? minifyProduct?.Price?.selling_price / 10
+                    : 0
+                  ).toLocaleString()}{" "}
+                  <span className="md:mx-2 text-ino-primary font-Vazir-Bold text-[12px]">
+                    تومان
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span className="md:mx-2 text-red-400 text-[12px]">
+                    ناموجود
+                  </span>
+                </>
+              )}
+            </div>
           </div>
-        </div>
-        <h2 className="hidden md:flex font-Vazir-Medium justify-center overflow-hidden text-black text-sm text-rtl mx-[2px] my-1 items-top text-center tracking-normal h-10 p-[2px]">
-          {minifyProduct?.title_fa ?? ""}
-        </h2>
-      </Link>
+          <div className="hidden md:flex w-full mx-0 border-b border-ino-primary"></div>
+
+          <h2 className="hidden md:flex font-Vazir-Medium justify-center overflow-hidden h-[50px] text-black text-xs text-rtl mx-[2px] my-1 items-top text-center tracking-normal  p-[2px]">
+            {minifyProduct?.title_fa ?? ""}
+          </h2>
+          <h3 className=" hidden md:inline-flex font-Vazir-Medium justify-center overflow-hidden h-[50px] text-black text-xs text-rtl mx-[2px] my-1 items-top text-center tracking-normal  p-[2px]">
+            <span className="flex mx-1">
+              {minifyProduct?.primaryAttribute.title ?? ""}
+            </span>
+            <span className="flex mx-1">
+              {minifyProduct?.primaryAttribute.values ?? ""}
+            </span>
+          </h3>
+        </Link>
+      </div>
 
       {/* <Link
         key={"click-on-product"}

@@ -1,4 +1,11 @@
-import { useState, useContext, useEffect, useRef } from "react";
+import {
+  useState,
+  useContext,
+  useEffect,
+  useRef,
+  ChangeEvent,
+  KeyboardEvent,
+} from "react";
 // import ButtonTimer from "src/components/buttonTimer/buttonTimer.js";
 // import { REGISTER_ENDPOINTS } from "/src/utils/constants/endpoints";
 import axios from "axios";
@@ -8,6 +15,8 @@ import sadImage from "public/android-chrome-512x512.png";
 import Image from "next/image";
 // import UserContext from "src/components/userContext";
 // import UserManagement from "src/classes/UserManagement";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 import Head from "next/head";
 import { useAppDispatch, useAppSelector } from "../../src/store/hooks";
 import {
@@ -85,6 +94,11 @@ export default function Login() {
     return phoneRe.test(digits);
   }
 
+  function handleClick(e: KeyboardEvent<HTMLDivElement>) {
+    if (e?.key === "Enter") {
+      loginUser();
+    }
+  }
   useEffect(() => {
     console.log("signInFlag====>", signInFlag);
     if (signInFlag === "smsWaiting") {
@@ -99,7 +113,7 @@ export default function Login() {
     }
     if (errorMessage.length > 3) {
       if (isValid(phoneNumber)) {
-        setErrorMessage("فرمت شماره درست مبباشد");
+        setErrorMessage("فرمت شماره صحیح مبباشد");
       } else {
         setErrorMessage("شماره وارد شده صحیح نمیباشد");
       }
@@ -131,12 +145,7 @@ export default function Login() {
           </header>
           {signInFlag === "request" || signInFlag === "smsWaiting" ? (
             <>
-              <form
-                onSubmit={() => {
-                  setIsLoading(true);
-                  loginUser();
-                }}
-              >
+              <div>
                 <div className="m-4 p-5 flex  text-xl text-black text-center">
                   کد اعتبار سنجی برای شما ارسال شد در صورت دریافت وارد نمایید
                 </div>
@@ -144,7 +153,7 @@ export default function Login() {
                   <div className="m-4 mb-0 pb-0 p-3 flex w-full justify-center center text-center   ">
                     {phoneNumber}
                   </div>
-                  <input
+                  {/* <input
                     onChange={(e) => {
                       setOtpCode(Number(e.target.value));
                     }}
@@ -152,34 +161,42 @@ export default function Login() {
                     className="m-4 p-3 w-1/2 rounded-lg border flex justify-center rtl"
                     placeholder="******"
                     id="code"
-                  ></input>
+                  ></input> */}
+                  <TextField
+                    autoComplete="off"
+                    id="code"
+                    label="رمز یکبار مصرف"
+                    variant="outlined"
+                    // pattern="[0-9]{4}[0-9]{3}[0-9]{4}"
+                    onKeyDown={(e) => {
+                      handleClick(e);
+                    }}
+                    onChange={(e) => setOtpCode(Number(e?.target?.value))}
+                    type={"tel"}
+                    className=" bg-white my-4 rtl"
+                    placeholder="****"
+                  />
                   <div className="flex justify-center w-full">
                     <button
                       onClick={(event) => {
-                        setIsLoading(true);
+                        // setIsLoading(true);
                         loginUser();
                       }}
                       className=" mb-4 rounded-lg p-4  text-white bg-ino-primary text-xl"
                     >
                       تایید
                     </button>
-
                     {signInFlag === "smsWaiting" ? <LoadingOne /> : ""}
                   </div>
                 </div>
-              </form>
+              </div>
             </>
           ) : (
             <></>
           )}
           {signInFlag === "idle" || signInFlag === "faild" ? (
             <>
-              <form
-                onSubmit={() => {
-                  setIsLoading(true);
-                  sendOtp();
-                }}
-              >
+              <div>
                 <div className=" m-4 p-5 flex  text-xl text-blackout-black text-center">
                   جهت ثبت نام یا ورود شماره موبایل خود را وارد کنید
                 </div>
@@ -187,10 +204,33 @@ export default function Login() {
                   و در ادامه کد پیامک شده را وارد نمایید
                 </div>
                 <div className=" flex flex-wrap justify-center w-full ">
-                  <div className="m-4 mb-0 pb-0 p-3 flex w-full justify-center center text-center   ">
-                    فقط شماره موبایل{" "}
-                  </div>
-                  <input
+                  <div className="m-4 mb-0 pb-0 p-3 flex w-full justify-center center text-center   "></div>
+                  {/* <Box
+                    component="form"
+                    sx={{
+                      "& > :not(style)": { m: 1, width: "25ch" },
+                    }}
+                    autoComplete="off"
+                  > */}
+                  <TextField
+                    autoComplete="off"
+                    id="phoneNumber"
+                    label="شماره موبایل"
+                    variant="outlined"
+                    // pattern="[0-9]{4}[0-9]{3}[0-9]{4}"
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        setIsLoading(true);
+                        sendOtp();
+                      }
+                    }}
+                    type={"tel"}
+                    className=" bg-white my-4"
+                    placeholder="*******0912"
+                  />
+                  {/* </Box> */}
+                  {/* <input
                     // ref={phone}
                     pattern="[0-9]{4}[0-9]{3}[0-9]{4}"
                     onChange={(e) => setPhoneNumber(e.target.value)}
@@ -198,7 +238,7 @@ export default function Login() {
                     type={"tel"}
                     className="  m-4 p-3 w-1/2 rounded-lg border flex justify-center rtl"
                     placeholder="*******0912"
-                  ></input>
+                  ></input> */}
                   <div className="flex justify-center w-full">
                     <button
                       onClick={(event) => {
@@ -220,7 +260,7 @@ export default function Login() {
                     {errorMessage}
                   </div>
                 </div>
-              </form>
+              </div>
             </>
           ) : (
             <></>

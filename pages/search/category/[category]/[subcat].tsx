@@ -16,12 +16,7 @@ import mongoose, { NumberExpression } from "mongoose";
 import { GetServerSideProps } from "next";
 import ProProduct from "../../../../src/models/ProProduct";
 import ProductCardOne from "../../../../components/product/ProductCardOne";
-import {
-  Pagination,
-  SearchContainer,
-  SearchFilters,
-  SearchPageComponent,
-} from "../../";
+import { SearchPageComponent } from "../../";
 //==============================================================================================//
 export default function SearchPage({
   products,

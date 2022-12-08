@@ -199,6 +199,24 @@ function Layout({ children }: { children: any }) {
           </div>
         </div>
       ) : (
+        //  <div className="fixed flex-wrap flex items-center justify-center z-[1000] bg-transparent top-0 left-0 h-[100%] w-[100%]">
+        //     <div className="flex flex-wrap h-fit">
+        //       <div className="flex h-fit justify-center w-full">
+        //         <Image
+        //           className=""
+        //           loader={imageLoader}
+        //           alt="InoMal Logo"
+        //           src={"/Asset14.png"}
+        //           unoptimized
+        //           width={160}
+        //           height={100}
+        //         />
+        //       </div>
+        //       <div className="flex h-fit justify-center w-full">
+        //         <LoadingTwo />
+        //       </div>
+        //     </div>
+        //   </div>
         <></>
       )}
       <div className="md:hidden flex bg-ino-lwhite border-ino-gray border-b-2 px-3 z-[1] ">
@@ -221,7 +239,7 @@ function Layout({ children }: { children: any }) {
       </div>
       <MobileSearchComponent></MobileSearchComponent>
       <AdsBanner />
-      <div className="hidden md:flex topHeader flex-wrap w-full fixed h-[100px] items-start bg-transparent">
+      <div className="hidden md:flex topHeader flex-wrap w-full fixed items-start bg-transparent">
         <header
           className={`relative items-center flex flex-nowrap lg:flex-nowrap xl:flex-nowrap 2xl:flex-nowrap md:flex-nowrap sm:flex-wrap justify-start font-Vazir w-full filter bg-ino-lwhite z-[1] transition-all duration-500
               ${isScrolled === true ? "-mt-[55px] h-[60px] " : "h-[60px] "}
@@ -230,7 +248,6 @@ function Layout({ children }: { children: any }) {
         >
           <Header></Header>
         </header>
-
         <NavbarOne navHidden={navHidden} isScrolled={isScrolled}></NavbarOne>
       </div>
       <div className="hidden md:flex w-full bg-transparent h-[100px]"></div>{" "}

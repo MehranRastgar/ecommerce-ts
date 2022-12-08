@@ -58,12 +58,11 @@ function CategoryItem({ itemCat }: { itemCat: L1 | undefined }) {
           className="flex md:w-full w-full h-auto m-2"
           unoptimized
           alt={itemCat?.title ?? "-"}
-          priority
           width={200}
           height={250}
           unselectable="on"
           draggable={false}
-          loading="eager"
+          loading="lazy"
           placeholder="blur"
           blurDataURL={imageAddress(
             `/catImage/${itemCat?.title}.png`,

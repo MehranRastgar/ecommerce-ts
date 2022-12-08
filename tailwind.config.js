@@ -105,6 +105,8 @@ module.exports = {
           secondary: "#FB84A6",
           dark: "#990E3E",
           darker: "#4C0010",
+          black: "#0F0F0F",
+          green: "#76B900",
         },
       },
       spacing: {

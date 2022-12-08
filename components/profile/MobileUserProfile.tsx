@@ -12,6 +12,8 @@ import {
 import { selectDeviceType } from "../../src/store/slices/themeSlice";
 import { Client } from "../../src/types/types";
 import { useRouter } from "next/router";
+import { IoMdArrowDropdown } from "react-icons/io";
+import AccountMenu from "../account/AccountMenu";
 
 export default function MobileUserProfile() {
   const [userCheck, setUserCheck] = useState<string | undefined>(undefined);
@@ -37,7 +39,7 @@ export default function MobileUserProfile() {
 
   return (
     <>
-      {drop ? (
+      {/* {drop ? (
         <div
           onMouseEnter={() => {
             setDrop(false);
@@ -51,18 +53,18 @@ export default function MobileUserProfile() {
         ></div>
       ) : (
         <></>
-      )}
+      )} */}
       <div
         id="user-container"
-        onMouseEnter={() => {
-          if (signInFlag === "success") setDrop(true);
-        }}
-        onTouchEnd={() => {
-          if (signInFlag === "success") setDrop(true);
-        }}
-        onMouseLeave={() => {
-          setDrop(false);
-        }}
+        // onMouseEnter={() => {
+        //   if (signInFlag === "success") setDrop(true);
+        // }}
+        // onTouchEnd={() => {
+        //   if (signInFlag === "success") setDrop(true);
+        // }}
+        // onMouseLeave={() => {
+        //   setDrop(false);
+        // }}
         className="justify-end hidden md:flex"
       >
         <button
@@ -93,23 +95,27 @@ export default function MobileUserProfile() {
                     }`}
                   >
                     <div
-                      className={`flex ${
+                      className={`flex ml-3 ${
                         !drop ? "text-ino-primary" : "text-ino-gray"
                       } `}
                     >
-                      <FaUserCheck
+                      <AccountMenu />
+                      {/* <FaUserCheck
                         // color={`${!drop ? "#48424966" : "#ffffff"}`}
                         size={20}
                       />
+                      <div className="flex -translate-x-2">
+                        <IoMdArrowDropdown size={20} />
+                      </div> */}
                     </div>
                     <span
-                      className={`-mr-8 mt-6 inline-flex items-center justify-center px-2 py-1 text-[8px] font-bold leading-none text-gray-600 bg-transparent rounded-full ${
+                      className={`-mr-12 mt-6 inline-flex items-center justify-center px-2 py-1 text-[8px] font-bold leading-none text-gray-600 bg-transparent rounded-full ${
                         drop ? "text-white " : "text-gray-600"
                       }`}
                     >
-                      {userInfo?.firstname !== ""
+                      {/* {userInfo?.firstname !== ""
                         ? userInfo?.firstname
-                        : userInfo?.usernamebyphone}
+                        : userInfo?.usernamebyphone} */}
                     </span>
                   </button>
                 </div>
@@ -135,7 +141,7 @@ export default function MobileUserProfile() {
           </div>
           <div>
             <Link
-              href={"/checkout/cart"}
+              href={"/client/profile"}
               className="flex h-fit mb-2 px-4 rounded-lg bg-ino-primary hover:bg-ino-dark text-white hover:text-white self-end text-md font-Vazirmatn font-bold 	p-2"
             >
               تغییر مشخضات

@@ -17,7 +17,10 @@ import {
 } from "../../src/store/slices/settingsSlice";
 import { Settings } from "../../src/types/types";
 import { useAppSelector } from "../../src/store/hooks";
+import Skeleton from "@mui/material/Skeleton";
+import Stack from "@mui/material/Stack";
 
+const skeletItem: string[] = ["1", "2", "3", "4", "1", "2", "3", "4"];
 // const getBody1: Search = {
 //   perPage: "10",
 //   page: "1",
@@ -85,65 +88,99 @@ export default function ProductSliderOne({ setting }: { setting: any }) {
   );
   const settings = useAppSelector(selectSettings);
   const settingsStatus = useAppSelector(selectSettingsStatus);
+  const style1: string = `product-slider-one-container bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-ino-primary to-ino-darker`;
+  const style2: string = `product-slider-one-container bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-ino-hgray to-ino-gray`;
+  const style3: string = `product-slider-one-container bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-wipro-darkblue to-wipro-darkpurple`;
+
   // const [minifyProducts, setMinifyProducts] = useState<MinifyProduct[]>([]);
   useEffect(() => {
     // console.log("data::", data);
     // getProductData({ setMinifyProducts, data });
   }, [data]);
   return (
-    <div className="product-slider-one-container bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-ino-primary to-ino-darker">
-      {/* <div className="product-slider-one-items flex"> */}
-      <ScrollContainer
-        vertical={false}
-        hideScrollbars={false}
-        className="scroll-container h-fit product-slider-one-items overflow-y-hidden "
+    <>
+      <div
+        className={
+          setting.color === 1 ? style1 : setting.color === 2 ? style2 : style3
+        }
       >
-        <div className="bg-transparent h-fit font-Vazir-Bold w-full min-w-[140px] m-4 rounded-lg flex flex-wrap items-center justify-center p-2">
-          <div className="text-[20px] text-gray-300 text-center">
-            {setting?.name}
+        {/* <div className="product-slider-one-items flex"> */}
+        <ScrollContainer
+          vertical={false}
+          hideScrollbars={false}
+          className="scroll-container h-fit product-slider-one-items overflow-y-hidden "
+        >
+          <div className="bg-transparent h-fit font-Vazir-Bold w-full min-w-[140px] m-4 rounded-lg flex flex-wrap items-center justify-center p-2">
+            <div className="text-[20px] text-gray-300 text-center">
+              {setting?.name}
+            </div>
+            <Link
+              className="flex flex-wrap items-center p-6  rounded-lg"
+              href={setting?.url ?? "/"}
+            >
+              <div className="w-full text-[16px] text-white text-center">
+                {setting?.span}
+              </div>
+              <div className="flex w-full justify-center items-center text-[16px] text-red-600 ">
+                <BsArrowLeft size={20} color={"rgb(255 255 255)"} />
+              </div>
+            </Link>
           </div>
-          <Link
-            className="flex flex-wrap items-center p-6  rounded-lg"
-            href={setting?.url ?? "/"}
-          >
-            <div className="w-full text-[16px] text-white text-center">
-              {setting?.span}
-            </div>
-            <div className="flex w-full justify-center items-center text-[16px] text-red-600 ">
-              <BsArrowLeft size={20} color={"rgb(255 255 255)"} />
-            </div>
-          </Link>
-        </div>
-        {data === undefined ? (
-          <>
-            <div className={`w-full m-1 mx-2 min-w-[120px] md:min-w-[200px]`}>
-              <LoadingOne />
-            </div>
-          </>
-        ) : (
-          ""
-        )}
-        {data !== undefined ? (
-          data?.map((minifyProduct: MinifyProduct, index) => (
+          {/* {data === undefined ? (
             <>
-              <ProductSliderItem minifyProduct={minifyProduct} />
+              <div className={`w-full m-1 mx-2 min-w-[120px] md:min-w-[200px]`}>
+                <LoadingOne />
+              </div>
             </>
-          ))
-        ) : (
-          <></>
-        )}
-        <div className=" font-Vazir-Bold w-full min-w-[200px] m-1 mx-2 flex items-center justify-center">
-          <Link
-            className="flex items-center p-6 bg-ino-white rounded-lg"
-            href={setting?.url ?? "/"}
-          >
-            <div className="mx-2">مشاهده همه</div>
-            <BsArrowLeft size={15} />
-          </Link>
-        </div>
-      </ScrollContainer>
-      {/* </div> */}
-    </div>
+          ) : (
+            ""
+          )} */}
+          {data !== undefined ? (
+            data?.map((minifyProduct: MinifyProduct, index) => (
+              <>
+                <ProductSliderItem minifyProduct={minifyProduct} />
+              </>
+            ))
+          ) : (
+            <>
+              {skeletItem.map((item, index) => (
+                <>
+                  <div
+                    key={index}
+                    className="flex items-start justify-center mt-6 "
+                  >
+                    <div className="-translate-x-[90px] opacity-30">
+                      <LoadingOne />
+                    </div>
+                    <Stack spacing={1}>
+                      {/* For variant="text", adjust the height via font-size */}
+                      <Skeleton
+                        variant="rectangular"
+                        width={100}
+                        height={100}
+                      />
+                      {/* For other variants, adjust the size with `width` and `height` */}
+                      <Skeleton variant="rounded" width={100} height={20} />
+                      <Skeleton variant="rounded" width={100} height={20} />
+                    </Stack>
+                  </div>
+                </>
+              ))}
+            </>
+          )}
+          <div className=" font-Vazir-Bold w-full min-w-[200px] m-1 mx-2 flex items-center justify-center">
+            <Link
+              className="flex items-center p-6 bg-ino-white rounded-lg"
+              href={setting?.url ?? "/"}
+            >
+              <div className="mx-2">مشاهده همه</div>
+              <BsArrowLeft size={15} />
+            </Link>
+          </div>
+        </ScrollContainer>
+        {/* </div> */}
+      </div>
+    </>
   );
 }
 
@@ -181,7 +218,7 @@ export function ProductSliderItem({
     }
   }, []);
   return (
-    <div className={`w-full m-1 mx-2 min-w-[120px] md:min-w-[200px]`}>
+    <div className={`w-full m-1 mx-2 min-w-[120px] md:min-w-[150px]`}>
       <Link
         key={"click-on-product"}
         href={`/products/${minifyProduct?._id}/${(
@@ -194,9 +231,9 @@ export function ProductSliderItem({
         <div
           className={`flex flex-wrap justify-center w-full p-0 border hover:border-gray-300 card `}
         >
-          <div className="flex flex-wrap  justify-center m-2">
+          <div className="flex flex-wrap  justify-center ">
             <Image
-              className="md:w-[200px] w-[100px] h-auto rounded-xl"
+              className="md:w-[100px] w-[100px] h-auto rounded-xl"
               loader={imageLoader}
               loading="eager"
               src={imageAddress(
@@ -213,7 +250,7 @@ export function ProductSliderItem({
             />
           </div>
 
-          <h2 className="flex font-Vazir-Medium font-bold justify-center overflow-hidden  text-black text-sm   text-rtl mx-0 -my-1 items-top text-center tracking-normal  h-10 p-1     ">
+          <h2 className="flex font-Vazir-Medium font-bold justify-center overflow-hidden  text-black text-[10px]   text-rtl mx-0 -my-1 items-top text-center tracking-normal  h-16 p-1     ">
             {minifyProduct?.title_fa ?? ""}
           </h2>
           {!(price == "0" || delPrice == "0") ? (

@@ -16,6 +16,10 @@ export default function Document() {
       ></meta>
       <link rel="manifest" href="/manifest.json" />
       <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      />
       <meta name="theme-color" content="#317EFB" />
       <Head>
         <link rel="icon" href="/favicon.ico" />

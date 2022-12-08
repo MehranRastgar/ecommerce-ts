@@ -675,3 +675,14 @@ a:link {
   user-select: none;
 }
 /*===================================================*/
+.shadow-product {
+  box-shadow: #051ce785 0px 5px 15px;
+}
+.shadow-product:hover {
+  box-shadow: #990e3e 0px 5px 15px;
+}
+
+.MuiPaginationItem-text {
+  color: #3498db;
+  font-family: inherit;
+}

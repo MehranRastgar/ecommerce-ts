@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { FaSearchengin, FaSortAmountDownAlt } from "react-icons/fa";
-import { TiDeleteOutline, TiTick } from "react-icons/ti";
+import { TiArrowForwardOutline, TiDeleteOutline, TiTick } from "react-icons/ti";
 import { AiOutlineDown } from "react-icons/ai";
 import { RiFilterFill, RiFilterOffLine } from "react-icons/ri";
 import {
@@ -121,7 +121,7 @@ export function SearchPageComponent({
           <FilterComponent />
         </div>
         <div className="search-page h-fit w-full md:w-[75%] ">
-          <div className="flex items-center justify-start bg-ino-white w-full mx-10 border-b">
+          <div className="flex items-center justify-start bg-ino-white w-full mx-10 ">
             <div className="flex items-center justify-start bg-ino-white w-full">
               <SortComponent />
               <span className="w-auto text-center font-Vazir-Medium text-[12px]">
@@ -129,13 +129,7 @@ export function SearchPageComponent({
               </span>
             </div>
           </div>
-          <div className="flex h-fit flex-wrap justify-center bg-ino-white w-9/12">
-            <Pagination
-              page={pageNumber}
-              total={totalProducts}
-              setPage={setPageNumber}
-            />
-          </div>
+
           <SearchContainer refs={slideRef}>
             {products?.map((product) => (
               <>
@@ -143,6 +137,13 @@ export function SearchPageComponent({
               </>
             ))}
           </SearchContainer>
+          <div className="flex h-fit flex-wrap justify-center mt-8 bg-ino-white w-9/12">
+            <PaginationContainer
+              page={pageNumber}
+              total={totalProducts}
+              setPage={setPageNumber}
+            />
+          </div>
         </div>
       </div>
     </>
@@ -177,8 +178,12 @@ async function convertObjectToParam(query: object) {
   });
   return uri;
 }
+import Pagination from "@mui/material/Pagination";
+import PaginationItem from "@mui/material/PaginationItem";
+import Stack from "@mui/material/Stack";
+import { MdOutlineNavigateBefore, MdOutlineNavigateNext } from "react-icons/md";
 
-export function Pagination({
+export function PaginationContainer({
   total,
   page,
   setPage,
@@ -190,6 +195,8 @@ export function Pagination({
   const slideRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const [lastPage, setLastPage] = useState<number>();
+  const [state, setState] = useState<any>();
+  const [stringgg, setStringgg] = useState<string | undefined>();
   // const [mounted, setMounted] = useState<boolean>(false);
   const [prevState, setPrevState] = useState<"idle" | "off" | "loading">(
     "loading"
@@ -247,9 +254,35 @@ export function Pagination({
   const paginationNumberStyle =
     "h-fit rounded-full p-2 px-3 text-black bg-ino-white border mx-2 ";
 
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+    changeRouteAndPage(value);
+  };
   return (
     <div className="flex h-fit items-center my-1 font-Vazir-Medium text-xs">
-      <button
+      <Stack spacing={2}>
+        <Pagination
+          count={(total % 20 > 0 ? 1 : 0) + Math.trunc(total / 20)}
+          onChange={handleChange}
+          renderItem={(item) => (
+            <PaginationItem
+              slots={{
+                previous: MdOutlineNavigateNext,
+                next: MdOutlineNavigateBefore,
+              }}
+              {...item}
+            />
+          )}
+        />
+      </Stack>
+      {/* <Pagination
+          variant="text"
+          page={page}
+          count={(total % 20 > 0 ? 1 : 0) + Math.trunc(total / 20)}
+          onChange={handleChange}
+          renderItem={(item) => <PaginationItem {...item} />}
+        /> */}
+      {/* <button
         onClick={(e) => {
           changeRouteAndPage(page - 1);
         }}
@@ -331,7 +364,7 @@ export function Pagination({
         ) : (
           <></>
         )}
-      </div>
+      </div> 
       <button
         onClick={(e) => {
           changeRouteAndPage(page + 1);
@@ -342,7 +375,7 @@ export function Pagination({
         }`}
       >
         <MdSkipPrevious size={20} />
-      </button>
+      </button>*/}
     </div>
   );
 }
@@ -1002,7 +1035,7 @@ function FetchBrandsComponent({ query }: { query: any }) {
                 >
                   <div className="mx-4 items-center text-green-400">
                     {searchConf?.filter?.brands?.findIndex(
-                      (item) => item === brand
+                      (item: string) => item === brand
                     ) < 0 ? (
                       <TiDeleteOutline fill="red" size={15} />
                     ) : (
@@ -1068,7 +1101,7 @@ function FetchCategoriesComponent({ query }: { query: any }) {
                 {cat?.L1?.[0]?.title_fa}
                 <div className="mx-4 items-center text-green-400">
                   {searchConf?.filter?.category?.findIndex(
-                    (item) => item === cat?.L1?.[0]?.title
+                    (item: string) => item === cat?.L1?.[0]?.title
                   ) < 0 ? (
                     <TiDeleteOutline fill="red" size={15} />
                   ) : (
