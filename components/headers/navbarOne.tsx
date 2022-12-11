@@ -46,7 +46,7 @@ export default function NavbarOne({
       className={`transition-all duration-500 w-screen border-b-2 bg-ino-white ${
         navHidden === true && openCategorieMenu !== true
           ? "-mt-[100px] h-[50px] overflow-hidden -z-[2] border-b-2"
-          : `h-[40px] bg-ino-white ${isScrolled === true ? "-mt-[50px]" : ""}`
+          : `h-[40px] bg-ino-white ${isScrolled === true ? "-mt-[0px]" : ""}`
       }`}
     >
       <nav className="inline-flex mr-[80px] items-center justify-start filter font-semibold bg-ino-white w-full">

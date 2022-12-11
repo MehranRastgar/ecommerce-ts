@@ -27,6 +27,7 @@ export default function Header() {
 }
 
 import Router, { useRouter } from "next/router";
+import { InputAdornment, TextField } from "@mui/material";
 
 export async function GoSearch(searchString: string) {
   if (searchString.length > 3) Router.push(`/search/?q=${searchString}&page=1`);
@@ -35,6 +36,7 @@ export async function GoSearch(searchString: string) {
 
 function SearchComponent() {
   const [searchModal, setSearchModal] = useState(false);
+  const [showSearchBar, setShowSearchBar] = useState(false);
   const [divSize, setDivSize] = useState<string>("0");
   const [searchString, setSearchString] = useState<string>("");
   const router = useRouter();
@@ -72,6 +74,37 @@ function SearchComponent() {
       ) : (
         <></>
       )}
+      {/* <div
+        style={{
+          // display: "flex",
+          position: "absolute",
+          left: "20%",
+          top: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        <TextField
+          onMouseLeave={() => setShowSearchBar(false)}
+          placeholder="Search"
+          InputProps={{
+            // Show the search icon
+            startAdornment: (
+              <InputAdornment position="start">
+                {" "}
+                <FaSearchengin onClick={() => setShowSearchBar(true)} />
+              </InputAdornment>
+            ),
+            // Show the search bar when the icon is clicked
+          }}
+          // Only show the search bar when the state variable is true
+          // className="flex"
+          sx={{
+            transition: "all ease-in-out",
+            transitionDuration: "500ms",
+            width: showSearchBar ? "150px" : "50px",
+          }}
+        />
+      </div> */}
       <div className="w-2/3 z-[2]">
         <div
           id={"mydiv"}

@@ -14,7 +14,7 @@ info  - Linting and checking validity of types...
 18:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'orderId'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./pages/client/login.tsx
-118:6  Warning: React Hook useEffect has missing dependencies: 'errorMessage.length', 'returnUrl', and 'router.query.returnUrl'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+132:6  Warning: React Hook useEffect has missing dependencies: 'errorMessage.length', 'returnUrl', and 'router.query.returnUrl'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./pages/products/[id]/[name].tsx
 99:6  Warning: React Hook useEffect has a missing dependency: 'scrollFunction'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
@@ -37,7 +37,7 @@ info  - Linting and checking validity of types...
 1200:6  Warning: React Hook useEffect has a missing dependency: 'changeSort'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./components/headers/header.tsx
-61:6  Warning: React Hook useEffect has missing dependencies: 'router?.query?.q' and 'searchString'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+63:6  Warning: React Hook useEffect has missing dependencies: 'router?.query?.q' and 'searchString'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./components/headers/navbarMobile.tsx
 55:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'settingState'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
@@ -82,33 +82,33 @@ info  - Generating static pages (8/8)
 info  - Finalizing page optimization...
 
 Route (pages)                              Size     First Load JS
-┌ ● / (677 ms)                             178 B           163 kB
-├   /_app                                  0 B             163 kB
-├ ○ /404                                   293 B           163 kB
-├ λ /api/counter                           0 B             163 kB
-├ λ /api/hello                             0 B             163 kB
-├ λ /api/image                             0 B             163 kB
-├ λ /api/psearch/brands                    0 B             163 kB
-├ λ /api/sendotp                           0 B             163 kB
-├ λ /api/signin                            0 B             163 kB
-├ ○ /checkout/cart                         7.89 kB         171 kB
+┌ ● / (5704 ms)                            178 B           195 kB
+├   /_app                                  0 B             195 kB
+├ ○ /404                                   293 B           195 kB
+├ λ /api/counter                           0 B             195 kB
+├ λ /api/hello                             0 B             195 kB
+├ λ /api/image                             0 B             195 kB
+├ λ /api/psearch/brands                    0 B             195 kB
+├ λ /api/sendotp                           0 B             195 kB
+├ λ /api/signin                            0 B             195 kB
+├ ○ /checkout/cart                         7.89 kB         203 kB
 ├   └ css/202b43425db2c34c.css             750 B
-├ ○ /checkout/order                        390 B           163 kB
-├ λ /checkout/order/[id]                   513 B           163 kB
-├ ○ /client/login                          1.88 kB         165 kB
-├ ○ /client/profile                        863 B           164 kB
-├ ○ /other                                 386 B           163 kB
-├ λ /products/[id]/[name]                  6.87 kB         170 kB
-├ λ /search                                195 B           182 kB
-├ λ /search/brand/[brand]                  596 B           182 kB
-├ λ /search/category/[category]            592 B           182 kB
-└ λ /search/category/[category]/[subcat]   600 B           182 kB
-+ First Load JS shared by all              172 kB
+├ ○ /checkout/order                        390 B           195 kB
+├ λ /checkout/order/[id]                   513 B           195 kB
+├ ○ /client/login                          14.6 kB         209 kB
+├ ○ /client/profile                        863 B           196 kB
+├ ○ /other                                 386 B           195 kB
+├ λ /products/[id]/[name]                  6.87 kB         202 kB
+├ λ /search                                189 B           208 kB
+├ λ /search/brand/[brand]                  588 B           209 kB
+├ λ /search/category/[category]            585 B           209 kB
+└ λ /search/category/[category]/[subcat]   593 B           209 kB
++ First Load JS shared by all              204 kB
   ├ chunks/framework-3b5a00d5d7e8d93b.js   45.4 kB
   ├ chunks/main-7fd5f84692d6e98f.js        25.7 kB
-  ├ chunks/pages/_app-e96de7e281848d87.js  89.4 kB
-  ├ chunks/webpack-0a62189fc33b40cb.js     2.21 kB
-  └ css/ae02d6dfa49ee093.css               9.52 kB
+  ├ chunks/pages/_app-f7853654347b6990.js  121 kB
+  ├ chunks/webpack-6a1a03523308d93e.js     2.2 kB
+  └ css/203f81ea1b8d58c1.css               9.57 kB
 
 λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
 ○  (Static)  automatically rendered as static HTML (uses no initial props)
