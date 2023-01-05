@@ -25,6 +25,7 @@ import {
   variantId,
 } from "../../src/store/slices/orderSlice";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import Layout from "../../components/Layout";
 export default function CartPage() {
   const userInfo = useSelector(selectUserInfo);
   const dispatch = useAppDispatch();
@@ -52,54 +53,56 @@ export default function CartPage() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="select-none flex flex-wrap h-fit font-Vazir-Bold justify-center items-start w-full ">
-        {userInfo?.firstname !== undefined ? (
-          <>
-            <div className="flex justify-center w-full max-w-[800px] flex-wrap">
-              <h1 className="mt-6 flex text-center h-fit justify-center w-full font-Vazir-Medium text-2xl font-extrabold text-ino-gray">
-                مشخصات
-              </h1>
-              <div className="flex w-full max-w-[800px] flex-wrap border mt-4 rounded-md text-gray-600 text-xs shadow-lg">
-                <FillFeild item={userInfo.firstname ?? "-"} label="نام" />
-                <FillFeild
-                  item={String(userInfo.lastname ?? "-")}
-                  label="نام خانوادگی"
-                />
-                <FillFeild
-                  item={String("0" + userInfo.usernamebyphone ?? "-")}
-                  label="شماره موبایل"
-                />
-                <div className="flex w-full justify-end m-2">
-                  <button className="px-4 rounded-lg hover:bg-gray-200 self-end text-md font-Vazirmatn font-bold text-blue-400	p-2">
-                    تغییر مشخصات
-                  </button>
+      <Layout>
+        <div className="select-none flex flex-wrap h-fit font-Vazir-Bold justify-center items-start w-full ">
+          {userInfo?.firstname !== undefined ? (
+            <>
+              <div className="flex justify-center w-full max-w-[800px] flex-wrap">
+                <h1 className="mt-6 flex text-center h-fit justify-center w-full font-Vazir-Medium text-2xl font-extrabold text-ino-gray">
+                  مشخصات
+                </h1>
+                <div className="flex w-full max-w-[800px] flex-wrap border mt-4 rounded-md text-gray-600 text-xs shadow-lg">
+                  <FillFeild item={userInfo.firstname ?? "-"} label="نام" />
+                  <FillFeild
+                    item={String(userInfo.lastname ?? "-")}
+                    label="نام خانوادگی"
+                  />
+                  <FillFeild
+                    item={String("0" + userInfo.usernamebyphone ?? "-")}
+                    label="شماره موبایل"
+                  />
+                  <div className="flex w-full justify-end m-2">
+                    <button className="px-4 rounded-lg hover:bg-gray-200 self-end text-md font-Vazirmatn font-bold text-blue-400	p-2">
+                      تغییر مشخصات
+                    </button>
+                  </div>
+                </div>
+                <div className="flex w-full flex-wrap mt-4 text-gray-600 text-xs rounded-lg">
+                  <h1 className="my-4 flex text-center h-fit justify-center w-full font-Vazir-Medium text-2xl font-extrabold text-ino-gray">
+                    آدرس
+                  </h1>
+                  <Shipping />
+                </div>
+                <h1 className="mt-20 flex text-center h-fit justify-center w-full font-Vazir-Medium text-2xl font-extrabold text-ino-gray">
+                  سبد خرید
+                </h1>
+                <div className="flex w-full justify-center">
+                  <CartContainer></CartContainer>
                 </div>
               </div>
-              <div className="flex w-full flex-wrap mt-4 text-gray-600 text-xs rounded-lg">
-                <h1 className="my-4 flex text-center h-fit justify-center w-full font-Vazir-Medium text-2xl font-extrabold text-ino-gray">
-                  آدرس
-                </h1>
-                <Shipping />
+            </>
+          ) : (
+            <>
+              <div className="flex justify-center text-3xl font-Vazir-Bold text-gray-600">
+                سبد شما خالی میباشد
               </div>
-              <h1 className="mt-20 flex text-center h-fit justify-center w-full font-Vazir-Medium text-2xl font-extrabold text-ino-gray">
-                سبد خرید
-              </h1>
-              <div className="flex w-full justify-center">
-                <CartContainer></CartContainer>
-              </div>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="flex justify-center text-3xl font-Vazir-Bold text-gray-600">
-              سبد شما خالی میباشد
-            </div>
-          </>
-        )}
-        <div className="StickyContainer mt-4 w-fit max-w-[300px]">
-          <ReportContainer cart={userInfo?.cart} />
+            </>
+          )}
+          <div className="StickyContainer mt-4 w-fit max-w-[300px]">
+            <ReportContainer cart={userInfo?.cart} />
+          </div>
         </div>
-      </div>
+      </Layout>
     </>
   );
 }

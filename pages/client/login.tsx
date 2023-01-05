@@ -29,10 +29,12 @@ import {
 } from "../../src/store/slices/clientSlice";
 import { OtpRequest, SignInRequest } from "../../src/types/types";
 import LoadingOne from "../../components/loader/default";
-
+import LayoutLogin from "../../components/LayoutLogin";
+import imageLoader from "../../src/imageLoader";
 // import { useCookies } from "react-cookie";
 
 // const UserM = new UserManagement();
+import Component from "@rastgarmehranb/component";
 
 const inputStyle = "flex flex-wrap w-8/12 justify-center border ";
 const listStyle =
@@ -138,22 +140,33 @@ export default function Login() {
         <title>ورود / ثبت نام</title>
         <meta name="description" content=""></meta>
       </Head>
-      <section className="flex bg-ino-lwhite justify-center min-h-screen h-full gradient-form items-center  w-full md:h-screen">
-        <div className="bg-white/30 max-w-[400px] border m-2 mt-4 w-full md:w-3/4 lg:w-1/2 xl:w-1/3 2xl:w-1/3 3xl:w-1/4 rounded-xl shadow-lg overflow-hidden h-fit  font-Vazir-Medium">
-          <header className="p-4 flex justify-center w-full bg-ino-gray border-b  text-xl text-white text-center">
-            ثبت نام / ورود
-          </header>
-          {signInFlag === "request" || signInFlag === "smsWaiting" ? (
-            <>
-              <div>
-                <div className="m-4 p-5 flex  text-xl text-black text-center">
-                  کد اعتبار سنجی برای شما ارسال شد در صورت دریافت وارد نمایید
-                </div>
-                <div className=" flex flex-wrap justify-center w-full ">
-                  <div className="m-4 mb-0 pb-0 p-3 flex w-full justify-center center text-center   ">
-                    {phoneNumber}
+      <LayoutLogin>
+        <section className="flex bg-ino-lwhite justify-center min-h-screen h-full gradient-form items-center  w-full md:h-screen">
+          <Image
+            draggable={false}
+            className="fixed z-[0] top-0 brightness-50 flex w-full min-w-[1800px] min-h-[400px]  object-fill  object-center h-full"
+            loader={imageLoader}
+            alt="InoMal Logo"
+            src={"/login.png"}
+            unoptimized
+            width={1800}
+            height={800}
+          />
+          <div className="z-[1] bg-white max-w-[400px] border m-2 mt-4 w-full md:w-3/4 lg:w-1/2 xl:w-1/3 2xl:w-1/3 3xl:w-1/4 rounded-xl shadow-lg overflow-hidden h-fit  font-Vazir-Medium">
+            <header className="p-4 flex justify-center w-full bg-ino-gray border-b  text-xl text-white text-center">
+              ثبت نام / ورود
+            </header>
+            {signInFlag === "request" || signInFlag === "smsWaiting" ? (
+              <>
+                <div>
+                  <div className="m-4 p-5 flex  text-xl text-black text-center">
+                    کد اعتبار سنجی برای شما ارسال شد در صورت دریافت وارد نمایید
                   </div>
-                  {/* <input
+                  <div className=" flex flex-wrap justify-center w-full ">
+                    <div className="m-4 mb-0 pb-0 p-3 flex w-full justify-center center text-center   ">
+                      {phoneNumber}
+                    </div>
+                    {/* <input
                     onChange={(e) => {
                       setOtpCode(Number(e.target.value));
                     }}
@@ -162,75 +175,75 @@ export default function Login() {
                     placeholder="******"
                     id="code"
                   ></input> */}
-                  <TextField
-                    autoComplete="off"
-                    id="code"
-                    label="رمز یکبار مصرف"
-                    variant="outlined"
-                    // pattern="[0-9]{4}[0-9]{3}[0-9]{4}"
-                    onKeyDown={(e) => {
-                      handleClick(e);
-                    }}
-                    onChange={(e) => setOtpCode(Number(e?.target?.value))}
-                    type={"tel"}
-                    className=" bg-white my-4 rtl"
-                    placeholder="****"
-                  />
-                  <div className="flex justify-center w-full">
-                    <button
-                      onClick={(event) => {
-                        // setIsLoading(true);
-                        loginUser();
+                    <TextField
+                      autoComplete="off"
+                      id="code"
+                      label="رمز یکبار مصرف"
+                      variant="outlined"
+                      // pattern="[0-9]{4}[0-9]{3}[0-9]{4}"
+                      onKeyDown={(e) => {
+                        handleClick(e);
                       }}
-                      className=" mb-4 rounded-lg p-4  text-white bg-ino-primary text-xl"
-                    >
-                      تایید
-                    </button>
-                    {signInFlag === "smsWaiting" ? <LoadingOne /> : ""}
+                      onChange={(e) => setOtpCode(Number(e?.target?.value))}
+                      type={"tel"}
+                      className=" bg-white my-4 rtl"
+                      placeholder="****"
+                    />
+                    <div className="flex justify-center w-full">
+                      <button
+                        onClick={(event) => {
+                          // setIsLoading(true);
+                          loginUser();
+                        }}
+                        className=" mb-4 rounded-lg p-4  text-white bg-ino-primary text-xl"
+                      >
+                        تایید
+                      </button>
+                      {signInFlag === "smsWaiting" ? <LoadingOne /> : ""}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </>
-          ) : (
-            <></>
-          )}
-          {signInFlag === "idle" || signInFlag === "faild" ? (
-            <>
-              <div>
-                <div className=" m-4 p-5 flex  text-xl text-blackout-black text-center">
-                  جهت ثبت نام یا ورود شماره موبایل خود را وارد کنید
-                </div>
-                <div className="m-4 p-5 flex  text-lg text-ino-lgray text-center">
-                  و در ادامه کد پیامک شده را وارد نمایید
-                </div>
-                <div className=" flex flex-wrap justify-center w-full ">
-                  <div className="m-4 mb-0 pb-0 p-3 flex w-full justify-center center text-center   "></div>
-                  {/* <Box
+              </>
+            ) : (
+              <></>
+            )}
+            {signInFlag === "idle" || signInFlag === "faild" ? (
+              <>
+                <div>
+                  <div className=" m-4 p-5 flex  text-xl text-blackout-black text-center">
+                    جهت ثبت نام یا ورود شماره موبایل خود را وارد کنید
+                  </div>
+                  <div className="m-4 p-5 flex  text-lg text-ino-lgray text-center">
+                    و در ادامه کد پیامک شده را وارد نمایید
+                  </div>
+                  <div className=" flex flex-wrap justify-center w-full ">
+                    <div className="m-4 mb-0 pb-0 p-3 flex w-full justify-center center text-center   "></div>
+                    {/* <Box
                     component="form"
                     sx={{
                       "& > :not(style)": { m: 1, width: "25ch" },
                     }}
                     autoComplete="off"
                   > */}
-                  <TextField
-                    autoComplete="off"
-                    id="phoneNumber"
-                    label="شماره موبایل"
-                    variant="outlined"
-                    // pattern="[0-9]{4}[0-9]{3}[0-9]{4}"
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        setIsLoading(true);
-                        sendOtp();
-                      }
-                    }}
-                    type={"tel"}
-                    className=" bg-white my-4"
-                    placeholder="*******0912"
-                  />
-                  {/* </Box> */}
-                  {/* <input
+                    <TextField
+                      autoComplete="off"
+                      id="phoneNumber"
+                      label="شماره موبایل"
+                      variant="outlined"
+                      // pattern="[0-9]{4}[0-9]{3}[0-9]{4}"
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          setIsLoading(true);
+                          sendOtp();
+                        }
+                      }}
+                      type={"tel"}
+                      className=" bg-white my-4"
+                      placeholder="*******0912"
+                    />
+                    {/* </Box> */}
+                    {/* <input
                     // ref={phone}
                     pattern="[0-9]{4}[0-9]{3}[0-9]{4}"
                     onChange={(e) => setPhoneNumber(e.target.value)}
@@ -239,53 +252,54 @@ export default function Login() {
                     className="  m-4 p-3 w-1/2 rounded-lg border flex justify-center rtl"
                     placeholder="*******0912"
                   ></input> */}
-                  <div className="flex justify-center w-full">
-                    <button
-                      onClick={(event) => {
-                        setIsLoading(true);
-                        sendOtp();
-                      }}
-                      className=" mb-4 rounded-lg p-4  text-white bg-ino-primary text-xl"
+                    <div className="flex justify-center w-full">
+                      <button
+                        onClick={(event) => {
+                          setIsLoading(true);
+                          sendOtp();
+                        }}
+                        className=" mb-4 rounded-lg p-4  text-white bg-ino-primary text-xl"
+                      >
+                        {isLoading ? <LoadingOne /> : "دریافت کد"}
+                      </button>
+                    </div>
+                    <div
+                      className={
+                        errorMessage === "فرمت شماره درست مبباشد"
+                          ? "text-wipro-green"
+                          : "text-blackout-red"
+                      }
                     >
-                      {isLoading ? <LoadingOne /> : "دریافت کد"}
-                    </button>
-                  </div>
-                  <div
-                    className={
-                      errorMessage === "فرمت شماره درست مبباشد"
-                        ? "text-wipro-green"
-                        : "text-blackout-red"
-                    }
-                  >
-                    {errorMessage}
+                      {errorMessage}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </>
-          ) : (
-            <></>
-          )}
-          {signInFlag === "success" ? (
-            <>
-              <div className="h-48 bg-slate-900 text-brand-green p-5 flex justify-center items-center text-3xl text-center">
-                ورود موفقیت آمیز!
-              </div>
-            </>
-          ) : (
-            <></>
-          )}
+              </>
+            ) : (
+              <></>
+            )}
+            {signInFlag === "success" ? (
+              <>
+                <div className="h-48 bg-slate-900 text-brand-green p-5 flex justify-center items-center text-3xl text-center">
+                  ورود موفقیت آمیز!
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
 
-          {signInFlag === "loading" ? (
-            <>
-              <div className="h-48 bg-slate-900 text-brand-green p-5 flex justify-center items-center text-3xl text-center">
-                {<LoadingOne />}
-              </div>
-            </>
-          ) : (
-            <></>
-          )}
-        </div>
-      </section>
+            {signInFlag === "loading" ? (
+              <>
+                <div className="h-48 bg-slate-900 text-brand-green p-5 flex justify-center items-center text-3xl text-center">
+                  {<LoadingOne />}
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
+          </div>
+        </section>
+      </LayoutLogin>
     </>
   );
 }

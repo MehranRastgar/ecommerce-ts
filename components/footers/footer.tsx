@@ -2,6 +2,7 @@ import Router from "next/router";
 import { BsHeadset, BsWhatsapp } from "react-icons/bs";
 import { TbBrandTelegram } from "react-icons/tb";
 import { FiInstagram } from "react-icons/fi";
+import Component from "@rastgarmehranb/component";
 
 export default function FooterMain() {
   return (

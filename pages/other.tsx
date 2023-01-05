@@ -10,6 +10,15 @@ import {
   selectCount,
 } from "../src/store/counterSlice";
 import { Client } from "../src/types/types";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
+import styled from "@emotion/styled";
 
 export default function Other(props: any) {
   const dispatch = useAppDispatch();
@@ -23,17 +32,5 @@ export default function Other(props: any) {
     // store.dispatch(incrementByAmount(0))
   }, []);
 
-  return (
-    <div
-      onClick={(e) => {
-        dispatch(decrement());
-      }}
-    >
-      <Link href={"/"}>
-        <div>get back</div>
-      </Link>
-      {count}
-      eeee
-    </div>
-  );
+  return <></>;
 }

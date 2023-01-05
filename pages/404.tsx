@@ -1,14 +1,16 @@
-import React, { useEffect  } from "react";
+import React, { useEffect } from "react";
 // import Router from "next/router";
 
-export default function Error404 () {
+import Layout from "../components/Layout";
 
-  useEffect(()=>{
+export default function Error404() {
+  useEffect(() => {
     //Router.push("/");
+  });
 
-  },)
-
-  return(<>
-  page not found
-  </>)
+  return (
+    <>
+      <Layout>page not found</Layout>
+    </>
+  );
 }

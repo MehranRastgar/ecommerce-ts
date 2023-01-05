@@ -9,6 +9,7 @@ import {
   getOrderById,
   selectSpecOrder,
 } from "../../../src/store/slices/orderSlice";
+import Layout from "../../../components/Layout";
 
 export default function OrderPage({ orderId }: { orderId: string | null }) {
   const dispatch = useAppDispatch();
@@ -22,11 +23,13 @@ export default function OrderPage({ orderId }: { orderId: string | null }) {
 
   return (
     <>
-      <div className="flex w-full font-Vazir-Medium ">
-        تومان {(Number(orderData?.price) / 10).toLocaleString()}
-      </div>
-      <br />
-      <div>{orderId}</div>
+      <Layout>
+        <div className="flex w-full font-Vazir-Medium ">
+          تومان {(Number(orderData?.price) / 10).toLocaleString()}
+        </div>
+        <br />
+        <div>{orderId}</div>
+      </Layout>
     </>
   );
 }

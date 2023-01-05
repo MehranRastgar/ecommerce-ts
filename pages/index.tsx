@@ -173,33 +173,34 @@ function Home({
         <meta name="description" content="سایت فروش لوازم دیجیتال" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="flex flex-wrap justify-center  w-full">
-        <div className="MainHomeTopSlider overflow-hidden justify-center">
-          <Swiper items={items} />
-        </div>
-        <div className="MainCategoryCard overflow-hidden mx-auto flex flex-wrap py-6 md:py-8 w-full justify-center">
-          <h2 className="2xl lg:text-2xl md:text-xl font-Vazir-Medium">
-            خرید بر اساس دسته‌ بندی
-          </h2>
-          <ProductCategoriesContainer />
-        </div>
-        <div className="flex flex-wrap w-full mx-2 my-6 bg-ino-white overflow-hidden justify-center">
-          {/* {minifyProducts?.map((minifyProduct: MinifyProduct) => (
+      <Layout>
+        <div className="flex flex-wrap justify-center  w-full">
+          <div className="flex md:w-[100%] w-[90%] rounded-xl md:rounded-none z-[1] overflow-hidden justify-center md:my-0 my-14">
+            <Swiper items={items} />
+          </div>
+          <div className="MainCategoryCard overflow-hidden mx-auto flex flex-wrap py-6 md:py-8 w-full justify-center">
+            <h2 className="2xl lg:text-2xl md:text-xl font-Vazir-Medium">
+              خرید بر اساس دسته‌ بندی
+            </h2>
+            <ProductCategoriesContainer />
+          </div>
+          <div className="flex flex-wrap w-full mx-2 my-6 bg-ino-white overflow-hidden justify-center">
+            {/* {minifyProducts?.map((minifyProduct: MinifyProduct) => (
             <>
               <ProductCardOne minifyProduct={minifyProduct} />
             </>
           ))} */}
-          <ProductSliderOne
-            setting={{
-              url: "/search?category=laptop",
-              name: "فروش ویژه لپتاپ",
-              span: "مشاهده این دسته",
-              getOption: getLaptop,
-              color: 1,
-            }}
-          />
-          <div className="h-10 w-full p-2"></div>
-          {/* <CardPromotionOne
+            <ProductSliderOne
+              setting={{
+                url: "/search?category=laptop",
+                name: "فروش ویژه لپتاپ",
+                span: "مشاهده این دسته",
+                getOption: getLaptop,
+                color: 1,
+              }}
+            />
+            <div className="h-10 w-full p-2"></div>
+            {/* <CardPromotionOne
             ImageSrc="/cardOne/logitech"
             cardName="Logitech promotion"
             Url="/search?brand=logitech"
@@ -219,28 +220,29 @@ function Home({
             cardName="Logitech promotion"
             Url="/search?brand=logitech"
           /> */}
-          <div className="h-10 w-full p-2"></div>
-          <ProductSliderOne
-            setting={{
-              url: "/search?category=laptop",
-              name: " ویژه موبایل",
-              span: "مشاهده این دسته",
-              getOption: getMobile,
-              color: 2,
-            }}
-          />
-          <div className="h-10 w-full p-2"></div>
-          <ProductSliderOne
-            setting={{
-              url: "/search?category=laptop",
-              name: "لپتاپ گیمینگ",
-              span: "مشاهده این دسته",
-              getOption: getLaptop2,
-              color: 3,
-            }}
-          />
+            <div className="h-10 w-full p-2"></div>
+            <ProductSliderOne
+              setting={{
+                url: "/search?category=laptop",
+                name: " ویژه موبایل",
+                span: "مشاهده این دسته",
+                getOption: getMobile,
+                color: 2,
+              }}
+            />
+            <div className="h-10 w-full p-2"></div>
+            <ProductSliderOne
+              setting={{
+                url: "/search?category=laptop",
+                name: "لپتاپ گیمینگ",
+                span: "مشاهده این دسته",
+                getOption: getLaptop2,
+                color: 3,
+              }}
+            />
+          </div>
         </div>
-      </div>
+      </Layout>
     </>
   );
 }

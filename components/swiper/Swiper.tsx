@@ -126,7 +126,7 @@ function Swiper({ items }: Props) {
 
   return (
     <div
-      className="swiper-container "
+      className="swiper-container md:h-full"
       onTouchStart={onTouchStart}
       onMouseDown={onTouchStart}
       onMouseEnter={() => setOnMouseEnter(true)}
@@ -144,7 +144,7 @@ function Swiper({ items }: Props) {
         ))}
       </div>
       <div className="flex justify-center w-full absolute -mt-[40px] z-[2]">
-        <ul className="swiper-indicator">
+        <ul className=" md:flex hidden">
           {items.map((_item, idx) => (
             <li
               key={idx}

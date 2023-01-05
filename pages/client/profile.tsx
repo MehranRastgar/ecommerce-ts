@@ -23,6 +23,7 @@ import LoadingOne from "../../components/loader/default";
 import useSWR from "swr";
 import { Search } from "..";
 import { selectUserInfo } from "../../src/store/slices/orderSlice";
+import Layout from "../../components/Layout";
 
 type TypeField = {
   farsiname: string;
@@ -47,32 +48,36 @@ export default function ProfilePage() {
 
   return (
     <>
-      <div className="flex m-2 justify-center p-[16px]w-full font-Vazir-Medium">
-        <div className="flex md:w-[700px] w-full">
-          <ul className="flex h-fit flex-wrap w-auto   rounded-lg p-[16px]">
-            {Form?.map((item, index) => (
-              <>
-                <li className="flex w-fit m-2">
-                  <label className="flex mx-2 my-1 p-1">{item.farsiname}</label>
-                </li>
-              </>
-            ))}
-          </ul>
-          <ul className="flex h-fit flex-wrap w-2/3 rounded-lg p-[16px]">
-            {Form?.map((item, index) => (
-              <>
-                <li className="flex w-full m-2">
-                  <input
-                    disabled={item?.disabled !== undefined ? true : false}
-                    className="rounded-md border p-1"
-                    defaultValue={eval(`UserInfo?.${item.nestedData}`)}
-                  />
-                </li>
-              </>
-            ))}
-          </ul>
+      <Layout>
+        <div className="flex m-2 justify-center p-[16px]w-full font-Vazir-Medium">
+          <div className="flex md:w-[700px] w-full">
+            <ul className="flex h-fit flex-wrap w-auto   rounded-lg p-[16px]">
+              {Form?.map((item, index) => (
+                <>
+                  <li className="flex w-fit m-2">
+                    <label className="flex mx-2 my-1 p-1">
+                      {item.farsiname}
+                    </label>
+                  </li>
+                </>
+              ))}
+            </ul>
+            <ul className="flex h-fit flex-wrap w-2/3 rounded-lg p-[16px]">
+              {Form?.map((item, index) => (
+                <>
+                  <li className="flex w-full m-2">
+                    <input
+                      disabled={item?.disabled !== undefined ? true : false}
+                      className="rounded-md border p-1"
+                      defaultValue={eval(`UserInfo?.${item.nestedData}`)}
+                    />
+                  </li>
+                </>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
+      </Layout>
     </>
   );
 }

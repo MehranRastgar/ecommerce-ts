@@ -29,32 +29,36 @@ export default function ProductPage({ product }: { product: Product | null }) {
 
   return product !== null ? (
     <>
-      <ProductHeadComponent product={product} />
-      <div className="flex flex-wrap w-full min-w-screen h-auto justify-start overflow-hidden">
-        <div className="flex w-full lg:w-1/3 md:w-1/2  items-start justify-center p-2 ">
-          <ProductImageComponent productData={product} />
-        </div>
-        <div className="flex flex-wrap h-auto items-start justify-center w-full md:w-1/2 lg:w-2/3  p-2">
-          <Title name={product.main.title_fa} />
-          <ProductInfoSection product={product} />
-        </div>
-        <div className="flex w-full min-w-screen justify-center">
-          <ProductDescriptionComponent product={product} />
-        </div>
+      <Layout>
+        <ProductHeadComponent product={product} />
+        <div className="flex flex-wrap w-full min-w-screen h-auto justify-start overflow-hidden">
+          <div className="flex w-full lg:w-1/3 md:w-1/2  items-start justify-center p-2 ">
+            <ProductImageComponent productData={product} />
+          </div>
+          <div className="flex flex-wrap h-auto items-start justify-center w-full md:w-1/2 lg:w-2/3  p-2">
+            <Title name={product.main.title_fa} />
+            <ProductInfoSection product={product} />
+          </div>
+          <div className="flex w-full min-w-screen justify-center">
+            <ProductDescriptionComponent product={product} />
+          </div>
 
-        <div className="flex w-full min-w-screen justify-center">
-          <ProductAttributeComponent product={product} />
+          <div className="flex w-full min-w-screen justify-center">
+            <ProductAttributeComponent product={product} />
+          </div>
+          <div className="flex w-full justify-start mt-[150px]">
+            <ProductRelativeComponent product={product} />
+          </div>
         </div>
-        <div className="flex w-full justify-start mt-[150px]">
-          <ProductRelativeComponent product={product} />
+        <div className="flex fixed top-0 md:top-[60px] left-0 w-full z-[50]">
+          <MobileTopViewComponent product={product} />
         </div>
-      </div>
-      <div className="flex fixed top-0 md:top-[60px] left-0 w-full z-[50]">
-        <MobileTopViewComponent product={product} />
-      </div>
+      </Layout>
     </>
   ) : (
-    <div>product not exist</div>
+    <Layout>
+      <div>product not exist</div>{" "}
+    </Layout>
   );
 }
 var scrollBefore = 0;

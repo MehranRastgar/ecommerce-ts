@@ -46,7 +46,7 @@ function SwiperItem({ imageSrc, imageAlt, url }: Props) {
       <Image
         // src={image}
         draggable={false}
-        className="flex w-full min-w-[600px] object-fill h-full"
+        className="flex w-full min-w-[600px] md:min-h-[200px] min-h-[150px] md:object-fill object-cover object-center h-full"
         // quality={90}
         loader={imageLoader}
         unoptimized

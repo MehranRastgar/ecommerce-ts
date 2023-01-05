@@ -21,20 +21,17 @@
 
 // export default MyApp
 import "../styles/index.css";
+import "../src/scss/App.scss";
 
 import { Provider } from "react-redux";
 import type { AppProps } from "next/app";
 
 import store from "../src/store/store";
 
-import Layout from "../components/Layout";
-
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <Component {...pageProps} />
     </Provider>
   );
 }

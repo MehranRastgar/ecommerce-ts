@@ -57,14 +57,16 @@ export default function SearchPage({
 
   return (
     <>
-      <SearchPageComponent
-        total={total}
-        pageNumber={pageNumber}
-        totalProducts={totalProducts}
-        setPageNumber={setPageNumber}
-        slideRef={slideRef}
-        products={products}
-      />
+      <Layout>
+        <SearchPageComponent
+          total={total}
+          pageNumber={pageNumber}
+          totalProducts={totalProducts}
+          setPageNumber={setPageNumber}
+          slideRef={slideRef}
+          products={products}
+        />
+      </Layout>
       {/* 
       <div className="flex w-full justify-center md:w-[100%]">
         <div className="hidden md:flex h-full bg-ino-white md:w-[15%] min-w-[300px] mx-2">
@@ -400,6 +402,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Search } from "..";
 import { BsCheckCircle, BsCircle } from "react-icons/bs";
 import { useSelector } from "react-redux";
+import Layout from "../../components/Layout";
 
 const translateQuery: object = {
   sorttype: null,
