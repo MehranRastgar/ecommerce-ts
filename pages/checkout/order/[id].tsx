@@ -9,7 +9,7 @@ import {
   getOrderById,
   selectSpecOrder,
 } from "../../../src/store/slices/orderSlice";
-import Layout from "../../../components/Layout";
+import Layout from "../../../src/components/Layout";
 
 export default function OrderPage({ orderId }: { orderId: string | null }) {
   const dispatch = useAppDispatch();

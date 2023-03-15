@@ -6,7 +6,7 @@ import axios, { AxiosResponse } from "axios";
 import { useAppDispatch, useAppSelector } from "../../../src/store/hooks";
 import { getOrders, selectOrders } from "../../../src/store/slices/orderSlice";
 import { useEffect } from "react";
-import Layout from "../../../components/Layout";
+import Layout from "../../../src/components/Layout";
 
 export default function OrderPage({
   orderData,

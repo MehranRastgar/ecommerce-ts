@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Layout from "../components/Layout";
+import Layout from "../src/components/Layout";
 // import Router from "next/router";
 
 export default function _error() {

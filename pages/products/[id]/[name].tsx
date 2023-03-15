@@ -1,17 +1,17 @@
-import Layout from "../../../components/Layout";
+import Layout from "../../../src/components/Layout";
 import { Product } from "../../../src/types/types";
 import { GetServerSideProps } from "next";
 import mongoose from "mongoose";
 import React, { useState, useEffect, useRef } from "react";
 import ProductModel from "../../../src/models/ProProduct";
-import ProductHeadComponent from "../../../components/ProductPage/ProductHeadComponent";
+import ProductHeadComponent from "../../../src/components/ProductPage/ProductHeadComponent";
 import ProductInfoSection, {
   CartSection,
-} from "../../../components/ProductPage/ProductInfoSection";
-import ProductImageComponent from "../../../components/ProductPage/ProductImageComponent";
+} from "../../../src/components/ProductPage/ProductInfoSection";
+import ProductImageComponent from "../../../src/components/ProductPage/ProductImageComponent";
 import Link from "next/link";
-import ProductAttributeComponent from "../../../components/ProductPage/ProductAttributeComponent";
-import ProductSliderOne from "../../../components/products/ProductSliderOne";
+import ProductAttributeComponent from "../../../src/components/ProductPage/ProductAttributeComponent";
+import ProductSliderOne from "../../../src/components/products/ProductSliderOne";
 import { imageAddress, Search } from "../..";
 import Image from "next/image";
 import imageLoader from "../../../src/imageLoader";

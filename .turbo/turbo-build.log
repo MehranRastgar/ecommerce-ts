@@ -3,21 +3,21 @@ info  - Loaded env from G:\gh\ecomerce-ts\ecommerce-ts\.env.local
 info  - Linting and checking validity of types...
 
 ./pages/checkout/cart.tsx
-43:6  Warning: React Hook useEffect has a missing dependency: 'checkUpdate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-171:6  Warning: React Hook useEffect has a missing dependency: 'calcSum'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-177:6  Warning: React Hook useEffect has missing dependencies: 'calcSum' and 'userInfoFlag'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+44:6  Warning: React Hook useEffect has a missing dependency: 'checkUpdate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+174:6  Warning: React Hook useEffect has a missing dependency: 'calcSum'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+180:6  Warning: React Hook useEffect has missing dependencies: 'calcSum' and 'userInfoFlag'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./pages/checkout/order/index.tsx
-20:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+21:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./pages/checkout/order/[id].tsx
-18:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'orderId'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+19:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'orderId'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./pages/client/login.tsx
-132:6  Warning: React Hook useEffect has missing dependencies: 'errorMessage.length', 'returnUrl', and 'router.query.returnUrl'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+134:6  Warning: React Hook useEffect has missing dependencies: 'errorMessage.length', 'returnUrl', and 'router.query.returnUrl'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./pages/products/[id]/[name].tsx
-99:6  Warning: React Hook useEffect has a missing dependency: 'scrollFunction'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+103:6  Warning: React Hook useEffect has a missing dependency: 'scrollFunction'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./pages/search/brand/[brand].tsx
 48:6  Warning: React Hook useEffect has a missing dependency: 'router.query.page'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
@@ -30,11 +30,11 @@ info  - Linting and checking validity of types...
 
 ./pages/search/index.tsx
 56:6  Warning: React Hook useEffect has a missing dependency: 'router.query.page'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-231:6  Warning: React Hook useEffect has a missing dependency: 'changeState'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-558:6  Warning: React Hook useEffect has a missing dependency: 'changeFilter'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-567:6  Warning: React Hook useEffect has a missing dependency: 'initFilter'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-1021:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'searchConf'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
-1200:6  Warning: React Hook useEffect has a missing dependency: 'changeSort'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+233:6  Warning: React Hook useEffect has a missing dependency: 'changeState'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+561:6  Warning: React Hook useEffect has a missing dependency: 'changeFilter'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+570:6  Warning: React Hook useEffect has a missing dependency: 'initFilter'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+1024:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'searchConf'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+1203:6  Warning: React Hook useEffect has a missing dependency: 'changeSort'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./components/headers/header.tsx
 63:6  Warning: React Hook useEffect has missing dependencies: 'router?.query?.q' and 'searchString'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
@@ -46,6 +46,11 @@ info  - Linting and checking validity of types...
 43:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'settingState'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./components/Layout.tsx
+93:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+140:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array. Outer scope values like 'isMobile' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
+161:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/LayoutLogin.tsx
 93:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 140:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array. Outer scope values like 'isMobile' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
 161:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
@@ -82,33 +87,33 @@ info  - Generating static pages (8/8)
 info  - Finalizing page optimization...
 
 Route (pages)                              Size     First Load JS
-┌ ● / (5704 ms)                            178 B           195 kB
-├   /_app                                  0 B             195 kB
-├ ○ /404                                   293 B           195 kB
-├ λ /api/counter                           0 B             195 kB
-├ λ /api/hello                             0 B             195 kB
-├ λ /api/image                             0 B             195 kB
-├ λ /api/psearch/brands                    0 B             195 kB
-├ λ /api/sendotp                           0 B             195 kB
-├ λ /api/signin                            0 B             195 kB
-├ ○ /checkout/cart                         7.89 kB         203 kB
+┌ ● / (979 ms)                             207 B           196 kB
+├   /_app                                  0 B             104 kB
+├ ○ /404                                   338 B           197 kB
+├ λ /api/counter                           0 B             104 kB
+├ λ /api/hello                             0 B             104 kB
+├ λ /api/image                             0 B             104 kB
+├ λ /api/psearch/brands                    0 B             104 kB
+├ λ /api/sendotp                           0 B             104 kB
+├ λ /api/signin                            0 B             104 kB
+├ ○ /checkout/cart                         7.94 kB         204 kB
 ├   └ css/202b43425db2c34c.css             750 B
-├ ○ /checkout/order                        390 B           195 kB
-├ λ /checkout/order/[id]                   513 B           195 kB
-├ ○ /client/login                          14.6 kB         209 kB
-├ ○ /client/profile                        863 B           196 kB
-├ ○ /other                                 386 B           195 kB
-├ λ /products/[id]/[name]                  6.87 kB         202 kB
-├ λ /search                                189 B           208 kB
-├ λ /search/brand/[brand]                  588 B           209 kB
-├ λ /search/category/[category]            585 B           209 kB
-└ λ /search/category/[category]/[subcat]   593 B           209 kB
-+ First Load JS shared by all              204 kB
+├ ○ /checkout/order                        432 B           197 kB
+├ λ /checkout/order/[id]                   560 B           197 kB
+├ ○ /client/login                          15.9 kB         212 kB
+├ ○ /client/profile                        929 B           197 kB
+├ ○ /other                                 350 B           105 kB
+├ λ /products/[id]/[name]                  6.91 kB         203 kB
+├ λ /search                                221 B           210 kB
+├ λ /search/brand/[brand]                  621 B           210 kB
+├ λ /search/category/[category]            617 B           210 kB
+└ λ /search/category/[category]/[subcat]   624 B           210 kB
++ First Load JS shared by all              116 kB
   ├ chunks/framework-3b5a00d5d7e8d93b.js   45.4 kB
   ├ chunks/main-7fd5f84692d6e98f.js        25.7 kB
-  ├ chunks/pages/_app-f7853654347b6990.js  121 kB
-  ├ chunks/webpack-6a1a03523308d93e.js     2.2 kB
-  └ css/203f81ea1b8d58c1.css               9.57 kB
+  ├ chunks/pages/_app-a4c9a0c1df1bbd8c.js  30.9 kB
+  ├ chunks/webpack-2d53ba53d04bf4ef.js     2.21 kB
+  └ css/e4f105b38c9e0c36.css               11.6 kB
 
 λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
 ○  (Static)  automatically rendered as static HTML (uses no initial props)

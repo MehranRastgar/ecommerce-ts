@@ -15,9 +15,9 @@ import { GoTrashcan } from "react-icons/go";
 import { IoMdRemoveCircle } from "react-icons/io";
 import { AddToCartType, Cart } from "../../src/types/types";
 import { useAppDispatch, useAppSelector } from "../../src/store/hooks";
-import Shipping from "../../components/shipping/shipping";
+import Shipping from "../../src/components/shipping/shipping";
 import { useEffect, useState } from "react";
-import { LoadingSvg, LoadingTwo } from "../../components/loader/default";
+import { LoadingSvg, LoadingTwo } from "../../src/components/loader/default";
 import {
   selectUpdatedPrices,
   selectUpdatedPricesFlag,
@@ -25,7 +25,7 @@ import {
   variantId,
 } from "../../src/store/slices/orderSlice";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import Layout from "../../components/Layout";
+import Layout from "../../src/components/Layout";
 export default function CartPage() {
   const userInfo = useSelector(selectUserInfo);
   const dispatch = useAppDispatch();

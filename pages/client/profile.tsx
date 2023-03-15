@@ -19,11 +19,11 @@ import {
   selectMobileNumber,
 } from "../../src/store/slices/clientSlice";
 import { OtpRequest, SignInRequest } from "../../src/types/types";
-import LoadingOne from "../../components/loader/default";
+import LoadingOne from "../../src/components/loader/default";
 import useSWR from "swr";
 import { Search } from "..";
 import { selectUserInfo } from "../../src/store/slices/orderSlice";
-import Layout from "../../components/Layout";
+import Layout from "../../src/components/Layout";
 
 type TypeField = {
   farsiname: string;

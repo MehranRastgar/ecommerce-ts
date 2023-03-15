@@ -8,15 +8,24 @@ import { useEffect, useState } from "react";
 import { GetProductsArray, MinifyProduct } from "../src/types/types";
 import imageLoader from "../src/imageLoader";
 import Link from "next/link";
-import Layout from "../components/Layout";
+import Layout from "../src/components/Layout";
 import useSWR from "swr";
 import type { SWRConfiguration } from "swr";
-import ProductCardOne from "../components/product/ProductCardOne";
-import { SwiperItemType } from "../components/swiper/SwiperItem";
-import Swiper from "../components/swiper/Swiper";
-import ProductCategoriesContainer from "../components/products/ProductCategoriesContainer";
-import ProductSliderOne from "../components/products/ProductSliderOne";
-import CardPromotionOne from "../components/Cards/CardPromotionOne";
+import ProductCardOne from "../src/components/product/ProductCardOne";
+import { SwiperItemType } from "../src/components/swiper/SwiperItem";
+import Swiper from "../src/components/swiper/Swiper";
+import ProductCategoriesContainer from "../src/components/products/ProductCategoriesContainer";
+import ProductSliderOne from "../src/components/products/ProductSliderOne";
+import CardPromotionOne from "../src/components/Cards/CardPromotionOne";
+import { ToastContainer, toast } from "react-toastify";
+import dynamic from "next/dynamic";
+
+import Carousel from "src/components/carousel";
+import Benefits from "src/components/Benefits";
+const Offers = dynamic(() => import("src/components/Offers/Offers"));
+const Category = dynamic(() => import("src/components/category/Category"));
+const Newest = dynamic(() => import("src/components/newest/Newest"));
+
 // import { use } from 'react';
 const getLaptop: Search = {
   perPage: "12",
@@ -164,6 +173,7 @@ function Home({
   // }
   // console.log(data);
   // }, []);
+  const notify = () => toast("Wow so easy!");
 
   return (
     <>
@@ -173,76 +183,11 @@ function Home({
         <meta name="description" content="سایت فروش لوازم دیجیتال" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Layout>
-        <div className="flex flex-wrap justify-center  w-full">
-          <div className="flex md:w-[100%] w-[90%] rounded-xl md:rounded-none z-[1] overflow-hidden justify-center md:my-0 my-14">
-            <Swiper items={items} />
-          </div>
-          <div className="MainCategoryCard overflow-hidden mx-auto flex flex-wrap py-6 md:py-8 w-full justify-center">
-            <h2 className="2xl lg:text-2xl md:text-xl font-Vazir-Medium">
-              خرید بر اساس دسته‌ بندی
-            </h2>
-            <ProductCategoriesContainer />
-          </div>
-          <div className="flex flex-wrap w-full mx-2 my-6 bg-ino-white overflow-hidden justify-center">
-            {/* {minifyProducts?.map((minifyProduct: MinifyProduct) => (
-            <>
-              <ProductCardOne minifyProduct={minifyProduct} />
-            </>
-          ))} */}
-            <ProductSliderOne
-              setting={{
-                url: "/search?category=laptop",
-                name: "فروش ویژه لپتاپ",
-                span: "مشاهده این دسته",
-                getOption: getLaptop,
-                color: 1,
-              }}
-            />
-            <div className="h-10 w-full p-2"></div>
-            {/* <CardPromotionOne
-            ImageSrc="/cardOne/logitech"
-            cardName="Logitech promotion"
-            Url="/search?brand=logitech"
-          />
-          <CardPromotionOne
-            ImageSrc="/cardOne/logitech2"
-            Url="/search?brand=logitech"
-            cardName="Logitech promotion"
-          />
-          <CardPromotionOne
-            ImageSrc="/cardOne/logitech2"
-            cardName="Logitech promotion"
-            Url="/search?brand=logitech"
-          />
-          <CardPromotionOne
-            ImageSrc="/cardOne/logitech"
-            cardName="Logitech promotion"
-            Url="/search?brand=logitech"
-          /> */}
-            <div className="h-10 w-full p-2"></div>
-            <ProductSliderOne
-              setting={{
-                url: "/search?category=laptop",
-                name: " ویژه موبایل",
-                span: "مشاهده این دسته",
-                getOption: getMobile,
-                color: 2,
-              }}
-            />
-            <div className="h-10 w-full p-2"></div>
-            <ProductSliderOne
-              setting={{
-                url: "/search?category=laptop",
-                name: "لپتاپ گیمینگ",
-                span: "مشاهده این دسته",
-                getOption: getLaptop2,
-                color: 3,
-              }}
-            />
-          </div>
-        </div>
-      </Layout>
+      <Carousel />
+      <Benefits />
+      <Offers />
+      <Category />
+      <Newest />
     </>
   );
 }
@@ -318,3 +263,78 @@ export const getStaticProps: GetStaticProps = async () => {
 // };
 
 export default Home;
+
+function Noway() {
+  return (
+    <div className="flex flex-wrap justify-center  w-full">
+      {/* <button onClick={notify}>Notify!</button> */}
+
+      <div className="flex md:w-[100%] w-[90%] rounded-xl md:rounded-none z-[1] overflow-hidden justify-center md:my-0 my-14">
+        <Swiper items={items} />
+      </div>
+      <div className="MainCategoryCard overflow-hidden mx-auto flex flex-wrap py-6 md:py-8 w-full justify-center">
+        <h2 className="2xl lg:text-2xl md:text-xl font-Vazir-Medium">
+          خرید بر اساس دسته‌ بندی
+        </h2>
+        <ProductCategoriesContainer />
+      </div>
+      <div className="flex flex-wrap w-full mx-2 my-6 bg-ino-white overflow-hidden justify-center">
+        {/* {minifyProducts?.map((minifyProduct: MinifyProduct) => (
+           <>
+             <ProductCardOne minifyProduct={minifyProduct} />
+           </>
+         ))} */}
+        <ProductSliderOne
+          setting={{
+            url: "/search?category=laptop",
+            name: "فروش ویژه لپتاپ",
+            span: "مشاهده این دسته",
+            getOption: getLaptop,
+            color: 1,
+          }}
+        />
+        <div className="h-10 w-full p-2"></div>
+        {/* <CardPromotionOne
+           ImageSrc="/cardOne/logitech"
+           cardName="Logitech promotion"
+           Url="/search?brand=logitech"
+         />
+         <CardPromotionOne
+           ImageSrc="/cardOne/logitech2"
+           Url="/search?brand=logitech"
+           cardName="Logitech promotion"
+         />
+         <CardPromotionOne
+           ImageSrc="/cardOne/logitech2"
+           cardName="Logitech promotion"
+           Url="/search?brand=logitech"
+         />
+         <CardPromotionOne
+           ImageSrc="/cardOne/logitech"
+           cardName="Logitech promotion"
+           Url="/search?brand=logitech"
+         /> */}
+        <div className="h-10 w-full p-2"></div>
+        <ProductSliderOne
+          setting={{
+            url: "/search?category=laptop",
+            name: " ویژه موبایل",
+            span: "مشاهده این دسته",
+            getOption: getMobile,
+            color: 2,
+          }}
+        />
+        <div className="h-10 w-full p-2"></div>
+        <ProductSliderOne
+          setting={{
+            url: "/search?category=laptop",
+            name: "لپتاپ گیمینگ",
+            span: "مشاهده این دسته",
+            getOption: getLaptop2,
+            color: 3,
+          }}
+        />
+      </div>
+    </div>
+  );
+}

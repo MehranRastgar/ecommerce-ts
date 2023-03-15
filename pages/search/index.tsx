@@ -26,7 +26,7 @@ import { ParsedUrlQuery } from "querystring";
 import mongoose, { NumberExpression } from "mongoose";
 import { GetServerSideProps } from "next";
 import ProProduct from "../../src/models/ProProduct";
-import ProductCardOne from "../../components/product/ProductCardOne";
+import ProductCardOne from "../../src/components/product/ProductCardOne";
 //==============================================================================================//
 export default function SearchPage({
   products,
@@ -402,7 +402,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Search } from "..";
 import { BsCheckCircle, BsCircle } from "react-icons/bs";
 import { useSelector } from "react-redux";
-import Layout from "../../components/Layout";
+import Layout from "../../src/components/Layout";
 
 const translateQuery: object = {
   sorttype: null,

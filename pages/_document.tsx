@@ -10,6 +10,7 @@ export default function Document() {
       ></meta> */}
       <meta name="mobile-web-app-capable" content="yes"></meta>
       <meta name="apple-mobile-web-app-capable" content="yes"></meta>
+      <meta name="description" content="arvanta store" />
       <meta
         name="apple-mobile-web-app-status-bar-style"
         content="black-translucent"
@@ -19,6 +20,16 @@ export default function Document() {
       <link
         rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      />
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"
+      />
+      <link
+        rel="stylesheet"
+        type="text/css"
+        href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"
       />
       <meta name="theme-color" content="#317EFB" />
       <Head>

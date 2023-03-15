@@ -28,8 +28,8 @@ import {
   selectMobileNumber,
 } from "../../src/store/slices/clientSlice";
 import { OtpRequest, SignInRequest } from "../../src/types/types";
-import LoadingOne from "../../components/loader/default";
-import LayoutLogin from "../../components/LayoutLogin";
+import LoadingOne from "../../src/components/loader/default";
+import LayoutLogin from "../../src/components/LayoutLogin";
 import imageLoader from "../../src/imageLoader";
 // import { useCookies } from "react-cookie";
 

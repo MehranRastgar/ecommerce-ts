@@ -15,7 +15,7 @@ import { ParsedUrlQuery } from "querystring";
 import mongoose, { NumberExpression } from "mongoose";
 import { GetServerSideProps } from "next";
 import ProProduct from "../../../../src/models/ProProduct";
-import ProductCardOne from "../../../../components/product/ProductCardOne";
+import ProductCardOne from "../../../../src/components/product/ProductCardOne";
 import { SearchPageComponent } from "../../";
 //==============================================================================================//
 export default function SearchPage({
