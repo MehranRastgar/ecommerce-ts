@@ -1,8 +1,55 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Modern eCommerce Platform
+
+A full-featured eCommerce platform built with Next.js, TypeScript, and TailwindCSS.
+
+![Storefront Preview](public/Asset12.png)
+
+## Features
+
+- 🛍️ Full eCommerce functionality
+- 🏪 Product catalog with categories and filters
+- 🔍 Advanced search capabilities
+- 🛒 Shopping cart management
+- 👤 User authentication and profiles
+- 📱 Responsive mobile-first design
+- 🎨 Modern UI with Tailwind CSS
+- 🌙 Dark/Light theme support
+- 🔐 Secure checkout process
+- 📦 Order management
+
+## Tech Stack
+
+- [Next.js](https://nextjs.org/) - React framework for production
+- [TypeScript](https://www.typescriptlang.org/) - Static type checking
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [Redux Toolkit](https://redux-toolkit.js.org/) - State management
+- [SWR](https://swr.vercel.app/) - Data fetching
+- [MongoDB](https://www.mongodb.com/) - Database
+- [React Icons](https://react-icons.github.io/react-icons/) - Icon components
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository:
+
+```bash
+git clone https://github.com/yourusername/ecommerce-ts.git
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Set up environment variables:
+
+```
+NEXT_PUBLIC_BASE_API_URL=your_api_url
+```
+
+4. Run the development server:
 
 ```bash
 npm run dev
@@ -10,26 +57,50 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```
+├── pages/            # Next.js pages
+├── public/           # Static assets
+├── src/
+│   ├── components/   # React components
+│   ├── store/        # Redux store and slices
+│   ├── types/        # TypeScript types
+│   ├── hooks/        # Custom React hooks
+│   └── utils/        # Utility functions
+├── styles/           # Global styles
+└── ...config files
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Key Features Implementation
 
-## Learn More
+### Shopping Cart
 
-To learn more about Next.js, take a look at the following resources:
+- Persistent cart storage
+- Real-time price updates
+- Quantity adjustments
+- Remove items
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### User Authentication
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Phone number verification
+- OTP authentication
+- User profiles
+- Order history
 
-## Deploy on Vercel
+### Product Catalog
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Product categories
+- Advanced filtering
+- Search functionality
+- Product variants
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-sudo pm2 start yarn --name "mo-ba" --namespace="mo-ba" yarn -- start:prod
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
